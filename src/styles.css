@@ -1,0 +1,97 @@
+.tabs-left > .nav-tabs > li, .tabs-right > .nav-tabs > li {
+    float: none;
+}
+
+.tabs-left > .nav-tabs > li > a {
+    margin-right: -1px;
+    -webkit-border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+}
+.tabs-left > .nav-tabs > li > a, .tabs-right > .nav-tabs > li > a {
+    min-width: 74px;
+    margin-right: 0;
+    margin-bottom: 3px;
+    background-color: #536779;
+    border-radius:0px;
+    color: white;
+}
+
+.tabs-left > .nav-tabs .active > a, .tabs-left > .nav-tabs .active > a:hover, .tabs-left > .nav-tabs .active > a:focus {
+    border-color: #ddd transparent #ddd #ddd;
+	    background-color: #fff;
+color: dimgrey;
+border:none;
+}
+
+.left-tab-process .tab-content{
+	background-color:#fff;
+	    margin-left: 131px;}
+
+.tab-content > .active, .pill-content > .active {
+    display: block;
+}
+
+.book-process-ltab{
+	max-width:131px;}
+	
+.left-tab-process .tab-pane{
+    padding: 13px 11px;
+    min-height: 442px;
+}
+
+.left-tab-process h4{
+	color:#536779;}
+	
+.term-fa{
+margin-right: 7px;
+    font-size: 11px;
+    margin-left: -18px;
+    color: #2EA72F;}
+    
+.tac-content{
+    background-color:#ccc;}
+	
+	
+
+
+
+.part-field {
+    width: 600px;
+}
+ 
+ 
+ 
+ 
+
+    
+	
+  /*==================================================
+ * left tab
+ * ===============================================*/
+ 
+  @media (max-width:768px){
+    .tabs-left > .nav-tabs > li > a, .tabs-right > .nav-tabs > li > a {
+    width: 95px;
+    margin-right: 0;
+    padding: 5px 8px;
+    font-size: 12px;
+    margin-bottom: 3px;
+    background-color: #536779;
+    border-radius: 0px;
+    color: white;
+}
+
+.left-tab-process .tab-pane {
+    padding: 13px 11px;
+    min-height: 335px;
+}
+
+.left-tab-process .tab-content {
+    background-color: #F1F1F1;
+    margin-left: 95px;
+}
+}
+
+
+

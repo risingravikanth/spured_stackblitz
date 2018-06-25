@@ -1,0 +1,258 @@
+<nav class="sidebar scrollbar" id="style-3" [ngClass]="{sidebarPushRight: isActive}">
+
+    <ul class="list-group">
+        <a routerLink="/fms/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-dashboard"></i>&nbsp;Dashboard
+        </a>
+        <a routerLink="/fms/work-order" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-list-alt"></i>&nbsp;Work Order
+        </a>
+
+        <div class="nested-menu" *ngxPermissionsOnly="'MASTERDATA_MANAGEMENT'">
+            <a (click)="addExpandClass('pages')" class="list-group-item">
+                <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;Master Data
+                <i class="fa fa-angle-down marl25"> </i>
+            </a>
+            <div class="submenulist">
+                <li class="nested" [class.expand]="showMenu === 'pages'">
+                    <ul class="submenu">
+                        <li>
+                            <a [routerLink]="['/fms/master-data/masterdata-dashboard']">
+                                <span> MasterData Dashboard </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/fms/master-data/vendor">
+                                <span> Vendor Management </span>
+                            </a>
+                            <!-- <a (click) = "goToVendor()"><span> vendor Management </span></a> -->
+                        </li>
+                        <li>
+                            <a [routerLink]="['/fms/master-data/make-tree']">
+                                <span> Make & Model </span>
+                            </a>
+                        </li>
+                        <!-- <li>
+                            <a [routerLink]="['/fms/master-data/spare-parts']">
+                                <span> Spare Parts </span>
+                            </a>
+                        </li> -->
+                        <!-- <li>
+                            <a [routerLink]="['/fms/master-data/battery-details']">
+                                <span> Battery Details </span>
+                            </a>
+                        </li> -->
+                        <li>
+                            <a [routerLink]="['/fms/master-data/vehicle-type']">
+                                <span> Vehicle Type Management </span>
+                            </a>
+                        </li>
+                        <!-- <li>
+                            <a [routerLink]="['/fms/master-data/tyre-details']">
+                                <span> Tyre Details </span>
+                            </a>
+                        </li> -->
+                        <li>
+                            <a [routerLink]="['/fms/master-data/service-schedule']">
+                                <span>Service Schedule</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/fms/master-data/kmpl-master']">
+                                <span>Kmpl Master</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/fms/master-data/roles-privileges']">
+                                <span>Roles Privileges</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/fms/master-data/base-stations']">
+                                <span>Base Stations</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/fms/master-data/service-tasks']">
+                                <span>Service Tasks</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/fms/master-data/reasons']">
+                                <span>Reasons</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/fms/master-data/shift-types']">
+                                <span>Shift Types</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+        <a *ngxPermissionsOnly="'USER_MANAGEMENT'" routerLink="/fms/user/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-user"></i>&nbsp;User Management
+        </a>
+        <a *ngxPermissionsOnly="'PART_MANAGEMENT'" routerLink="/fms/parts" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-steam"></i>&nbsp;Part Management
+        </a>
+        <!-- <a *ngxPermissionsOnly="'INVENTORY_MANAGEMENT'" routerLink="/fms/inventory-management" [routerLinkActive]="['router-link-active']"
+            class="list-group-item">
+            <i class="fa fa-fw fa-shopping-cart"></i>&nbsp;Inventory Management
+        </a> -->
+        <a *ngxPermissionsOnly="'FUEL_MANAGEMENT'" routerLink="/fms/fuel-management/dashboard" [routerLinkActive]="['router-link-active']"
+            class="list-group-item">
+            &nbsp;
+            <i class="fas fa-thermometer-half"></i>&nbsp;&nbsp;&nbsp; Fuel Management
+        </a>
+        <div *ngxPermissionsOnly="'VEHICLE_MANAGEMENT'" class="nested-menu">
+            <a (click)="addExpandClass('vehiclepages')" class="list-group-item">
+                <i class="fa fa-fw fa-truck"></i>&nbsp;Vehicles
+                <i class="fa fa-angle-down marl25"> </i>
+            </a>
+            <div class="submenulist">
+                <li class="nested" [class.expand]="showMenu === 'vehiclepages'">
+                    <ul class="submenu">
+                        <li>
+                            <a routerLink="/fms/vehicle/dashboard">
+                                <span>&nbsp;Vehicles List </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/fms/vehicle-offroad">
+                                <span> &nbsp;Vehicle Off Road</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/fms/vehicle-onroad">
+                                <span> &nbsp;Vehicle On Road</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/fms/vehicle/assignments">
+                                <span> &nbsp;Vehicle Assignments</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/fms/statutory-compliance/dashboard">
+                                <span>&nbsp;Statutory compliance </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/fms/vehicle-swap">
+                                <span>&nbsp;Vehicle swap </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+        <div *ngxPermissionsOnly="'INSPECTIONS'" class="nested-menu">
+            <a (click)="addExpandClass('inspection')" class="list-group-item">
+                <i class="fa fa-fw fa-check"></i>&nbsp;Inspections
+                <i class="fa fa-angle-down marl25"> </i>
+            </a>
+            <div class="submenulist">
+                <li class="nested" [class.expand]="showMenu === 'inspection'">
+                    <ul class="submenu">
+                        <li>
+                            <a [routerLink]="['/fms/inspections']">
+                                <span>&nbsp;Inspection Forms</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/fms/inspections/schd-inspections']">
+                                <span>&nbsp;Schedule Inspections</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/fms/inspections/inspection-submissions']">
+                                <span>&nbsp;Inspection Submissions</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+            </div>
+        </div>
+        <div *ngxPermissionsOnly="'PRIOR_MAINTAINANCE'" class="nested-menu">
+            <a (click)="addExpandClass('priorpages')" class="list-group-item">
+                <i class="fas fa-cogs"></i>&nbsp;&nbsp; Prior Maintenance &nbsp;&nbsp;&nbsp;
+                <i class="fa fa-angle-down"> </i>
+            </a>
+            <div class="submenulist">
+                <li class="nested" [class.expand]="showMenu === 'priorpages'">
+                    <ul class="submenu">
+                        <li>
+                            <a [routerLink]="['/fms/prior-maintanence/fabricated-vehicle']">
+                                <span>Fabricated Vehicle Details</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/fms/prior-maintanence/pre-delivery']">
+                                <span>Pre Delivery Inspections</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/fms/prior-maintanence/handover-to-operations']">
+                                <span>Handover To Operations</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+        <div *ngxPermissionsOnly="'APPROVALS'" class="nested-menu">
+            <a (click)="addExpandClass('approvals')" class="list-group-item">
+                <i class="far fa-money-bill-alt"></i> &nbsp;&nbsp; Finance & Approvals&nbsp;&nbsp;
+                <i class="fa fa-angle-down"> </i>
+            </a>
+            <div class="submenulist">
+                <li class="nested" [class.expand]="showMenu === 'approvals'">
+                    <ul class="submenu">
+                        <li>
+                            <a [routerLink]="['/fms/finance-and-approvals/bill-approvals']">
+                                <span>Bill Approvals</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+        <!-- <a routerLink="/fms/vehicle-offroad/list" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fas fa-lock"></i> &nbsp;&nbsp;&nbsp; Vehicle Off Road
+        </a> -->
+        <a routerLink="/fms/data-imports" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-file-excel-o"></i>&nbsp; Data Imports
+        </a>
+        <!-- <a *ngxPermissionsOnly="'EME_MAPPINGS'" routerLink="/fms/config-mappings" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-exchange"></i>&nbsp;Division Mapping
+        </a> -->
+        <div *ngxPermissionsOnly="'EME_MAPPINGS'" class="nested-menu">
+            <a (click)="addExpandClass('mapping')" class="list-group-item">
+                <i class="fa fa-exchange"></i>&nbsp;Mappings&nbsp;&nbsp;
+                <i class="fa fa-angle-down"> </i>
+            </a>
+            <div class="submenulist">
+                <li class="nested" [class.expand]="showMenu === 'mapping'">
+                    <ul class="submenu">
+                        <li>
+                            <a [routerLink]="['/fms/config-mappings']">
+                                <span>Division</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/fms/district-map']">
+                                <span>District-FE/PM</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+        <a *ngxPermissionsOnly="'ISSUES'" routerLink="/fms/issues" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-exclamation-circle"></i>&nbsp;Issues
+        </a>
+    </ul>
+</nav>

@@ -1,0 +1,27 @@
+
+<div class="dialog text-center" >
+        <h1 mat-dialog-title>OffRoad Reasons</h1>
+        <div class="box-body table-responsive hfix no-padding" style="height: 323px;">
+         <div mat-dialog-content style="width: 800px;">
+          <table class="table side-table" >
+            <tr class="bg-light">
+                <th class="white text-center">Reason</th>
+                <th class="white text-center">Aggregate</th>
+                <th class="white text-center">Category</th>
+                <th class="white text-center">SubCategory</th>
+              </tr>
+            <tbody >
+             <tr *ngFor="let data of data.reasonDetails" >
+                <td>{{data.reasonName ? data.reasonName : '-N/A-'}}</td>
+                <td>{{data.aggregateName ? data.aggregateName : '-N/A-'}}</td>
+                <td>{{data.categoryName ? data.categoryName : '-N/A-'}}</td>
+                <td>{{data.subCategoryName ? data.subCategoryName : '-N/A-'}}</td>
+            </tr>
+            </tbody>
+          </table>
+            </div>
+        </div>
+        <div mat-dialog-actions>
+          <button style="margin-left: 350px;" class="btn btn-primary btn-sm marr20" (click)="onNoClick()" tabindex="-1">Close</button>
+      </div>
+    </div>

@@ -1,0 +1,7 @@
+.leftmargin {
+    margin-left: 45px;
+}
+.disabled {
+    opacity: 0.65; 
+    cursor: not-allowed;
+}

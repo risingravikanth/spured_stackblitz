@@ -1,0 +1,32 @@
+.special-img 
+{
+    border-radius: 21px;
+    height: 40px;
+}
+
+
+.navbar-default {
+    background-color: #154f65;
+    border-color: #E7E7E7;
+}
+
+
+
+.abs-center-x {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+
+.search_bar button[type=submit]:after {
+    content: '';
+    position: absolute;
+    top: 26%;
+    right: 0;
+    bottom: 26%;
+    left: 4%;
+    background: url(../../../../assets/images/search.png) no-repeat center center;
+    background-size: contain;
+}

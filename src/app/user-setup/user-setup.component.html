@@ -1,0 +1,193 @@
+<!--<button mat-raised-button (click)="isLinear = true" id="toggle-linear">Enable linear mode</button>-->
+<div class="col-md-8 login-page signup mylogin">
+
+    <div class="  income text-center marb20">
+        <h1 class="icon">
+            <i class="fa fa-user-circle fa-5"></i>
+        </h1>
+        <h3>Welcome to FMS </h3>
+
+    </div>
+    <mat-horizontal-stepper linear>
+        <mat-step [stepControl]="UserDetailsForm">
+            <form [formGroup]="UserDetailsForm">
+                <ng-template matStepLabel>User Details</ng-template>
+                <div class="row">
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!UserDetailsForm.controls['firstName'].valid && UserDetailsForm.controls['firstName'].touched}">
+                        <label class="form-control-label" for="Name ">First Name</label>
+                        <!--<mat-form-field>-->
+                        <input name="Name" class="form-control" required formControlName="firstName" type="text " placeholder="Enter First Name">
+                        <!--</mat-form-field>-->
+                    </div>
+                    <div class=" col-md-1"></div>
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!UserDetailsForm.controls['lastName'].valid && UserDetailsForm.controls['lastName'].touched}">
+                        <label class="form-control-label" for="Name ">Last Name</label>
+                        <!--<mat-form-field>-->
+                        <input name="Name" class="form-control" formControlName="lastName" type="text " placeholder="Enter Last Name">
+                        <!--</mat-form-field>-->
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!UserDetailsForm.controls['password'].valid && UserDetailsForm.controls['password'].touched}">
+                        <label class="form-control-label" for="password">Password</label>
+                        <!--<mat-form-field>-->
+                        <input name="Name" class="form-control" type="password" formControlName="password" placeholder="Password">
+                        <!--</mat-form-field>-->
+                    </div>
+                    <div class=" col-md-1"></div>
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!UserDetailsForm.controls['matchingPassword'].valid && UserDetailsForm.controls['matchingPassword'].touched && showPasswordError}">
+                        <label class="form-control-label" for="matchingPassword ">Confirm Password</label>
+                        <!--<mat-form-field>-->
+                        <input name="Name" class="form-control" type="password" formControlName="matchingPassword" placeholder="Confirm Password">
+                        <!--</mat-form-field>-->
+                        <mat-error *ngIf="UserDetailsForm.controls.matchingPassword.errors?.MatchPassword && showPasswordError">
+                            Password not matched
+                        </mat-error>
+                    </div>
+                    <!-- <div class="col-md-2">
+                        <div class="alert alert-danger" *ngIf="UserDetailsForm.controls.matchingPassword.errors?.MatchPassword">Password not match</div>
+                    </div> -->
+
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!UserDetailsForm.controls['userName'].valid && UserDetailsForm.controls['userName'].touched}">
+                        <label class="form-control-label" for="Email ">Email</label>
+                        <!--<mat-form-field>-->
+                        <input name="Email" class="form-control" formControlName="userName" type="text " placeholder="Enter Email">
+                        <mat-error *ngIf="UserDetailsForm.controls['userName'].hasError('email') && !UserDetailsForm.controls['userName'].hasError('required')">
+                            Please enter a valid email address
+                        </mat-error>
+                        <!--</mat-form-field>-->
+                    </div>
+                    <div class=" col-md-1"></div>
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!UserDetailsForm.controls['phone'].valid && UserDetailsForm.controls['phone'].touched}">
+                        <label class="form-control-label" for="phone ">Phone Number </label>
+                        <!--<mat-form-field>-->
+                        <input name="phone" class="form-control" formControlName="phone" type="number" placeholder="Enter Phone No">
+                        <!--</mat-form-field>-->
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!UserDetailsForm.controls['adharNumber'].valid && UserDetailsForm.controls['adharNumber'].touched}">
+                        <label class="form-control-label" for="adharNumber">Aadhaar Number</label>
+                        <!--<mat-form-field>-->
+                        <input name="adharNumber" class="form-control" formControlName="adharNumber" type="number" placeholder="Enter Aadhaar Number">
+                        <!--</mat-form-field>-->
+                    </div>
+                    <div class=" col-md-1"></div>
+                    <div class="form-group col-md-5"></div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary btn-sm marr20" (click)='markFormGroupTouched(UserDetailsForm)' style="margin-left: 343px;"
+                        matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="OrganizationDetailsForm">
+            <form [formGroup]="OrganizationDetailsForm">
+                <ng-template matStepLabel>Organization Details</ng-template>
+                <div class="row" formGroupName="organizationVO">
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!OrganizationDetailsForm.controls['organizationVO'].get('organizationName').valid && OrganizationDetailsForm.controls['organizationVO'].get('organizationName').touched}">
+                        <label class="form-control-label" for="org ">Organization Name</label>
+                        <!--<mat-form-field>-->
+                        <input name="org" class="form-control" formControlName="organizationName" type="text " placeholder="Organization Name">
+                        <!--</mat-form-field>-->
+                    </div>
+                    <div class=" col-md-1"></div>
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!OrganizationDetailsForm.controls['organizationVO'].get('fleetSize').valid && OrganizationDetailsForm.controls['organizationVO'].get('fleetSize').touched}">
+                        <label class="form-control-label" for="fleet ">Select the Fleet Size</label>
+                        <select name="fleet" class="form-control input-lg" formControlName="fleetSize" size="1">
+                            <option value="">Select the fleet size</option>
+                            <option value="10-25">10-25</option>
+                            <option value="25-50">25-50</option>
+                            <option value="50">50 ></option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!OrganizationDetailsForm.controls['jobTitle'].valid && OrganizationDetailsForm.controls['jobTitle'].touched}">
+                        <label class="form-control-label" for="job ">Job Title </label>
+                        <input name="job" class="form-control" formControlName="jobTitle" type="text " placeholder="Enter Job Title">
+                    </div>
+                    <div class=" col-md-1"></div>
+                    <div class="form-group  col-md-5">
+                        <label class="marr20">Organization Logo : </label>
+                        <input type="file" accept="image/*" (change)="handleInputChange($event)" />
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary btn-sm marr20" style="margin-left: 312px;" matStepperPrevious>Back</button>
+                    <button type="button" (click)='markFormGroupTouched(OrganizationDetailsForm)' class="btn btn-primary btn-sm marr20" matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <!--<mat-step [stepControl]="ConfigurationDetailsForm">-->
+        <!--<form [formGroup]="ConfigurationDetailsForm" (ngSubmit)="saveUserSetUp()" >-->
+        <!--<ng-template matStepLabel>Configuration Details</ng-template>-->
+        <mat-step [stepControl]="ConfigurationDetailsForm">
+            <form [formGroup]="ConfigurationDetailsForm" (ngSubmit)="saveUserSetUp()">
+                <ng-template matStepLabel>Configuration Details</ng-template>
+                <div class="row">
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!ConfigurationDetailsForm.controls['currencyId'].valid && ConfigurationDetailsForm.controls['currencyId'].touched}">
+                        <label class="form-control-label" for="currency ">Currency </label>
+                        <select name="currency" class="form-control input-lg" formControlName="currencyId" size="1">
+                            <option value="">Currency</option>
+                            <option value="USD"> USD </option>
+                            <option value="GBP"> GBP </option>
+                            <option value="GBP"> INR </option>
+                        </select>
+                    </div>
+                    <div class=" col-md-1"></div>
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!ConfigurationDetailsForm.controls['dateFormatId'].valid && ConfigurationDetailsForm.controls['dateFormatId'].touched}">
+                        <label class="form-control-label" for="job ">Date Format </label>
+                        <select name="select" class="form-control input-lg" formControlName="dateFormatId" size="1">
+                            <option value="MM/dd/yyyy">mm/dd/yyyy</option>
+                            <option value="dd/MM/yyyy">dd/mm/yyyy</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-5" [ngClass]="{'has-error':!ConfigurationDetailsForm.controls['timeFormat'].valid && ConfigurationDetailsForm.controls['timeFormat'].touched}">
+                        <label class="form-control-label" for="job ">Time format </label>
+                        <label class="form-control-label"> </label>
+                        <br/>
+
+                        <input type="radio" name="timeFormat" value="12 Hours" formControlName="timeFormat">
+                        <label class="marr20"> 12 Hours </label>
+
+                        <input type="radio" name="timeFormat" value="24 Hours" formControlName="timeFormat"> 24 Hours
+                    </div>
+                    <div class=" col-md-1"></div>
+
+                    <div class="form-group col-md-5">
+                        <label class="form-control-label" for="job ">Time Zone </label>
+                        <ng2-timezone-picker [(timezone)]="user.timezone" (change)="changeTimezone($event)" placeholder="Select timezone">
+                        </ng2-timezone-picker>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary btn-sm marr20" style="margin-left: 277px;" matStepperPrevious>Back</button>
+                        <button type="submit" [disabled]="ConfigurationDetailsForm.invalid " class="btn btn-primary btn-sm marr20">Save</button>
+                        <button type="button" class="btn btn-default btn-sm">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </mat-step>
+    </mat-horizontal-stepper>
+    <div *ngIf="showSpinner" class="spinner">
+        <mat-progress-spinner [color]="color" [mode]="mode"></mat-progress-spinner>
+    </div>
+    <div *ngIf="showSpinner" class="spinnerOverlay"></div>
+
+    <p-growl baseZIndex="100" [(value)]="msgs"></p-growl>
+</div>
+
+
+<!-- Copyright 2017 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
