@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 // Import HttpClientModule from @angular/common/http
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { AuthGuard } from './shared/index';
+import { AuthGuard, CommonService } from './shared/index';
 import { TokenInterceptor } from './shared/inerceptors/token.interceptor';
 import { JwtService } from './shared/services/jwt.service';
 import { CurrentUserService } from './shared/services/currentUser.service';
@@ -15,20 +15,30 @@ import { AuthService } from './shared/services/auth.service';
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatFormFieldModule } from '@angular/material';
 import { MatInputModule, MatStepperModule } from '@angular/material';
-import { NgxPermissionsModule } from 'ngx-permissions';
+// import { NgxPermissionsModule } from 'ngx-permissions';
 import { DatePickerFormat } from './shared/others/datepickerFormat';
 import { TimePickerFormat } from "./shared/others/timepickerFormat";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PermissionService } from './shared/services/permission.service';
-import { NgxPermissionsService } from 'ngx-permissions';
+// import { NgxPermissionsService } from 'ngx-permissions';
+import { MobileDetectionService } from './shared/services/mobiledetection.service';
+import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ProductComponent } from './product/product.component';
+import { UserSetupModule } from './user-setup/user-setup.module';
+import { NotFoundModule } from './not-found/not-found.module';
+import { UserProfileModule } from './noticer/user-profile/user-profile.module';
+import { NoticerModule } from './noticer/noticer.module';
+import { NoticerMainModule } from './noticer/noticer-main/noticer-main.module';
 
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        ProductComponent
     ],
     imports: [
-        BrowserModule,
+        BrowserModule.withServerTransition({ appId: 'noticer' }),
         BrowserAnimationsModule,
         FormsModule,
         HttpClientModule,
@@ -38,8 +48,12 @@ import { NgxPermissionsService } from 'ngx-permissions';
         MatInputModule,
         MatStepperModule,
         MatProgressSpinnerModule,
-        NgxPermissionsModule.forRoot()
-
+        // NgxPermissionsModule.forRoot()
+        UserSetupModule,
+        NotFoundModule,
+        UserProfileModule,
+        NoticerModule,
+        NoticerMainModule
     ],
     providers: [
         AuthGuard,
@@ -50,30 +64,31 @@ import { NgxPermissionsService } from 'ngx-permissions';
         MatProgressSpinnerModule,
         PermissionService,
         AuthService,
+        CommonService,
+        MobileDetectionService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: TokenInterceptor,
             multi: true
         },
-        {
-            provide: APP_INITIALIZER,
-            useFactory: (ds: PermissionService, ps: NgxPermissionsService, cs: CurrentUserService) => function () {
-                if (cs.checkValidUser()) {
-                    return ds.getPermissions().subscribe((data) => {
-                        let roleData: any = data;
-                        let authority: string[] = [];
-                        roleData.forEach(element => {
-                            authority.push(element.authority);
-                        });
-                        return ps.loadPermissions(authority);
-                    })
-                }
-            },
-            deps: [PermissionService, NgxPermissionsService, CurrentUserService],
-            multi: true
-        }
+        // {
+        //     provide: APP_INITIALIZER,
+        //     useFactory: (ds: PermissionService, ps: NgxPermissionsService, cs: CurrentUserService) => function () {
+        //         if (cs.checkValidUser()) {
+        //             return ds.getPermissions().subscribe((data) => {
+        //                 let roleData: any = data;
+        //                 let authority: string[] = [];
+        //                 roleData.forEach(element => {
+        //                     authority.push(element.authority);
+        //                 });
+        //                 return ps.loadPermissions(authority);
+        //             })
+        //         }
+        //     },
+        //     deps: [PermissionService, NgxPermissionsService, CurrentUserService],
+        //     multi: true
+        // }
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}

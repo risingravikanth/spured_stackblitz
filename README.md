@@ -1,6 +1,62 @@
 # NoticerWebapp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.5.
+Introduction
+============
+
+This is the **Angular6.0** version is a fully responsive Noticer template. Based on **[Bootstrap 4](https://github.com/twbs/bootstrap)** framework. Highly customizable and easy to use. Fits many screen resolutions from small mobile devices to large desktops. Check out the live preview now and see for yourself.
+
+Installation
+------------
+
+- Fork the repository ([here is the guide](https://help.github.com/articles/fork-a-repo/)).
+- Clone to your machine
+- Install Angular 6 Client.
+```bash
+npm install -g @angular/cli
+```
+- Clone the repository
+```bash
+git clone https://bitbucket.org/durgaraoasapu/noticerui_v2
+```
+
+- Install the packages
+```bash
+git clone https://bitbucket.org/durgaraoasapu/noticerui_v2
+cd webapp
+npm install
+```
+
+Running the application
+------------
+- On the folder project
+```
+ng serve
+```
+- Navigate to [http://localhost:4200/](http://localhost:4200/)
+
+Browser Support
+---------------
+- IE 9+
+- Firefox (latest)
+- Chrome (latest)
+- Safari (latest)
+- Opera (latest)
+
+Contribution 
+------------
+Contribution are always **welcome and recommended**! Here is how:
+
+- Fork the repository ([here is the guide](https://help.github.com/articles/fork-a-repo/)).
+- Clone to your machine ```git clone https://bitbucket.org/durgaraoasapu/noticerui_v2```
+- Make your changes
+- Create a pull request
+
+#### Contribution Requirements:
+- Contributions are only accepted through Github pull requests.
+- Finally, contributed code must work in all supported browsers (see above for browser support).
+
+
+
 
 ## Development server
 

@@ -29,75 +29,17 @@ export class NoticerMainService {
         return this.httpClient.post(url, JSON.parse(data));
     }
 
-    getAllVehicle() {
-        let url = "/api/getAllVehicles";
-        return this.httpClient.get(url);
-    }
-
+    
     getDist(value) {
         let url = "/api/address/getDistricts";
         let params = { params: new HttpParams().set('stateId', value) };
         return this.httpClient.get(url, params);
     }
-
-    getAllOffRoadVehicles(value: any) {
-        let url = "/api/vehicleOffRoad/getAllOffRoadVehicles";
-        let params = { params: new HttpParams().set('pageNumber', value) };
-        return this.httpClient.get(url, params);
+    
+    getFavoriteBoards() {
+        let url = "/boards/getboardinfobyinstid";
+        let data = 1;
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post(url, JSON.stringify(data), { headers: headers });
     }
-
-    // getVehiclesByDistrict(value) {
-    //     let url = "/api/mappings/getVehiclesUnderDistrict";
-    //     let params = { params: new HttpParams().set('districtId', value) };
-    //     return this.httpClient.get(url, params);
-    // }
-
-    getIssueDetails(issueId) {
-        let url = "/api/issue/getIssueDetailsByIssueId";
-        let params = { params: new HttpParams().set('issueId', issueId) };
-        return this.httpClient.get(url, params);
-    }
-
-    getDivisionsUnderDistrict(districtId) {
-        let url = "/api/mappings/getAllConfigs";
-        let params = { params: new HttpParams().set('districtId', districtId) };
-        return this.httpClient.get(url, params);
-    }
-
-    getBasestationsUnderDivision(divisionId) {
-        let url = "/api/mappings/getEMEConfig";
-        let params = { params: new HttpParams().set('configId', divisionId) };
-        return this.httpClient.get(url, params);
-    }
-
-    getVehiclesUnderBasestation(baseStationId) {
-        let url = "/api/mappings/getVehilcesUnderBaseStation";
-        let params = { params: new HttpParams().set('baseStationId', baseStationId) };
-        return this.httpClient.get(url, params);
-    }
-
-    getIssuesOfVehicle(vehicleId){
-        let url = "/api/issue/getOpenIssueOfVehicle";
-        let params = { params: new HttpParams().set('vehicleId', vehicleId) };
-        return this.httpClient.get(url, params);
-    }
-
-    getOnroadVehiclesUnderBasestation(baseStationId) {
-        let url = "/api/mappings/getOnroadVehilcesUnderBaseStation";
-        let params = { params: new HttpParams().set('baseStationId', baseStationId) };
-        return this.httpClient.get(url, params);
-    }
-
-    getBackupVehiclesUnderBasestation(baseStationId) {
-        let url = "/api/mappings/getBackupVehilcesUnderBaseStation";
-        let params = { params: new HttpParams().set('baseStationId', baseStationId) };
-        return this.httpClient.get(url, params);
-    }
-
-    getDivisionByVehicle(vehicleId) {
-        let url = "/api/mappings/getDivisionByVehicle";
-        let params = { params: new HttpParams().set('vehicleId', vehicleId) };
-        return this.httpClient.get(url, params);
-    }
-
 }

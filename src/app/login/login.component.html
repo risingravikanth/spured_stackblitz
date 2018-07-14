@@ -1,43 +1,29 @@
-<div class="login-page" [@routerTransition]>
-    <div class="row">
-        <div class="col-md-4 push-md-4 mylogin">
-            <!-- <img src="assets/images/logo.png" width="100px" class="user-avatar" /> -->
-            <h3 class="h3">Sign In to access Noticer</h3>
+<section [@routerTransition]>
 
-            <ngb-alert *ngIf="errorTextMessage" type="danger" (close)="errorTextMessage = ''">{{ errorTextMessage }}</ngb-alert>
-            <!-- (ngSubmit)="onLoggedin()" -->
-            <form [formGroup]="authForm" role="form">
-                <div class="form-content">
-                    <div>
-                        <mat-form-field class="full-width">
-                            <input type="text" matInput formControlName="username" placeholder="Email">
-                            <mat-error *ngIf="authForm.controls['username'].hasError('email') && !authForm.controls['username'].hasError('required')">
-                                Please enter a valid email address
-                            </mat-error>
-                            <mat-error *ngIf="authForm.controls['username'].hasError('required')">
-                                Email is
-                                <strong>required</strong>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                    <br>
-                    <div>
-                        <mat-form-field class="full-width">
-                            <input type="password" matInput formControlName="password" placeholder="Password">
-                            <mat-error *ngIf="authForm.controls['password'].hasError('required')">
-                                Password is
-                                <strong>required</strong>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
+    <div class="content">
+        <div class="login-box" style=" border:1px solid #f3f3f3;box-shadow: 0px 2px 11px 0px #888888;  padding:30px 20px 20px;  margin:10% auto 0;">
+            <div class="login-box-body">
+                <h4 class="login-box-msg">Sign in</h4>
+                <div *ngIf="errorTextMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ errorTextMessage }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <!-- [disabled]='disableLoginButton' -->
-                <button type="button" (click)="onLoggedin()" class="btn rounded-btn marb30"> {{status}} </button>
-                &nbsp;
-                <div class="clear"></div>
-                <label>Don't have a Noticer account?
-                    <a routerLink="/user-setup"> Sign Up </a> Now</label>
-            </form>
+                <form (ngSubmit)="onLoggedin()" [formGroup]="authForm">
+                    <div class="form-group">
+                        <input type="email" class="form-control" formControlName="email" placeholder="Email">
+                    </div>
+                    <div class="form-group  ">
+                        <input type="password" class="form-control" placeholder="Password" formControlName="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{status}}</button>
+                    <br>
+                    <label>Don't have a Noticer account?
+                        <a href="javascript:void(0);"> Sign Up </a> Now</label>
+                        <!-- routerLink="/user-setup" -->
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</section>

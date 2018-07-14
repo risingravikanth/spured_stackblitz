@@ -4,6 +4,9 @@ import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 import { CurrentUserService } from '../../services/currentUser.service';
 
+import { CommonService } from "../../services/common.service";
+import { MobileDetectionService } from '../../services/mobiledetection.service';
+
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
@@ -12,45 +15,40 @@ import { CurrentUserService } from '../../services/currentUser.service';
 export class HeaderComponent implements OnInit {
 
     pushRightClass: string = 'push-right';
+    toggleTopicsMenu: any = false;
 
-    constructor(public router: Router, private authService: AuthService, private userService: CurrentUserService) {
-        this.router.events.subscribe((val) => {
-            if (val instanceof NavigationEnd && window.innerWidth <= 992 && this.isToggled()) {
-                this.toggleSidebar();
-            }
-        });
-    }
+    public responseVo: any = { info: null, source: null, statusCode: null };
+
+    constructor(public router: Router, private authService: AuthService,
+        private userService: CurrentUserService,
+        private commonService: CommonService, private mobileService: MobileDetectionService) { }
 
     currentUser: User;
+    public isMobile: boolean;
 
     ngOnInit() {
         // this.currentUser = this.userService.getCurrentUser();
+        this.isMobile = this.mobileService.isMobile();
     }
 
-    isToggled(): boolean {
-        const dom: Element = document.querySelector('body');
-        return dom.classList.contains(this.pushRightClass);
+    goToUserProfile() {
+        this.router.navigate(['noticer/user-profile']);
     }
 
-    toggleSidebar() {
-        const dom: any = document.querySelector('body');
-        dom.classList.toggle(this.pushRightClass);
-    }
-
-    rltAndLtr() {
-        const dom: any = document.querySelector('body');
-        dom.classList.toggle('rtl');
+    toggleTopics() {
+        this.router.navigate(['noticer/main/menu']);
     }
 
     onLoggedout() {
         this.authService.attemptLogout(this.authService.getCurrentUser()).subscribe(resData => {
-            console.log("logged out successfully");
+            this.responseVo = resData;
+            if (this.responseVo.statusCode == 'SUCCESS') {
+                console.log("logged out successfully");
+                this.authService.purgeAuth();
+                this.router.navigate(["/login"])
+            } else {
+                alert("failed");
+            }
         });
-        this.authService.purgeAuth();
-        this.router.navigate(["/login"])
-    }
-
-    changeLang(language: string) {
-        // this.translate.use(language);
     }
 }

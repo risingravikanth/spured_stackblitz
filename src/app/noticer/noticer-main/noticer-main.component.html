@@ -1,43 +1,298 @@
-<div class="container marTop50">
+<div class="container marTop45">
+    <br class="d-block d-sm-none">
+    <br>
     <div class="row">
-        <div class="col-lg-2">
-            <div class="leftnav">
-                <span>
-                    <b>Feeds</b>
-                </span>
-                <a href="#about">About</a>
-                <a href="#services">Services</a>
-                <a href="#clients">Clients</a>
-                <a href="#contact">Contact</a>
-            </div>
+        <div class="col-md-3 col-sm-3" *ngIf="!isMobile">
+            <side-menu></side-menu>
         </div>
-        <div class="col-lg-6">
-            <div class="card" style="background-color:white;">
-                <div class="card-body">
-                    <h3 class="card-title">Learning New Things</h3>
+        <div [class]="!isMobile ? 'col-md-7' : 'col-md-10'">
+            <div class="card question-back">
+                <div class="row" style="padding-left: 28px;">
+                    <div style="width: 20%;">
+                        <img width="80" height="80" style="padding: 9px;" alt="ThemeMountain" src="assets/images/question.png">
+                    </div>
+                    <div style="width: 80%;">
+                        <h3 class="question-text">
+                            <a style="color: #154f65;" href="javascript:void(0);" data-toggle="modal" data-target="#myModal" (click)="postQuestionDialog()"
+                                *ngIf="questionName?.length == 0">Add your question</a>
+                            <a style="color: #154f65;" href="javascript:void(0);" data-toggle="modal" data-target="#myModal" (click)="postQuestionDialog()"
+                                *ngIf="questionName?.length > 0">Add your question on {{questionName}}</a>
+                        </h3>
+                    </div>
                 </div>
             </div>
             <br>
-            <div class="card" style="background-color:white;">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <h6 class="card-subtitle mb-2">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+            <div class="card">
+                <div>
+                    <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Type: Railway</li>
+                </div>
+                <div class="typeAlign">
+                    <i class="fas fa-bars" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 15px;"></i>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <button class="dropdown-item" type="button">Edit</button>
+                        <button class="dropdown-item" type="button">Delete</button>
+                    </div>
+                </div>
+                <div class="row" style="padding-left: 9px;margin-top: -40px;">
+                    <div>
+                        <img width="80" height="80" style="padding: 18px;" alt="ThemeMountain" src="assets/images/user.png">
+                    </div>
+                    <div style="margin-left: -48px;margin-top: 12px;">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <b>Durgarao Asapu</b>
+                                </a>
+                            </li>
+                            <li class="text-muted">2 min ago</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="post-text">
+                        <p>{{longStr | slice:0:maxLength}}
+                            <label *ngIf="longStr.length > maxLength">...</label>
+                            <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="longStr.length > maxLength" (click)="showAll()" href="javascript:void(0);">see more</a>
+                        </p>
+                    </h4>
+                </div>
+                <div>
+                    <img src="assets/images/jobnotification.jpg" style="max-width: 100%;
+                        max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                </div>
+                <hr>
+                <div>
+                    <ul class="list-inline">
+                        <li class="list-inline-item paddingIcons">
+                            <i class="far fa-thumbs-up iconSize"></i>
+                            <strong>12</strong>
+                        </li>
+                        <li class="list-inline-item paddingIcons">
+                            <i class="far fa-thumbs-down iconSize"></i>
+                            <strong>3</strong>
+                        </li>
+                        <li class="list-inline-item paddingIcons">
+                            <i class="fas fa-comments iconSize"></i>
+                            <a>
+                                <strong>200</strong>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <hr style="margin-top: -5px;">
+                    <div class="row" style="padding-left: 45px;margin-top: -23px;">
+                        <div>
+                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ThemeMountain" src="assets/images/user.png">
+                        </div>
+                        <div style="margin-left: -48px;margin-top: 12px;">
+                            <ul>
+                                <li>
+                                    <a style="font-size: 11px;" href="javascript:void(0);">
+                                        <b>Durgarao Asapu</b>
+                                    </a>
+                                </li>
+                                <li style="font-size: 10px;">2 min ago</li>
+                                <li>
+                                    <p>1st comment</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left: 45px;margin-top: -23px;">
+                        <div>
+                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ThemeMountain" src="assets/images/user.png">
+                        </div>
+                        <div style="margin-left: -48px;margin-top: 12px;">
+                            <ul>
+                                <li>
+                                    <a style="font-size: 11px;" href="javascript:void(0);">
+                                        <b>Durgarao Asapu</b>
+                                    </a>
+                                </li>
+                                <li style="font-size: 10px;">2 min ago</li>
+                                <li>
+                                    <p>2nd comment</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="margin-left: 45px;padding: 10px;">
+                        <form>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default">
+                                        <i class="fas fa-share-square"></i>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Add a comment..">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div>
+                    <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Type: Railway</li>
+                </div>
+                <div class="typeAlign">
+
+                    <a sytle="color:black;" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-bars" style="font-size: 15px;"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <button class="dropdown-item" type="button">Edit</button>
+                        <button class="dropdown-item" type="button">Delete</button>
+                    </div>
+                </div>
+                <div class="row" style="padding-left: 9px;margin-top: -40px;">
+                    <div>
+                        <img width="80" height="80" style="padding: 18px;" alt="ThemeMountain" src="assets/images/user.png">
+                    </div>
+                    <div style="margin-left: -48px;margin-top: 12px;">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <b>Durgarao Asapu</b>
+                                </a>
+                            </li>
+                            <li class="text-muted">2 min ago</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="post-text">
+                        <label>RAILWAY RECRUITMENT GROUP D NOTIFICATION 2018 - 62,907 VACANCIES</label>
+                    </h4>
+                </div>
+                <div>
+                    <img src="assets/images/jobnotification.jpg" style="max-width: 100%;
+                            max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div>
+                    <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Type: Railway</li>
+                </div>
+                <div class="typeAlign">
+
+                    <a sytle="color:black;" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-bars" style="font-size: 15px;"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <button class="dropdown-item" type="button">Edit</button>
+                        <button class="dropdown-item" type="button">Delete</button>
+                    </div>
+                </div>
+                <div class="row" style="padding-left: 9px;margin-top: -40px;">
+                    <div>
+                        <img width="80" height="80" style="padding: 18px;" alt="ThemeMountain" src="assets/images/user.png">
+                    </div>
+                    <div style="margin-left: -48px;margin-top: 12px;">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <b>Durgarao Asapu</b>
+                                </a>
+                            </li>
+                            <li class="text-muted">2 min ago</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="post-text">
+                        <label>RAILWAY RECRUITMENT GROUP D NOTIFICATION 2018 - 62,907 VACANCIES</label>
+                    </h4>
+                </div>
+                <div>
+                    <img src="assets/images/jobnotification.jpg" style="max-width: 100%;
+                                max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div>
+                    <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Type: Railway</li>
+                </div>
+                <div class="typeAlign">
+
+                    <a sytle="color:black;" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-bars" style="font-size: 15px;"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <button class="dropdown-item" type="button">Edit</button>
+                        <button class="dropdown-item" type="button">Delete</button>
+                    </div>
+                    <!-- </div> -->
+                </div>
+                <div class="row" style="padding-left: 9px;margin-top: -40px;">
+                    <div>
+                        <img width="80" height="80" style="padding: 18px;" alt="ThemeMountain" src="assets/images/user.png">
+                    </div>
+                    <div style="margin-left: -48px;margin-top: 12px;">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <b>Durgarao Asapu</b>
+                                </a>
+                            </li>
+                            <li class="text-muted">2 min ago</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="post-text">
+                        <label>RAILWAY RECRUITMENT GROUP D NOTIFICATION 2018 - 62,907 VACANCIES</label>
+                    </h4>
+                </div>
+                <div>
+                    <img src="assets/images/jobnotification.jpg" style="max-width: 100%;
+                                    max-height: 100%;padding: 7px;" class="rounded" alt="Post">
                 </div>
             </div>
         </div>
-        <div class="col-lg-2">
-            <div class="leftnav">
-                <span>
-                    <b>Other</b>
-                </span>
-                <a href="#about">About</a>
-                <a href="#services">Services</a>
-                <a href="#clients">Clients</a>
-                <a href="#contact">Contact</a>
-            </div>
+        <div class="col-md-2"  *ngIf="!isMobile">
+            <right-menu></right-menu>
         </div>
     </div>
 </div>
+
+
+<section>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="well">
+                        <form class="form-horizontal" role="form">
+                            <h4>What's your question</h4>
+                            <div class="form-group" style="padding:14px;">
+                                <textarea class="form-control" placeholder="Write your question...."></textarea>
+                            </div>
+                            <button class="btn btn-primary float-right" type="button">Post</button>
+                            <ul class="list-inline postIcons">
+                                <li class="list-inline-item">
+                                    <a href="" class="postIconColor">
+                                        <i class="fas fa-upload"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="" class="postIconColor">
+                                        <i class="fas fa-camera"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="" class="postIconColor">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

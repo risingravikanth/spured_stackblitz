@@ -21,7 +21,7 @@ const routes: Routes = [
     MatStepperModule,
     MatProgressSpinnerModule,
     GrowlModule,
-    RouterModule.forChild(routes)
+    // RouterModule.forChild(routes)
   ],
   declarations: [
     UserSetupComponent

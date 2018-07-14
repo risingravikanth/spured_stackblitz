@@ -1,0 +1,47 @@
+<section>
+    <ul class="nav nav-pills fixed-top justify-content-center navBackColor">
+        <li class="nav-item header_logo">
+            <img src="assets/images/sample_logo.jpg" alt="Smiley face" height="42" width="42">
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" routerLink="/noticer">
+                <b>
+                    <i class="fas fa-bell header-icon-size"></i>
+                </b>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" routerLink="/noticer">
+                <b>
+                    <i class="fas fa-home header-icon-size"></i>
+                </b>
+            </a>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="assets/images/user.png" class="img-circle special-img">
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-cog"></i>&nbsp; Settings</a>
+                <a class="dropdown-item" href="javascript:void(0);" (click)="goToUserProfile()">
+                    <i class="far fa-user-circle"></i>&nbsp; Profile</a>
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-question-circle"></i>&nbsp; Help </a>
+                <a class="dropdown-item" href="javascript:void(0);" (click)="onLoggedout()">
+                    <i class="fa fa-fw fa-power-off"></i>&nbsp; Log Out </a>
+                <hr>
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-chart-line"></i>&nbsp; Activity </a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" (click)="toggleTopics()">
+                <b>
+                    <i class="fas fa-bars  header-icon-size"></i>
+                </b>
+            </a>
+        </li>
+    </ul>
+</section>

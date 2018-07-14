@@ -5,43 +5,52 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import { JwtService } from './jwt.service';
 import { Router } from '@angular/router';
 import { CurrentUserService } from './currentUser.service';
-import { NgxPermissionsService } from 'ngx-permissions';
+// import { NgxPermissionsService } from 'ngx-permissions';
+import * as constants from '../others/constants';
 
 @Injectable()
 
 export class AuthService {
-
+    loggedUser: any;
     constructor(
         public router: Router,
         private http: HttpClient,
         private jwtService: JwtService,
-        private currentUserService: CurrentUserService,
-        private permissionService: NgxPermissionsService
+        private currentUserService: CurrentUserService
     ) { }
 
     setAuth(user: User) {
         this.jwtService.saveToken(user.token);
         this.currentUserService.setCurrentUser(user);
-        this.currentUserService.setRole(user.role);
     }
     purgeAuth() {
         this.jwtService.destroyToken();
         this.currentUserService.deleteCurrentUser();
-        this.currentUserService.deleteRole();
-        this.permissionService.flushPermissions();
     }
     getCurrentUser(): User {
         return this.currentUserService.getCurrentUser();
     }
-    loggedUser: any;
+
     attemptAuth(credentials: any, returnUrl: string) {
-        let url = "/api/authenticate";
-        let data: any;
-        let headers = new HttpHeaders().set("Credentials", btoa(credentials.username + ":" + credentials.password));
-        return this.http.post(url, data, { headers: headers, responseType: 'text', observe: 'response' });
+        let url: string;
+        if (constants.isLive) {
+            //calling node server
+            url = "/authentication";
+        } else {
+            url = "/profile/login";
+        }
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.http.post(url, credentials, { headers: headers, responseType: 'text', observe: 'response' });
+        // return this.http.get('/user/getlist',{responseType: 'text', observe: 'response'});
     }
     attemptLogout(body: any) {
-        let url =  "/api/authenticate/logout";
-        return this.http.post(url, body);
+        let url: string;
+        if (constants.isLive) {
+            //calling node server
+            url = "/logout";
+        } else {
+            let url = "/profile/logout";
+        }
+        return this.http.post(url, null);
     }
 }

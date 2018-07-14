@@ -1,45 +1,21 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+// import { NgxPermissionsGuard } from 'ngx-permissions';
 import { NoticerMainComponent } from './noticer-main.component';
+import { AuthGuard } from '../../shared';
+import { MenuMobileComponent } from './menu-mobile/menu-mobile.component';
 
 const routes: Routes = [
     {
-    //     path: '', component: VehicleOffRoadComponent,
-    //     children: [
-    //         { path: '', redirectTo: 'list', pathMatch: 'full' },
-    //         {
-    //             path: 'create', component: VehicleOffRoadCreateComponent,
-    //             canActivate: [NgxPermissionsGuard],
-    //             data: {
-    //                 permissions: {
-    //                     only: 'VEHICLE_MANAGEMENT',
-    //                     redirectTo: '/not-found'
-    //                 }
-    //             }
-    //         },
-    //         {
-    //             path: 'list', component: VehicleOffRoadListComponent,
-    //             canActivate: [NgxPermissionsGuard],
-    //             data: {
-    //                 permissions: {
-    //                     only: 'VEHICLE_MANAGEMENT',
-    //                     redirectTo: '/not-found'
-    //                 }
-    //             }
-    //         },
-    //     ]
-    // }
-    path: '', component: NoticerMainComponent
-    // ,
-    //     canActivate: [NgxPermissionsGuard],
-    //     data: {
-    //         permissions: {
-    //             only: 'VEHICLE_MANAGEMENT',
-    //             redirectTo: '/not-found'
-    //         }
-    //     }
-    }
+        path: '', 
+        component: NoticerMainComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'menu',
+        component: MenuMobileComponent,
+        canActivate: [AuthGuard]
+    }       
 ];
 
 @NgModule({

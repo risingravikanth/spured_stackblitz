@@ -6,13 +6,18 @@ import { NoticerComponent } from './noticer.component';
 const routes: Routes = [
     {
         path: '', component: NoticerComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         children: [
             { path: '', redirectTo: 'main', pathMatch: 'full' },
             {
                 path: 'main',
                 loadChildren: './noticer-main/noticer-main.module#NoticerMainModule',
-                // canActivate: [AuthGuard]
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'user-profile',
+                loadChildren: "./user-profile/user-profile.module#UserProfileModule",
+                canActivate: [AuthGuard]
             }
         ]
     }
@@ -20,7 +25,7 @@ const routes: Routes = [
 
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
+    // imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
 export class NoticerRoutingModule { }

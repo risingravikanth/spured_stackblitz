@@ -1,53 +1,59 @@
-<nav class="navbar navbar-light fixed-top navbar-expand-md bg-light justify-content-center">
-    <a href="javascript:void(0);" class="navbar-brand mr-0">
-        <font style="font-family: cursive;color:#b92b27">
-            <b>Noticer</b>
-        </font>
-    </a>
-    <button class="navbar-toggler ml-1" type="button" data-toggle="collapse" data-target="#collapsingNavbar2">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-collapse collapse justify-content-between align-items-center w-100" id="collapsingNavbar2">
-        <ul class="navbar-nav mx-auto text-center">
-            <li class="nav-item active">
-                <a class="nav-link" href="#"><b>Home</b></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="//codeply.com"><b>Answers</b></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><b>Notifications</b></a>
-            </li>
-            &nbsp;&nbsp;&nbsp;
-            <form class="form-inline">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                    <div class="input-group-prepend">
-                        <a class="input-group-text" id="basic-addon1">
-                            <i class="fas fa-search"></i>
-                        </a>
-                    </div>
+<section>
+    <ul class="nav nav-pills fixed-top justify-content-center navBackColor">
+        <li class="nav-item header_logo">
+            <img src="assets/images/sample_logo.jpg" alt="Smiley face" height="42" width="42">
+        </li>
+        <li class="nav-item siteNamemar d-none d-sm-block">
+            <a href="javascript:void(0);" routerLink="/noticer" class="navbar-brand mr-0">
+                <font style="font-family: cursive;color:#b92b27">
+                    <b>Noticer</b>
+                </font>
+            </a>
+        </li>
+        <li class="siteNameGap d-none d-sm-block"></li>
+        <form class="form-inline pad-search d-none d-sm-block">
+            <div class="input-group">
+                <input type="text" class="form-control searchbar" placeholder="Seach in noticer.." aria-label="search">
+                <div class="input-group-prepend">
+                    <a href="javascript:void(0);" routerLink="/noticer" class="input-group-text">
+                        <i class="fas fa-search"></i>
+                    </a>
                 </div>
-            </form>
-            &nbsp;&nbsp;&nbsp;
-            <div>
-                <button type="button" class="btn btn-danger">Add question</button>
             </div>
-        </ul>
-        <ul class="nav navbar-nav flex-row justify-content-center flex-nowrap">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="assets/images/user.png" class="img-circle special-img"> <b>Durgarao</b>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">
-                        <i class="fa fa-user-circle-o"></i> Profile</a>
-                    <a class="dropdown-item" href="#">
-                        <i class="fas fa-cog"></i> Settings</a>
-                    <a class="dropdown-item" href="#">
-                        <i class="fa fa-fw fa-power-off"></i>Log Out </a>
-                </div>
-            </li>
-        </ul>
-    </div>
-</nav>
+        </form>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" routerLink="/noticer">
+                <b>
+                    <i class="fas fa-bell header-icon-size"></i>
+                </b>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" routerLink="/noticer">
+                <b>
+                    <i class="fas fa-home header-icon-size"></i>
+                </b>
+            </a>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="assets/images/user.png" class="img-circle special-img">
+                <!-- <b>Durgarao</b>-->
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-cog"></i>&nbsp; Settings</a>
+                <a class="dropdown-item" href="javascript:void(0);" (click)="goToUserProfile()">
+                    <i class="far fa-user-circle"></i>&nbsp; Profile</a>
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-question-circle"></i>&nbsp; Help </a>
+                <a class="dropdown-item" href="javascript:void(0);" (click)="onLoggedout()">
+                    <i class="fa fa-fw fa-power-off"></i>&nbsp; Log Out </a>
+                <hr>
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-chart-line"></i>&nbsp; Activity </a>
+            </div>
+        </li>
+    </ul>
+</section>

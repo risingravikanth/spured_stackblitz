@@ -14,8 +14,14 @@ export class TokenInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        let restUrl:string;
+        if(constants.isLive){
+            restUrl = constants.REST_API_URL_NODE;
+        } else {
+            restUrl = constants.REST_API_URL;
+        }
         req = req.clone({
-            url: `${constants.REST_API_URL + req.url}`,
+            url: `${restUrl + req.url}`,
             setHeaders: {
                 Authorization: `${this.jwtService.getToken()}`
             }

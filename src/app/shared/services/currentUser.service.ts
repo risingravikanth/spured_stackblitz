@@ -1,36 +1,36 @@
 import { JwtService } from './jwt.service';
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { User } from '../models/user.model';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export class CurrentUserService {
 
-    constructor(private jwtService:JwtService) { }
+    constructor(private jwtService: JwtService, @Inject(PLATFORM_ID) private platformId: Object) { }
     setCurrentUser(user: User) {
-        sessionStorage.setItem('currentUser', JSON.stringify(user));
-    }
-    getCurrentUser(): User {
-        let currentUser: User;
-        currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-        return currentUser;
-    }
-    deleteCurrentUser() {
-        sessionStorage.removeItem('currentUser');
-    }
-    checkValidUser(): boolean {
-        if (sessionStorage.getItem('currentUser') && this.jwtService.getToken()) {
-            return true;
-        } else {
-            return false;
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem('currentUser', JSON.stringify(user));
         }
     }
-    setRole(role) {
-        sessionStorage.setItem('roles', JSON.stringify(role));
+    getCurrentUser(): User {
+        if (isPlatformBrowser(this.platformId)) {
+            let currentUser: User;
+            currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            return currentUser;
+        }
     }
-    getRole() {
-        return JSON.parse(sessionStorage.getItem('roles'));
+    deleteCurrentUser() {
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.removeItem('currentUser');
+        }
     }
-    deleteRole() {
-        sessionStorage.removeItem('roles');
+    checkValidUser(): boolean {
+        if (isPlatformBrowser(this.platformId)) {
+            if (localStorage.getItem('currentUser') && this.jwtService.getToken()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 }

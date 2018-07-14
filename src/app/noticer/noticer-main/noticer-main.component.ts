@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { DatePickerFormat } from "../../shared/others/datepickerFormat";
@@ -6,8 +6,13 @@ import { TimePickerFormat } from "../../shared/others/timepickerFormat";
 import { MessageService } from "primeng/components/common/messageservice";
 import { CustomValidator } from "../../shared/others/custom.validator";
 import { routerTransition } from "../../router.animations";
-import {Message} from 'primeng/components/common/api';
+import { Message } from 'primeng/components/common/api';
 import { NoticerMainService } from './noticer-main.service';
+import { ElementRef } from '@angular/core';
+
+import { CommonService } from "../../shared/services/common.service";
+import { Section } from '../../shared/models/section.model';
+import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
 
 @Component({
   selector: 'noticer-main',
@@ -18,36 +23,56 @@ import { NoticerMainService } from './noticer-main.service';
 })
 export class NoticerMainComponent implements OnInit {
 
-  constructor(private router: Router, private formbuilder: FormBuilder, private service: NoticerMainService, private customValidator: CustomValidator) { }
+  constructor(private router: Router, private formbuilder: FormBuilder,
+    private service: NoticerMainService,
+    private customValidator: CustomValidator,
+    private commonService: CommonService,
+    public mobileService: MobileDetectionService) { }
 
- 
+  public questionName: any = '';
+  public longStr;
+  public maxLength;
 
-  public parent:any = [];
+  public isMobile: boolean;
+
   ngOnInit() {
-  this.parent= [
-        {
-            name: "Item1",
-            subItems: [
-                {name: "SubItem1"},
-                {name: "SubItem2"}
-            ]
-        },
-        {
-            name: "Item2",
-            subItems: [
-                {name: "SubItem3"},
-                {name: "SubItem4"},
-                {name: "SubItem5"}
-            ]
-        },
-        {
-            name: "Item3",
-            subItems: [
-                {name: "SubItem6"}
-            ]
-        }
-    ];
+    this.isMobile = this.mobileService.isMobile();
+    // this.getFavBoards();
+    this.longStr = 'RAILWAY RECRUITMENT GROUP D NOTIFICATION 2018 - 62,907 VACANCIES Latest Railway Job Notifications Latest Railway Job Notifications Latest Railway Job Notifications Latest Railway Job Notifications';
+    this.maxLength = 100;
+    this.commonService.sectionChanges.subscribe(
+      resData => {
+        this.selectedCategory(resData);
+      }
+    )
+  }
+
+  showAll() {
+    this.maxLength = this.longStr.length;
+  }
+
+  postQuestionDialog() {
+    console.log("model opened");
+  }
+
+  getFavBoards() {
+    this.service.getFavoriteBoards().subscribe(resData => {
+      console.log("All fav boards");
+      console.log(resData);
+    })
   }
 
 
+  selectedCategory(data: Section) {
+    if (data) {
+      this.questionName = '';
+      if (data.section) {
+        this.questionName = data.section;
+      }
+      if (data.category != 'HOME') {
+        this.questionName = this.questionName + " (" + data.category + ")";
+      }
+      console.log(this.questionName);
+    }
+  }
 }

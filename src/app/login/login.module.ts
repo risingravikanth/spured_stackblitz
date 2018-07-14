@@ -5,7 +5,7 @@ import { LoginComponent } from './login.component';
 import { Routes, RouterModule } from '@angular/router';
 import { MatSelectModule, MatInputModule, MatFormFieldModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxPermissionsModule } from 'ngx-permissions';
+// import { NgxPermissionsModule } from 'ngx-permissions';
 
 const routes: Routes = [
     { path: '', component: LoginComponent }
@@ -20,7 +20,7 @@ const routes: Routes = [
         MatInputModule,
         MatSelectModule,
         NgbModule,
-        NgxPermissionsModule.forChild()
+        // NgxPermissionsModule.forChild()
     ],
     declarations: [LoginComponent]
 })
