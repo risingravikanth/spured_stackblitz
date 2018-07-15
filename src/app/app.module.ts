@@ -24,7 +24,6 @@ import { PermissionService } from './shared/services/permission.service';
 import { MobileDetectionService } from './shared/services/mobiledetection.service';
 import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { ProductComponent } from './product/product.component';
 import { UserSetupModule } from './user-setup/user-setup.module';
 import { NotFoundModule } from './not-found/not-found.module';
 import { UserProfileModule } from './noticer/user-profile/user-profile.module';
@@ -34,8 +33,7 @@ import { NoticerMainModule } from './noticer/noticer-main/noticer-main.module';
 
 @NgModule({
     declarations: [
-        AppComponent,
-        ProductComponent
+        AppComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'noticer' }),

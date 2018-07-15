@@ -22,8 +22,7 @@ export class MenuMobileComponent implements OnInit {
   ngOnInit() {
     this.isMobile = this.mobileService.isMobile();
     if (!this.isMobile) {
-      console.log("side menu desk");
-      this.router.navigate(['noticer/main']);
+      this.router.navigate(['noticer']);
     } else {
       console.log("side menu mobile");
     }

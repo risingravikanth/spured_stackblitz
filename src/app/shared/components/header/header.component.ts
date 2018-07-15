@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
     }
 
     toggleTopics() {
-        this.router.navigate(['noticer/main/menu']);
+        this.router.navigate(['noticer/mobile-menu']);
     }
 
     onLoggedout() {

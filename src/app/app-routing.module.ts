@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './shared';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { ProductComponent } from './product/product.component';
 import { UserSetupComponent } from './user-setup/user-setup.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NoticerComponent } from './noticer/noticer.component';
@@ -33,7 +32,6 @@ const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'not-found', component: NotFoundComponent },
     { path: 'user-setup', component: UserSetupComponent },
-    { path: 'product', component: ProductComponent },
     { path: '**', redirectTo: 'not-found' }
 ];
 
