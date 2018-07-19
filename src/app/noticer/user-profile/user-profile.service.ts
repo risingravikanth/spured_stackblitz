@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { catchError } from 'rxjs/operators';
-import { Reason, Categories, SubCategories, Aggregates } from "../../shared/models/vehicle-offroad.model";
 import { Observable } from "rxjs/Observable";
 
 @Injectable()

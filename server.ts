@@ -74,6 +74,41 @@ app.post('/authentication', (req, res) => {
     }
   });
 });
+app.post('/api/getFavBoards', (req, res) => {
+  console.log("Get fav boards");
+  request.post({
+    "headers": { "content-type": "application/json" },
+    "url": "http://139.59.6.52:8080/SpringMvcJdbcTemplate/boards/getboardinfobyinstid",
+    "body": req
+  }, (error, response, body) => {
+    if (error) {
+      console.log(error);
+      return res.send(error);
+    }
+    if (response) {
+      console.log('   /api/getFavBoards :- STATUS: ' + response.statusCode);
+      res.send(body);
+    }
+  });
+});
+
+app.post('/api/createVerbalPost', (req, res) => {
+  console.log("Create Verbal Post");
+  request.post({
+    "headers": { "content-type": "application/json" },
+    "url": "http://139.59.6.52:8080/SpringMvcJdbcTemplate/verbal/post/create",
+    "body": req
+  }, (error, response, body) => {
+    if (error) {
+      console.log(error);
+      return res.send(error);
+    }
+    if (response) {
+      console.log('   /api/createVerbalPost :- STATUS: ' + response.statusCode);
+      res.send(body);
+    }
+  });
+});
 
 // TODO: implement data requests securely
 app.get('/api/*', (req, res) => {

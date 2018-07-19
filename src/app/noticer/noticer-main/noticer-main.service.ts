@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { catchError } from 'rxjs/operators';
-import { Reason, Categories, SubCategories, Aggregates } from "../../shared/models/vehicle-offroad.model";
 import { Observable } from "rxjs/Observable";
+import * as constants from '../../shared/others/constants';
 
 @Injectable()
 export class NoticerMainService {
@@ -37,9 +37,25 @@ export class NoticerMainService {
     }
     
     getFavoriteBoards() {
-        let url = "/boards/getboardinfobyinstid";
+        let url: string;
+        if (constants.isLive) {
+            url = "/api/getFavBoards";
+        } else {
+            url = "/boards/getboardinfobyinstid";
+        }
         let data = 1;
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.post(url, JSON.stringify(data), { headers: headers });
+    }
+
+    createVerbalPost(body:any) {
+        let url: string;
+        if (constants.isLive) {
+            url = "http://localhost:4000/api/createVerbalPost";
+        } else {
+            url = "/verbal/post/create";
+        }
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post(url, JSON.stringify(body), { headers: headers });
     }
 }

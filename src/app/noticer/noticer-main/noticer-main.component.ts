@@ -37,7 +37,8 @@ export class NoticerMainComponent implements OnInit {
 
   ngOnInit() {
     this.isMobile = this.mobileService.isMobile();
-    // this.getFavBoards();
+    this.getFavBoards();
+    this.createVerbalPost();
     this.longStr = 'RAILWAY RECRUITMENT GROUP D NOTIFICATION 2018 - 62,907 VACANCIES Latest Railway Job Notifications Latest Railway Job Notifications Latest Railway Job Notifications Latest Railway Job Notifications';
     this.maxLength = 100;
     this.commonService.sectionChanges.subscribe(
@@ -55,11 +56,25 @@ export class NoticerMainComponent implements OnInit {
     console.log("model opened");
   }
 
-  getFavBoards() {
+  getFavBoards() {;
     this.service.getFavoriteBoards().subscribe(resData => {
       console.log("All fav boards");
       console.log(resData);
     })
+  }
+
+  createVerbalPost() {
+    let data = {
+      "category": "cat",
+      "model": "Aptitude",
+      "postText": "test post from angular webapp",
+      "imageUrl": ""
+    }
+    this.service.createVerbalPost(data).subscribe(
+      resData => {
+        console.log(resData);
+      }
+    )
   }
 
 

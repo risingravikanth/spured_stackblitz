@@ -5,19 +5,19 @@
                 <label>
                     <b>{{menu.title}}</b>
                 </label>
-                <span class="float-right" *ngIf="varShowSectionSettings">
-                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showSectionSettingsM()">
+                <span class="float-right" *ngIf="!menu.select">
+                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="menu.select = true">
                         <i class="fas fa-cog"></i>
                     </a>
                 </span>
-                <span class="float-right" *ngIf="varShowSectionOptions">
+                <span class="float-right" *ngIf="menu.select">
                     <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showAddCategoryDialog()">
                         <i class="fas fa-plus"></i>
                     </a>
                     <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="saveSectionSettings()">
                         <i class="fas fa-check"></i>
                     </a>
-                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="cacelSectionSettings()">
+                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="menu.select = false">
                         <i class="fas fa-times"></i>
                     </a>
                 </span>
@@ -30,7 +30,7 @@
                             <i class="fas fa-chevron-right" *ngIf="!isActive(section.name)"></i>
                             <i class="fas fa-chevron-down" *ngIf="isActive(section.name)"></i>&nbsp;&nbsp; {{section.name}}
                         </span>
-                        <span class="float-right" *ngIf="varShowSectionOptions">
+                        <span class="float-right" style="padding-left: 20px;" *ngIf="menu.select">
                             <a href="javascript:void(0);" (click)="showAddCategoryDialog()" class="sectionOptIconsColor">
                                 <i class="fas fa-plus"></i>
                             </a>
@@ -42,7 +42,7 @@
                     <ul style="display:none; margin-left: 0px;">
                         <li *ngFor="let category of section.categories">
                             <a href="javascript:void(0);" (click)="selectedCategory(section.name, category.name)">{{category.name}}</a>
-                            <span class="float-right" *ngIf="varShowSectionOptions">
+                            <span class="float-right" *ngIf="menu.select">
                                 <a href="javascript:void(0);" class="sectionOptIconsColor" *ngIf="category.name != 'HOME'">
                                     <i class="fas fa-trash"></i>
                                 </a>

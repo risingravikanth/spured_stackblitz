@@ -98,6 +98,7 @@ export class SideMenuComponent implements OnInit {
     this.menuList = [
       {
         "title": "Topics",
+        "select":false,
         "sections": [
           {
             "name": "Quants",
@@ -165,6 +166,7 @@ export class SideMenuComponent implements OnInit {
       },
       {
         "title": "Boards",
+        "select":false,
         "sections": [
           {
             "name": "Open",

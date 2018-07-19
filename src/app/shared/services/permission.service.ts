@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Role, Privilige } from '../models/role.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()

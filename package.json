@@ -42,7 +42,6 @@
     "primeng": "^5.2.3",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.2",
-    "select2": "^4.0.6-rc.0",
     "ts-loader": "^4.4.2",
     "zone.js": "^0.8.26"
   },
