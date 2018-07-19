@@ -13,6 +13,7 @@ import { ElementRef } from '@angular/core';
 import { CommonService } from "../../shared/services/common.service";
 import { Section } from '../../shared/models/section.model';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
+import { timeAgo } from '../../shared/others/time-age';
 
 @Component({
   selector: 'noticer-main',
@@ -23,6 +24,8 @@ import { MobileDetectionService } from '../../shared/services/mobiledetection.se
 })
 export class NoticerMainComponent implements OnInit {
 
+  public isMobile: boolean;
+
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
     private customValidator: CustomValidator,
@@ -30,17 +33,16 @@ export class NoticerMainComponent implements OnInit {
     public mobileService: MobileDetectionService) { }
 
   public questionName: any = '';
-  public longStr;
-  public maxLength;
-
-  public isMobile: boolean;
+  public postsList: any = [];
+  public limit = 5;
+  public offset = 0;
+  public showPostSpinner = false;
 
   ngOnInit() {
     this.isMobile = this.mobileService.isMobile();
-    this.getFavBoards();
-    this.createVerbalPost();
-    this.longStr = 'RAILWAY RECRUITMENT GROUP D NOTIFICATION 2018 - 62,907 VACANCIES Latest Railway Job Notifications Latest Railway Job Notifications Latest Railway Job Notifications Latest Railway Job Notifications';
-    this.maxLength = 100;
+    // this.getFavBoards();
+    // this.createVerbalPost();
+    this.getPosts();
     this.commonService.sectionChanges.subscribe(
       resData => {
         this.selectedCategory(resData);
@@ -48,15 +50,11 @@ export class NoticerMainComponent implements OnInit {
     )
   }
 
-  showAll() {
-    this.maxLength = this.longStr.length;
-  }
-
   postQuestionDialog() {
     console.log("model opened");
   }
 
-  getFavBoards() {;
+  getFavBoards() {
     this.service.getFavoriteBoards().subscribe(resData => {
       console.log("All fav boards");
       console.log(resData);
@@ -89,5 +87,38 @@ export class NoticerMainComponent implements OnInit {
       }
       console.log(this.questionName);
     }
+  }
+
+
+  getPosts() {
+    let data = { "category": "cat", "offset": 0, "limit": this.limit }
+    this.showPostSpinner = true;
+    this.service.getPostsList(data).subscribe(
+      resData => {
+        this.showPostSpinner = false;
+        this.postsList = resData;
+        this.preparePostsList();
+      })
+    }
+    
+    loadMorePosts() {
+      this.offset = this.offset + 5;
+      this.showPostSpinner = true;
+      let data = { "category": "cat", "offset": this.offset, "limit": this.limit }
+      this.service.getPostsList(data).subscribe(
+        (resData:any) => {
+          this.showPostSpinner = false;
+        resData.forEach(element => {
+          this.postsList.push(element);
+        });
+        this.preparePostsList();
+      })
+  }
+
+  preparePostsList(){
+    this.postsList.forEach(element => {
+      element.maxLength = 25;
+      element.selectComments = false;
+    });
   }
 }

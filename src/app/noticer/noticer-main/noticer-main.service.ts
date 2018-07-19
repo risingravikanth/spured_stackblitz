@@ -51,9 +51,20 @@ export class NoticerMainService {
     createVerbalPost(body:any) {
         let url: string;
         if (constants.isLive) {
-            url = "http://localhost:4000/api/createVerbalPost";
+            url = "/api/createVerbalPost";
         } else {
             url = "/verbal/post/create";
+        }
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post(url, JSON.stringify(body), { headers: headers });
+    }
+
+    getPostsList(body:any) {
+        let url: string;
+        if (constants.isLive) {
+            url = "/api/getPosts";
+        } else {
+            url = "/verbal/post/getpostbycategory";
         }
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.post(url, JSON.stringify(body), { headers: headers });

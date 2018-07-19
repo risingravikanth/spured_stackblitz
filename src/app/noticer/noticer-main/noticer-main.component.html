@@ -22,244 +22,136 @@
                 </div>
             </div>
             <br>
-            <div class="card">
-                <div>
-                    <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Type: Railway</li>
-                </div>
-                <div class="typeAlign dropleft">
-                    <i class="fas fa-bars" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 15px;"></i>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <button class="dropdown-item" type="button">Edit</button>
-                        <button class="dropdown-item" type="button">Delete</button>
-                    </div>
-                </div>
-                <div class="row" style="padding-left: 9px;margin-top: -40px;">
+            <div *ngFor="let post of postsList;index as i;">
+                <div class="card">
                     <div>
-                        <img width="80" height="80" style="padding: 18px;" alt="ThemeMountain" src="assets/images/user.png">
+                        <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Type: {{post.model}}</li>
                     </div>
-                    <div style="margin-left: -48px;margin-top: 12px;">
-                        <ul>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <b>Durgarao Asapu</b>
-                                </a>
-                            </li>
-                            <li class="text-muted">2 min ago</li>
-                        </ul>
+                    <div class="typeAlign dropleft">
+                        <i class="fas fa-bars" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 15px;"></i>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <button class="dropdown-item" type="button">Edit</button>
+                            <button class="dropdown-item" type="button">Delete</button>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <h4 class="post-text">
-                        <p>{{longStr | slice:0:maxLength}}
-                            <label *ngIf="longStr.length > maxLength">...</label>
-                            <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="longStr.length > maxLength" (click)="showAll()" href="javascript:void(0);">see more</a>
-                        </p>
-                    </h4>
-                </div>
-                <div>
-                    <img src="assets/images/jobnotification.jpg" style="max-width: 100%;
+                    <div class="row" style="padding-left: 9px;margin-top: -40px;">
+                        <div>
+                            <img width="80" height="80" style="padding: 18px;" alt="UserProfilePic" src="assets/images/user.png">
+                        </div>
+                        <div style="margin-left: -48px;margin-top: 12px;">
+                            <ul>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <b>{{post.userProfile.userName}}</b>
+                                    </a>
+                                </li>
+                                <!-- <li class="text-muted">2 min ago</li> -->
+                                <li class="text-muted">{{post.createTime | date: 'dd/MM/yyyy'}}</li>
+                                <!-- <li class="text-muted">{{post.time}}</li> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="post-text">
+                            <p>
+                                {{post.postText | slice:0:post.maxLength}}
+                                <label *ngIf="post.postText.length > post.maxLength">...</label>
+                                <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="post.postText.length > post.maxLength" (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see more</a>
+                            </p>
+                        </h4>
+                    </div>
+                    <div>
+                        <img src="assets/images/jobnotification.jpg" style="max-width: 100%;
                         max-height: 100%;padding: 7px;" class="rounded" alt="Post">
-                </div>
-                <hr>
-                <div>
-                    <ul class="list-inline">
-                        <li class="list-inline-item paddingIcons">
-                            <i class="far fa-thumbs-up iconSize"></i>
-                            <strong>12</strong>
-                        </li>
-                        <li class="list-inline-item paddingIcons">
-                            <i class="far fa-thumbs-down iconSize"></i>
-                            <strong>3</strong>
-                        </li>
-                        <li class="list-inline-item paddingIcons">
-                            <i class="fas fa-comments iconSize"></i>
-                            <a>
-                                <strong>200</strong>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <hr style="margin-top: -5px;">
-                    <div class="row" style="padding-left: 45px;margin-top: -23px;">
-                        <div>
-                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ThemeMountain" src="assets/images/user.png">
-                        </div>
-                        <div style="margin-left: -48px;margin-top: 12px;">
-                            <ul>
-                                <li>
-                                    <a style="font-size: 11px;" href="javascript:void(0);">
-                                        <b>Durgarao Asapu</b>
-                                    </a>
-                                </li>
-                                <li style="font-size: 10px;">2 min ago</li>
-                                <li>
-                                    <p>1st comment</p>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
-                    <div class="row" style="padding-left: 45px;margin-top: -23px;">
-                        <div>
-                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ThemeMountain" src="assets/images/user.png">
-                        </div>
-                        <div style="margin-left: -48px;margin-top: 12px;">
-                            <ul>
-                                <li>
-                                    <a style="font-size: 11px;" href="javascript:void(0);">
-                                        <b>Durgarao Asapu</b>
-                                    </a>
-                                </li>
-                                <li style="font-size: 10px;">2 min ago</li>
-                                <li>
-                                    <p>2nd comment</p>
-                                </li>
-                            </ul>
-                        </div>
+                    <hr>
+                    <div>
+                        <ul class="list-inline">
+                            <li class="list-inline-item paddingIcons">
+                                <i class="far fa-thumbs-up iconSize"></i>&nbsp;&nbsp;
+                                <strong>12</strong>
+                            </li>
+                            <li class="list-inline-item paddingIcons">
+                                <i class="far fa-thumbs-down iconSize"></i>&nbsp;&nbsp;
+                                <strong>3</strong>
+                            </li>
+                            <li class="list-inline-item paddingIcons" (click)="post.selectComments = !post.selectComments;">
+                                <i class="fas fa-comments iconSize"></i>&nbsp;&nbsp;
+                                <a>
+                                    <strong>200</strong>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <div style="margin-left: 45px;padding: 10px;">
-                        <form>
-                            <div class="input-group">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default">
-                                        <i class="fas fa-share-square"></i>
-                                    </button>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Add a comment..">
+                    <div *ngIf="post.selectComments">
+                        <hr style="margin-top: -5px;">
+                        <div class="row" style="padding-left: 45px;margin-top: -23px;">
+                            <div>
+                                <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ThemeMountain" src="assets/images/user.png">
                             </div>
-                        </form>
+                            <div style="margin-left: -48px;margin-top: 12px;">
+                                <ul>
+                                    <li>
+                                        <a style="font-size: 11px;" href="javascript:void(0);">
+                                            <b>Durgarao Asapu</b>
+                                        </a>
+                                    </li>
+                                    <li style="font-size: 10px;">2 min ago</li>
+                                    <li>
+                                        <p>1st comment</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-left: 45px;margin-top: -23px;">
+                            <div>
+                                <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ThemeMountain" src="assets/images/user.png">
+                            </div>
+                            <div style="margin-left: -48px;margin-top: 12px;">
+                                <ul>
+                                    <li>
+                                        <a style="font-size: 11px;" href="javascript:void(0);">
+                                            <b>Durgarao Asapu</b>
+                                        </a>
+                                    </li>
+                                    <li style="font-size: 10px;">2 min ago</li>
+                                    <li>
+                                        <p>2nd comment</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="margin-left: 45px;padding: 10px;">
+                            <form>
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default">
+                                            <i class="fas fa-share-square"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Add a comment..">
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
+                <br>
             </div>
-            <br>
-            <div class="card">
-                <div>
-                    <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Type: Railway</li>
-                </div>
-                <div class="typeAlign">
-
-                    <a sytle="color:black;" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-bars" style="font-size: 15px;"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <button class="dropdown-item" type="button">Edit</button>
-                        <button class="dropdown-item" type="button">Delete</button>
-                    </div>
-                </div>
-                <div class="row" style="padding-left: 9px;margin-top: -40px;">
-                    <div>
-                        <img width="80" height="80" style="padding: 18px;" alt="ThemeMountain" src="assets/images/user.png">
-                    </div>
-                    <div style="margin-left: -48px;margin-top: 12px;">
-                        <ul>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <b>Durgarao Asapu</b>
-                                </a>
-                            </li>
-                            <li class="text-muted">2 min ago</li>
-                        </ul>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="post-text">
-                        <label>RAILWAY RECRUITMENT GROUP D NOTIFICATION 2018 - 62,907 VACANCIES</label>
-                    </h4>
-                </div>
-                <div>
-                    <img src="assets/images/jobnotification.jpg" style="max-width: 100%;
-                            max-height: 100%;padding: 7px;" class="rounded" alt="Post">
-                </div>
+            <div style="margin-left: 50%;" *ngIf="showPostSpinner">
+                <div class="loader"></div>
             </div>
-            <br>
-            <div class="card">
-                <div>
-                    <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Type: Railway</li>
-                </div>
-                <div class="typeAlign">
-
-                    <a sytle="color:black;" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-bars" style="font-size: 15px;"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <button class="dropdown-item" type="button">Edit</button>
-                        <button class="dropdown-item" type="button">Delete</button>
-                    </div>
-                </div>
-                <div class="row" style="padding-left: 9px;margin-top: -40px;">
-                    <div>
-                        <img width="80" height="80" style="padding: 18px;" alt="ThemeMountain" src="assets/images/user.png">
-                    </div>
-                    <div style="margin-left: -48px;margin-top: 12px;">
-                        <ul>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <b>Durgarao Asapu</b>
-                                </a>
-                            </li>
-                            <li class="text-muted">2 min ago</li>
-                        </ul>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="post-text">
-                        <label>RAILWAY RECRUITMENT GROUP D NOTIFICATION 2018 - 62,907 VACANCIES</label>
-                    </h4>
-                </div>
-                <div>
-                    <img src="assets/images/jobnotification.jpg" style="max-width: 100%;
-                                max-height: 100%;padding: 7px;" class="rounded" alt="Post">
-                </div>
-            </div>
-            <br>
-            <div class="card">
-                <div>
-                    <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Type: Railway</li>
-                </div>
-                <div class="typeAlign">
-
-                    <a sytle="color:black;" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-bars" style="font-size: 15px;"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <button class="dropdown-item" type="button">Edit</button>
-                        <button class="dropdown-item" type="button">Delete</button>
-                    </div>
-                    <!-- </div> -->
-                </div>
-                <div class="row" style="padding-left: 9px;margin-top: -40px;">
-                    <div>
-                        <img width="80" height="80" style="padding: 18px;" alt="ThemeMountain" src="assets/images/user.png">
-                    </div>
-                    <div style="margin-left: -48px;margin-top: 12px;">
-                        <ul>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <b>Durgarao Asapu</b>
-                                </a>
-                            </li>
-                            <li class="text-muted">2 min ago</li>
-                        </ul>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="post-text">
-                        <label>RAILWAY RECRUITMENT GROUP D NOTIFICATION 2018 - 62,907 VACANCIES</label>
-                    </h4>
-                </div>
-                <div>
-                    <img src="assets/images/jobnotification.jpg" style="max-width: 100%;
-                                    max-height: 100%;padding: 7px;" class="rounded" alt="Post">
-                </div>
+            <div class="text-center" *ngIf="!showPostSpinner">
+                <a *ngIf="postsCommentsList?.length < 5" href="javascript:void(0);" (click)="loadMorePosts()"> Show more </a>
             </div>
         </div>
-        <div class="col-md-2"  *ngIf="!isMobile">
+        <div class="col-md-2" *ngIf="!isMobile">
             <right-menu></right-menu>
         </div>
     </div>
 </div>
 
 
+<!-- Create post dialog code -->
 <section>
     <div class="modal fade" id="myModal">
         <div class="modal-dialog modal-dialog-centered">
