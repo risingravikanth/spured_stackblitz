@@ -21,8 +21,26 @@ export class UserProfileComponent implements OnInit {
 
   constructor(private router: Router, private formbuilder: FormBuilder, private service: UserProfileService, private customValidator: CustomValidator) { }
 
-  ngOnInit(){
-    
+  public profileLoader = false;
+  public educationLoader = false;
+  public examLoader = false;
+  public examuralLoader = false;
+  public mypostsLoader = false;
+  ngOnInit() {
+    this.loadProfileDetails();
+  }
+
+  loadProfileDetails() {
+    console.log("get profile details");
+  }
+  loadEducationDetails() {
+    console.log("get education details");
+  }
+  loadExamDetails() {
+    console.log("get exam details");
+  }
+  loadExamuralDetails() {
+    console.log("get examural details");
   }
 
 

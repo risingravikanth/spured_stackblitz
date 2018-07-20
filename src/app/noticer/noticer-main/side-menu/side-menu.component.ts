@@ -52,7 +52,6 @@ export class SideMenuComponent implements OnInit {
   }
 
   showSectionSettingsM() {
-    // this.myFunction();
     this.varShowSectionSettings = false;
     this.varShowSectionOptions = true;
   }

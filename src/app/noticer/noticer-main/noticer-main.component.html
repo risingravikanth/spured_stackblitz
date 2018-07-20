@@ -67,15 +67,15 @@
                     <hr>
                     <div>
                         <ul class="list-inline">
-                            <li class="list-inline-item paddingIcons">
+                            <li class="list-inline-item paddingIcons" style="cursor: pointer;">
                                 <i class="far fa-thumbs-up iconSize"></i>&nbsp;&nbsp;
                                 <strong>12</strong>
                             </li>
-                            <li class="list-inline-item paddingIcons">
+                            <li class="list-inline-item paddingIcons" style="cursor: pointer;">
                                 <i class="far fa-thumbs-down iconSize"></i>&nbsp;&nbsp;
                                 <strong>3</strong>
                             </li>
-                            <li class="list-inline-item paddingIcons" (click)="post.selectComments = !post.selectComments;">
+                            <li class="list-inline-item paddingIcons" style="cursor: pointer;" (click)="post.selectComments = !post.selectComments;">
                                 <i class="fas fa-comments iconSize"></i>&nbsp;&nbsp;
                                 <a>
                                     <strong>200</strong>
@@ -159,7 +159,7 @@
                 <div class="modal-body">
                     <div class="well">
                         <form class="form-horizontal" role="form">
-                            <h4>What's your question</h4>
+                            <h5><b>What's your question??</b></h5>
                             <div class="form-group" style="padding:14px;">
                                 <textarea class="form-control" placeholder="Write your question...."></textarea>
                             </div>
@@ -170,11 +170,13 @@
                                         <i class="fas fa-upload"></i>
                                     </a>
                                 </li>
+                                &nbsp;
                                 <li class="list-inline-item">
                                     <a href="" class="postIconColor">
                                         <i class="fas fa-camera"></i>
                                     </a>
                                 </li>
+                                &nbsp;
                                 <li class="list-inline-item">
                                     <a href="" class="postIconColor">
                                         <i class="fas fa-map-marker-alt"></i>

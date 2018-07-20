@@ -1,26 +1,96 @@
 <div class="container marTop50">
 
-    <h4>User Profile page</h4>
+    <h4>Profile</h4>
     <hr>
     <div class="row">
-        <div class="col-4">
-            <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab"
-                    aria-controls="home">Home</a>
-                <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab"
-                    aria-controls="profile">Profile</a>
-                <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab"
-                    aria-controls="messages">Messages</a>
-                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab"
-                    aria-controls="settings">Settings</a>
+        <div class="card bg-light text-center col-md-2">
+            <div style="padding-top: 10%;">
+                <img class="card-img-top" src="assets/images/user.png" alt="Card image" style="width:80%;border-radius: 150px;">
+            </div>
+            <div class="card-body">
+                <h6 class="card-title">Durgarao Asapu</h6>
+                <p class="card-text">Sudheer</p>
+                <p class="card-text">Ravikanth</p>
+                <p class="card-text">ADR Technologies</p>
             </div>
         </div>
-        <div class="col-8">
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">home 13</div>
-                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">profile</div>
-                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">msgs</div>
-                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">settingssss</div>
+        <div class="card border-light col-md-10" style="padding-right: 0px;padding-left: 3px;">
+            <div class="card-header">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a (click)="loadEducationDetails()" class="nav-link" id="education-tab" data-toggle="tab" href="#education" role="tab" aria-controls="education"
+                            aria-selected="false">Education Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="exams-tab" data-toggle="tab" href="#exams" role="tab" aria-controls="exams" aria-selected="false">Exams Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="examural-tab" data-toggle="tab" href="#examural" role="tab" aria-controls="examural" aria-selected="false">Examural Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="mypost-tab" data-toggle="tab" href="#mypost" role="tab" aria-controls="mypost" aria-selected="false">MyPosts</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                    <div class="float-right" style="padding: 1%;">
+                        <a href="javascript:void(0);" class="tooltip-test" title="Edit profile details">
+                            <small class="text-muted">Edit</small>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            <label>Durgarao Asapu</label>,
+                            <label>Male</label>
+                        </h6>
+                        <h6 class="card-title">
+                            <label style="width: 10%;">Birthday</label>:
+                            <label>09-03-1996</label>
+                        </h6>
+                        <h6 class="card-title">
+                            <label style="width: 10%;">Email:</label>:
+                            <label>durgaraoa@technologies.com</label>
+                        </h6>
+                        <h6 class="card-title">
+                            <label style="width: 10%;">Reg Date:</label>:
+                            <label>20-07-2018</label>
+                        </h6>
+                        <h6 class="card-title">
+                            <label style="width: 10%;">Phone:</label>:
+                            <label>8500506013</label>
+                        </h6>
+                        <h6 class="card-title">
+                            <label style="width: 10%;">Address:</label>:
+                            <label>Madhapur, Hyderabad, 500083</label>
+                        </h6>
+                    </div>
+                    <!-- <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm"> -->
+                </div>
+                <div class="tab-pane fade" id="education" role="tabpanel" aria-labelledby="education-tab">
+                    <div class="card-body">
+                        <div class="loader"></div>
+                        <h6 class="card-title">Education details</h6>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="exams" role="tabpanel" aria-labelledby="exams-tab">
+                    <div class="card-body">
+                        <h6 class="card-title">Exams details</h6>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="examural" role="tabpanel" aria-labelledby="examural-tab">
+                    <div class="card-body">
+                        <h6 class="card-title">Examural details</h6>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="mypost" role="tabpanel" aria-labelledby="mypost-tab">
+                    <div class="card-body">
+                        <h6 class="card-title">My Post details</h6>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
