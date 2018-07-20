@@ -8,6 +8,8 @@ import { NoticerComponent } from './noticer/noticer.component';
 import { NoticerMainComponent } from './noticer/noticer-main/noticer-main.component';
 import { UserProfileComponent } from './noticer/user-profile/user-profile.component';
 import { MenuMobileComponent } from './noticer/noticer-main/menu-mobile/menu-mobile.component';
+import { HelpComponent } from './noticer/help/help.component';
+import { SettingsComponent } from './noticer/settings/settings.component';
 
 const routes: Routes = [
     {
@@ -25,6 +27,14 @@ const routes: Routes = [
           {
             path: 'mobile-menu',
             component: MenuMobileComponent
+          },
+          {
+            path: 'help',
+            component: HelpComponent
+          },
+          {
+            path: 'settings',
+            component: SettingsComponent
           }
         ]
     },

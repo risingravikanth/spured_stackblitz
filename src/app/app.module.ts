@@ -29,6 +29,8 @@ import { NotFoundModule } from './not-found/not-found.module';
 import { UserProfileModule } from './noticer/user-profile/user-profile.module';
 import { NoticerModule } from './noticer/noticer.module';
 import { NoticerMainModule } from './noticer/noticer-main/noticer-main.module';
+import { HelpModule } from './noticer/help/help.module';
+import { SettingsModule } from './noticer/settings/settings.module';
 
 
 @NgModule({
@@ -51,7 +53,9 @@ import { NoticerMainModule } from './noticer/noticer-main/noticer-main.module';
         NotFoundModule,
         UserProfileModule,
         NoticerModule,
-        NoticerMainModule
+        NoticerMainModule,
+        HelpModule,
+        SettingsModule
     ],
     providers: [
         AuthGuard,
