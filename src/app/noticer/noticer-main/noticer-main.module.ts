@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule, MatDialogModule, MatProgressSpinnerModule, MatExpansionModule, MatListModule, MatFormFieldModule } from '@angular/material';
-import { CalendarModule, GrowlModule, DialogModule } from "primeng/primeng";
+import { MatAutocompleteModule, MatDialogModule, MatProgressSpinnerModule, MatExpansionModule, MatListModule, MatFormFieldModule, MatSelectModule } from '@angular/material';
+import { CalendarModule, GrowlModule, DialogModule, MultiSelectModule } from "primeng/primeng";
 import { NoticerMainComponent } from './noticer-main.component';
 import { NoticerMainRoutingModule } from './noticer-main-routing.module';
 import { SideMenuComponent } from './side-menu/side-menu.component';
@@ -19,6 +19,8 @@ import { RightMenuComponent } from './right-menu/right-menu.component';
     NoticerMainRoutingModule,
     MatListModule,
     MatFormFieldModule,
+    CalendarModule,
+    MultiSelectModule,
     NgbModule.forRoot()
   ],
   declarations: [

@@ -13,10 +13,8 @@
                     </div>
                     <div style="width: 80%;">
                         <h3 class="question-text">
-                            <a style="color: #154f65;" href="javascript:void(0);" data-toggle="modal" data-target="#myModal" (click)="postQuestionDialog()"
-                                *ngIf="questionName?.length == 0">Add your question</a>
-                            <a style="color: #154f65;" href="javascript:void(0);" data-toggle="modal" data-target="#myModal" (click)="postQuestionDialog()"
-                                *ngIf="questionName?.length > 0">Add your question on {{questionName}}</a>
+                            <a style="color: #154f65;" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)" *ngIf="questionName?.length == 0">Add your question</a>
+                            <a style="color: #154f65;" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)" *ngIf="questionName?.length > 0">Add your question on <font color="red">{{questionName}}</font></a>
                         </h3>
                     </div>
                 </div>
@@ -24,8 +22,10 @@
             <br>
             <div *ngFor="let post of postsList;index as i;">
                 <div class="card">
-                    <div>
-                        <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Type: {{post.model}}</li>
+                    <div *ngIf="post._type != 'EventsPost'">
+                        <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Category: {{post.category | uppercase}}, Model: {{post.model}}</li>
+                    </div>
+                    <div *ngIf="post._type == 'EventsPost'" style="margin-top: 10px;">
                     </div>
                     <div class="typeAlign dropleft">
                         <i class="fas fa-bars" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 15px;"></i>
@@ -42,7 +42,7 @@
                             <ul>
                                 <li>
                                     <a href="javascript:void(0);">
-                                        <b>{{post.userProfile.userName}}</b>
+                                        <b>{{post.userProfile ? post.userProfile.userName : '-NA-'}}</b>
                                     </a>
                                 </li>
                                 <!-- <li class="text-muted">2 min ago</li> -->
@@ -52,17 +52,44 @@
                         </div>
                     </div>
                     <div>
+                        <div *ngIf="post._type == 'EventsPost'">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <b class="eventColor">Category: </b> {{post.eventCategory}}</td>
+                                    <td>
+                                        <b class="eventColor">Type: </b>{{post.eventType}}</td>
+                                    <td *ngIf="post.fromdate && post.todate">
+                                        <b class="eventColor">
+                                            <i class="fas fa-calendar-alt"></i> Dates: </b>{{post.fromdate}} to {{post.todate}}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b class="eventColor">Topic: </b> {{post.topic}}</td>
+                                    <td *ngIf="post.website">
+                                        <b class="eventColor">Website: </b>
+                                        <a [href]="post.website" target="_blank">{{post.website}}</a>
+                                    </td>
+                                    <td *ngIf="post.contacts">
+                                        <b class="eventColor">
+                                            <i class="fas fa-phone-square"></i> Phone: </b> {{post.contacts}}</td>
+                                </tr>
+                            </table>
+                            <br>
+                        </div>
                         <h4 class="post-text">
+                            <!-- [innerHTML] -->
                             <p>
                                 {{post.postText | slice:0:post.maxLength}}
                                 <label *ngIf="post.postText.length > post.maxLength">...</label>
-                                <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="post.postText.length > post.maxLength" (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see more</a>
+                                <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="post.postText.length > post.maxLength" (click)="post.maxLength = post.postText.length"
+                                    href="javascript:void(0);">see more</a>
                             </p>
                         </h4>
                     </div>
                     <div>
-                        <img src="assets/images/jobnotification.jpg" style="max-width: 100%;
-                        max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                        <!-- <img src="assets/images/jobnotification.jpg" style="max-width: 100%;
+                        max-height: 100%;padding: 7px;" class="rounded" alt="Post"> -->
                     </div>
                     <hr>
                     <div>
@@ -78,7 +105,7 @@
                             <li class="list-inline-item paddingIcons" style="cursor: pointer;" (click)="post.selectComments = !post.selectComments;">
                                 <i class="fas fa-comments iconSize"></i>&nbsp;&nbsp;
                                 <a>
-                                    <strong>200</strong>
+                                    <strong>{{post.commentsCount}}</strong>
                                 </a>
                             </li>
                         </ul>
@@ -153,40 +180,108 @@
 
 <!-- Create post dialog code -->
 <section>
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="well">
-                        <form class="form-horizontal" role="form">
-                            <h5><b>What's your question??</b></h5>
-                            <div class="form-group" style="padding:14px;">
-                                <textarea class="form-control" placeholder="Write your question...."></textarea>
-                            </div>
-                            <button class="btn btn-primary float-right" type="button">Post</button>
-                            <ul class="list-inline postIcons">
-                                <li class="list-inline-item">
-                                    <a href="" class="postIconColor">
-                                        <i class="fas fa-upload"></i>
-                                    </a>
-                                </li>
-                                &nbsp;
-                                <li class="list-inline-item">
-                                    <a href="" class="postIconColor">
-                                        <i class="fas fa-camera"></i>
-                                    </a>
-                                </li>
-                                &nbsp;
-                                <li class="list-inline-item">
-                                    <a href="" class="postIconColor">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </form>
+    <ng-template #postDialog let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">What's your question?</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form>
+            <div class="modal-body">
+                <div class="form-group" style="padding:12px;">
+                    <textarea class="form-control" placeholder="Write your question...."></textarea>
+                </div>
+                <div class="row" style="padding-left:12px;padding-right: 12px;">
+                    <div class="form-group col-md-4">
+                        <!-- <label>Category: </label> -->
+                        <select class="form-control form-control-sm">
+                            <option>Type</option>
+                            <option>Verbal</option>
+                            <option>Quants</option>
+                            <option>Events</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <!-- <label>Category: </label> -->
+                        <select class="form-control form-control-sm">
+                            <option>Category</option>
+                            <option>CAT</option>
+                            <option>GMAT</option>
+                            <option>MAT</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <!-- <label>Modal: </label> -->
+                        <select class="form-control form-control-sm">
+                            <option>Modal</option>
+                            <option>Aptitude</option>
+                            <option>Reasoning</option>
+                        </select>
                     </div>
                 </div>
+                <div class="row" style="padding-left:12px;padding-right: 12px;">
+                    <div class="form-group col-md-4">
+                        <input class="form-control form-control-sm" type="text" placeholder="Topic">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control form-control-sm" type="text" placeholder="Website">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control form-control-sm" type="text" placeholder="Contacts">
+                    </div>
+                </div>
+                <div class="row" style="padding-left:12px;padding-right: 12px;">
+                    <div class="form-group col-md-4">
+                        <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="To Date"></p-calendar>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="From Date"></p-calendar>
+                    </div>
+                    <div class="col-md-4">
+                        <p-multiSelect [options]="audienceList" defaultLabel="Audience"></p-multiSelect>
+                    </div>
+                </div>
+                <div style="padding-left: 50px;">
+                    <img *ngFor="let url of urls" [src]="url" class="rounded mb-3" width="100" height="100">
+                </div>
             </div>
-        </div>
-    </div>
+            <div class="row" style="padding-left:12px;padding-right: 12px;">
+                <div class="form-group col-md-4">
+                    <!-- <label>Category: </label> -->
+                    <select class="form-control form-control-sm">
+                        <option>State</option>
+                        <option>AP/option>
+                            <option>TS</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <!-- <label>Category: </label> -->
+                    <select class="form-control form-control-sm">
+                        <option>Instituted</option>
+                        <option>IIIT</option>
+                        <option>RGUKT</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <!-- <label>Modal: </label> -->
+                    <select class="form-control form-control-sm">
+                        <option>Department</option>
+                        <option>CSE</option>
+                        <option>ECE</option>
+                    </select>
+                </div>
+            </div>
+            <ul class="list-inline postIcons">
+                <span class="btn btn-light btn-file">
+                    <i class="fas fa-camera"></i> Browse photos
+                    <input type="file" multiple (change)="detectFiles($event)">
+                </span>
+            </ul>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-success" (click)="saveModelSecions()">Post</button>
+            </div>
+        </form>
+    </ng-template>
 </section>

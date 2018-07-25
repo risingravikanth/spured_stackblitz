@@ -8,6 +8,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { routerTransition } from '../../../router.animations';
 import { CommonService } from '../../../shared/services/common.service';
 import { Section } from '../../../shared/models/section.model';
+import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'side-menu',
@@ -18,7 +19,7 @@ import { Section } from '../../../shared/models/section.model';
 })
 export class SideMenuComponent implements OnInit {
 
-  constructor(private router: Router, private formbuilder: FormBuilder, private commonService: CommonService, private customValidator: CustomValidator) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private commonService: CommonService, private customValidator: CustomValidator, private modalService:NgbModal) { }
 
   @ViewChild('myTopnav') el: ElementRef;
 
@@ -31,6 +32,10 @@ export class SideMenuComponent implements OnInit {
   public questionName: any = '';
   public selected: any;
 
+  closeResult: string;
+  public sectionModalReference:NgbModalRef;
+  public categoryModalReference:NgbModalRef;
+
   ngOnInit() {
     this.initTypes();
 
@@ -39,8 +44,18 @@ export class SideMenuComponent implements OnInit {
     });
   }
 
+  private getDismissReason(reason: any): string {
+    console.log(reason);
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
 
-
+ 
   saveSectionSettings() {
 
   }
@@ -57,11 +72,34 @@ export class SideMenuComponent implements OnInit {
   }
 
 
-  showAddCategoryDialog() {
-    alert("add category");
+  showAddCategoryDialog(content:any) {
+    console.log("add category");
+    this.categoryModalReference = this.modalService.open(content);
+    this.categoryModalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      console.log(this.closeResult);
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
   }
-  showAddSectionDialog() {
-    alert("add section");
+
+  showAddSectionDialog(content:any) {
+    console.log("add section");
+    this.sectionModalReference = this.modalService.open(content);
+    this.sectionModalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+
+  saveModelCategories(){
+    this.categoryModalReference.close();
+  }
+
+  saveModelSecions(){
+    this.sectionModalReference.close();
   }
 
 

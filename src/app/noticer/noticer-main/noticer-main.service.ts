@@ -29,13 +29,13 @@ export class NoticerMainService {
         return this.httpClient.post(url, JSON.parse(data));
     }
 
-    
+
     getDist(value) {
         let url = "/api/address/getDistricts";
         let params = { params: new HttpParams().set('stateId', value) };
         return this.httpClient.get(url, params);
     }
-    
+
     getFavoriteBoards() {
         let url: string;
         if (constants.isLive) {
@@ -48,7 +48,7 @@ export class NoticerMainService {
         return this.httpClient.post(url, JSON.stringify(data), { headers: headers });
     }
 
-    createVerbalPost(body:any) {
+    createVerbalPost(body: any) {
         let url: string;
         if (constants.isLive) {
             url = "/api/createVerbalPost";
@@ -59,14 +59,17 @@ export class NoticerMainService {
         return this.httpClient.post(url, JSON.stringify(body), { headers: headers });
     }
 
-    getPostsList(body:any) {
+    getPostsList(body: any) {
         let url: string;
         if (constants.isLive) {
             url = "/api/getPosts";
         } else {
-            url = "/verbal/post/getpostbycategory";
+            url = "/posts/create";
         }
         let headers = new HttpHeaders().set("Content-Type", "application/json");
+        headers.append('Access-Control-Allow-Headers', 'Content-Type');
+        headers.append('Access-Control-Allow-Methods', 'GET');
+        headers.append('Access-Control-Allow-Origin', 'http://139.59.6.52:8080');
         return this.httpClient.post(url, JSON.stringify(body), { headers: headers });
     }
 }
