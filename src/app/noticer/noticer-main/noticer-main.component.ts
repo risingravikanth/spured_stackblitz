@@ -127,7 +127,7 @@ export class NoticerMainComponent implements OnInit {
     )
   }
 
-
+  
   selectedCategory(data: Section) {
     if (data) {
       this.questionName = '';

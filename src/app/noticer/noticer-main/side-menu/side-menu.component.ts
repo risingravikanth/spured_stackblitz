@@ -8,7 +8,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { routerTransition } from '../../../router.animations';
 import { CommonService } from '../../../shared/services/common.service';
 import { Section } from '../../../shared/models/section.model';
-import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'side-menu',
@@ -19,7 +19,7 @@ import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-boots
 })
 export class SideMenuComponent implements OnInit {
 
-  constructor(private router: Router, private formbuilder: FormBuilder, private commonService: CommonService, private customValidator: CustomValidator, private modalService:NgbModal) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private commonService: CommonService, private customValidator: CustomValidator, private modalService: NgbModal) { }
 
   @ViewChild('myTopnav') el: ElementRef;
 
@@ -33,8 +33,8 @@ export class SideMenuComponent implements OnInit {
   public selected: any;
 
   closeResult: string;
-  public sectionModalReference:NgbModalRef;
-  public categoryModalReference:NgbModalRef;
+  public sectionModalReference: NgbModalRef;
+  public categoryModalReference: NgbModalRef;
 
   ngOnInit() {
     this.initTypes();
@@ -51,11 +51,11 @@ export class SideMenuComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
 
- 
+
   saveSectionSettings() {
 
   }
@@ -72,7 +72,7 @@ export class SideMenuComponent implements OnInit {
   }
 
 
-  showAddCategoryDialog(content:any) {
+  showAddCategoryDialog(content: any) {
     console.log("add category");
     this.categoryModalReference = this.modalService.open(content);
     this.categoryModalReference.result.then((result) => {
@@ -83,7 +83,7 @@ export class SideMenuComponent implements OnInit {
     });
   }
 
-  showAddSectionDialog(content:any) {
+  showAddSectionDialog(content: any) {
     console.log("add section");
     this.sectionModalReference = this.modalService.open(content);
     this.sectionModalReference.result.then((result) => {
@@ -94,19 +94,26 @@ export class SideMenuComponent implements OnInit {
   }
 
 
-  saveModelCategories(){
+  saveModelCategories() {
     this.categoryModalReference.close();
   }
 
-  saveModelSecions(){
+  saveModelSecions() {
     this.sectionModalReference.close();
   }
 
 
+  public selectedItem;
   selectedCategory(sec: any, cat: any) {
     let data = new Section();
     data.section = sec;
     data.category = cat;
+    if (cat == "HOME") {
+      this.selectedItem = sec+"HOME"
+    } else {
+      this.selectedItem = sec+cat;
+    }
+
     this.commonService.updateByFilter(data);
   }
 
@@ -135,7 +142,7 @@ export class SideMenuComponent implements OnInit {
     this.menuList = [
       {
         "title": "Topics",
-        "select":false,
+        "select": false,
         "sections": [
           {
             "name": "Quants",
@@ -203,7 +210,7 @@ export class SideMenuComponent implements OnInit {
       },
       {
         "title": "Boards",
-        "select":false,
+        "select": false,
         "sections": [
           {
             "name": "Open",
