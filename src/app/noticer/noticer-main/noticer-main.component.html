@@ -13,8 +13,10 @@
                     </div>
                     <div style="width: 80%;">
                         <h3 class="question-text">
-                            <a style="color: #154f65;" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)" *ngIf="questionName?.length == 0">Add your question</a>
-                            <a style="color: #154f65;" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)" *ngIf="questionName?.length > 0">Add your question on <font color="red">{{questionName}}</font></a>
+                            <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)" *ngIf="questionName?.length == 0">Add your question</a>
+                            <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)" *ngIf="questionName?.length > 0">Add your question on
+                                <font color="red">{{questionName}}</font>
+                            </a>
                         </h3>
                     </div>
                 </div>
@@ -182,7 +184,9 @@
 <section>
     <ng-template #postDialog let-c="close" let-d="dismiss">
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">What's your question?</h4>
+            <h5 class="modal-title" id="modal-basic-title">
+                <b>Add Question</b>
+            </h5>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -190,7 +194,7 @@
         <form>
             <div class="modal-body">
                 <div class="form-group" style="padding:12px;">
-                    <textarea class="form-control" placeholder="Write your question...."></textarea>
+                    <textarea class="form-control" placeholder="What is your question?"></textarea>
                 </div>
                 <div class="row" style="padding-left:12px;padding-right: 12px;">
                     <div class="form-group col-md-4">

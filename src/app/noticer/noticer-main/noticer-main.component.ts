@@ -66,6 +66,7 @@ export class NoticerMainComponent implements OnInit {
         this.selectedCategory(resData);
       }
     )
+    this.questionName = "";
   }
 
 

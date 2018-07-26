@@ -98,3 +98,10 @@ li {
   .eventColor {
       color: brown;
   }
+
+  .addQuestion{
+    color: black;
+    font-size: 95%;
+    font-family: cursive;
+    font-weight: 200;
+  }

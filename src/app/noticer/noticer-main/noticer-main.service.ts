@@ -67,9 +67,6 @@ export class NoticerMainService {
             url = "/posts/create";
         }
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        headers.append('Access-Control-Allow-Headers', 'Content-Type');
-        headers.append('Access-Control-Allow-Methods', 'GET');
-        headers.append('Access-Control-Allow-Origin', 'http://139.59.6.52:8080');
         return this.httpClient.post(url, JSON.stringify(body), { headers: headers });
     }
 }
