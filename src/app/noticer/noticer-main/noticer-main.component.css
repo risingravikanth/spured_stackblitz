@@ -105,3 +105,8 @@ li {
     font-family: cursive;
     font-weight: 200;
   }
+
+  .addPost{
+    padding-left:12px;
+    padding-right: 12px;
+  }

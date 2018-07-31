@@ -1,4 +1,4 @@
-export class PostRequest {
+export class GetRequest {
     context: Context;
     data: Data;
     pagination: Pagination;
@@ -16,4 +16,18 @@ export class Data {
 
 export class Context {
     type: string;
+}
+
+
+export class PostRequest {
+    data: Data;
+}
+
+export class PostData {
+    text: string;
+    images: Array<string>;
+    category: string;
+    model: string;
+    website: string;
+    contact: string;
 }

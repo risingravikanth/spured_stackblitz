@@ -25,10 +25,12 @@ import { ngExpressEngine } from '@nguniversal/express-engine';
 import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 import { renderModuleFactory } from '@angular/platform-server';
 import { readFileSync } from 'fs';
+import { PostRequest, Context, Data, Pagination } from './src/app/shared/models/request';
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
 var request = require("request");
 var https = require('https');
+var limitVal = 10;
 
 app.engine('html', (_, options, callback) => {
   renderModuleFactory(AppServerModuleNgFactory, {
@@ -44,6 +46,7 @@ app.engine('html', (_, options, callback) => {
   });
 });
 
+app.use(express.json());
 app.set('view engine', 'html');
 app.set('views', join(DIST_FOLDER, 'browser'));
 
@@ -105,6 +108,46 @@ app.post('/api/createVerbalPost', (req, res) => {
     }
     if (response) {
       console.log('   /api/createVerbalPost :- STATUS: ' + response.statusCode);
+      res.send(body);
+    }
+  });
+});
+
+
+app.post('/api/getPosts', (req, res) => {
+  console.log("Get posts");
+
+  let reqBody = { context: null, data: null, pagination: null };
+  reqBody.context = { type: null };
+  reqBody.data = { category: null, model: null };
+  reqBody.pagination = { limit: limitVal, offset: 0 };
+
+  if (req.body.type != undefined && req.body.type != null) {
+    reqBody.context.type = req.body.type;
+  }
+  if (req.body.category != undefined && req.body.category != null) {
+    reqBody.data.category = req.body.category;
+  }
+  if (req.body.model != undefined && req.body.model != null) {
+    reqBody.data.model = req.body.model;
+  }
+  if (req.body.page != undefined && req.body.page != null) {
+    reqBody.pagination.offset = req.body.page;
+  }
+  console.log(reqBody);
+
+  request.post({
+    "headers": { "content-type": "application/json" },
+    "url": "http://139.59.6.52:8080/SpringMvcJdbcTemplate/posts/create",
+    "body": reqBody,
+    json: true
+  }, (error, response, body) => {
+    if (error) {
+      console.log(error);
+      return res.send(error);
+    }
+    if (response) {
+      console.log('   /api/getPosts :- STATUS: ' + response.statusCode);
       res.send(body);
     }
   });

@@ -70,7 +70,7 @@
                                         <b class="eventColor">Topic: </b> {{post.topic}}</td>
                                     <td *ngIf="post.website">
                                         <b class="eventColor">Website: </b>
-                                        <a [href]="post.website" target="_blank">{{post.website}}</a>
+                                        <a href="www.google.com">{{post.website}}</a>
                                     </td>
                                     <td *ngIf="post.contacts">
                                         <b class="eventColor">
@@ -191,91 +191,113 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form>
-            <div class="modal-body">
+        <form [formGroup]="addPostForm">
+            <div class="modal-body" formGroupName="data">
+
                 <div class="form-group" style="padding:12px;">
-                    <textarea class="form-control" placeholder="What is your question?"></textarea>
+                    <textarea class="form-control" formControlName="text" placeholder="What is your question?"></textarea>
                 </div>
-                <div class="row" style="padding-left:12px;padding-right: 12px;">
-                    <div class="form-group col-md-4">
-                        <!-- <label>Category: </label> -->
-                        <select class="form-control form-control-sm">
-                            <option>Type</option>
-                            <option>Verbal</option>
-                            <option>Quants</option>
-                            <option>Events</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <!-- <label>Category: </label> -->
-                        <select class="form-control form-control-sm">
-                            <option>Category</option>
-                            <option>CAT</option>
-                            <option>GMAT</option>
-                            <option>MAT</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <!-- <label>Modal: </label> -->
-                        <select class="form-control form-control-sm">
-                            <option>Modal</option>
-                            <option>Aptitude</option>
-                            <option>Reasoning</option>
-                        </select>
+
+                <!-- Verbal/Quants post start -->
+                <div class="addPost" *ngIf="showAddPost.verbal || showAddPost.quants">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category" filter="true">
+                                <ng-template let-category pTemplate="item">
+                                    <span style="vertical-align:middle">{{category.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}" formControlName="model" filter="true">
+                                <ng-template let-model pTemplate="item">
+                                    <span style="vertical-align:middle">{{model.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
                     </div>
                 </div>
-                <div class="row" style="padding-left:12px;padding-right: 12px;">
-                    <div class="form-group col-md-4">
-                        <input class="form-control form-control-sm" type="text" placeholder="Topic">
+                <!-- Verbal/Quants post end -->
+
+                <!-- Events post start-->
+                <div class="addPost" *ngIf="showAddPost.events">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <p-dropdown placeholder=" State" [options]="states" [style]="{'width':'100%'}" formControlName="category" filter="true">
+                                <ng-template let-state pTemplate="item">
+                                    <span style="vertical-align:middle">{{state.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <p-dropdown placeholder=" Institute" [options]="models" [style]="{'width':'100%'}" formControlName="model" filter="true">
+                                <ng-template let-institute pTemplate="item">
+                                    <span style="vertical-align:middle">{{institute.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
                     </div>
-                    <div class="form-group col-md-4">
-                        <input class="form-control form-control-sm" type="text" placeholder="Website">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category" filter="true">
+                                <ng-template let-category pTemplate="item">
+                                    <span style="vertical-align:middle">{{category.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}" formControlName="model" filter="true">
+                                <ng-template let-model pTemplate="item">
+                                    <span style="vertical-align:middle">{{model.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
                     </div>
-                    <div class="form-group col-md-4">
-                        <input class="form-control form-control-sm" type="text" placeholder="Contacts">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="To Date"></p-calendar>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="From Date"></p-calendar>
+                        </div>
                     </div>
                 </div>
-                <div class="row" style="padding-left:12px;padding-right: 12px;">
-                    <div class="form-group col-md-4">
-                        <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="To Date"></p-calendar>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="From Date"></p-calendar>
-                    </div>
-                    <div class="col-md-4">
-                        <p-multiSelect [options]="audienceList" defaultLabel="Audience"></p-multiSelect>
+                <!-- Events post end-->
+
+                <!-- Careers post start -->
+                <div class="addPost" *ngIf="showAddPost.careers">
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category" filter="true">
+                                <ng-template let-category pTemplate="item">
+                                    <span style="vertical-align:middle">{{category.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}" formControlName="model" filter="true">
+                                <ng-template let-model pTemplate="item">
+                                    <span style="vertical-align:middle">{{model.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="col-md-4">
+                            <p-multiSelect [options]="audienceList" [style]="{'width':'100%','height':'34px'}" defaultLabel="Qualifications"></p-multiSelect>
+                        </div>
                     </div>
                 </div>
-                <div style="padding-left: 50px;">
-                    <img *ngFor="let url of urls" [src]="url" class="rounded mb-3" width="100" height="100">
+                <!-- Careers post end -->
+
+                <!-- Images list start-->
+                <div class="addPost">
+                    <div style="padding-left: 50px;">
+                        <img *ngFor="let url of urls" [src]="url" class="rounded mb-3" width="100" height="100">
+                    </div>
                 </div>
+                <!-- Images list end-->
             </div>
-            <div class="row" style="padding-left:12px;padding-right: 12px;">
-                <div class="form-group col-md-4">
-                    <!-- <label>Category: </label> -->
-                    <select class="form-control form-control-sm">
-                        <option>State</option>
-                        <option>AP/option>
-                            <option>TS</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <!-- <label>Category: </label> -->
-                    <select class="form-control form-control-sm">
-                        <option>Instituted</option>
-                        <option>IIIT</option>
-                        <option>RGUKT</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <!-- <label>Modal: </label> -->
-                    <select class="form-control form-control-sm">
-                        <option>Department</option>
-                        <option>CSE</option>
-                        <option>ECE</option>
-                    </select>
-                </div>
-            </div>
+            <!-- model end-->
+
             <ul class="list-inline postIcons">
                 <span class="btn btn-light btn-file">
                     <i class="fas fa-camera"></i> Browse photos
@@ -283,7 +305,6 @@
                 </span>
             </ul>
             <div class="modal-footer">
-
                 <button type="button" class="btn btn-success" (click)="saveModelSecions()">Post</button>
             </div>
         </form>

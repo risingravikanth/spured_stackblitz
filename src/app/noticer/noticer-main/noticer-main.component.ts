@@ -14,8 +14,8 @@ import { CommonService } from "../../shared/services/common.service";
 import { Section } from '../../shared/models/section.model';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
 import { timeAgo } from '../../shared/others/time-age';
-import { PostRequest, Pagination, Context, Data } from '../../shared/models/request';
-import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { Pagination, Context, Data, GetRequest } from '../../shared/models/request';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'noticer-main',
@@ -33,29 +33,40 @@ export class NoticerMainComponent implements OnInit {
     private customValidator: CustomValidator,
     private commonService: CommonService,
     public mobileService: MobileDetectionService,
-    private modalService:NgbModal) { }
+    private modalService: NgbModal) { }
 
   public questionName: any = '';
   public postsList: any = [];
   public showPostSpinner = false;
 
   public urls = new Array<string>();
-  public reqBody = new PostRequest();
+  public getRequestBody = new GetRequest();
 
-  public categoryModalReference:NgbModalRef;
+  public categoryModalReference: NgbModalRef;
   closeResult: string;
 
-  fromdate:Date;
-  todate:Date;
+  fromdate: Date;
+  todate: Date;
   public audienceList: any[];
+
+  addPostForm: FormGroup;
+
+  public showAddPost: any = {
+    careers: false,
+    events: false,
+    gk: false,
+    quants: false,
+    verbal: false,
+  }
+
   ngOnInit() {
     this.audienceList = [
-      {label: 'Computers', value: 'CSE'},
-      {label: 'Eletronics', value: 'ECE'},
-      {label: 'IT', value: 'IT'},
-      {label: 'MECH', value: 'MECH'},
-      {label: 'Chemical', value: 'CHEM'}
-  ];
+      { name: 'Computers', value: 'CSE' },
+      { label: 'Eletronics', value: 'ECE' },
+      { label: 'IT', value: 'IT' },
+      { label: 'MECH', value: 'MECH' },
+      { label: 'Chemical', value: 'CHEM' }
+    ];
     this.isMobile = this.mobileService.isMobile();
     // this.getFavBoards();
     // this.createVerbalPost();
@@ -67,26 +78,52 @@ export class NoticerMainComponent implements OnInit {
       }
     )
     this.questionName = "";
+    this.initAddPostForm();
+    this.intitDummyData();
+  }
+
+  initAddPostForm() {
+    this.addPostForm = this.formbuilder.group({
+      context: this.formbuilder.group({
+        type: [null, Validators.required]
+      }),
+      data: this.formbuilder.group({
+        text: [null, Validators.required],
+        images: [''],
+        category: [''],
+        model: [''],
+        deadline: [''],
+        qualifications: [''],
+        state: [''],
+        institute: [''],
+        fromdate: [''],
+        todate: ['']
+      }),
+    });
   }
 
 
-  initRequest(){
-    
-    this.reqBody.pagination = new Pagination();;
-    this.reqBody.pagination.offset = 0
+  initRequest() {
 
-    this.reqBody.context = new Context();
-    this.reqBody.context.type = "VERBAL";
+    this.getRequestBody.pagination = new Pagination();;
+    this.getRequestBody.pagination.offset = 0
 
-    this.reqBody.data = new Data();
-    this.reqBody.data.category = null;
-    this.reqBody.data.model = null
+    this.getRequestBody.context = new Context();
+    this.getRequestBody.context.type = "VERBAL";
+
+    this.getRequestBody.data = new Data();
+    this.getRequestBody.data.category = null;
+    this.getRequestBody.data.model = null
   }
 
 
-  postQuestionDialog(content:any) {
-    console.log("model opened");
-
+  postQuestionDialog(content: any) {
+    console.log("Modal for:" + this.getRequestBody.context.type)
+    if (this.getRequestBody.context) {
+      let obj = {}
+      obj[this.getRequestBody.context.type.toLowerCase()] = true;
+      this.makeAddPostsFalse(obj);
+    }
     this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
     this.categoryModalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -103,7 +140,7 @@ export class NoticerMainComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
 
@@ -128,24 +165,25 @@ export class NoticerMainComponent implements OnInit {
     )
   }
 
-  
+
   selectedCategory(data: Section) {
     if (data) {
+      this.initRequest();
       this.questionName = '';
       if (data.section) {
         this.questionName = data.section.toUpperCase();
       }
       if (data.category != 'HOME') {
-        this.reqBody.data.category = data.category.toUpperCase();
+        this.getRequestBody.data.category = data.category.toUpperCase();
         this.questionName = this.questionName.toUpperCase() + " (" + data.category + ")";
-      } else{
-        this.reqBody.data.category = null;
+      } else {
+        this.getRequestBody.data.category = null;
       }
       console.log(this.questionName);
-      if(data.section){
-        this.reqBody.context.type = data.section.toUpperCase();
+      if (data.section) {
+        this.getRequestBody.context.type = data.section.toUpperCase();
       }
-      // this.reqBody.data.model = data.model
+      // this.getRequestBody.data.model = data.model
       this.getPosts();
     }
   }
@@ -155,10 +193,10 @@ export class NoticerMainComponent implements OnInit {
     this.showPostSpinner = true;
     this.postsList = [];
 
-    this.service.getPostsList(this.reqBody).subscribe(
+    this.service.getPostsList(this.getRequestBody).subscribe(
       resData => {
         this.showPostSpinner = false;
-        let obj:any = resData;
+        let obj: any = resData;
         this.postsList = obj.posts;
         this.preparePostsList();
       })
@@ -166,12 +204,12 @@ export class NoticerMainComponent implements OnInit {
   }
 
   loadMorePosts() {
-    this.reqBody.pagination.offset = this.reqBody.pagination.offset + 10;
+    this.getRequestBody.pagination.offset = this.getRequestBody.pagination.offset + 10;
     this.showPostSpinner = true;
-    this.service.getPostsList(this.reqBody).subscribe(
+    this.service.getPostsList(this.getRequestBody).subscribe(
       (resData: any) => {
         this.showPostSpinner = false;
-        let obj:any = resData;
+        let obj: any = resData;
         obj.posts.forEach(element => {
           this.postsList.push(element);
         });
@@ -200,170 +238,24 @@ export class NoticerMainComponent implements OnInit {
     }
   }
 
-  private posts(){
-    let posts = {
-         "posts": [
-             {
-                 "_type": "VerbalPost",
-                 "category": "cat",
-                 "model": "Aptitude",
-                 "postId": 124,
-                 "userId": 1,
-                 "userProfile": {
-                     "userId": 1,
-                     "userName": "Durgarao Asapu",
-                     "email": "1@1.com",
-                     "profileImageUrl": "https://s3.ap-south-1.amazonaws.com/noticerprofilepics/noticeboard-dp.jpeg"
-                 },
-                 "postText": "test post from angular webapp",
-                 "imageUrl": "",
-                 "commentsCount": 0,
-                 "createTime": 1532025092000,
-                 "updateTime": 18000000
-             },
-             {
-                 "_type": "VerbalPost",
-                 "category": "cat",
-                 "model": "Aptitude",
-                 "postId": 123,
-                 "userId": 1,
-                 "userProfile": {
-                     "userId": 1,
-                     "userName": "Durgarao Asapu",
-                     "email": "1@1.com",
-                     "profileImageUrl": "https://s3.ap-south-1.amazonaws.com/noticerprofilepics/noticeboard-dp.jpeg"
-                 },
-                 "postText": "test post from angular webapp",
-                 "imageUrl": "",
-                 "commentsCount": 0,
-                 "createTime": 1532025001000,
-                 "updateTime": 18000000
-             },
-             {
-                 "_type": "VerbalPost",
-                 "category": "cat",
-                 "model": "Aptitude",
-                 "postId": 122,
-                 "userId": 1,
-                 "userProfile": {
-                     "userId": 1,
-                     "userName": "Durgarao Asapu",
-                     "email": "1@1.com",
-                     "profileImageUrl": "https://s3.ap-south-1.amazonaws.com/noticerprofilepics/noticeboard-dp.jpeg"
-                 },
-                 "postText": "test post from angular webapp",
-                 "imageUrl": "",
-                 "commentsCount": 0,
-                 "createTime": 1532024678000,
-                 "updateTime": 18000000
-             },
-             {
-                 "_type": "QuantsPost",
-                 "category": "cat",
-                 "model": "aptitude",
-                 "postId": 2,
-                 "userId": 1,
-                 "userProfile": {
-                     "userId": 1,
-                     "userName": "Durgarao Asapu",
-                     "email": "1@1.com",
-                     "profileImageUrl": "https://s3.ap-south-1.amazonaws.com/noticerprofilepics/noticeboard-dp.jpeg"
-                 },
-                 "postText": "qants cat durgi",
-                 "imageUrl": "quants cat image url",
-                 "commentsCount": 1,
-                 "createTime": 1468763306000,
-                 "updateTime": 1466577739000
-             },
-             {
-                 "_type": "QuantsPost",
-                 "category": "cat",
-                 "model": "Aptitude",
-                 "postId": 4,
-                 "userId": 1,
-                 "userProfile": {
-                     "userId": 1,
-                     "userName": "Durgarao Asapu",
-                     "email": "1@1.com",
-                     "profileImageUrl": "https://s3.ap-south-1.amazonaws.com/noticerprofilepics/noticeboard-dp.jpeg"
-                 },
-                 "postText": "Hai durgi",
-                 "imageUrl": "",
-                 "commentsCount": 0,
-                 "createTime": 1468388957000,
-                 "updateTime": 18000000
-             },
-             {
-                 "_type": "EventsPost",
-                 "postId": 14,
-                 "userId": 1,
-                 "userProfile": {
-                     "userId": 1,
-                     "userName": "Durgarao Asapu",
-                     "email": "1@1.com",
-                     "profileImageUrl": "https://s3.ap-south-1.amazonaws.com/noticerprofilepics/noticeboard-dp.jpeg"
-                 },
-                 "postText": "New post",
-                 "imageUrl": "",
-                 "commentsCount": 0,
-                 "createTime": 1483598064000,
-                 "updateTime": 1484998077000,
-                 "instId": 0,
-                 "deptId": 0,
-                 "eventCategory": "management",
-                 "eventType": "AdZap",
-                 "topic": "topic"
-             },
-             {
-                 "_type": "EventsPost",
-                 "postId": 13,
-                 "userId": 1,
-                 "userProfile": {
-                     "userId": 1,
-                     "userName": "Durgarao Asapu",
-                     "email": "1@1.com",
-                     "profileImageUrl": "https://s3.ap-south-1.amazonaws.com/noticerprofilepics/noticeboard-dp.jpeg"
-                 },
-                 "postText": "New post in management",
-                 "imageUrl": "",
-                 "commentsCount": 0,
-                 "createTime": 1483597981000,
-                 "updateTime": 18000000,
-                 "instId": 0,
-                 "deptId": 0,
-                 "eventCategory": "management",
-                 "eventType": "Finance",
-                 "topic": "Management",
-                 "fromdate": "2017-01-06",
-                 "todate": "2017-01-10"
-             },
-             {
-                 "_type": "EventsPost",
-                 "postId": 12,
-                 "userId": 1,
-                 "userProfile": {
-                     "userId": 1,
-                     "userName": "Durgarao Asapu",
-                     "email": "1@1.com",
-                     "profileImageUrl": "https://s3.ap-south-1.amazonaws.com/noticerprofilepics/noticeboard-dp.jpeg"
-                 },
-                 "postText": "post",
-                 "imageUrl": "url",
-                 "commentsCount": 0,
-                 "createTime": 1483597842000,
-                 "updateTime": 18000000,
-                 "instId": 1,
-                 "deptId": 1,
-                 "eventCategory": "TF",
-                 "eventType": "s",
-                 "topic": "ethicalhacking-3",
-                 "fromdate": "2017-10-10",
-                 "todate": "2017-11-11",
-                 "website": "tz2k16.com",
-                 "contacts": "8500506013"
-             }
-         ]
-     }
-     return posts;
- }
+
+  makeAddPostsFalse(obj: Object) {
+    this.urls = [];
+    this.showAddPost.verbal = this.showAddPost.quants = this.showAddPost.gk = this.showAddPost.events = this.showAddPost.careers = false;
+    Object.keys(obj).forEach((key) => this.showAddPost[key] = obj[key]);
+  }
+
+
+  public categories: any = [];
+  public models: any = [];
+  intitDummyData() {
+    this.categories = [
+      { label: 'CAT', value: 'cat' },
+      { label: 'MAT', value: 'mat' }
+    ];
+    this.models = [
+      { label: 'Aptitude', value: 'aptitude' },
+      { label: 'Reasoning', value: 'reasoning' }
+    ];
+  }
 }

@@ -205,6 +205,16 @@ export class SideMenuComponent implements OnInit {
                 "code": "ielts"
               }
             ]
+          },
+          {
+            "name": "Careers",
+            "code": "careers",
+            "categories": [
+              {
+                "name": "HOME",
+                "code": "home"
+              }
+            ]
           }
         ]
       },

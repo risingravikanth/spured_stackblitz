@@ -61,12 +61,18 @@ export class NoticerMainService {
 
     getPostsList(body: any) {
         let url: string;
+        let reqBody:any = {type:null, category:null, model:null, page:null};
         if (constants.isLive) {
             url = "/api/getPosts";
+            reqBody.type = body.context.type;
+            reqBody.category = body.data.category;
+            reqBody.model = body.data.model;
+            reqBody.page = body.pagination.offset;
         } else {
             url = "/posts/create";
+            reqBody = body;
         }
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        return this.httpClient.post(url, JSON.stringify(body), { headers: headers });
+        return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers });
     }
 }
