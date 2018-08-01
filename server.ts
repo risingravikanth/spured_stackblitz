@@ -138,7 +138,7 @@ app.post('/api/getPosts', (req, res) => {
 
   request.post({
     "headers": { "content-type": "application/json" },
-    "url": "http://139.59.6.52:8080/SpringMvcJdbcTemplate/posts/create",
+    "url": "http://139.59.6.52:8080/SpringMvcJdbcTemplate/v2/post/get",
     "body": reqBody,
     json: true
   }, (error, response, body) => {

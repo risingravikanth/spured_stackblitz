@@ -57,6 +57,7 @@ export class NoticerMainComponent implements OnInit {
     gk: false,
     quants: false,
     verbal: false,
+    general: false
   }
 
   ngOnInit() {
@@ -88,8 +89,9 @@ export class NoticerMainComponent implements OnInit {
         type: [null, Validators.required]
       }),
       data: this.formbuilder.group({
+        _type: [null, Validators.required],
         text: [null, Validators.required],
-        images: [''],
+        // images: [null],
         category: [''],
         model: [''],
         deadline: [''],
@@ -109,7 +111,7 @@ export class NoticerMainComponent implements OnInit {
     this.getRequestBody.pagination.offset = 0
 
     this.getRequestBody.context = new Context();
-    this.getRequestBody.context.type = "VERBAL";
+    this.getRequestBody.context.type = null;
 
     this.getRequestBody.data = new Data();
     this.getRequestBody.data.category = null;
@@ -119,10 +121,18 @@ export class NoticerMainComponent implements OnInit {
 
   postQuestionDialog(content: any) {
     console.log("Modal for:" + this.getRequestBody.context.type)
-    if (this.getRequestBody.context) {
+    if (this.getRequestBody.context.type) {
       let obj = {}
       obj[this.getRequestBody.context.type.toLowerCase()] = true;
       this.makeAddPostsFalse(obj);
+    } else {
+      let obj = {}
+      obj['general'] = true;
+      this.makeAddPostsFalse(obj);
+    }
+    if (this.getRequestBody.data.category) {
+      this.addPostForm.controls['data'].get('category').patchValue(this.getRequestBody.data.category);
+      this.addPostForm.controls['data'].get('category').disable();
     }
     this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
     this.categoryModalReference.result.then((result) => {
@@ -134,6 +144,8 @@ export class NoticerMainComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
+    this.initAddPostForm();
+    this.addPostForm.enable();
     console.log(reason);
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -172,6 +184,7 @@ export class NoticerMainComponent implements OnInit {
       this.questionName = '';
       if (data.section) {
         this.questionName = data.section.toUpperCase();
+        this.getRequestBody.context.type = this.questionName;
       }
       if (data.category != 'HOME') {
         this.getRequestBody.data.category = data.category.toUpperCase();
@@ -241,21 +254,65 @@ export class NoticerMainComponent implements OnInit {
 
   makeAddPostsFalse(obj: Object) {
     this.urls = [];
-    this.showAddPost.verbal = this.showAddPost.quants = this.showAddPost.gk = this.showAddPost.events = this.showAddPost.careers = false;
+    this.showAddPost.verbal = this.showAddPost.quants = this.showAddPost.gk = this.showAddPost.events = this.showAddPost.careers = this.showAddPost.general = false;
     Object.keys(obj).forEach((key) => this.showAddPost[key] = obj[key]);
+  }
+
+
+  createPost() {
+    if (this.getRequestBody.context && !this.showAddPost.general) {
+      let reqType;
+      reqType = this.getRequestBody.context.type;
+      let t = reqType.toLowerCase();
+      let rt = t.charAt(0).toUpperCase() + t.slice(1) + "Post";
+      this.addPostForm.controls['data'].get('_type').patchValue(rt);
+      this.addPostForm.controls['context'].get('type').patchValue(this.getRequestBody.context.type);
+    } else{
+      this.addPostForm.controls['context'].get('type').patchValue(this.addPostForm.controls['data'].get('_type').value.toUpperCase());
+      this.addPostForm.controls['data'].get('_type').patchValue(this.addPostForm.controls['data'].get('_type').value+"Post");
+    }
+
+    console.log(this.addPostForm.value);
+    if (this.addPostForm.valid) {
+      this.service.createPost(this.addPostForm.value).subscribe((resData: any) => {
+        if (resData && resData.code && resData.code.id == 100001) {
+          alert(resData.code.longMessage);
+        } else if(resData && resData.post){
+          let data = resData.post;
+          data.maxLength = 25;
+          data.selectComments = false;
+          this.postsList.splice(0, 0, data);
+          this.initAddPostForm();
+          alert("Successfully added post");
+          this.categoryModalReference.close();
+        } else {
+          alert("Something went wrong!");
+        }
+
+      })
+    } else {
+      alert("Plese fill all the details!");
+    }
+
   }
 
 
   public categories: any = [];
   public models: any = [];
+  public types: any = [];
   intitDummyData() {
     this.categories = [
-      { label: 'CAT', value: 'cat' },
-      { label: 'MAT', value: 'mat' }
+      { label: 'CAT', value: 'CAT' },
+      { label: 'MAT', value: 'MAT' }
     ];
     this.models = [
       { label: 'Aptitude', value: 'aptitude' },
       { label: 'Reasoning', value: 'reasoning' }
+    ];
+    this.types = [
+      { label: 'Verbal', value: 'Verbal' },
+      { label: 'Quants', value: 'Qunats' },
+      { label: 'Events', value: 'Events' }
     ];
   }
 }

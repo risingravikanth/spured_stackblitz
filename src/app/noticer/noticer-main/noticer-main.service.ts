@@ -69,7 +69,24 @@ export class NoticerMainService {
             reqBody.model = body.data.model;
             reqBody.page = body.pagination.offset;
         } else {
-            url = "/posts/create";
+            url = "/v2/post/get";
+            reqBody = body;
+        }
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers });
+    }
+
+    createPost(body: any) {
+        let url: string;
+        let reqBody:any = {type:null, category:null, model:null, page:null};
+        if (constants.isLive) {
+            url = "/api/createPost";
+            reqBody.type = body.context.type;
+            reqBody.category = body.data.category;
+            reqBody.model = body.data.model;
+            reqBody.page = body.pagination.offset;
+        } else {
+            url = "/v2/post/create";
             reqBody = body;
         }
         let headers = new HttpHeaders().set("Content-Type", "application/json");

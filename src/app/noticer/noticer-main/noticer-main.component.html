@@ -25,7 +25,7 @@
             <div *ngFor="let post of postsList;index as i;">
                 <div class="card">
                     <div *ngIf="post._type != 'EventsPost'">
-                        <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Category: {{post.category | uppercase}}, Model: {{post.model}}</li>
+                        <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Type: {{post._type}}, Category: {{post.category | uppercase}}, Model: {{post.model}}</li>
                     </div>
                     <div *ngIf="post._type == 'EventsPost'" style="margin-top: 10px;">
                     </div>
@@ -198,6 +198,35 @@
                     <textarea class="form-control" formControlName="text" placeholder="What is your question?"></textarea>
                 </div>
 
+
+                <!-- Verbal/Quants post start -->
+                <div class="addPost" *ngIf="showAddPost.general">
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <p-dropdown placeholder=" Type" [options]="types" [style]="{'width':'100%'}" formControlName="_type" filter="true">
+                                <ng-template let-type pTemplate="item">
+                                    <span style="vertical-align:middle">{{type.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category" filter="true">
+                                <ng-template let-category pTemplate="item">
+                                    <span style="vertical-align:middle">{{category.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}" formControlName="model" filter="true">
+                                <ng-template let-model pTemplate="item">
+                                    <span style="vertical-align:middle">{{model.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <!-- Verbal/Quants post end -->
+
                 <!-- Verbal/Quants post start -->
                 <div class="addPost" *ngIf="showAddPost.verbal || showAddPost.quants">
                     <div class="row">
@@ -305,7 +334,7 @@
                 </span>
             </ul>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" (click)="saveModelSecions()">Post</button>
+                <button type="button" class="btn btn-success" (click)="createPost()">Post</button>
             </div>
         </form>
     </ng-template>
