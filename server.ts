@@ -62,10 +62,12 @@ app.get('/user/getlist', function (req, res) {
 
 app.post('/authentication', (req, res) => {
   console.log("Authentication");
+  console.log(req.body);
   request.post({
     "headers": { "content-type": "application/json" },
     "url": "http://139.59.6.52:8080/SpringMvcJdbcTemplate/profile/login",
-    "body": req
+    "body": req.body,
+    json: true
   }, (error, response, body) => {
     if (error) {
       console.log(error);
@@ -148,6 +150,49 @@ app.post('/api/getPosts', (req, res) => {
     }
     if (response) {
       console.log('   /api/getPosts :- STATUS: ' + response.statusCode);
+      res.send(body);
+    }
+  });
+});
+
+app.post('/api/createPost', (req, res) => {
+  console.log("create posts");
+  let token = req.headers.authorization;
+  let reqBody = { context: null, data: null};
+  reqBody.context = { type: null };
+  reqBody.data = { _type:null, category: null, model: null, text:null };
+
+  if (req.body.type != undefined && req.body.type != null) {
+    reqBody.context.type = req.body.type;
+  }
+
+  if (req.body._type != undefined && req.body._type != null) {
+    reqBody.data._type = req.body._type;
+  }
+
+  if (req.body.category != undefined && req.body.category != null) {
+    reqBody.data.category = req.body.category;
+  }
+  if (req.body.model != undefined && req.body.model != null) {
+    reqBody.data.model = req.body.model;
+  }
+  if (req.body.post != undefined && req.body.post != null) {
+    reqBody.data.text = req.body.post;
+  }
+  console.log(reqBody);
+
+  request.post({
+    "headers": { "Authorization": token },
+    "url": "http://139.59.6.52:8080/SpringMvcJdbcTemplate/v2/post/create",
+    "body": reqBody,
+    json: true
+  }, (error, response, body) => {
+    if (error) {
+      console.log(error);
+      return res.send(error);
+    }
+    if (response) {
+      console.log('   /api/createPost :- STATUS: ' + response.statusCode);
       res.send(body);
     }
   });

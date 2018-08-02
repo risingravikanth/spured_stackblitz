@@ -231,7 +231,8 @@
                 <div class="addPost" *ngIf="showAddPost.verbal || showAddPost.quants">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category" filter="true">
+                            <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category"
+                                filter="true">
                                 <ng-template let-category pTemplate="item">
                                     <span style="vertical-align:middle">{{category.label}}</span>
                                 </ng-template>
@@ -268,7 +269,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category" filter="true">
+                            <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category" filter="true">
                                 <ng-template let-category pTemplate="item">
                                     <span style="vertical-align:middle">{{category.label}}</span>
                                 </ng-template>
@@ -297,7 +298,7 @@
                 <div class="addPost" *ngIf="showAddPost.careers">
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category" filter="true">
+                            <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category" filter="true">
                                 <ng-template let-category pTemplate="item">
                                     <span style="vertical-align:middle">{{category.label}}</span>
                                 </ng-template>

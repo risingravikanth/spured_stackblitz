@@ -39,6 +39,8 @@ export class NoticerMainComponent implements OnInit {
   public postsList: any = [];
   public showPostSpinner = false;
 
+  showPasswordError: boolean = false;
+
   public urls = new Array<string>();
   public getRequestBody = new GetRequest();
 
@@ -59,7 +61,7 @@ export class NoticerMainComponent implements OnInit {
     verbal: false,
     general: false
   }
-
+  public disableCategory = false;
   ngOnInit() {
     this.audienceList = [
       { name: 'Computers', value: 'CSE' },
@@ -90,10 +92,10 @@ export class NoticerMainComponent implements OnInit {
       }),
       data: this.formbuilder.group({
         _type: [null, Validators.required],
+        category: [null, Validators.required],
         text: [null, Validators.required],
         // images: [null],
-        category: [''],
-        model: [''],
+        model: [null, Validators.required],
         deadline: [''],
         qualifications: [''],
         state: [''],
@@ -102,6 +104,7 @@ export class NoticerMainComponent implements OnInit {
         todate: ['']
       }),
     });
+    this.disableCategory = false;
   }
 
 
@@ -132,7 +135,8 @@ export class NoticerMainComponent implements OnInit {
     }
     if (this.getRequestBody.data.category) {
       this.addPostForm.controls['data'].get('category').patchValue(this.getRequestBody.data.category);
-      this.addPostForm.controls['data'].get('category').disable();
+      // this.addPostForm.controls['data'].get('category').disable();
+      this.disableCategory = true;
     }
     this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
     this.categoryModalReference.result.then((result) => {
@@ -267,9 +271,9 @@ export class NoticerMainComponent implements OnInit {
       let rt = t.charAt(0).toUpperCase() + t.slice(1) + "Post";
       this.addPostForm.controls['data'].get('_type').patchValue(rt);
       this.addPostForm.controls['context'].get('type').patchValue(this.getRequestBody.context.type);
-    } else{
+    } else {
       this.addPostForm.controls['context'].get('type').patchValue(this.addPostForm.controls['data'].get('_type').value.toUpperCase());
-      this.addPostForm.controls['data'].get('_type').patchValue(this.addPostForm.controls['data'].get('_type').value+"Post");
+      this.addPostForm.controls['data'].get('_type').patchValue(this.addPostForm.controls['data'].get('_type').value + "Post");
     }
 
     console.log(this.addPostForm.value);
@@ -295,6 +299,19 @@ export class NoticerMainComponent implements OnInit {
     }
 
   }
+
+
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    this.showPasswordError = true;
+    (<any>Object).values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control.controls) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+
 
 
   public categories: any = [];

@@ -78,13 +78,14 @@ export class NoticerMainService {
 
     createPost(body: any) {
         let url: string;
-        let reqBody:any = {type:null, category:null, model:null, page:null};
+        let reqBody:any = {type:null, _type:null ,category:null, model:null, post:null};
         if (constants.isLive) {
             url = "/api/createPost";
             reqBody.type = body.context.type;
+            reqBody._type = body.data._type;
             reqBody.category = body.data.category;
             reqBody.model = body.data.model;
-            reqBody.page = body.pagination.offset;
+            reqBody.post = body.data.text;
         } else {
             url = "/v2/post/create";
             reqBody = body;
