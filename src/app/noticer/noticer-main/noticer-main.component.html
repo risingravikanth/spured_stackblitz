@@ -253,14 +253,14 @@
                 <div class="addPost" *ngIf="showAddPost.events">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <p-dropdown placeholder=" State" [options]="states" [style]="{'width':'100%'}" formControlName="category" filter="true">
+                            <p-dropdown placeholder=" State" [options]="states" [style]="{'width':'100%'}" formControlName="state" filter="true">
                                 <ng-template let-state pTemplate="item">
                                     <span style="vertical-align:middle">{{state.label}}</span>
                                 </ng-template>
                             </p-dropdown>
                         </div>
                         <div class="form-group col-md-6">
-                            <p-dropdown placeholder=" Institute" [options]="models" [style]="{'width':'100%'}" formControlName="model" filter="true">
+                            <p-dropdown placeholder=" Institute" [options]="institutes" [style]="{'width':'100%'}" formControlName="institute" filter="true">
                                 <ng-template let-institute pTemplate="item">
                                     <span style="vertical-align:middle">{{institute.label}}</span>
                                 </ng-template>
@@ -285,10 +285,10 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="To Date"></p-calendar>
+                            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="To Date" [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
                         <div class="form-group col-md-6">
-                            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="From Date"></p-calendar>
+                            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="From Date" [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
                     </div>
                 </div>

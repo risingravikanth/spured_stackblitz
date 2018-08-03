@@ -96,12 +96,12 @@ export class NoticerMainComponent implements OnInit {
         text: [null, Validators.required],
         // images: [null],
         model: [null, Validators.required],
-        deadline: [''],
-        qualifications: [''],
-        state: [''],
-        institute: [''],
-        fromdate: [''],
-        todate: ['']
+        deadline: [null],
+        qualifications: [null],
+        state: [null],
+        institute: [null],
+        fromdate: [null],
+        todate: [null]
       }),
     });
     this.disableCategory = false;
@@ -281,7 +281,7 @@ export class NoticerMainComponent implements OnInit {
       this.service.createPost(this.addPostForm.value).subscribe((resData: any) => {
         if (resData && resData.code && resData.code.id == 100001) {
           alert(resData.code.longMessage);
-        } else if(resData && resData.post){
+        } else if (resData && resData.post) {
           let data = resData.post;
           data.maxLength = 25;
           data.selectComments = false;
@@ -317,6 +317,8 @@ export class NoticerMainComponent implements OnInit {
   public categories: any = [];
   public models: any = [];
   public types: any = [];
+  public states: any = [];
+  public institutes: any = [];
   intitDummyData() {
     this.categories = [
       { label: 'CAT', value: 'CAT' },
@@ -331,5 +333,11 @@ export class NoticerMainComponent implements OnInit {
       { label: 'Quants', value: 'Qunats' },
       { label: 'Events', value: 'Events' }
     ];
+    this.states = [
+      { label: 'AP', value: 'AP' },
+      { label: 'TS', value: 'TS' }]
+    this.institutes = [
+      { label: 'IIIT', value: 'IIIT' },
+      { label: 'RGUKT', value: 'RGUKT' }];
   }
 }
