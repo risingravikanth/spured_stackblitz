@@ -4,14 +4,24 @@
     <hr>
     <div class="row">
         <div class="card bg-light text-center col-md-2">
-            <div style="padding-top: 10%;">
-                <img class="card-img-top" src="assets/images/user.png" alt="Card image" style="width:80%;border-radius: 150px;">
+            <div style="padding-top: 10%;" class="profilePicChange">
+                <div class="middle">
+                    <span class="btn btn-light btn-file">
+                        <i class="fas fa-camera"></i> Change Picture
+                        <input type="file" accept="image/*" multiple (change)="fnChangeProfilePicture($event)">
+                    </span>
+                </div>
+                <img class="card-img-top image" src="assets/images/user.png" alt="Card image" style="width:80%;border-radius: 150px;">
             </div>
             <div class="card-body">
                 <h6 class="card-title">Durgarao Asapu</h6>
                 <p class="card-text">Sudheer</p>
                 <p class="card-text">Ravikanth</p>
-                <p class="card-text"><font color="red"><b>ADR Technologies</b></font></p>
+                <p class="card-text">
+                    <font color="red">
+                        <b>ADR Technologies</b>
+                    </font>
+                </p>
             </div>
         </div>
         <div class="card border-light col-md-10" style="padding-right: 0px;padding-left: 3px;">

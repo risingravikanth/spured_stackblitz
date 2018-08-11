@@ -14,7 +14,7 @@ import { CommonService } from "../../shared/services/common.service";
 import { Section } from '../../shared/models/section.model';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
 import { timeAgo } from '../../shared/others/time-age';
-import { Pagination, Context, Data, GetRequest } from '../../shared/models/request';
+import { Pagination, Context, Data, GetPostsRequest, GetCommentRequest, CommentContext, CreateCommentRequest, CreateCommentData } from '../../shared/models/request';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -39,10 +39,8 @@ export class NoticerMainComponent implements OnInit {
   public postsList: any = [];
   public showPostSpinner = false;
 
-  showPasswordError: boolean = false;
-
   public urls = new Array<string>();
-  public getRequestBody = new GetRequest();
+  public getPostsRequestBody = new GetPostsRequest();
 
   public categoryModalReference: NgbModalRef;
   closeResult: string;
@@ -61,6 +59,7 @@ export class NoticerMainComponent implements OnInit {
     verbal: false,
     general: false
   }
+  public sectionsTypesMappings: any = [];
   public disableCategory = false;
   ngOnInit() {
     this.audienceList = [
@@ -70,9 +69,14 @@ export class NoticerMainComponent implements OnInit {
       { label: 'MECH', value: 'MECH' },
       { label: 'Chemical', value: 'CHEM' }
     ];
+
+    this.sectionsTypesMappings = [
+      { section: 'VERBAL', _type: 'VerbalPost' },
+      { section: 'QUANTS', _type: 'QuantsPost' },
+      { section: 'EVENTS', _type: 'EventPost' },
+      { section: 'CAREERS', _type: 'CareerPost' },
+    ];
     this.isMobile = this.mobileService.isMobile();
-    // this.getFavBoards();
-    // this.createVerbalPost();
     this.initRequest();
     this.getPosts();
     this.commonService.sectionChanges.subscribe(
@@ -101,41 +105,43 @@ export class NoticerMainComponent implements OnInit {
         state: [null],
         institute: [null],
         fromdate: [null],
-        todate: [null]
+        todate: [null],
+        topic: [null]
       }),
     });
     this.disableCategory = false;
   }
 
 
+
+
   initRequest() {
 
-    this.getRequestBody.pagination = new Pagination();;
-    this.getRequestBody.pagination.offset = 0
+    this.getPostsRequestBody.pagination = new Pagination();;
+    this.getPostsRequestBody.pagination.offset = 0
 
-    this.getRequestBody.context = new Context();
-    this.getRequestBody.context.type = null;
+    this.getPostsRequestBody.context = new Context();
+    this.getPostsRequestBody.context.type = 'ALL';
 
-    this.getRequestBody.data = new Data();
-    this.getRequestBody.data.category = null;
-    this.getRequestBody.data.model = null
+    this.getPostsRequestBody.data = new Data();
+    this.getPostsRequestBody.data.category = null;
+    this.getPostsRequestBody.data.model = null
   }
 
 
   postQuestionDialog(content: any) {
-    console.log("Modal for:" + this.getRequestBody.context.type)
-    if (this.getRequestBody.context.type) {
+    console.log("Modal for:" + this.getPostsRequestBody.context.type)
+    if (this.getPostsRequestBody.context.type != 'ALL') {
       let obj = {}
-      obj[this.getRequestBody.context.type.toLowerCase()] = true;
+      obj[this.getPostsRequestBody.context.type.toLowerCase()] = true;
       this.makeAddPostsFalse(obj);
     } else {
       let obj = {}
       obj['general'] = true;
       this.makeAddPostsFalse(obj);
     }
-    if (this.getRequestBody.data.category) {
-      this.addPostForm.controls['data'].get('category').patchValue(this.getRequestBody.data.category);
-      // this.addPostForm.controls['data'].get('category').disable();
+    if (this.getPostsRequestBody.data.category) {
+      this.addPostForm.controls['data'].get('category').patchValue(this.getPostsRequestBody.data.category);
       this.disableCategory = true;
     }
     this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
@@ -188,17 +194,17 @@ export class NoticerMainComponent implements OnInit {
       this.questionName = '';
       if (data.section) {
         this.questionName = data.section.toUpperCase();
-        this.getRequestBody.context.type = this.questionName;
+        this.getPostsRequestBody.context.type = this.questionName;
       }
       if (data.category != 'HOME') {
-        this.getRequestBody.data.category = data.category.toUpperCase();
+        this.getPostsRequestBody.data.category = data.category.toUpperCase();
         this.questionName = this.questionName.toUpperCase() + " (" + data.category + ")";
       } else {
-        this.getRequestBody.data.category = null;
+        this.getPostsRequestBody.data.category = null;
       }
       console.log(this.questionName);
       if (data.section) {
-        this.getRequestBody.context.type = data.section.toUpperCase();
+        this.getPostsRequestBody.context.type = data.section.toUpperCase();
       }
       // this.getRequestBody.data.model = data.model
       this.getPosts();
@@ -210,35 +216,51 @@ export class NoticerMainComponent implements OnInit {
     this.showPostSpinner = true;
     this.postsList = [];
 
-    this.service.getPostsList(this.getRequestBody).subscribe(
+    this.service.getPostsList(this.getPostsRequestBody).subscribe(
       resData => {
         this.showPostSpinner = false;
         let obj: any = resData;
-        this.postsList = obj.posts;
-        this.preparePostsList();
+        if (obj.error && obj.error.code && obj.error.code.id) {
+          alert(obj.error.code.message)
+        } else {
+          this.postsList = obj.posts;
+          this.preparePostsList();
+        }
       })
-
   }
 
   loadMorePosts() {
-    this.getRequestBody.pagination.offset = this.getRequestBody.pagination.offset + 10;
+    this.getPostsRequestBody.pagination.offset = this.getPostsRequestBody.pagination.offset + 10;
     this.showPostSpinner = true;
-    this.service.getPostsList(this.getRequestBody).subscribe(
-      (resData: any) => {
+    this.service.getPostsList(this.getPostsRequestBody).subscribe(
+      resData => {
         this.showPostSpinner = false;
         let obj: any = resData;
-        obj.posts.forEach(element => {
-          this.postsList.push(element);
-        });
-        this.preparePostsList();
+        if (obj.error && obj.error.code && obj.error.code.id) {
+          alert(obj.error.code.message);
+        } else {
+          obj.posts.forEach(element => {
+            let existedArr = this.postsList.filter(item => item.postId == element.postId);
+            if (existedArr.length == 0) {
+              this.postsList.push(element);
+            }
+          });
+          this.preparePostsList();
+        }
       })
   }
 
   preparePostsList() {
-    this.postsList.forEach(element => {
-      element.maxLength = 25;
-      element.selectComments = false;
-    });
+    if (this.postsList.length > 0) {
+      this.postsList.forEach(element => {
+        element.maxLength = 25;
+        element.selectComments = false;
+        element.commentOffset = 0;
+        element.comments = [];
+        element.commentsSpinner = false;
+        element.commentText = null;
+      });
+    }
   }
 
   detectFiles(event) {
@@ -264,27 +286,31 @@ export class NoticerMainComponent implements OnInit {
 
 
   createPost() {
-    if (this.getRequestBody.context && !this.showAddPost.general) {
-      let reqType;
-      reqType = this.getRequestBody.context.type;
-      let t = reqType.toLowerCase();
-      let rt = t.charAt(0).toUpperCase() + t.slice(1) + "Post";
-      this.addPostForm.controls['data'].get('_type').patchValue(rt);
-      this.addPostForm.controls['context'].get('type').patchValue(this.getRequestBody.context.type);
+    let reqType;
+    if (this.getPostsRequestBody.context && !this.showAddPost.general) {
+      reqType = this.getPostsRequestBody.context.type;
+      let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
+      this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
+      this.addPostForm.controls['context'].get('type').patchValue(this.getPostsRequestBody.context.type);
     } else {
-      this.addPostForm.controls['context'].get('type').patchValue(this.addPostForm.controls['data'].get('_type').value.toUpperCase());
-      this.addPostForm.controls['data'].get('_type').patchValue(this.addPostForm.controls['data'].get('_type').value + "Post");
+      let reqType = this.addPostForm.controls['data'].get('_type').value;
+      let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
+      this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
+      this.addPostForm.controls['context'].get('type').patchValue(reqType);
     }
 
     console.log(this.addPostForm.value);
     if (this.addPostForm.valid) {
       this.service.createPost(this.addPostForm.value).subscribe((resData: any) => {
-        if (resData && resData.code && resData.code.id == 100001) {
+        if (resData && resData.code && resData.code.id) {
           alert(resData.code.longMessage);
         } else if (resData && resData.post) {
           let data = resData.post;
           data.maxLength = 25;
           data.selectComments = false;
+          data.commentOffset = 0;
+          data.comments = [];
+          data.commentsSpinner = false;
           this.postsList.splice(0, 0, data);
           this.initAddPostForm();
           alert("Successfully added post");
@@ -300,18 +326,93 @@ export class NoticerMainComponent implements OnInit {
 
   }
 
-
-
-  markFormGroupTouched(formGroup: FormGroup) {
-    this.showPasswordError = true;
-    (<any>Object).values(formGroup.controls).forEach(control => {
-      control.markAsTouched();
-      if (control.controls) {
-        this.markFormGroupTouched(control);
-      }
-    });
+  getCommentsForPost(postId, index) {
+    let reqBody = this.prepareGetComentsRequestBody(postId, index);
+    if (this.postsList[index].commentsCount > 0) {
+      this.postsList[index].commentsSpinner = true;
+      this.service.getCommentsByPostId(reqBody).subscribe(resData => {
+        this.postsList[index].commentsSpinner = false;
+        let comments: any = resData;
+        if (comments && comments.code && comments.code.id) {
+          alert(comments.code.longMessage);
+        } else if (comments && comments.comments) {
+          if (comments.comments.length > 0) {
+            this.postsList[index].comments = comments.comments;
+          }
+        }
+      })
+    }
   }
 
+  loadMoreComments(postId, index) {
+    this.postsList[index].commentOffset = this.postsList[index].commentOffset + 3;
+    this.postsList[index].commentsSpinner = true;
+    let reqBody = this.prepareGetComentsRequestBody(postId, index);
+    reqBody.pagination.offset = this.postsList[index].commentOffset;
+    this.service.getCommentsByPostId(reqBody).subscribe(resData => {
+      this.postsList[index].commentsSpinner = false;
+      let comments: any = resData;
+      if (comments && comments.code && comments.code.id) {
+        alert(comments.code.longMessage);
+      } else if (comments && comments.comments) {
+        if (comments.comments.length > 0) {
+          comments.comments.forEach(element => {
+            let existedComments = this.postsList[index].comments.filter(item => item.commentId == element.commentId);
+            if (existedComments.length == 0) {
+              this.postsList[index].comments.push(element);
+            }
+          });
+        }
+      }
+    })
+  }
+
+
+  showMoreCommentsChecker(comments, commentsCount) {
+    if (comments.length < 3 || comments.length == commentsCount) {
+      return false;
+    }
+    return true;
+  }
+
+  prepareGetComentsRequestBody(postId, index) {
+    // let body = { id: postId, limit: 3, offset: 0 };
+    let postObj = this.postsList[index];
+    let getCommentsRequest = new GetCommentRequest();
+    let arrTypes = this.sectionsTypesMappings.filter(item => item._type == postObj._type);
+    getCommentsRequest.context = new CommentContext();
+    getCommentsRequest.context.postId = postId;
+    getCommentsRequest.context.type = arrTypes[0].section;
+    getCommentsRequest.data = {};
+    getCommentsRequest.pagination = new Pagination();
+    getCommentsRequest.pagination.offset = 0;
+    getCommentsRequest.pagination.limit = 3;
+    return getCommentsRequest;
+  }
+
+  createComment(commentText, index) {
+    let createCommentRequest = new CreateCommentRequest();
+    let postObj = this.postsList[index];
+    let arrTypes = this.sectionsTypesMappings.filter(item => item._type == postObj._type);
+    createCommentRequest.context = new CommentContext();
+    createCommentRequest.context.type = arrTypes[0].section;
+    createCommentRequest.context.postId = postObj.postId;
+
+    createCommentRequest.data = new CreateCommentData();
+    createCommentRequest.data.text = commentText;
+    createCommentRequest.data._type = "Comment";
+
+    this.service.createComment(createCommentRequest).subscribe((resData: any) => {
+
+      if (resData && resData.code && resData.code.id) {
+        alert(resData.code.longMessage);
+      } else {
+        this.postsList[index].commentText = null;
+        this.postsList[index].comments.push(resData.comment);
+        this.postsList[index].commentsCount = this.postsList[index].commentsCount + 1;
+      }
+    })
+  }
 
 
   public categories: any = [];
@@ -329,9 +430,9 @@ export class NoticerMainComponent implements OnInit {
       { label: 'Reasoning', value: 'reasoning' }
     ];
     this.types = [
-      { label: 'Verbal', value: 'Verbal' },
-      { label: 'Quants', value: 'Qunats' },
-      { label: 'Events', value: 'Events' }
+      { label: 'Verbal', value: 'VERBAL' },
+      { label: 'Quants', value: 'QUANTS' },
+      { label: 'Events', value: 'EVENTS' }
     ];
     this.states = [
       { label: 'AP', value: 'AP' },

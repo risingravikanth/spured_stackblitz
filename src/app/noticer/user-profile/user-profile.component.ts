@@ -26,6 +26,7 @@ export class UserProfileComponent implements OnInit {
   public examLoader = false;
   public examuralLoader = false;
   public mypostsLoader = false;
+  public urls: any = [];
   ngOnInit() {
     this.loadProfileDetails();
   }
@@ -41,6 +42,26 @@ export class UserProfileComponent implements OnInit {
   }
   loadExamuralDetails() {
     console.log("get examural details");
+  }
+
+  fnChangeProfilePicture(event) {
+    if (event.target.files.length == 1) {
+      this.urls = [];
+      let files = event.target.files;
+      if (files) {
+        for (let file of files) {
+          let reader = new FileReader();
+          reader.onload = (e: any) => {
+            this.urls.push(e.target.result);
+          }
+          reader.readAsDataURL(file);
+        }
+      }
+    } else {
+      alert("Please select only one picture");
+      event.preventDefault();
+    }
+
   }
 
 

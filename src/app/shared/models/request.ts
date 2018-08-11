@@ -1,4 +1,4 @@
-export class GetRequest {
+export class GetPostsRequest {
     context: Context;
     data: Data;
     pagination: Pagination;
@@ -30,4 +30,25 @@ export class PostData {
     model: string;
     website: string;
     contact: string;
+}
+
+export class GetCommentRequest {
+    context: CommentContext;
+    data: {};
+    pagination: Pagination;
+}
+
+export class CreateCommentRequest {
+    context: CommentContext;
+    data: CreateCommentData;
+}
+
+export class CommentContext {
+    postId: string;
+    type: string;
+}
+
+export class CreateCommentData {
+    _type: "Comment";
+    text: null;
 }
