@@ -114,7 +114,14 @@ export class SideMenuComponent implements OnInit {
       this.selectedItem = sec+cat;
     }
 
-    this.commonService.updateByFilter(data);
+    // this.commonService.updateByFilter(data);
+    // if(sec && cat){
+    //   this.router.navigate(['/noticer'],
+    //        {queryParams: {type: sec, category: cat}});
+    // } else if(sec){
+    //   this.router.navigate(['/noticer'],
+    //        {queryParams: {type: sec}});
+    // }
   }
 
 

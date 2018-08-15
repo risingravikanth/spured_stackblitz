@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { DatePickerFormat } from "../../shared/others/datepickerFormat";
 import { TimePickerFormat } from "../../shared/others/timepickerFormat";
@@ -33,7 +33,8 @@ export class NoticerMainComponent implements OnInit {
     private customValidator: CustomValidator,
     private commonService: CommonService,
     public mobileService: MobileDetectionService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private route: ActivatedRoute) { }
 
   public questionName: any = '';
   public postsList: any = [];
@@ -61,6 +62,7 @@ export class NoticerMainComponent implements OnInit {
   }
   public sectionsTypesMappings: any = [];
   public disableCategory = false;
+  public showMoreLink = true;
   ngOnInit() {
     this.audienceList = [
       { name: 'Computers', value: 'CSE' },
@@ -77,16 +79,17 @@ export class NoticerMainComponent implements OnInit {
       { section: 'CAREERS', _type: 'CareerPost' },
     ];
     this.isMobile = this.mobileService.isMobile();
-    this.initRequest();
-    this.getPosts();
-    this.commonService.sectionChanges.subscribe(
-      resData => {
-        this.selectedCategory(resData);
-      }
-    )
+    // this.initRequest();
+    // this.getPosts();
+    // this.commonService.sectionChanges.subscribe(
+    //   resData => {
+    //     this.selectedCategory(resData);
+    //   }
+    // )
     this.questionName = "";
     this.initAddPostForm();
     this.intitDummyData();
+    this.route.queryParams.subscribe(this.handleParams.bind(this));
   }
 
   initAddPostForm() {
@@ -96,17 +99,17 @@ export class NoticerMainComponent implements OnInit {
       }),
       data: this.formbuilder.group({
         _type: [null, Validators.required],
-        category: [null, Validators.required],
         text: [null, Validators.required],
-        // images: [null],
         model: [null, Validators.required],
-        deadline: [null],
-        qualifications: [null],
-        state: [null],
-        institute: [null],
+        category: [null, Validators.required],
+        // images: [null],
+        topic: [null],
+        contacts: [null],
+        website: [null],
         fromdate: [null],
         todate: [null],
-        topic: [null]
+        deadline: [null],
+        qualifications: [null],
       }),
     });
     this.disableCategory = false;
@@ -126,6 +129,22 @@ export class NoticerMainComponent implements OnInit {
     this.getPostsRequestBody.data = new Data();
     this.getPostsRequestBody.data.category = null;
     this.getPostsRequestBody.data.model = null
+  }
+
+
+  handleParams(params: any[]) {
+    let type = params['type'];
+    let category = params['category'];
+
+    let sec = new Section();
+    sec.section = type;
+    sec.category = category
+    if(type == undefined && category == undefined){
+      this.initRequest()
+      this.getPosts();
+    } else{
+      this.selectedCategory(sec);
+    }
   }
 
 
@@ -165,28 +184,6 @@ export class NoticerMainComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-
-  getFavBoards() {
-    this.service.getFavoriteBoards().subscribe(resData => {
-      console.log("All fav boards");
-      console.log(resData);
-    })
-  }
-
-  createVerbalPost() {
-    let data = {
-      "category": "cat",
-      "model": "Aptitude",
-      "postText": "test post from angular webapp",
-      "imageUrl": ""
-    }
-    this.service.createVerbalPost(data).subscribe(
-      resData => {
-        console.log(resData);
-      }
-    )
-  }
-
 
   selectedCategory(data: Section) {
     if (data) {
@@ -239,6 +236,9 @@ export class NoticerMainComponent implements OnInit {
         if (obj.error && obj.error.code && obj.error.code.id) {
           alert(obj.error.code.message);
         } else {
+          if(obj.posts.length < 10){
+            this.showMoreLink = false;
+          }
           obj.posts.forEach(element => {
             let existedArr = this.postsList.filter(item => item.postId == element.postId);
             if (existedArr.length == 0) {
@@ -328,6 +328,7 @@ export class NoticerMainComponent implements OnInit {
 
   getCommentsForPost(postId, index) {
     let reqBody = this.prepareGetComentsRequestBody(postId, index);
+    this.postsList[index].commentOffset = 0;;
     if (this.postsList[index].commentsCount > 0) {
       this.postsList[index].commentsSpinner = true;
       this.service.getCommentsByPostId(reqBody).subscribe(resData => {

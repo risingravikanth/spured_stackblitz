@@ -29,34 +29,10 @@ export class NoticerMainService {
         return this.httpClient.post(url, JSON.parse(data));
     }
 
-
     getDist(value) {
         let url = "/api/address/getDistricts";
         let params = { params: new HttpParams().set('stateId', value) };
         return this.httpClient.get(url, params);
-    }
-
-    getFavoriteBoards() {
-        let url: string;
-        if (constants.isLive) {
-            url = "/api/getFavBoards";
-        } else {
-            url = "/boards/getboardinfobyinstid";
-        }
-        let data = 1;
-        let headers = new HttpHeaders().set("Content-Type", "application/json");
-        return this.httpClient.post(url, JSON.stringify(data), { headers: headers });
-    }
-
-    createVerbalPost(body: any) {
-        let url: string;
-        if (constants.isLive) {
-            url = "/api/createVerbalPost";
-        } else {
-            url = "/verbal/post/create";
-        }
-        let headers = new HttpHeaders().set("Content-Type", "application/json");
-        return this.httpClient.post(url, JSON.stringify(body), { headers: headers });
     }
 
     getPostsList(body: any) {
@@ -83,9 +59,15 @@ export class NoticerMainService {
             url = "/api/createPost";
             reqBody.type = body.context.type;
             reqBody._type = body.data._type;
-            reqBody.category = body.data.category;
-            reqBody.model = body.data.model;
             reqBody.post = body.data.text;
+            reqBody.model = body.data.model;
+            reqBody.category = body.data.category;
+            reqBody.images = body.data.images;
+            reqBody.topic = body.data.topic;
+            reqBody.website = body.data.website;
+            reqBody.contacts = body.data.contacts;
+            reqBody.todate  = body.data.todate;
+            reqBody.fromdate = body.data.fromdate;
         } else {
             url = "/v2/post/create";
             reqBody = body;
@@ -96,9 +78,12 @@ export class NoticerMainService {
 
     getCommentsByPostId(body: any) {
         let url: string;
-        let reqBody: any;
+        let reqBody: any = { type: null, category: null, model: null, page: null };
         if (constants.isLive) {
-            url = "/api/getCommentsByPostId";
+            url = "/api/getComments";
+            reqBody.type = body.context.type;
+            reqBody.postId = body.context.postId;
+            reqBody.page = body.pagination.offset;
         } else {
             url = "/v2/comment/get";
             reqBody = body;
@@ -111,11 +96,10 @@ export class NoticerMainService {
         let url: string;
         let reqBody: any = { type: null, _type: null, category: null, model: null, post: null };
         if (constants.isLive) {
-            url = "/api/createPost";
+            url = "/api/createComment";
             reqBody.type = body.context.type;
+            reqBody.postId = body.context.postId;
             reqBody._type = body.data._type;
-            reqBody.category = body.data.category;
-            reqBody.model = body.data.model;
             reqBody.post = body.data.text;
         } else {
             url = "/v2/comment/create";

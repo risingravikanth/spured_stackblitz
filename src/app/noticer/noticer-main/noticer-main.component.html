@@ -160,7 +160,8 @@
                 <div class="loader"></div>
             </div>
             <div class="text-center" *ngIf="!showPostSpinner">
-                <a *ngIf="postsCommentsList?.length < 5" href="javascript:void(0);" (click)="loadMorePosts()"> Show more </a>
+                <a *ngIf="postsList.length > 0 && showMoreLink" href="javascript:void(0);" (click)="loadMorePosts()"> Show more </a>
+                <b *ngIf="postsList.length == 0">Opps! No Posts Available</b>
             </div>
         </div>
         <div class="col-md-2" *ngIf="!isMobile">
@@ -254,7 +255,7 @@
 
                 <!-- Events post start-->
                 <div class="addPost" *ngIf="showAddPost.events">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="form-group col-md-6">
                             <p-dropdown placeholder=" State" [options]="states" [style]="{'width':'100%'}" formControlName="state" filter="true">
                                 <ng-template let-state pTemplate="item">
@@ -273,7 +274,7 @@
                                 </ng-template>
                             </p-dropdown>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="form-group col-md-6">
                             <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category"
@@ -303,8 +304,13 @@
                             <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="From Date" [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <input class="form-control form-control-sm" type="text" formControlName="topic" placeholder="Topic">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <input class="form-control form-control-sm" type="text" formControlName="topic" placeholder="Topic">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input class="form-control form-control-sm" type="text" formControlName="contacts" placeholder="Contacts">
+                        </div>
                     </div>
                 </div>
                 <!-- Events post end-->
