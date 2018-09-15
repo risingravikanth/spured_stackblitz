@@ -20,7 +20,7 @@ details summary::-webkit-details-marker {
 
 li {
     list-style-type: none;
-    color: #154f65;
+    /* color: #154f65; */
 }
 
 

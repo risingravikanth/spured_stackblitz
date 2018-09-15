@@ -5,12 +5,13 @@
         <div class="col-md-3 col-sm-3" *ngIf="!isMobile">
             <side-menu></side-menu>
         </div>
-        <div [class]="!isMobile ? 'col-md-7' : 'col-md-10'">
+        <div [class]="!isMobile ? 'col-md-6' : 'col-md-10'">
             <div class="card question-back">
                 <div class="row" style="padding-left: 28px;">
                     <div style="width: 20%;">
-                        <img width="80" height="80" style="padding: 9px;" alt="ThemeMountain" src="assets/images/question.png">
+                        <img width="80" height="80" style=" padding: 5px;border-radius: 50px;" alt="ThemeMountain" src="assets/images/img_avatar.png">
                     </div>
+                    <hr>
                     <div style="width: 80%;">
                         <h3 class="question-text">
                             <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)" *ngIf="questionName?.length == 0">Add your question</a>
@@ -24,32 +25,29 @@
             <br>
             <div *ngFor="let post of postsList;index as i;">
                 <div class="card">
-                    <div *ngIf="post._type != 'EventsPost'">
-                        <li class="text-muted" style="font-size: 12px;padding-left: 10px;">Type: {{post._type}}, Category: {{post.category | uppercase}}, Model: {{post.model}}</li>
+                    <div>
+                        <li style="font-size: 12px;padding-left: 10px;margin-top: 8px;color: gray">Type: {{post._type}}, Category: {{post.category | uppercase}}, Model: {{post.model}}</li>
                     </div>
-                    <div *ngIf="post._type == 'EventsPost'" style="margin-top: 10px;">
-                    </div>
+                    <hr style="margin-top: 5px;">
                     <div class="typeAlign dropleft">
-                        <i class="fas fa-bars" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 15px;"></i>
+                        <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 20px;"></i>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                             <button class="dropdown-item" type="button">Edit</button>
                             <button class="dropdown-item" type="button">Delete</button>
                         </div>
                     </div>
-                    <div class="row" style="padding-left: 9px;margin-top: -40px;">
+                    <div class="row" style="padding-left: 9px;margin-top: -15px;">
                         <div>
-                            <img width="80" height="80" style="padding: 18px;" alt="UserProfilePic" src="assets/images/img_avatar.png">
+                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="UserProfilePic" src="assets/images/img_avatar.png">
                         </div>
                         <div style="margin-left: -48px;margin-top: 12px;">
                             <ul>
                                 <li>
-                                    <a href="javascript:void(0);">
-                                        <b>{{post.userProfile ? post.userProfile.userName : '-NA-'}}</b>
+                                    <a href="javascript:void(0);" style="color: black;font-weight: 400;">
+                                        {{post.userProfile ? post.userProfile.userName : '-NA-'}}
                                     </a>
                                 </li>
-                                <!-- <li class="text-muted">2 min ago</li> -->
-                                <li class="text-muted">{{post.createTime | date: 'dd/MM/yyyy'}}</li>
-                                <!-- <li class="text-muted">{{post.time}}</li> -->
+                                <li class="text-muted" style="font-size: 12px;">{{post.createTime | date: 'MMM d, y, h:mm:ss a'}}</li>
                             </ul>
                         </div>
                     </div>
@@ -58,76 +56,129 @@
                             <table>
                                 <tr>
                                     <td>
-                                        <b class="eventColor">Category: </b> {{post.category}}</td>
-                                    <td>
-                                        <b class="eventColor">Type: </b>{{post.model}}</td>
+                                        {{post.topic}}
+                                    </td>
                                     <td *ngIf="post.fromdate && post.todate">
-                                        <b class="eventColor">
-                                            <i class="fas fa-calendar-alt"></i> Dates: </b>{{post.fromdate}} to {{post.todate}}</td>
+                                        <i class="fas fa-calendar-alt"></i>
+                                        {{post.fromdate}} to {{post.todate}}
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <b class="eventColor">Topic: </b> {{post.topic}}</td>
                                     <td *ngIf="post.website">
-                                        <b class="eventColor">Website: </b>
                                         <a href="www.google.com">{{post.website}}</a>
                                     </td>
                                     <td *ngIf="post.contacts">
-                                        <b class="eventColor">
-                                            <i class="fas fa-phone-square"></i> Phone: </b> {{post.contacts}}</td>
+                                        <i class="fas fa-phone-square"></i> {{post.contacts}}</td>
                                 </tr>
                             </table>
                             <br>
                         </div>
-                        <h4 class="post-text">
+                        <div class="post-text">
                             <!-- [innerHTML] -->
                             <p>
-                                {{post.postText | slice:0:post.maxLength}}
+                                <label [innerHtml]="post.postText | slice:0:post.maxLength"></label>
+                                <!-- {{post.postText | slice:0:post.maxLength}} -->
                                 <label *ngIf="post.postText.length > post.maxLength">...</label>
                                 <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="post.postText.length > post.maxLength" (click)="post.maxLength = post.postText.length"
                                     href="javascript:void(0);">see more</a>
                             </p>
-                        </h4>
+                        </div>
                     </div>
-                    <div>
-                        <!-- <img src="assets/images/jobnotification.jpg" style="max-width: 100%;
-                        max-height: 100%;padding: 7px;" class="rounded" alt="Post"> -->
+                    <div style="margin-top: -23px;">
+                        <div *ngIf="post.postId == 148">
+                            <img src="assets/images/jobNotification1.png" style="max-width: 100%;
+                                max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                        </div>
+
+                        <div class="images" *ngIf="post.postId == 147">
+                            <span class="item">
+                                <img src="assets/images/jobNotification1.png" style="max-width: 100%;
+                            max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                            </span>
+                            <span class="item">
+                                <img src="assets/images/jobNotification2.png" style="max-width: 100%;
+                            max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                            </span>
+                        </div>
+                        <div class="images" *ngIf="post.postId == 146">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img src="assets/images/jobNotification1.png" style="max-width: 100%;
+                                        max-height: 100%;padding: 7px;height: 270px;" class="rounded" alt="Post">
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="assets/images/jobNotification2.png" style="max-width: 100%;
+                                    max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                                    <img src="assets/images/jobNotification3.png" style="max-width: 100%;
+                                    max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="images" *ngIf="post.postId == 145">
+                            <span class="item">
+                                <img src="assets/images/jobNotification1.png" style="max-width: 100%;
+                            max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                            </span>
+                            <span class="item">
+                                <img src="assets/images/jobNotification2.png" style="max-width: 100%;
+                            max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                            </span>
+                            <span class="item">
+                                <img src="assets/images/jobNotification3.png" style="max-width: 100%;
+                                max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                            </span>
+                            <span class="item">
+                                <img src="assets/images/jobNotification4.jpg" style="max-width: 100%;
+                                max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                            </span>
+                        </div>
                     </div>
-                    <hr>
-                    <div>
+                    <hr >
+                    <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
                             <li class="list-inline-item paddingIcons" style="cursor: pointer;">
-                                <i class="far fa-thumbs-up iconSize"></i>&nbsp;&nbsp;
-                                <strong>12</strong>
+                                <i class="far fa-thumbs-up iconSize"></i>&nbsp; 12
                             </li>
                             <li class="list-inline-item paddingIcons" style="cursor: pointer;">
-                                <i class="far fa-thumbs-down iconSize"></i>&nbsp;&nbsp;
-                                <strong>3</strong>
+                                <i class="far fa-thumbs-down iconSize"></i>&nbsp; 3
                             </li>
                             <li class="list-inline-item paddingIcons" style="cursor: pointer;" (click)="post.selectComments = !post.selectComments;getCommentsForPost(post.postId,i);">
-                                <i class="fas fa-comments iconSize"></i>&nbsp;&nbsp;
+                                <i class="fas fa-comments iconSize"></i>&nbsp;
                                 <a>
-                                    <strong>{{post.commentsCount}}</strong>
+                                    {{post.commentsCount}}
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div *ngIf="post.selectComments">
                         <hr style="margin-top: -5px;">
+                        <div style="padding-left: 7px;padding-right: 7px;padding-bottom: 7px;">
+                            <form>
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" style="border-radius: 17px;" (click)="createComment(post.commentText, i)" [disabled]="post.commentText == null || post.commentText?.length == 0">
+                                            <i class="fas fa-share-square"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control" style="border-radius: 17px;" [ngModelOptions]="{standalone: true}" [(ngModel)]="post.commentText" placeholder="Add a comment..">
+                                </div>
+                            </form>
+                        </div>
                         <div *ngFor="let comment of post.comments;index as in">
-                            <div class="row" style="padding-left: 45px;margin-top: -23px;">
-                                <div>
+                            <div class="wrap" style="margin-top: -6px;">
+                                <div class="commentProfile">
                                     <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ThemeMountain" src="assets/images/user.png">
                                 </div>
-                                <div style="margin-left: -48px;margin-top: 12px;">
+                                <div class="commentBody">
                                     <ul>
                                         <li>
-                                            <a style="font-size: 11px;" href="javascript:void(0);">
-                                                <b>{{comment.userProfile.userName}}</b>
+                                            <a style="font-size: 11px;color: black;font-weight: 500;" href="javascript:void(0);">
+                                                {{comment.userProfile.userName}}
                                             </a>
                                         </li>
-                                        <li style="font-size: 10px;">{{comment.createTime | date: 'dd/MM/yyyy'}}</li>
-                                        <li>
+                                        <li style="font-size: 10px;">{{comment.createTime | date: 'MMM d, y, h:mm:ss a'}}</li>
+                                        <li style="font-size: 13px;">
                                             <p>{{comment.commentText}}</p>
                                         </li>
                                     </ul>
@@ -138,19 +189,7 @@
                             <div class="loader"></div>
                         </div>
                         <div class="text-center" *ngIf="showMoreCommentsChecker(post.comments, post.commentsCount) && !post.commentsSpinner">
-                            <a href="javascript:void(0);" (click)="loadMoreComments(post.postId,i)"> more comments </a>
-                        </div>
-                        <div style="margin-left: 45px;padding: 10px;">
-                            <form>
-                                <div class="input-group">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-default" (click)="createComment(post.commentText, i)" [disabled]="post.commentText == null || post.commentText?.length == 0">
-                                            <i class="fas fa-share-square"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="post.commentText" placeholder="Add a comment..">
-                                </div>
-                            </form>
+                            <a href="javascript:void(0);" (click)="loadMoreComments(post.postId,i)"> load old comments </a>
                         </div>
                     </div>
                 </div>
@@ -164,7 +203,7 @@
                 <b *ngIf="postsList.length == 0">Opps! No Posts Available</b>
             </div>
         </div>
-        <div class="col-md-2" *ngIf="!isMobile">
+        <div class="col-md-3" *ngIf="!isMobile">
             <right-menu></right-menu>
         </div>
     </div>
@@ -189,7 +228,7 @@
             <div class="modal-body" formGroupName="data">
 
                 <div class="form-group" style="padding:12px;">
-                    <textarea class="form-control" formControlName="text" placeholder="What is your question?"></textarea>
+                    <textarea class="form-control" formControlName="postText" placeholder="What is your question?"></textarea>
                 </div>
 
 

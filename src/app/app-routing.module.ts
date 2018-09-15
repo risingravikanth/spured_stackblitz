@@ -18,23 +18,28 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            component: NoticerMainComponent
+            component: NoticerMainComponent,
+            canActivate: [AuthGuard]
           },
           {
             path: 'user-profile',
-            component: UserProfileComponent
+            component: UserProfileComponent,
+            canActivate: [AuthGuard]
           },
           {
             path: 'mobile-menu',
-            component: MenuMobileComponent
+            component: MenuMobileComponent,
+            canActivate: [AuthGuard]
           },
           {
             path: 'help',
-            component: HelpComponent
+            component: HelpComponent,
+            canActivate: [AuthGuard]
           },
           {
             path: 'settings',
-            component: SettingsComponent
+            component: SettingsComponent,
+            canActivate: [AuthGuard]
           }
         ]
     },

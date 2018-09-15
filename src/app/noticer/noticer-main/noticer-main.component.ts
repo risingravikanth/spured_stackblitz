@@ -75,7 +75,7 @@ export class NoticerMainComponent implements OnInit {
     this.sectionsTypesMappings = [
       { section: 'VERBAL', _type: 'VerbalPost' },
       { section: 'QUANTS', _type: 'QuantsPost' },
-      { section: 'EVENTS', _type: 'EventPost' },
+      { section: 'EVENTS', _type: 'EventsPost' },
       { section: 'CAREERS', _type: 'CareerPost' },
     ];
     this.isMobile = this.mobileService.isMobile();
@@ -99,7 +99,8 @@ export class NoticerMainComponent implements OnInit {
       }),
       data: this.formbuilder.group({
         _type: [null, Validators.required],
-        text: [null, Validators.required],
+        postText:[null, Validators.required],
+        text: [null],
         model: [null, Validators.required],
         category: [null, Validators.required],
         // images: [null],
@@ -142,6 +143,7 @@ export class NoticerMainComponent implements OnInit {
     if(type == undefined && category == undefined){
       this.initRequest()
       this.getPosts();
+      this.questionName = "";
     } else{
       this.selectedCategory(sec);
     }
@@ -300,6 +302,9 @@ export class NoticerMainComponent implements OnInit {
     }
 
     console.log(this.addPostForm.value);
+    let postText = this.addPostForm.controls['data'].get('postText').value
+    let txt = postText.replace(/\n/g, '<br>');
+    this.addPostForm.controls['data'].get('text').patchValue(txt);
     if (this.addPostForm.valid) {
       this.service.createPost(this.addPostForm.value).subscribe((resData: any) => {
         if (resData && resData.code && resData.code.id) {
@@ -409,7 +414,8 @@ export class NoticerMainComponent implements OnInit {
         alert(resData.code.longMessage);
       } else {
         this.postsList[index].commentText = null;
-        this.postsList[index].comments.push(resData.comment);
+        this.postsList[index].comments.splice(0, 0, resData.comment);
+        // this.postsList[index].comments.push(resData.comment);
         this.postsList[index].commentsCount = this.postsList[index].commentsCount + 1;
       }
     })

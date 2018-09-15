@@ -50,18 +50,17 @@ li {
 
 .typeAlign{
     text-align: right;
-    margin-top: -15px;
+    margin-top: -52px;
     padding: 11px;
 }
 
 .post-text{
-    font-size: 13px;
     padding-left: 16px;
     padding-right: 6px;
 }
 
 .iconSize{
-    font-size: 23px;
+    font-size: 15px;
 }
 
 .paddingIcons{
@@ -100,10 +99,7 @@ li {
   }
 
   .addQuestion{
-    color: black;
-    font-size: 95%;
-    font-family: cursive;
-    font-weight: 200;
+    color: #000000bf
   }
 
   .addPost{
@@ -115,4 +111,30 @@ li {
   .ui-dropdown .ui-dropdown-panel {
     min-width: 100%;
     width: 10% !important;
+}
+
+
+.wrap{
+    display: flex;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+
+.commentProfile{
+    width: 8%;
+}
+
+.commentBody{
+    width: 92%;
+    margin-top: 10px;
+}
+
+
+.item {
+    width: 50%;
+    float: left;
+}
+.item img {
+    display: block;
 }
