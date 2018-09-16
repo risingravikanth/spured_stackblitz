@@ -19,27 +19,27 @@ const routes: Routes = [
           {
             path: '',
             component: NoticerMainComponent,
-            canActivate: [AuthGuard]
+            // canActivate: [AuthGuard]
           },
           {
             path: 'user-profile',
             component: UserProfileComponent,
-            canActivate: [AuthGuard]
+            // canActivate: [AuthGuard]
           },
           {
             path: 'mobile-menu',
             component: MenuMobileComponent,
-            canActivate: [AuthGuard]
+            // canActivate: [AuthGuard]
           },
           {
             path: 'help',
             component: HelpComponent,
-            canActivate: [AuthGuard]
+            // canActivate: [AuthGuard]
           },
           {
             path: 'settings',
             component: SettingsComponent,
-            canActivate: [AuthGuard]
+            // canActivate: [AuthGuard]
           }
         ]
     },
