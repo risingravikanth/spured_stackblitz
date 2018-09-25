@@ -8,8 +8,8 @@ image: node:6.9.4
 pipelines:
   default:
     - step:
-        caches:
-          - node
         script: # Modify the commands below to build your repository.
+          - git push https://heroku:$422a6ffe-6486-4d3d-afdf-4b6b70c4fb8c@git.heroku.com/$noticer.git HEAD
           - npm install
           - npm test
+          - npm start
