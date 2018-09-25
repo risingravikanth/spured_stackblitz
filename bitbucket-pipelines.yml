@@ -15,4 +15,4 @@ pipelines:
           - npm install
           - npm -v
           - node -v
-          - ng serve-
+          - ng serve
