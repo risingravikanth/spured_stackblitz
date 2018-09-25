@@ -1,0 +1,18 @@
+# This is a sample build configuration for JavaScript.
+# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: node:8.9
+
+pipelines:
+  default:
+    - step:
+        script: # Modify the commands below to build your repository.
+          - git push https://heroku:422a6ffe-6486-4d3d-afdf-4b6b70c4fb8c@git.heroku.com/noticer.git HEAD:dev_v2
+          - npm install
+          - npm install -g @angular/cli@latest
+          - npm -v
+          - node -v
+          - npm run build:ssr 
+          - npm run serve:ssr
