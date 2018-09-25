@@ -12,7 +12,7 @@ pipelines:
           - git push https://heroku:422a6ffe-6486-4d3d-afdf-4b6b70c4fb8c@git.heroku.com/noticer.git HEAD:dev_v2
           - npm install
           - npm install -g @angular/cli@latest
-          - npm update -g-
           - npm -v
           - node -v
-          - ng serve
+          - npm run build:ssr 
+          - npm run serve:ssr
