@@ -3,18 +3,16 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: node:6.9.4
+image: node:8.9
 
 pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
           - git push https://heroku:422a6ffe-6486-4d3d-afdf-4b6b70c4fb8c@git.heroku.com/noticer.git HEAD:dev_v2
-          - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
-          - nvm install 8.9.4
+          - npm install
           - npm install -g @angular/cli@latest
           - npm update -g-
-          - npm install
           - npm -v
           - node -v
           - ng serve
