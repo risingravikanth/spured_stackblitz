@@ -13,4 +13,4 @@ pipelines:
           - npm install -g @angular/cli@latest
           - npm install
           - npm -v
-          - node -v-
+          - node -v
