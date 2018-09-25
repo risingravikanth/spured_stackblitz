@@ -14,5 +14,5 @@ pipelines:
           - npm install -g @angular/cli@latest
           - npm -v
           - node -v
-          - npm run build:ssr 
-          - npm run serve:ssr
+         # - npm run build:ssr 
+         # - npm run serve:ssr
