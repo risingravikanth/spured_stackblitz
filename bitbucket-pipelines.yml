@@ -9,4 +9,4 @@ pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
-          - git push https://heroku:422a6ffe-6486-4d3d-afdf-4b6b70c4fb8c@git.heroku.com/noticer.git HEAD:dev_v2
+          - git push https://heroku:9f0c42bc-3d10-4cee-8ace-a8ada01bbc29@git.heroku.com/noticer.git HEAD:dev_v2
