@@ -344,6 +344,9 @@ export class NoticerMainComponent implements OnInit {
         } else if (comments && comments.comments) {
           if (comments.comments.length > 0) {
             this.postsList[index].comments = comments.comments;
+            this.postsList[index].comments.forEach(element => {
+                element.maxLength = 25;
+            });
           }
         }
       })
@@ -414,6 +417,7 @@ export class NoticerMainComponent implements OnInit {
         alert(resData.code.longMessage);
       } else {
         this.postsList[index].commentText = null;
+        resData.comment.maxLength = 25;
         this.postsList[index].comments.splice(0, 0, resData.comment);
         // this.postsList[index].comments.push(resData.comment);
         this.postsList[index].commentsCount = this.postsList[index].commentsCount + 1;

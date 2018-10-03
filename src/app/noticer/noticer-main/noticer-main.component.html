@@ -14,8 +14,10 @@
                     <hr>
                     <div style="width: 80%;">
                         <h3 class="question-text">
-                            <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)" *ngIf="questionName?.length == 0">Add your question</a>
-                            <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)" *ngIf="questionName?.length > 0">Add your question on
+                            <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
+                                *ngIf="questionName?.length == 0">Add your question</a>
+                            <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
+                                *ngIf="questionName?.length > 0">Add your question on
                                 <font color="red">{{questionName}}</font>
                             </a>
                         </h3>
@@ -26,11 +28,13 @@
             <div *ngFor="let post of postsList;index as i;">
                 <div class="card">
                     <div>
-                        <li style="font-size: 12px;padding-left: 10px;margin-top: 8px;color: gray">Type: {{post._type}}, Category: {{post.category | uppercase}}, Model: {{post.model}}</li>
+                        <li style="font-size: 12px;padding-left: 10px;margin-top: 8px;color: gray">Type:
+                            {{post._type}}, Category: {{post.category | uppercase}}, Model: {{post.model}}</li>
                     </div>
                     <hr style="margin-top: 5px;">
                     <div class="typeAlign dropleft">
-                        <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 20px;"></i>
+                        <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false" style="font-size: 20px;"></i>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                             <button class="dropdown-item" type="button">Edit</button>
                             <button class="dropdown-item" type="button">Delete</button>
@@ -38,7 +42,8 @@
                     </div>
                     <div class="row" style="padding-left: 9px;margin-top: -15px;">
                         <div>
-                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="UserProfilePic" src="assets/images/img_avatar.png">
+                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="UserProfilePic"
+                                src="assets/images/img_avatar.png">
                         </div>
                         <div style="margin-left: -48px;margin-top: 12px;">
                             <ul>
@@ -47,7 +52,8 @@
                                         {{post.userProfile ? post.userProfile.userName : '-NA-'}}
                                     </a>
                                 </li>
-                                <li class="text-muted" style="font-size: 12px;">{{post.createTime | date: 'MMM d, y, h:mm:ss a'}}</li>
+                                <li class="text-muted" style="font-size: 12px;">{{post.createTime | date: 'MMM d, y,
+                                    h:mm:ss a'}}</li>
                             </ul>
                         </div>
                     </div>
@@ -79,38 +85,44 @@
                                 <label [innerHtml]="post.postText | slice:0:post.maxLength"></label>
                                 <!-- {{post.postText | slice:0:post.maxLength}} -->
                                 <label *ngIf="post.postText.length > post.maxLength">...</label>
-                                <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="post.postText.length > post.maxLength" (click)="post.maxLength = post.postText.length"
-                                    href="javascript:void(0);">see more</a>
+                                <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="post.postText.length > post.maxLength"
+                                    (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see more</a>
                             </p>
                         </div>
                     </div>
                     <div style="margin-top: -23px;">
                         <div *ngIf="post.postId == 148">
                             <img src="assets/images/jobNotification1.png" style="max-width: 100%;
-                                max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                                max-height: 100%;padding: 7px;"
+                                class="rounded" alt="Post">
                         </div>
 
                         <div class="images" *ngIf="post.postId == 147">
                             <span class="item">
                                 <img src="assets/images/jobNotification1.png" style="max-width: 100%;
-                            max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                            max-height: 100%;padding: 7px;"
+                                    class="rounded" alt="Post">
                             </span>
                             <span class="item">
                                 <img src="assets/images/jobNotification2.png" style="max-width: 100%;
-                            max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                            max-height: 100%;padding: 7px;"
+                                    class="rounded" alt="Post">
                             </span>
                         </div>
                         <div class="images" *ngIf="post.postId == 146">
                             <div class="row">
                                 <div class="col-md-6">
                                     <img src="assets/images/jobNotification1.png" style="max-width: 100%;
-                                        max-height: 100%;padding: 7px;height: 270px;" class="rounded" alt="Post">
+                                        max-height: 100%;padding: 7px;height: 270px;"
+                                        class="rounded" alt="Post">
                                 </div>
                                 <div class="col-md-6">
                                     <img src="assets/images/jobNotification2.png" style="max-width: 100%;
-                                    max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                                    max-height: 100%;padding: 7px;"
+                                        class="rounded" alt="Post">
                                     <img src="assets/images/jobNotification3.png" style="max-width: 100%;
-                                    max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                                    max-height: 100%;padding: 7px;"
+                                        class="rounded" alt="Post">
                                 </div>
                             </div>
                         </div>
@@ -118,23 +130,27 @@
                         <div class="images" *ngIf="post.postId == 145">
                             <span class="item">
                                 <img src="assets/images/jobNotification1.png" style="max-width: 100%;
-                            max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                            max-height: 100%;padding: 7px;"
+                                    class="rounded" alt="Post">
                             </span>
                             <span class="item">
                                 <img src="assets/images/jobNotification2.png" style="max-width: 100%;
-                            max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                            max-height: 100%;padding: 7px;"
+                                    class="rounded" alt="Post">
                             </span>
                             <span class="item">
                                 <img src="assets/images/jobNotification3.png" style="max-width: 100%;
-                                max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                                max-height: 100%;padding: 7px;"
+                                    class="rounded" alt="Post">
                             </span>
                             <span class="item">
                                 <img src="assets/images/jobNotification4.jpg" style="max-width: 100%;
-                                max-height: 100%;padding: 7px;" class="rounded" alt="Post">
+                                max-height: 100%;padding: 7px;"
+                                    class="rounded" alt="Post">
                             </span>
                         </div>
                     </div>
-                    <hr >
+                    <hr>
                     <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
                             <li class="list-inline-item paddingIcons" style="cursor: pointer;">
@@ -157,18 +173,22 @@
                             <form>
                                 <div class="input-group">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-default" style="border-radius: 17px;" (click)="createComment(post.commentText, i)" [disabled]="post.commentText == null || post.commentText?.length == 0">
+                                        <button class="btn btn-default" style="border-radius: 17px;" (click)="createComment(post.commentText, i)"
+                                            [disabled]="post.commentText == null || post.commentText?.length == 0">
                                             <i class="fas fa-share-square"></i>
                                         </button>
                                     </div>
-                                    <input type="text" class="form-control" style="border-radius: 17px;" [ngModelOptions]="{standalone: true}" [(ngModel)]="post.commentText" placeholder="Add a comment..">
+                                    <input type="text" class="form-control" style="border-radius: 17px;"
+                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="post.commentText"
+                                        placeholder="Add a comment..">
                                 </div>
                             </form>
                         </div>
                         <div *ngFor="let comment of post.comments;index as in">
                             <div class="wrap" style="margin-top: -6px;">
                                 <div class="commentProfile">
-                                    <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ThemeMountain" src="assets/images/user.png">
+                                    <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ThemeMountain"
+                                        src="assets/images/user.png">
                                 </div>
                                 <div class="commentBody">
                                     <ul>
@@ -177,9 +197,15 @@
                                                 {{comment.userProfile.userName}}
                                             </a>
                                         </li>
-                                        <li style="font-size: 10px;">{{comment.createTime | date: 'MMM d, y, h:mm:ss a'}}</li>
+                                        <li style="font-size: 10px;">{{comment.createTime | date: 'MMM d, y, h:mm:ss
+                                            a'}}</li>
                                         <li style="font-size: 13px;">
-                                            <p>{{comment.commentText}}</p>
+                                            <!-- <p>{{comment.commentText}}</p> -->
+                                            <label [innerHtml]="comment.commentText | slice:0:comment.maxLength"></label>
+                                            <label *ngIf="comment.commentText.length > comment.maxLength">...</label>
+                                            <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="comment.commentText.length > comment.maxLength"
+                                                (click)="comment.maxLength = comment.commentText.length" href="javascript:void(0);">see
+                                                more</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -189,7 +215,8 @@
                             <div class="loader"></div>
                         </div>
                         <div class="text-center" *ngIf="showMoreCommentsChecker(post.comments, post.commentsCount) && !post.commentsSpinner">
-                            <a href="javascript:void(0);" (click)="loadMoreComments(post.postId,i)"> load old comments </a>
+                            <a href="javascript:void(0);" (click)="loadMoreComments(post.postId,i)"> load old comments
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -199,7 +226,8 @@
                 <div class="loader"></div>
             </div>
             <div class="text-center" *ngIf="!showPostSpinner">
-                <a *ngIf="postsList.length > 0 && showMoreLink" href="javascript:void(0);" (click)="loadMorePosts()"> Show more </a>
+                <a *ngIf="postsList.length > 0 && showMoreLink" href="javascript:void(0);" (click)="loadMorePosts()">
+                    Show more </a>
                 <b *ngIf="postsList.length == 0">Opps! No Posts Available</b>
             </div>
         </div>
@@ -236,7 +264,8 @@
                 <div class="addPost" *ngIf="showAddPost.general">
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <p-dropdown placeholder=" Type" [options]="types" [style]="{'width':'100%'}" formControlName="_type" filter="true">
+                            <p-dropdown placeholder=" Type" [options]="types" [style]="{'width':'100%'}"
+                                formControlName="_type" filter="true">
                                 <ng-template let-type pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
                                         <span style="vertical-align:middle">{{type.label}}</span>
@@ -245,7 +274,8 @@
                             </p-dropdown>
                         </div>
                         <div class="form-group col-md-4">
-                            <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category" filter="true">
+                            <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}"
+                                formControlName="category" filter="true">
                                 <ng-template let-category pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
                                         <span style="vertical-align:middle">{{category.label}}</span>
@@ -254,7 +284,8 @@
                             </p-dropdown>
                         </div>
                         <div class="form-group col-md-4">
-                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}" formControlName="model" filter="true">
+                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}"
+                                formControlName="model" filter="true">
                                 <ng-template let-model pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
                                         <span style="vertical-align:middle">{{model.label}}</span>
@@ -270,8 +301,8 @@
                 <div class="addPost" *ngIf="showAddPost.verbal || showAddPost.quants">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category"
-                                filter="true">
+                            <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories"
+                                [style]="{'width':'100%'}" formControlName="category" filter="true">
                                 <ng-template let-category pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
                                         <span style="vertical-align:middle">{{category.label}}</span>
@@ -280,7 +311,8 @@
                             </p-dropdown>
                         </div>
                         <div class="form-group col-md-6">
-                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}" formControlName="model" filter="true">
+                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}"
+                                formControlName="model" filter="true">
                                 <ng-template let-model pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
                                         <span style="vertical-align:middle">{{model.label}}</span>
@@ -316,8 +348,8 @@
                     </div> -->
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category"
-                                filter="true">
+                            <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories"
+                                [style]="{'width':'100%'}" formControlName="category" filter="true">
                                 <ng-template let-category pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
                                         <span style="vertical-align:middle">{{category.label}}</span>
@@ -326,7 +358,8 @@
                             </p-dropdown>
                         </div>
                         <div class="form-group col-md-6">
-                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}" formControlName="model" filter="true">
+                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}"
+                                formControlName="model" filter="true">
                                 <ng-template let-model pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
                                         <span style="vertical-align:middle">{{model.label}}</span>
@@ -337,10 +370,12 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="To Date" [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
+                            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="To Date" [style]="{'width':'95%'}"
+                                [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
                         <div class="form-group col-md-6">
-                            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="From Date" [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
+                            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="From Date" [style]="{'width':'95%'}"
+                                [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
                     </div>
                     <div class="row">
@@ -348,7 +383,8 @@
                             <input class="form-control form-control-sm" type="text" formControlName="topic" placeholder="Topic">
                         </div>
                         <div class="form-group col-md-6">
-                            <input class="form-control form-control-sm" type="text" formControlName="contacts" placeholder="Contacts">
+                            <input class="form-control form-control-sm" type="text" formControlName="contacts"
+                                placeholder="Contacts">
                         </div>
                     </div>
                 </div>
@@ -358,8 +394,8 @@
                 <div class="addPost" *ngIf="showAddPost.careers">
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories" [style]="{'width':'100%'}" formControlName="category"
-                                filter="true">
+                            <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories"
+                                [style]="{'width':'100%'}" formControlName="category" filter="true">
                                 <ng-template let-category pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
                                         <span style="vertical-align:middle">{{category.label}}</span>
@@ -368,7 +404,8 @@
                             </p-dropdown>
                         </div>
                         <div class="form-group col-md-4">
-                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}" formControlName="model" filter="true">
+                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}"
+                                formControlName="model" filter="true">
                                 <ng-template let-model pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
                                         <span style="vertical-align:middle">{{model.label}}</span>
@@ -377,7 +414,8 @@
                             </p-dropdown>
                         </div>
                         <div class="col-md-4">
-                            <p-multiSelect [options]="audienceList" [style]="{'width':'100%','height':'34px'}" defaultLabel="Qualifications"></p-multiSelect>
+                            <p-multiSelect [options]="audienceList" [style]="{'width':'100%','height':'34px'}"
+                                defaultLabel="Qualifications"></p-multiSelect>
                         </div>
                     </div>
                 </div>
