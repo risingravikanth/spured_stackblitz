@@ -6,12 +6,24 @@
 image: node:8.9
 
 pipelines:
-  default:
-    - step:
-        script: # Modify the commands below to build your repository.
-          - echo "Automatic deployment"
+  # default:
+#     - step:
+#         script: # Modify the commands below to build your repository.
+#           # 
+          
 
-  deployment-to-prod:
-    - step:
-        script:
-          - git push https://heroku:9f0c42bc-3d10-4cee-8ace-a8ada01bbc29@git.heroku.com/noticer.git HEAD:master
+#   deployment-to-prod:
+#     - step:
+#         script:
+#           - git push https://heroku:9f0c42bc-3d10-4cee-8ace-a8ada01bbc29@git.heroku.com/noticer.git HEAD:master
+
+ custom: # Pipelines that can only be triggered manually
+    deployment-to-prod:
+      - step:
+          script:
+           - git push https://heroku:9f0c42bc-3d10-4cee-8ace-a8ada01bbc29@git.heroku.com/noticer.git HEAD:master
+ branches:  # Pipelines that run automatically on a commit to a branch can also be triggered manually
+    staging:
+      - step:
+          script:
+           - echo "Automatic deployment"
