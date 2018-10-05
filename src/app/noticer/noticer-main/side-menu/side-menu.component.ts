@@ -164,30 +164,32 @@ export class SideMenuComponent implements OnInit {
                 "code": "cat"
               },
               {
+                "name": "GMAT",
+                "code": "gmat"
+              },
+              {
                 "name": "MAT",
                 "code": "mat"
               },
               {
                 "name": "GRE",
-                "code": "toefl"
-              }
-            ]
-          },
-          {
-            "name": "General Knowledge",
-            "code": "gk",
-            "categories": [
-              {
-                "name": "HOME",
-                "code": "home"
+                "code": "gre"
               },
               {
-                "name": "Railways",
-                "code": "railway"
+                "name": "TOFEL",
+                "code": "tofel"
               },
               {
-                "name": "Banks",
-                "code": "banks"
+                "name": "RAILWAY EXAMS",
+                "code": "railwayexams"
+              },
+              {
+                "name": "BANK EXAMS",
+                "code": "bankexams"
+              },
+              {
+                "name": "OTHERS",
+                "code": "Others"
               }
             ]
           },
@@ -204,12 +206,54 @@ export class SideMenuComponent implements OnInit {
                 "code": "cat"
               },
               {
-                "name": "TOEFL",
-                "code": "toefl"
+                "name": "GMAT",
+                "code": "gmat"
               },
               {
-                "name": "IELTS",
-                "code": "ielts"
+                "name": "MAT",
+                "code": "mat"
+              },
+              {
+                "name": "GRE",
+                "code": "gre"
+              },
+              {
+                "name": "TOFEL",
+                "code": "tofel"
+              },
+              {
+                "name": "RAILWAY EXAMS",
+                "code": "railwayexams"
+              },
+              {
+                "name": "BANK EXAMS",
+                "code": "bankexams"
+              },
+              {
+                "name": "OTHERS",
+                "code": "Others"
+              }
+            ]
+          },
+          {
+            "name": "General Knowledge",
+            "code": "gk",
+            "categories": [
+              {
+                "name": "HOME",
+                "code": "home"
+              },
+              {
+                "name": "RAILWAY EXAMS",
+                "code": "railwayexams"
+              },
+              {
+                "name": "BANK EXAMS",
+                "code": "bankexams"
+              },
+              {
+                "name": "OTHERS",
+                "code": "Others"
               }
             ]
           },
@@ -220,12 +264,51 @@ export class SideMenuComponent implements OnInit {
               {
                 "name": "HOME",
                 "code": "home"
+              },
+              {
+                "name": "JOBS",
+                "code": "jobs"
               }
             ]
           },
           {
             "name": "Events",
             "code": "events",
+            "categories": [
+              {
+                "name": "HOME",
+                "code": "home"
+              },
+              {
+                "name": "CULTURAL",
+                "code": "CULTURAL"
+              },
+              {
+                "name": "TECHNICAL",
+                "code": "TECHNICAL"
+              },
+              {
+                "name": "SPORTS",
+                "code": "SPORTS"
+              },
+              {
+                "name": "MANGAGEMENT",
+                "code": "MANAGEMENT"
+              },
+              {
+                "name": "FUN",
+                "code": "FUN"
+              },
+              {
+                "name": "OTHERS",
+                "code": "OTHERS"
+              }
+            ]
+          },
+          ,
+          {
+            "name": "News",
+            "code": "news",
             "categories": [
               {
                 "name": "HOME",
