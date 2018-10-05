@@ -305,7 +305,6 @@ export class SideMenuComponent implements OnInit {
               }
             ]
           },
-          ,
           {
             "name": "News",
             "code": "news",
