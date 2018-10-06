@@ -32,7 +32,7 @@ export class UserSetupComponent implements OnInit {
   placeholderString = 'Select timezone';
   mapJsonString: string;
   imageShow: boolean;
-  public responseData:any = { successResponse: "", failedResponse: "", cancel: "" }
+  public responseData: any = { successResponse: "", failedResponse: "", cancel: "" }
   showPasswordError: boolean = false;
   public image: File;
   loggedUser: any;
@@ -49,176 +49,35 @@ export class UserSetupComponent implements OnInit {
 
   ngOnInit() {
     this.userSetUpForm();
-    this.userDetailsForm();
-    this.organizationDetailsForm();
-    this.configurationDetailsForm();
-    this.user.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    this.ConfigurationDetailsForm.value.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    if (this.user.timezone = "Asia/Calcutta") {
-      this.user.timezone = "Asia/Kolkata";
-      this.ConfigurationDetailsForm.value.timeZone = "Asia/Kolkata";
-    }
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/fms/dashboard';
-    this.authForm = this.formbuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
   }
 
-  changeTimezone(timezone) {
-    this.user.timezone = timezone;
-    this.UserSetUpForm.value.timeZone = timezone;
-  }
-
-  handleInputChange(event) {
-    this.image = event.target.files[0];
-    console.log(this.image);
-  }
 
   userSetUpForm() {
     this.UserSetUpForm = this.formbuilder.group({
-      // this.
-      firstName: ["", { validators: [Validators.required] }],
-      lastName: ["", { validators: [Validators.required] }],
-      password: ['', { updateOn: 'blur', validators: [Validators.required] }],
-      matchingPassword: ['', { validators: [Validators.required] }],
-      phone: ["", { validators: [Validators.required] }],
       userName: ["", { validators: [Validators.required] }],
-      adharNumber: ["", { validators: [Validators.required] }],
-      jobTitle: ["", { validators: [Validators.required] }],
-      timeZone: [""],
-      zoneID: [""],
-      role: [1],
-      dateFormatId: ["MM/dd/yyyy", { validators: [Validators.required] }],
-      currencyId: ["USD", { validators: [Validators.required] }],
-      timeFormat: [""],
-      organizationVO: this.formbuilder.group({
-        organizationName: ["", { validators: [Validators.required] }],
-        fleetSize: ["", { validators: [Validators.required] }],
-        params: [""]
-      })
-    }
-      , {
-        validator: PasswordValidation.MatchPassword
-      }
-    );
-
-  }
-
-  markFormGroupTouched(formGroup: FormGroup) {
-    this.showPasswordError = true;
-    (<any>Object).values(formGroup.controls).forEach(control => {
-      control.markAsTouched();
-      if (control.controls) {
-        this.markFormGroupTouched(control);
-      }
-    });
-  }
-
-  userDetailsForm() {
-    this.UserDetailsForm = this.formbuilder.group({
-      firstName: ["", { validators: [Validators.required] }],
-      lastName: ["", { validators: [Validators.required] }],
-      password: ['', { updateOn: 'blur', validators: [Validators.required] }],
+      password: ['', { validators: [Validators.required] }],
       matchingPassword: ['', { validators: [Validators.required] }],
-      phone: ["", { validators: [Validators.required] }],
-      userName: ["", [Validators.required, Validators.email]],
-      adharNumber: ["", { validators: [Validators.required] }],
+      phoneNum: ["", { validators: [Validators.required] }],
+      email: ["", { validators: [Validators.required] }],
+      gender: ["", { validators: [Validators.required] }]
     }
-      , {
-        validator: PasswordValidation.MatchPassword
-      }
     );
   }
-
-  organizationDetailsForm() {
-    this.OrganizationDetailsForm = this.formbuilder.group({
-      organizationVO: this.formbuilder.group({
-        organizationName: ["", { validators: [Validators.required] }],
-        fleetSize: ["", { validators: [Validators.required] }],
-        params: [""]
-      }),
-      jobTitle: ["", { validators: [Validators.required] }],
-    });
-  }
-
-  configurationDetailsForm() {
-    this.ConfigurationDetailsForm = this.formbuilder.group({
-      timeZone: [""],
-      zoneID: [""],
-      dateFormatId: ["MM/dd/yyyy", { validators: [Validators.required] }],
-      currencyId: ["USD", { validators: [Validators.required] }],
-      timeFormat: ["12 Hours"],
-    });
-  }
-
 
   saveUserSetUp() {
-    this.showSpinner = true;
-    let selected: ParamMap = {
-      dateformat: this.ConfigurationDetailsForm.value.dateFormatId,
-      timezone: this.user.timezone,
-      currencyformat: this.ConfigurationDetailsForm.value.currencyId,
-      timeformat: this.ConfigurationDetailsForm.value.timeFormat
-    }
-    let formData: FormData = new FormData();
-    if (this.image != undefined) {
-      formData.append('file', this.image, this.image.name);
-    }
-    this.UserSetUpForm.patchValue(this.UserDetailsForm.value);
-    this.UserSetUpForm.patchValue(this.OrganizationDetailsForm.value);
-    this.UserSetUpForm.patchValue(this.ConfigurationDetailsForm.value);
-    this.UserSetUpForm.controls['organizationVO'].patchValue({ params: selected });
-    this.UserSetUpForm.controls['timeZone'].patchValue(this.user.timezone);
-    this.UserSetUpForm.controls['zoneID'].patchValue(selected.timezone);
-    // console.log("setup form" , this.UserSetUpForm.value);
-    this.userSetUpService.saveUserSetUp(this.UserSetUpForm.value).subscribe(
-      resData => {
-        this.organizationVO = resData;
-        if (this.image != undefined) {
-          this.userSetUpService.saveUserSetUpWithImage(formData, this.organizationVO.id).subscribe(
-            resData => {
-              this.responseData = resData;
-              this.showSpinner = false;
-              this.imageShow = true;
-              // this.imageBase64 = 'data:image/png;base64,' + this.responseData;
-              if (this.responseData.successResponse) {
-                this.msgs.push({ severity: 'success', summary: 'Success:', detail: "Signup success" });
-                this.authForm.controls['username'].patchValue(this.UserDetailsForm.value.userName);
-                this.authForm.controls['password'].patchValue(this.UserDetailsForm.value.password);
-                this.login();
-              }
-            }
-          );
-        } else if (this.organizationVO && this.organizationVO.organizationName && this.organizationVO.organizationName != null) {
+    if (this.UserSetUpForm.invalid) {
+      alert("Please fill all the fields")
+    } else if (this.UserSetUpForm.get('password').value != this.UserSetUpForm.get('matchingPassword').value) {
+      alert("password not matched")
+    } else {
+      this.showSpinner = true;
+      this.userSetUpService.saveUser(this.UserSetUpForm.value).subscribe(
+        resData => {
+          this.responseData = resData;
           this.showSpinner = false;
-          this.msgs.push({ severity: 'success', summary: 'Success:', detail: "Signup success" });
-          this.authForm.controls['username'].patchValue(this.UserDetailsForm.value.userName);
-          this.authForm.controls['password'].patchValue(this.UserDetailsForm.value.password);
-          this.login();
         }
-      }, (err: HttpErrorResponse) => {
-        this.showSpinner = false;
-        alert(err.error.message);
-      }
-    );
+      );
+    }
   }
 
-
-  private login() {
-  //   this.authService.attemptAuth(this.authForm.value, this.returnUrl).subscribe(data => {
-  //     this.authService.setAuth(this.loggedUser);
-  //     this.permissionService.getPermissions().subscribe(data => {
-  //       let roleData: any = data;
-  //       let authority: string[] = [];
-  //       roleData.forEach(element => {
-  //         authority.push(element.authority);
-  //       });
-  //       this.router.navigate([this.returnUrl]);
-  //     }, (err: HttpErrorResponse) => {
-  //       console.log("permisssion error", err);
-  //     })
-  //   }, (err: HttpErrorResponse) => {
-  //   });
-  }
 }

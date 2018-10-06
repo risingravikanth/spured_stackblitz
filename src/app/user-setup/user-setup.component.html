@@ -1,10 +1,52 @@
 <div class="col-md-8 login-page signup mylogin">
 
-    <div class="  income text-center marb20">
-        <h1 class="icon">
-            <img src="assets/images/favicon.ico" class="img-circle special-img signup-icon">
-        </h1>
-        <h3>Welcome to Noticer </h3>
+    <div class="  income marb20">
+        <div class="text-center">
+            <h1 class="icon">
+                <img src="assets/images/favicon.ico" class="img-circle special-img signup-icon">
+            </h1>
+            <h3>Welcome to Noticer </h3>
+        </div>
+        <br>
+        <form [formGroup]="UserSetUpForm" class="needs-validation" novalidate>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="validationCustom03">Full Name</label>
+                    <input type="text" class="form-control" formControlName="userName" placeholder="Full Name">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationCustomUsername">Email</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend">@</span>
+                        </div>
+                        <input type="text" class="form-control" formControlName="email" id="validationCustomUsername" placeholder="email"
+                            aria-describedby="inputGroupPrepend">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="validationCustom04">Gender</label>
+                    <input type="text" formControlName="gender" class="form-control" id="validationCustom04" placeholder="Gender">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationCustom05">Phone</label>
+                    <input type="text" class="form-control" formControlName="phoneNum" id="validationCustom05" placeholder="Phonenumber">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="validationCustom03">Password</label>
+                    <input type="text" class="form-control" id="validationCustom03" formControlName="password" placeholder="Password">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationCustom03">Confirm Password</label>
+                    <input type="text" class="form-control" id="validationCustom03" formControlName="matchingPassword" placeholder="Confirm Password">
+                </div>
+            </div>
+            <button class="btn btn-primary" (click)="saveUserSetUp()" [disabled]="UserSetUpForm.invalid" type="submit">Submit</button>
+        </form>
 
     </div>
     <div *ngIf="showSpinner" class="spinner">

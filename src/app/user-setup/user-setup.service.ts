@@ -9,16 +9,10 @@ import 'rxjs/add/observable/throw';
 export class UserSetUpService {
     constructor(private httpClient: HttpClient) { }
 
-    saveUserSetUp(body: any) {
+    saveUser(body: any) {
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        let url =  "/users/signupSetup";
+        let url = "/users/createProfile";
         return this.httpClient.post(url, JSON.stringify(body), { headers: headers });
-    }
-
-    saveUserSetUpWithImage(formData, id: any) {
-        let headers = new HttpHeaders().set('enctype', 'multipart/form-data').set('Accept', 'application/json');
-        // .set('enctype', 'multipart/form-data');
-        return this.httpClient.post( "/users/signSetupWithImage/" + id, formData, { headers: headers});
     }
 
 }
