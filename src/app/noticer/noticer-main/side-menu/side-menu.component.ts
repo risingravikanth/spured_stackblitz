@@ -316,57 +316,58 @@ export class SideMenuComponent implements OnInit {
             ]
           }
         ]
-      },
-      {
-        "title": "Boards",
-        "select": false,
-        "sections": [
-          {
-            "name": "Open",
-            "code": "open",
-            "categories": [
-              {
-                "name": "HOME",
-                "code": "home"
-              },
-              {
-                "name": "JNTU Kakinada",
-                "code": "jntuk"
-              },
-              {
-                "name": "RGUKT CSE 2000-03",
-                "code": "1132"
-              }
-            ]
-          },
-          {
-            "name": "Close",
-            "code": "close",
-            "categories": [
-              {
-                "name": "HOME",
-                "code": "home"
-              },
-              {
-                "name": "RGUKT Nuzivid",
-                "code": "rgukt-nzv"
-              },
-              {
-                "name": "RGUKT Nuzivid CSE",
-                "code": "rgukt-cse"
-              },
-              {
-                "name": "RGUKT Nuzivid 2000-03",
-                "code": "rgukt-2000-03"
-              },
-              {
-                "name": "RGUKT Nuzivid CSE 2000-03",
-                "code": "211"
-              }
-            ]
-          }
-        ]
       }
+      // ,
+      // {
+      //   "title": "Boards",
+      //   "select": false,
+      //   "sections": [
+      //     {
+      //       "name": "Open",
+      //       "code": "open",
+      //       "categories": [
+      //         {
+      //           "name": "HOME",
+      //           "code": "home"
+      //         },
+      //         {
+      //           "name": "JNTU Kakinada",
+      //           "code": "jntuk"
+      //         },
+      //         {
+      //           "name": "RGUKT CSE 2000-03",
+      //           "code": "1132"
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       "name": "Close",
+      //       "code": "close",
+      //       "categories": [
+      //         {
+      //           "name": "HOME",
+      //           "code": "home"
+      //         },
+      //         {
+      //           "name": "RGUKT Nuzivid",
+      //           "code": "rgukt-nzv"
+      //         },
+      //         {
+      //           "name": "RGUKT Nuzivid CSE",
+      //           "code": "rgukt-cse"
+      //         },
+      //         {
+      //           "name": "RGUKT Nuzivid 2000-03",
+      //           "code": "rgukt-2000-03"
+      //         },
+      //         {
+      //           "name": "RGUKT Nuzivid CSE 2000-03",
+      //           "code": "211"
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // }
     ]
   }
 

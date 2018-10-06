@@ -20,30 +20,40 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroupPrepend">@</span>
                         </div>
-                        <input type="text" class="form-control" formControlName="email" id="validationCustomUsername" placeholder="email"
-                            aria-describedby="inputGroupPrepend">
+                        <input type="text" class="form-control" formControlName="email" id="validationCustomUsername"
+                            placeholder="email">
                     </div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-md-6 mb-3">
                     <label for="validationCustom04">Gender</label>
-                    <input type="text" formControlName="gender" class="form-control" id="validationCustom04" placeholder="Gender">
+                    <select class="form-control" formControlName="gender" id="exampleFormControlSelect1">
+                        <option value="">Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Femlae</option>
+                    </select>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationCustom05">Phone</label>
-                    <input type="text" class="form-control" formControlName="phoneNum" id="validationCustom05" placeholder="Phonenumber">
+                    <input type="number" class="form-control" formControlName="phoneNum" id="validationCustom05"
+                        placeholder="Phonenumber">
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-md-6 mb-3">
                     <label for="validationCustom03">Password</label>
-                    <input type="text" class="form-control" id="validationCustom03" formControlName="password" placeholder="Password">
+                    <input type="text" class="form-control" id="validationCustom03" formControlName="password"
+                        placeholder="Password">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationCustom03">Confirm Password</label>
-                    <input type="text" class="form-control" id="validationCustom03" formControlName="matchingPassword" placeholder="Confirm Password">
+                    <input type="text" class="form-control" id="validationCustom03" formControlName="matchingPassword"
+                        placeholder="Confirm Password">
                 </div>
+            </div>
+            <div class="text-center" *ngIf="UserSetUpForm.controls['password'].value != UserSetUpForm.controls['matchingPassword'].value">
+                <font color="red"> password not matched</font>
             </div>
             <button class="btn btn-primary" (click)="saveUserSetUp()" [disabled]="UserSetUpForm.invalid" type="submit">Submit</button>
         </form>
