@@ -22,6 +22,7 @@ export class HeaderMobileComponent implements OnInit {
 
     currentUser: User;
     public isMobile: boolean;
+    public showMenu:boolean = true;
 
     ngOnInit() {
         // this.currentUser = this.userService.getCurrentUser();
@@ -33,7 +34,12 @@ export class HeaderMobileComponent implements OnInit {
     }
 
     toggleTopics() {
+        this.showMenu = false;
         this.router.navigate(['noticer/mobile-menu']);
+    }
+    hideMenu(){
+        this.showMenu = true;
+        this.router.navigate(["/noticer"])
     }
 
     onLoggedout() {

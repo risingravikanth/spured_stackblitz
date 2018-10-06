@@ -91,63 +91,84 @@
                         </div>
                     </div>
                     <div style="margin-top: -23px;">
-                        <div *ngIf="post.postId == 148">
-                            <img src="assets/images/jobNotification1.png" style="max-width: 100%;
+                        <div *ngIf="post.images.length == 1">
+                            <img src = "{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%;
                                 max-height: 100%;padding: 7px;"
                                 class="rounded" alt="Post">
                         </div>
 
-                        <div class="images" *ngIf="post.postId == 147">
-                            <span class="item">
-                                <img src="assets/images/jobNotification1.png" style="max-width: 100%;
+                        <div class="images" *ngIf="post.images.length == 2" style="padding:7px;">
+                            <!-- <span class="item">
+                                <img src = "{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%;
                             max-height: 100%;padding: 7px;"
                                     class="rounded" alt="Post">
                             </span>
                             <span class="item">
-                                <img src="assets/images/jobNotification2.png" style="max-width: 100%;
+                                <img src = "{{serverUrl}}/{{post.images[1]}}" style="max-width: 100%;
                             max-height: 100%;padding: 7px;"
                                     class="rounded" alt="Post">
-                            </span>
+                            </span> -->
+                            <mat-grid-list cols="2" rowHeight="2:1">
+                                    <mat-grid-tile
+                                        *ngFor="let tile of post.images">
+                                        <img style="max-width: 100%;
+                                        max-height: 100%;" src = "{{serverUrl}}/{{tile}}">
+                                    </mat-grid-tile>
+                                  </mat-grid-list>
                         </div>
-                        <div class="images" *ngIf="post.postId == 146">
-                            <div class="row">
+                        <div class="images" *ngIf="post.images.length == 3" style="padding:7px;">
+                            <!-- <div class="row">
                                 <div class="col-md-6">
-                                    <img src="assets/images/jobNotification1.png" style="max-width: 100%;
+                                    <img src = "{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%;
                                         max-height: 100%;padding: 7px;height: 270px;"
                                         class="rounded" alt="Post">
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="assets/images/jobNotification2.png" style="max-width: 100%;
+                                    <img src = "{{serverUrl}}/{{post.images[1]}}" style="max-width: 100%;
                                     max-height: 100%;padding: 7px;"
                                         class="rounded" alt="Post">
-                                    <img src="assets/images/jobNotification3.png" style="max-width: 100%;
+                                    <img src = "{{serverUrl}}/{{post.images[2]}}" style="max-width: 100%;
                                     max-height: 100%;padding: 7px;"
                                         class="rounded" alt="Post">
                                 </div>
-                            </div>
+                            </div> -->
+                            <mat-grid-list cols="3" rowHeight="2:2">
+                                    <mat-grid-tile
+                                        *ngFor="let tile of post.images">
+                                        <img style="max-width: 100%;
+                                        max-height: 100%;" src = "{{serverUrl}}/{{tile}}">
+                                    </mat-grid-tile>
+                                  </mat-grid-list>
                         </div>
 
-                        <div class="images" *ngIf="post.postId == 145">
-                            <span class="item">
-                                <img src="assets/images/jobNotification1.png" style="max-width: 100%;
+                        <div class="images" *ngIf="post.images.length == 4" style="padding-right: 7px;">
+                                <mat-grid-list cols="2" rowHeight="2:1">
+                                        <mat-grid-tile
+                                            *ngFor="let tile of post.images">
+                                            <img style="max-width: 100%;
+                                            max-height: 100%;" src = "{{serverUrl}}/{{tile}}">
+                                        </mat-grid-tile>
+                                      </mat-grid-list>
+                            <!-- <span class="item">
+                                <img src = "{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%;
                             max-height: 100%;padding: 7px;"
                                     class="rounded" alt="Post">
                             </span>
                             <span class="item">
-                                <img src="assets/images/jobNotification2.png" style="max-width: 100%;
+                                <img src = "{{serverUrl}}/{{post.images[1]}}" style="max-width: 100%;
                             max-height: 100%;padding: 7px;"
                                     class="rounded" alt="Post">
                             </span>
                             <span class="item">
-                                <img src="assets/images/jobNotification3.png" style="max-width: 100%;
+                                <img src = "{{serverUrl}}/{{post.images[2]}}" style="max-width: 100%;
                                 max-height: 100%;padding: 7px;"
                                     class="rounded" alt="Post">
                             </span>
                             <span class="item">
-                                <img src="assets/images/jobNotification4.jpg" style="max-width: 100%;
+                                <img src = "{{serverUrl}}/{{post.images[3]}}" style="max-width: 100%;
                                 max-height: 100%;padding: 7px;"
                                     class="rounded" alt="Post">
-                            </span>
+                            </span> -->
                         </div>
                     </div>
                     <hr>

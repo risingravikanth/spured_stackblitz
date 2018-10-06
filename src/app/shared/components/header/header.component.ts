@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 import { CurrentUserService } from '../../services/currentUser.service';
@@ -40,15 +40,15 @@ export class HeaderComponent implements OnInit {
     }
 
     onLoggedout() {
-        this.authService.attemptLogout(this.authService.getCurrentUser()).subscribe(resData => {
-            this.responseVo = resData;
-            if (this.responseVo.statusCode == 'SUCCESS') {
+        // this.authService.attemptLogout(this.authService.getCurrentUser()).subscribe(resData => {
+        //     this.responseVo = resData;
+        //     if (this.responseVo.statusCode == 'SUCCESS') {
                 console.log("logged out successfully");
                 this.authService.purgeAuth();
                 this.router.navigate(["/login"])
-            } else {
-                alert("failed");
-            }
-        });
+        //     } else {
+        //         alert("failed");
+        //     }
+        // });
     }
 }

@@ -7,9 +7,6 @@ import { CurrentUserService } from '../shared/services/currentUser.service';
 import { AuthService } from '../shared/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
-import { PermissionService } from '../shared/services/permission.service';
-// import { NgxPermissionsService } from 'ngx-permissions';
-
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',

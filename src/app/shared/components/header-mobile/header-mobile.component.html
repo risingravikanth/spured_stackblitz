@@ -30,17 +30,24 @@
                     <i class="far fa-user-circle"></i>&nbsp; Profile</a>
                 <a class="dropdown-item" href="javascript:void(0);" routerLink="/noticer/help">
                     <i class="fas fa-question-circle"></i>&nbsp; Help </a>
+                <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/noticer/reportus">
+                    <i class="fa fa-fw fa-power-off"></i>&nbsp; Report Us </a> -->
                 <a class="dropdown-item" href="javascript:void(0);" (click)="onLoggedout()">
                     <i class="fa fa-fw fa-power-off"></i>&nbsp; Log Out </a>
-                <hr>
+                <!-- <hr>
                 <a class="dropdown-item" href="javascript:void(0);">
-                    <i class="fas fa-chart-line"></i>&nbsp; Activity </a>
+                    <i class="fas fa-chart-line"></i>&nbsp; Activity </a> -->
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" (click)="toggleTopics()">
+            <a class="nav-link" *ngIf="showMenu" href="javascript:void(0);" (click)="toggleTopics()">
                 <b>
                     <i class="fas fa-bars  header-icon-size"></i>
+                </b>
+            </a>
+            <a class="nav-link" *ngIf="!showMenu" href="javascript:void(0);" (click)="hideMenu()">
+                <b>
+                    <i class="fas fa-times header-icon-size"></i>
                 </b>
             </a>
         </li>

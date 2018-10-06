@@ -10,6 +10,7 @@ import { UserProfileComponent } from './noticer/user-profile/user-profile.compon
 import { MenuMobileComponent } from './noticer/noticer-main/menu-mobile/menu-mobile.component';
 import { HelpComponent } from './noticer/help/help.component';
 import { SettingsComponent } from './noticer/settings/settings.component';
+import { ReportUsComponent } from './noticer/report-us/report-us.component';
 
 const routes: Routes = [
     {
@@ -34,6 +35,11 @@ const routes: Routes = [
           {
             path: 'help',
             component: HelpComponent,
+            // canActivate: [AuthGuard]
+          },
+          {
+            path: 'reportus',
+            component: ReportUsComponent,
             // canActivate: [AuthGuard]
           },
           {

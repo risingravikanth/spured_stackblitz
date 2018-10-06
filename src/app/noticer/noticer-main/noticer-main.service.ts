@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
-import { catchError } from 'rxjs/operators';
 import { Observable } from "rxjs/Observable";
 import * as constants from '../../shared/others/constants';
 
@@ -11,7 +10,6 @@ export class NoticerMainService {
 
 
     handleError(error: Response) {
-        // console.error(error);
         return Observable.throw(error);
     }
 
@@ -26,13 +24,13 @@ export class NoticerMainService {
 
         let url = "/api/vehicleOffRoad/saveVehicleOffRoad";
 
-        return this.httpClient.post(url, JSON.parse(data));
+        return this.httpClient.post(url, JSON.parse(data)).catch(this.handleError);
     }
 
     getDist(value) {
         let url = "/api/address/getDistricts";
         let params = { params: new HttpParams().set('stateId', value) };
-        return this.httpClient.get(url, params);
+        return this.httpClient.get(url, params).catch(this.handleError);
     }
 
     getPostsList(body: any) {
@@ -49,7 +47,7 @@ export class NoticerMainService {
             reqBody = body;
         }
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers });
+        return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers }).catch(this.handleError);
     }
 
     createPost(body: any) {
@@ -73,7 +71,7 @@ export class NoticerMainService {
             reqBody = body;
         }
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers });
+        return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers }).catch(this.handleError);
     }
 
     getCommentsByPostId(body: any) {
@@ -89,7 +87,7 @@ export class NoticerMainService {
             reqBody = body;
         }
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers });
+        return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers }).catch(this.handleError);
     }
 
     createComment(body: any) {
@@ -106,6 +104,12 @@ export class NoticerMainService {
             reqBody = body;
         }
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers });
+        return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers }).catch(this.handleError);
+    }
+
+    uploadImage(file){
+        let url = "/v2/upload/postimageJSON";
+        // let headers = new HttpHeaders().set("Content-Type", "multipart/form-data");
+        return this.httpClient.post(url, file).catch(this.handleError);
     }
 }

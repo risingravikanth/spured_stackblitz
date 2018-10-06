@@ -9,9 +9,6 @@ import { PasswordValidation } from '../shared/others/password.validator';
 import { AuthService } from "../shared/services/auth.service";
 import { Message } from 'primeng/components/common/api';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { PermissionService } from '../shared/services/permission.service';
-// import { NgxPermissionsService } from 'ngx-permissions';
-
 @Component({
   selector: 'user-setup',
   templateUrl: './user-setup.component.html',
@@ -47,9 +44,7 @@ export class UserSetupComponent implements OnInit {
     private cus_validator: CustomValidator,
     private userSetUpService: UserSetUpService,
     private authService: AuthService,
-    private route: ActivatedRoute,
-    private permissionService: PermissionService,
-    // private per_service: NgxPermissionsService
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -211,22 +206,19 @@ export class UserSetupComponent implements OnInit {
 
 
   private login() {
-    this.authService.attemptAuth(this.authForm.value, this.returnUrl).subscribe(data => {
-      // this.loggedUser = JSON.parse(data.body);
-      // this.loggedUser.token = data.headers.get('Authorization');
-      this.authService.setAuth(this.loggedUser);
-      this.permissionService.getPermissions().subscribe(data => {
-        let roleData: any = data;
-        let authority: string[] = [];
-        roleData.forEach(element => {
-          authority.push(element.authority);
-        });
-        // this.per_service.loadPermissions(authority);
-        this.router.navigate([this.returnUrl]);
-      }, (err: HttpErrorResponse) => {
-        console.log("permisssion error", err);
-      })
-    }, (err: HttpErrorResponse) => {
-    });
+  //   this.authService.attemptAuth(this.authForm.value, this.returnUrl).subscribe(data => {
+  //     this.authService.setAuth(this.loggedUser);
+  //     this.permissionService.getPermissions().subscribe(data => {
+  //       let roleData: any = data;
+  //       let authority: string[] = [];
+  //       roleData.forEach(element => {
+  //         authority.push(element.authority);
+  //       });
+  //       this.router.navigate([this.returnUrl]);
+  //     }, (err: HttpErrorResponse) => {
+  //       console.log("permisssion error", err);
+  //     })
+  //   }, (err: HttpErrorResponse) => {
+  //   });
   }
 }

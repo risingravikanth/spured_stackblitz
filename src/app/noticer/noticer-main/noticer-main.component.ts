@@ -16,6 +16,7 @@ import { MobileDetectionService } from '../../shared/services/mobiledetection.se
 import { timeAgo } from '../../shared/others/time-age';
 import { Pagination, Context, Data, GetPostsRequest, GetCommentRequest, CommentContext, CreateCommentRequest, CreateCommentData } from '../../shared/models/request';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import * as constant from '../../shared/others/constants'
 
 @Component({
   selector: 'noticer-main',
@@ -52,6 +53,10 @@ export class NoticerMainComponent implements OnInit {
 
   addPostForm: FormGroup;
 
+  public fileSelected: File;
+  public chooseFile = false;
+  public postImages = [];
+
   public showAddPost: any = {
     careers: false,
     events: false,
@@ -63,7 +68,9 @@ export class NoticerMainComponent implements OnInit {
   public sectionsTypesMappings: any = [];
   public disableCategory = false;
   public showMoreLink = true;
+  public serverUrl;
   ngOnInit() {
+    this.serverUrl = constant.REST_API_URL;
     this.audienceList = [
       { name: 'Computers', value: 'CSE' },
       { label: 'Eletronics', value: 'ECE' },
@@ -103,7 +110,7 @@ export class NoticerMainComponent implements OnInit {
         text: [null],
         model: [null, Validators.required],
         category: [null, Validators.required],
-        // images: [null],
+        images: [""],
         topic: [null],
         contacts: [null],
         website: [null],
@@ -266,6 +273,7 @@ export class NoticerMainComponent implements OnInit {
   }
 
   detectFiles(event) {
+    this.postImages = []
     this.urls = [];
     let files = event.target.files;
     if (files) {
@@ -275,6 +283,7 @@ export class NoticerMainComponent implements OnInit {
           this.urls.push(e.target.result);
         }
         reader.readAsDataURL(file);
+        this.postImages.push(file);
       }
     }
   }
@@ -305,29 +314,44 @@ export class NoticerMainComponent implements OnInit {
     let postText = this.addPostForm.controls['data'].get('postText').value
     let txt = postText.replace(/\n/g, '<br>');
     this.addPostForm.controls['data'].get('text').patchValue(txt);
-    if (this.addPostForm.valid) {
-      this.service.createPost(this.addPostForm.value).subscribe((resData: any) => {
-        if (resData && resData.code && resData.code.id) {
-          alert(resData.code.longMessage);
-        } else if (resData && resData.post) {
-          let data = resData.post;
-          data.maxLength = 25;
-          data.selectComments = false;
-          data.commentOffset = 0;
-          data.comments = [];
-          data.commentsSpinner = false;
-          this.postsList.splice(0, 0, data);
-          this.initAddPostForm();
-          alert("Successfully added post");
-          this.categoryModalReference.close();
-        } else {
-          alert("Something went wrong!");
-        }
 
+    let imageUrls = [];
+    this.postImages.forEach(element => {
+      let formData: FormData = new FormData();
+            formData.append('file', element);
+      this.service.uploadImage(formData).subscribe((resData:any) => {
+        imageUrls.push(resData.url);
+        if(this.postImages.length == imageUrls.length){
+          this.addPostForm.controls["data"].get("images").patchValue(imageUrls);
+          if (this.addPostForm.valid) {
+            this.service.createPost(this.addPostForm.value).subscribe((resData: any) => {
+              if (resData && resData.code && resData.code.id) {
+                alert(resData.code.longMessage);
+              } else if (resData && resData.post) {
+                let data = resData.post;
+                data.maxLength = 25;
+                data.selectComments = false;
+                data.commentOffset = 0;
+                data.comments = [];
+                data.commentsSpinner = false;
+                this.postsList.splice(0, 0, data);
+                this.initAddPostForm();
+                alert("Successfully added post");
+                this.categoryModalReference.close();
+                this.postImages = [];
+              } else {
+                alert("Something went wrong!");
+              }
+      
+            })
+          } else {
+            alert("Plese fill all the details!");
+          }
+        }
       })
-    } else {
-      alert("Plese fill all the details!");
-    }
+    })
+
+    
 
   }
 
