@@ -9,3 +9,7 @@
 .form-group.has-error .help-block {
     color: #dd4b39
 }
+.signup-icon{
+    width: 8%;
+    border-radius: 50%;
+}
