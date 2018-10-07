@@ -37,8 +37,8 @@
                         <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false" style="font-size: 20px;"></i>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button class="dropdown-item" type="button">Edit</button>
-                            <button class="dropdown-item" type="button">Delete</button>
+                            <button class="dropdown-item" type="button" (click)="editPost(post.postId, editPostDialog)">Edit</button>
+                            <button class="dropdown-item" type="button" (click)="deletePost(post.postId)">Delete</button>
                         </div>
                     </div>
                     <div class="row" style="padding-left: 9px;margin-top: -15px;">
@@ -366,3 +366,29 @@
         </form>
     </ng-template>
 </section>
+<section>
+    <!-- Create post dialog code -->
+    <section>
+        <ng-template #editPostDialog let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-basic-title">
+                    <b>Edit Post</b>
+                </h5>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="editPostForm">
+                <div class="modal-body">
+                    <div class="form-group" style="padding:12px;">
+                        <textarea class="form-control" formControlName="postText" placeholder="What is your question?"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" [disabled]="editPostForm.invalid" (click)="saveEditPost()">Update</button>
+                </div>
+            </form>
+        </ng-template>
+
+    </section>
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>

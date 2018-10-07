@@ -64,7 +64,7 @@ export class NoticerMainService {
             reqBody.topic = body.data.topic;
             reqBody.website = body.data.website;
             reqBody.contacts = body.data.contacts;
-            reqBody.todate  = body.data.todate;
+            reqBody.todate = body.data.todate;
             reqBody.fromdate = body.data.fromdate;
         } else {
             url = "/v2/post/create";
@@ -107,9 +107,14 @@ export class NoticerMainService {
         return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers }).catch(this.handleError);
     }
 
-    uploadImage(file){
+    uploadImage(file) {
         let url = "/v2/upload/postimage";
         // let headers = new HttpHeaders().set("Content-Type", "multipart/form-data");
         return this.httpClient.post(url, file).catch(this.handleError);
+    }
+
+    deletePost(id) {
+        let url = "/v2/post/delete?id=" + id;
+        return this.httpClient.get(url).catch(this.handleError);
     }
 }

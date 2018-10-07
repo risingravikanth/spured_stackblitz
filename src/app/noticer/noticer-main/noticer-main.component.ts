@@ -14,12 +14,13 @@ import { Pagination, Context, Data, GetPostsRequest, GetCommentRequest, CommentC
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as constant from '../../shared/others/constants'
 import * as categories_types_models from '../../shared/master-data/master-data'
+import { ConfirmationService } from 'primeng/primeng';
 
 @Component({
   selector: 'noticer-main',
   templateUrl: './noticer-main.component.html',
   styleUrls: ['./noticer-main.component.css'],
-  providers: [NoticerMainService, CustomValidator, MessageService],
+  providers: [NoticerMainService, CustomValidator, MessageService, ConfirmationService],
   animations: [routerTransition()]
 })
 export class NoticerMainComponent implements OnInit {
@@ -31,7 +32,8 @@ export class NoticerMainComponent implements OnInit {
     private commonService: CommonService,
     public mobileService: MobileDetectionService,
     private modalService: NgbModal,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private confirmService: ConfirmationService) { }
 
   public questionName: any = '';
   public postsList: any = [];
@@ -48,6 +50,7 @@ export class NoticerMainComponent implements OnInit {
   public audienceList: any[];
 
   addPostForm: FormGroup;
+  editPostForm: FormGroup;
 
   public fileSelected: File;
   public chooseFile = false;
@@ -71,6 +74,7 @@ export class NoticerMainComponent implements OnInit {
     this.isMobile = this.mobileService.isMobile();
     this.questionName = "";
     this.initAddPostForm();
+    this.initEditForm();
     this.intitDummyData();
     this.route.queryParams.subscribe(this.handleParams.bind(this));
   }
@@ -96,6 +100,13 @@ export class NoticerMainComponent implements OnInit {
         deadline: [null],
         qualifications: [null],
       }),
+    });
+  }
+  initEditForm() {
+    this.editPostForm = this.formbuilder.group({
+      postId: [null, Validators.required],
+      postText: [null, Validators.required],
+      _type: [null, Validators.required]
     });
   }
 
@@ -451,5 +462,41 @@ export class NoticerMainComponent implements OnInit {
     this.addPostForm.controls['data'].get('fromdate').patchValue(null);
     this.addPostForm.controls['data'].get('todate').patchValue(null);
     this.addPostForm.controls['data'].get('qualifications').patchValue(null);
+  }
+
+  deletePost(postId: any) {
+    let index = this.postsList.findIndex(item => item.postId == postId);
+    this.confirmService.confirm({
+      message: 'Are you sure that you want to delete?',
+      accept: () => {
+        //Actual logic to perform a confirmation
+        // this.service.deletePost(postId).subscribe(resData =>{
+        this.postsList.splice(index, 1);
+        // })
+      }
+    });
+  }
+
+  editPost(postId: any, content: any) {
+    this.postsList.forEach(element => {
+      if (element.postId == postId) {
+        this.editPostForm.controls['postText'].patchValue(element.postText);
+        this.editPostForm.controls['postId'].patchValue(element.postId);
+        this.editPostForm.controls['_type'].patchValue(element._type);
+      }
+    });
+
+    this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
+    this.categoryModalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      console.log(this.closeResult);
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  saveEditPost() {
+    console.log(this.editPostForm.value);
+    this.categoryModalReference.close();
   }
 }
