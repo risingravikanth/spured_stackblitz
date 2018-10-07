@@ -14,13 +14,13 @@ import { Pagination, Context, Data, GetPostsRequest, GetCommentRequest, CommentC
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as constant from '../../shared/others/constants'
 import * as categories_types_models from '../../shared/master-data/master-data'
-import { ConfirmationService } from 'primeng/primeng';
+// import { ConfirmationService } from 'primeng/primeng';
 
 @Component({
   selector: 'noticer-main',
   templateUrl: './noticer-main.component.html',
   styleUrls: ['./noticer-main.component.css'],
-  providers: [NoticerMainService, CustomValidator, MessageService, ConfirmationService],
+  providers: [NoticerMainService, CustomValidator, MessageService],
   animations: [routerTransition()]
 })
 export class NoticerMainComponent implements OnInit {
@@ -33,7 +33,8 @@ export class NoticerMainComponent implements OnInit {
     public mobileService: MobileDetectionService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private confirmService: ConfirmationService) { }
+    // private confirmService: ConfirmationService
+    ) { }
 
   public questionName: any = '';
   public postsList: any = [];
@@ -466,15 +467,15 @@ export class NoticerMainComponent implements OnInit {
 
   deletePost(postId: any) {
     let index = this.postsList.findIndex(item => item.postId == postId);
-    this.confirmService.confirm({
-      message: 'Are you sure that you want to delete?',
-      accept: () => {
+    // this.confirmService.confirm({
+    //   message: 'Are you sure that you want to delete?',
+    //   accept: () => {
         //Actual logic to perform a confirmation
         // this.service.deletePost(postId).subscribe(resData =>{
         this.postsList.splice(index, 1);
         // })
-      }
-    });
+    //   }
+    // });
   }
 
   editPost(postId: any, content: any) {
