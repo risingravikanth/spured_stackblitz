@@ -117,4 +117,8 @@ export class NoticerMainService {
         let url = "/v2/post/delete?id=" + id;
         return this.httpClient.get(url).catch(this.handleError);
     }
+
+    saveEditPost(){
+        
+    }
 }
