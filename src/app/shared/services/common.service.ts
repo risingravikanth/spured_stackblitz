@@ -10,6 +10,8 @@ export class CommonService {
     toggleTopics = new BehaviorSubject<boolean>(false);
     
     sectionChanges = new BehaviorSubject<Section>(null);
+
+    menuChanges = new BehaviorSubject<string>(null);
 	
     constructor(private httpClient: HttpClient) { }
  
@@ -19,6 +21,10 @@ export class CommonService {
 
     updateByFilter(data: Section){
         this.sectionChanges.next(data);
+    }
+
+    updateHeaderMenu(value){
+        this.menuChanges.next(value);
     }
     
 }

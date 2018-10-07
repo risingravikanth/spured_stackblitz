@@ -25,8 +25,12 @@ export class HeaderMobileComponent implements OnInit {
     public showMenu:boolean = true;
 
     ngOnInit() {
-        // this.currentUser = this.userService.getCurrentUser();
         this.isMobile = this.mobileService.isMobile();
+        this.commonService.menuChanges.subscribe(item =>{
+            if(item == "noticer"){
+                this.hideMenu();
+            }
+        })
     }
 
     goToUserProfile() {
@@ -43,15 +47,15 @@ export class HeaderMobileComponent implements OnInit {
     }
 
     onLoggedout() {
-        this.authService.attemptLogout(this.authService.getCurrentUser()).subscribe(resData => {
-            this.responseVo = resData;
-            if (this.responseVo.statusCode == 'SUCCESS') {
+        // this.authService.attemptLogout(this.authService.getCurrentUser()).subscribe(resData => {
+        //     this.responseVo = resData;
+        //     if (this.responseVo.statusCode == 'SUCCESS') {
                 console.log("logged out successfully");
                 this.authService.purgeAuth();
                 this.router.navigate(["/login"])
-            } else {
-                alert("failed");
-            }
-        });
+        //     } else {
+        //         alert("failed");
+        //     }
+        // });
     }
 }

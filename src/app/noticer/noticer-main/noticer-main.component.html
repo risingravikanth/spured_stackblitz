@@ -28,8 +28,9 @@
             <div *ngFor="let post of postsList;index as i;">
                 <div class="card">
                     <div>
-                        <li style="font-size: 12px;padding-left: 10px;margin-top: 8px;color: gray">Type:
-                            {{post._type}}, Category: {{post.category | uppercase}}, Model: {{post.model}}</li>
+                        <span style="font-size: 12px;padding-left: 10px;margin-top: 8px;color: gray">Type:
+                            {{post._type}}<span *ngIf="post.category">, Category:{{post.category | titlecase}}</span>
+                            <span *ngIf="post.model">, Model:{{post.model | titlecase}}</span></span>
                     </div>
                     <hr style="margin-top: 5px;">
                     <div class="typeAlign dropleft">
@@ -92,7 +93,7 @@
                     </div>
                     <div style="margin-top: -23px;">
                         <div *ngIf="post.images.length == 1">
-                            <img src = "{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%;
+                            <img src="{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%;
                                 max-height: 100%;padding: 7px;"
                                 class="rounded" alt="Post">
                         </div>
@@ -109,12 +110,12 @@
                                     class="rounded" alt="Post">
                             </span> -->
                             <mat-grid-list cols="2" rowHeight="2:1">
-                                    <mat-grid-tile
-                                        *ngFor="let tile of post.images">
-                                        <img style="max-width: 100%;
-                                        max-height: 100%;" src = "{{serverUrl}}/{{tile}}">
-                                    </mat-grid-tile>
-                                  </mat-grid-list>
+                                <mat-grid-tile *ngFor="let tile of post.images">
+                                    <img style="max-width: 100%;
+                                        max-height: 100%;"
+                                        src="{{serverUrl}}/{{tile}}">
+                                </mat-grid-tile>
+                            </mat-grid-list>
                         </div>
                         <div class="images" *ngIf="post.images.length == 3" style="padding:7px;">
                             <!-- <div class="row">
@@ -133,22 +134,22 @@
                                 </div>
                             </div> -->
                             <mat-grid-list cols="3" rowHeight="2:2">
-                                    <mat-grid-tile
-                                        *ngFor="let tile of post.images">
-                                        <img style="max-width: 100%;
-                                        max-height: 100%;" src = "{{serverUrl}}/{{tile}}">
-                                    </mat-grid-tile>
-                                  </mat-grid-list>
+                                <mat-grid-tile *ngFor="let tile of post.images">
+                                    <img style="max-width: 100%;
+                                        max-height: 100%;"
+                                        src="{{serverUrl}}/{{tile}}">
+                                </mat-grid-tile>
+                            </mat-grid-list>
                         </div>
 
                         <div class="images" *ngIf="post.images.length == 4" style="padding-right: 7px;">
-                                <mat-grid-list cols="2" rowHeight="2:1">
-                                        <mat-grid-tile
-                                            *ngFor="let tile of post.images">
-                                            <img style="max-width: 100%;
-                                            max-height: 100%;" src = "{{serverUrl}}/{{tile}}">
-                                        </mat-grid-tile>
-                                      </mat-grid-list>
+                            <mat-grid-list cols="2" rowHeight="2:1">
+                                <mat-grid-tile *ngFor="let tile of post.images">
+                                    <img style="max-width: 100%;
+                                            max-height: 100%;"
+                                        src="{{serverUrl}}/{{tile}}">
+                                </mat-grid-tile>
+                            </mat-grid-list>
                             <!-- <span class="item">
                                 <img src = "{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%;
                             max-height: 100%;padding: 7px;"
@@ -174,16 +175,16 @@
                     <hr>
                     <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
-                            <li class="list-inline-item paddingIcons" style="cursor: pointer;">
+                            <!-- <li class="list-inline-item paddingIcons" style="cursor: pointer;">
                                 <i class="far fa-thumbs-up iconSize"></i>&nbsp; 12
                             </li>
                             <li class="list-inline-item paddingIcons" style="cursor: pointer;">
                                 <i class="far fa-thumbs-down iconSize"></i>&nbsp; 3
-                            </li>
+                            </li> -->
                             <li class="list-inline-item paddingIcons" style="cursor: pointer;" (click)="post.selectComments = !post.selectComments;getCommentsForPost(post.postId,i);">
                                 <i class="fas fa-comments iconSize"></i>&nbsp;
                                 <a>
-                                    {{post.commentsCount}}
+                                    {{post.commentsCount}} Comments
                                 </a>
                             </li>
                         </ul>
@@ -275,18 +276,15 @@
         </div>
         <form [formGroup]="addPostForm">
             <div class="modal-body" formGroupName="data">
-
                 <div class="form-group" style="padding:12px;">
                     <textarea class="form-control" formControlName="postText" placeholder="What is your question?"></textarea>
                 </div>
-
-
-                <!-- Verbal/Quants post start -->
-                <div class="addPost" *ngIf="showAddPost.general">
+                <!-- post start -->
+                <div class="addPost">
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <p-dropdown placeholder=" Type" [options]="types" [style]="{'width':'100%'}"
-                                formControlName="_type" filter="true">
+                            <p-dropdown [disabled]="isValidType" placeholder=" Type" [options]="types" (onChange)="getCategoriesByType(_type.value)"
+                                [style]="{'width':'100%'}" formControlName="_type1" filter="true" #_type>
                                 <ng-template let-type pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
                                         <span style="vertical-align:middle">{{type.label}}</span>
@@ -295,8 +293,8 @@
                             </p-dropdown>
                         </div>
                         <div class="form-group col-md-4">
-                            <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}"
-                                formControlName="category" filter="true">
+                            <p-dropdown [disabled]="isValidCategory" placeholder=" Category" [options]="categories"
+                                [style]="{'width':'100%'}" formControlName="category" filter="true">
                                 <ng-template let-category pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
                                         <span style="vertical-align:middle">{{category.label}}</span>
@@ -315,81 +313,9 @@
                             </p-dropdown>
                         </div>
                     </div>
-                </div>
-                <!-- Verbal/Quants post end -->
 
-                <!-- Verbal/Quants post start -->
-                <div class="addPost" *ngIf="showAddPost.verbal || showAddPost.quants">
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories"
-                                [style]="{'width':'100%'}" formControlName="category" filter="true">
-                                <ng-template let-category pTemplate="item">
-                                    <div class="ui-helper-clearfix" style="width: 25px;">
-                                        <span style="vertical-align:middle">{{category.label}}</span>
-                                    </div>
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}"
-                                formControlName="model" filter="true">
-                                <ng-template let-model pTemplate="item">
-                                    <div class="ui-helper-clearfix" style="width: 25px;">
-                                        <span style="vertical-align:middle">{{model.label}}</span>
-                                    </div>
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-                    </div>
-                </div>
-                <!-- Verbal/Quants post end -->
-
-                <!-- Events post start-->
-                <div class="addPost" *ngIf="showAddPost.events">
-                    <!-- <div class="row">
-                        <div class="form-group col-md-6">
-                            <p-dropdown placeholder=" State" [options]="states" [style]="{'width':'100%'}" formControlName="state" filter="true">
-                                <ng-template let-state pTemplate="item">
-                                    <div class="ui-helper-clearfix" style="width: 25px;">
-                                        <span style="vertical-align:middle">{{state.label}}</span>
-                                    </div>
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <p-dropdown placeholder=" Institute" [options]="institutes" [style]="{'width':'100%'}" formControlName="institute" filter="true">
-                                <ng-template let-institute pTemplate="item">
-                                    <div class="ui-helper-clearfix" style="width: 25px;">
-                                        <span style="vertical-align:middle">{{institute.label}}</span>
-                                    </div>
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-                    </div> -->
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories"
-                                [style]="{'width':'100%'}" formControlName="category" filter="true">
-                                <ng-template let-category pTemplate="item">
-                                    <div class="ui-helper-clearfix" style="width: 25px;">
-                                        <span style="vertical-align:middle">{{category.label}}</span>
-                                    </div>
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}"
-                                formControlName="model" filter="true">
-                                <ng-template let-model pTemplate="item">
-                                    <div class="ui-helper-clearfix" style="width: 25px;">
-                                        <span style="vertical-align:middle">{{model.label}}</span>
-                                    </div>
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-                    </div>
-                    <div class="row">
+                    <!-- events -->
+                    <div class="row" *ngIf="addPostForm.controls['data'].get('_type1').value == 'EVENTS'">
                         <div class="form-group col-md-6">
                             <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="To Date" [style]="{'width':'95%'}"
                                 [inputStyle]="{'width':'95%'}"></p-calendar>
@@ -399,7 +325,7 @@
                                 [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="addPostForm.controls['data'].get('_type1').value == 'EVENTS'">
                         <div class="form-group col-md-6">
                             <input class="form-control form-control-sm" type="text" formControlName="topic" placeholder="Topic">
                         </div>
@@ -408,44 +334,20 @@
                                 placeholder="Contacts">
                         </div>
                     </div>
-                </div>
-                <!-- Events post end-->
+                    <!-- events end -->
 
-                <!-- Careers post start -->
-                <div class="addPost" *ngIf="showAddPost.careers">
-                    <div class="row">
-                        <div class="form-group col-md-4">
-                            <p-dropdown [disabled]="disableCategory" placeholder=" Category" [options]="categories"
-                                [style]="{'width':'100%'}" formControlName="category" filter="true">
-                                <ng-template let-category pTemplate="item">
-                                    <div class="ui-helper-clearfix" style="width: 25px;">
-                                        <span style="vertical-align:middle">{{category.label}}</span>
-                                    </div>
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}"
-                                formControlName="model" filter="true">
-                                <ng-template let-model pTemplate="item">
-                                    <div class="ui-helper-clearfix" style="width: 25px;">
-                                        <span style="vertical-align:middle">{{model.label}}</span>
-                                    </div>
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-                        <div class="col-md-4">
-                            <p-multiSelect [options]="audienceList" [style]="{'width':'100%','height':'34px'}"
-                                defaultLabel="Qualifications"></p-multiSelect>
-                        </div>
+                    <!-- careers -->
+                    <div class="col-md-4" *ngIf="addPostForm.controls['data'].get('_type1').value == 'CAREERS'">
+                        <p-multiSelect [options]="audienceList" [style]="{'width':'100%','height':'34px'}" defaultLabel="Qualifications"></p-multiSelect>
                     </div>
+                    <!-- careers end -->
                 </div>
-                <!-- Careers post end -->
+                <!-- post end -->
 
                 <!-- Images list start-->
                 <div class="addPost">
-                    <div style="padding-left: 50px;">
-                        <img *ngFor="let url of urls" [src]="url" class="rounded mb-3" width="100" height="100">
+                    <div style="padding-left: 50px;padding-right: 3px;">
+                        <img *ngFor="let url of urls" [src]="url" class="rounded mb-3" width="150" height="150">
                     </div>
                 </div>
                 <!-- Images list end-->
@@ -459,7 +361,7 @@
                 </span>
             </ul>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" (click)="createPost()">Post</button>
+                <button type="button" class="btn btn-primary" (click)="createPost()">Post</button>
             </div>
         </form>
     </ng-template>

@@ -9,6 +9,7 @@ import { routerTransition } from '../../../router.animations';
 import { CommonService } from '../../../shared/services/common.service';
 import { Section } from '../../../shared/models/section.model';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { SECTIONS } from './../../../shared/master-data/master-data'
 
 @Component({
   selector: 'side-menu',
@@ -25,7 +26,6 @@ export class SideMenuComponent implements OnInit {
 
   public menuList: any = [];
   public isClassVisible = false;
-  private toggleTopics: any;
   public isPosFix = true;
   public varShowSectionSettings = true;
   public varShowSectionOptions = false;
@@ -37,7 +37,7 @@ export class SideMenuComponent implements OnInit {
   public categoryModalReference: NgbModalRef;
 
   ngOnInit() {
-    this.initTypes();
+    this.menuList = SECTIONS;
 
     this.commonService.toggleTopics.subscribe(toggelS => {
       this.isClassVisible = toggelS;
@@ -143,233 +143,5 @@ export class SideMenuComponent implements OnInit {
   isActive(item) {
     return this.selected === item;
   }
-
-
-  initTypes() {
-    this.menuList = [
-      {
-        "title": "Topics",
-        "select": false,
-        "sections": [
-          {
-            "name": "Quants",
-            "code": "quants",
-            "categories": [
-              {
-                "name": "HOME",
-                "code": "home"
-              },
-              {
-                "name": "CAT",
-                "code": "cat"
-              },
-              {
-                "name": "GMAT",
-                "code": "gmat"
-              },
-              {
-                "name": "MAT",
-                "code": "mat"
-              },
-              {
-                "name": "GRE",
-                "code": "gre"
-              },
-              {
-                "name": "TOFEL",
-                "code": "tofel"
-              },
-              {
-                "name": "RAILWAY EXAMS",
-                "code": "railwayexams"
-              },
-              {
-                "name": "BANK EXAMS",
-                "code": "bankexams"
-              },
-              {
-                "name": "OTHERS",
-                "code": "Others"
-              }
-            ]
-          },
-          {
-            "name": "Verbal",
-            "code": "verbal",
-            "categories": [
-              {
-                "name": "HOME",
-                "code": "home"
-              },
-              {
-                "name": "CAT",
-                "code": "cat"
-              },
-              {
-                "name": "GMAT",
-                "code": "gmat"
-              },
-              {
-                "name": "MAT",
-                "code": "mat"
-              },
-              {
-                "name": "GRE",
-                "code": "gre"
-              },
-              {
-                "name": "TOFEL",
-                "code": "tofel"
-              },
-              {
-                "name": "RAILWAY EXAMS",
-                "code": "railwayexams"
-              },
-              {
-                "name": "BANK EXAMS",
-                "code": "bankexams"
-              },
-              {
-                "name": "OTHERS",
-                "code": "Others"
-              }
-            ]
-          },
-          {
-            "name": "General Knowledge",
-            "code": "gk",
-            "categories": [
-              {
-                "name": "HOME",
-                "code": "home"
-              },
-              {
-                "name": "RAILWAY EXAMS",
-                "code": "railwayexams"
-              },
-              {
-                "name": "BANK EXAMS",
-                "code": "bankexams"
-              },
-              {
-                "name": "OTHERS",
-                "code": "Others"
-              }
-            ]
-          },
-          {
-            "name": "Careers",
-            "code": "careers",
-            "categories": [
-              {
-                "name": "HOME",
-                "code": "home"
-              },
-              {
-                "name": "JOBS",
-                "code": "jobs"
-              }
-            ]
-          },
-          {
-            "name": "Events",
-            "code": "events",
-            "categories": [
-              {
-                "name": "HOME",
-                "code": "home"
-              },
-              {
-                "name": "CULTURAL",
-                "code": "CULTURAL"
-              },
-              {
-                "name": "TECHNICAL",
-                "code": "TECHNICAL"
-              },
-              {
-                "name": "SPORTS",
-                "code": "SPORTS"
-              },
-              {
-                "name": "MANGAGEMENT",
-                "code": "MANAGEMENT"
-              },
-              {
-                "name": "FUN",
-                "code": "FUN"
-              },
-              {
-                "name": "OTHERS",
-                "code": "OTHERS"
-              }
-            ]
-          },
-          {
-            "name": "News",
-            "code": "news",
-            "categories": [
-              {
-                "name": "HOME",
-                "code": "home"
-              }
-            ]
-          }
-        ]
-      }
-      // ,
-      // {
-      //   "title": "Boards",
-      //   "select": false,
-      //   "sections": [
-      //     {
-      //       "name": "Open",
-      //       "code": "open",
-      //       "categories": [
-      //         {
-      //           "name": "HOME",
-      //           "code": "home"
-      //         },
-      //         {
-      //           "name": "JNTU Kakinada",
-      //           "code": "jntuk"
-      //         },
-      //         {
-      //           "name": "RGUKT CSE 2000-03",
-      //           "code": "1132"
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       "name": "Close",
-      //       "code": "close",
-      //       "categories": [
-      //         {
-      //           "name": "HOME",
-      //           "code": "home"
-      //         },
-      //         {
-      //           "name": "RGUKT Nuzivid",
-      //           "code": "rgukt-nzv"
-      //         },
-      //         {
-      //           "name": "RGUKT Nuzivid CSE",
-      //           "code": "rgukt-cse"
-      //         },
-      //         {
-      //           "name": "RGUKT Nuzivid 2000-03",
-      //           "code": "rgukt-2000-03"
-      //         },
-      //         {
-      //           "name": "RGUKT Nuzivid CSE 2000-03",
-      //           "code": "211"
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // }
-    ]
-  }
-
 
 }

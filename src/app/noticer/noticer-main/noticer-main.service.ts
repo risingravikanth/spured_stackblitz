@@ -108,7 +108,7 @@ export class NoticerMainService {
     }
 
     uploadImage(file){
-        let url = "/v2/upload/postimageJSON";
+        let url = "/v2/upload/postimage";
         // let headers = new HttpHeaders().set("Content-Type", "multipart/form-data");
         return this.httpClient.post(url, file).catch(this.handleError);
     }

@@ -1,14 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { DatePickerFormat } from "../../shared/others/datepickerFormat";
-import { TimePickerFormat } from "../../shared/others/timepickerFormat";
 import { MessageService } from "primeng/components/common/messageservice";
 import { CustomValidator } from "../../shared/others/custom.validator";
 import { routerTransition } from "../../router.animations";
-import { Message } from 'primeng/components/common/api';
 import { NoticerMainService } from './noticer-main.service';
-import { ElementRef } from '@angular/core';
 
 import { CommonService } from "../../shared/services/common.service";
 import { Section } from '../../shared/models/section.model';
@@ -17,6 +13,7 @@ import { timeAgo } from '../../shared/others/time-age';
 import { Pagination, Context, Data, GetPostsRequest, GetCommentRequest, CommentContext, CreateCommentRequest, CreateCommentData } from '../../shared/models/request';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as constant from '../../shared/others/constants'
+import * as categories_types_models from '../../shared/master-data/master-data'
 
 @Component({
   selector: 'noticer-main',
@@ -31,7 +28,6 @@ export class NoticerMainComponent implements OnInit {
 
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
-    private customValidator: CustomValidator,
     private commonService: CommonService,
     public mobileService: MobileDetectionService,
     private modalService: NgbModal,
@@ -56,43 +52,23 @@ export class NoticerMainComponent implements OnInit {
   public fileSelected: File;
   public chooseFile = false;
   public postImages = [];
-
-  public showAddPost: any = {
-    careers: false,
-    events: false,
-    gk: false,
-    quants: false,
-    verbal: false,
-    general: false
-  }
+  public isValidType = false;
+  public isValidCategory = false;
   public sectionsTypesMappings: any = [];
-  public disableCategory = false;
   public showMoreLink = true;
   public serverUrl;
+  public categories: any = [];
+  public models: any = [];
+  public types: any = [];
+  public states: any = [];
+  public institutes: any = [];
+
   ngOnInit() {
     this.serverUrl = constant.REST_API_URL;
-    this.audienceList = [
-      { name: 'Computers', value: 'CSE' },
-      { label: 'Eletronics', value: 'ECE' },
-      { label: 'IT', value: 'IT' },
-      { label: 'MECH', value: 'MECH' },
-      { label: 'Chemical', value: 'CHEM' }
-    ];
+    this.audienceList = categories_types_models.AUDIENCE;
+    this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;
 
-    this.sectionsTypesMappings = [
-      { section: 'VERBAL', _type: 'VerbalPost' },
-      { section: 'QUANTS', _type: 'QuantsPost' },
-      { section: 'EVENTS', _type: 'EventsPost' },
-      { section: 'CAREERS', _type: 'CareerPost' },
-    ];
     this.isMobile = this.mobileService.isMobile();
-    // this.initRequest();
-    // this.getPosts();
-    // this.commonService.sectionChanges.subscribe(
-    //   resData => {
-    //     this.selectedCategory(resData);
-    //   }
-    // )
     this.questionName = "";
     this.initAddPostForm();
     this.intitDummyData();
@@ -106,10 +82,11 @@ export class NoticerMainComponent implements OnInit {
       }),
       data: this.formbuilder.group({
         _type: [null, Validators.required],
-        postText:[null, Validators.required],
+        _type1: [null, Validators.required],
+        postText: [null, Validators.required],
         text: [null],
-        model: [null, Validators.required],
-        category: [null, Validators.required],
+        model: [null],
+        category: [null],
         images: [""],
         topic: [null],
         contacts: [null],
@@ -120,14 +97,9 @@ export class NoticerMainComponent implements OnInit {
         qualifications: [null],
       }),
     });
-    this.disableCategory = false;
   }
 
-
-
-
   initRequest() {
-
     this.getPostsRequestBody.pagination = new Pagination();;
     this.getPostsRequestBody.pagination.offset = 0
 
@@ -147,30 +119,34 @@ export class NoticerMainComponent implements OnInit {
     let sec = new Section();
     sec.section = type;
     sec.category = category
-    if(type == undefined && category == undefined){
+    if (type == undefined && category == undefined) {
       this.initRequest()
       this.getPosts();
       this.questionName = "";
-    } else{
+    } else {
       this.selectedCategory(sec);
+    }
+    if (this.isMobile) {
+      this.commonService.updateHeaderMenu("noticer");
     }
   }
 
 
   postQuestionDialog(content: any) {
     console.log("Modal for:" + this.getPostsRequestBody.context.type)
-    if (this.getPostsRequestBody.context.type != 'ALL') {
-      let obj = {}
-      obj[this.getPostsRequestBody.context.type.toLowerCase()] = true;
-      this.makeAddPostsFalse(obj);
-    } else {
-      let obj = {}
-      obj['general'] = true;
-      this.makeAddPostsFalse(obj);
+    this.resetDropdowns();
+    if (this.getPostsRequestBody.context.type && this.getPostsRequestBody.context.type != 'ALL') {
+      let reqType = this.getPostsRequestBody.context.type;
+      this.getCategoriesByType(reqType);
+      let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
+      this.addPostForm.controls['data'].get('_type1').patchValue(reqType);
+      this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
+      this.addPostForm.controls['context'].get('type').patchValue(reqType);
+      this.isValidType = true;
     }
     if (this.getPostsRequestBody.data.category) {
-      this.addPostForm.controls['data'].get('category').patchValue(this.getPostsRequestBody.data.category);
-      this.disableCategory = true;
+      this.addPostForm.controls['data'].get('category').patchValue(this.getPostsRequestBody.data.category.toLocaleLowerCase());
+      this.isValidCategory = true;
     }
     this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
     this.categoryModalReference.result.then((result) => {
@@ -212,7 +188,6 @@ export class NoticerMainComponent implements OnInit {
       if (data.section) {
         this.getPostsRequestBody.context.type = data.section.toUpperCase();
       }
-      // this.getRequestBody.data.model = data.model
       this.getPosts();
     }
   }
@@ -245,7 +220,7 @@ export class NoticerMainComponent implements OnInit {
         if (obj.error && obj.error.code && obj.error.code.id) {
           alert(obj.error.code.message);
         } else {
-          if(obj.posts.length < 10){
+          if (obj.posts.length < 10) {
             this.showMoreLink = false;
           }
           obj.posts.forEach(element => {
@@ -262,7 +237,7 @@ export class NoticerMainComponent implements OnInit {
   preparePostsList() {
     if (this.postsList.length > 0) {
       this.postsList.forEach(element => {
-        element.maxLength = 25;
+        element.maxLength = 300;
         element.selectComments = false;
         element.commentOffset = 0;
         element.comments = [];
@@ -288,23 +263,9 @@ export class NoticerMainComponent implements OnInit {
     }
   }
 
-
-  makeAddPostsFalse(obj: Object) {
-    this.urls = [];
-    this.showAddPost.verbal = this.showAddPost.quants = this.showAddPost.gk = this.showAddPost.events = this.showAddPost.careers = this.showAddPost.general = false;
-    Object.keys(obj).forEach((key) => this.showAddPost[key] = obj[key]);
-  }
-
-
   createPost() {
-    let reqType;
-    if (this.getPostsRequestBody.context && !this.showAddPost.general) {
-      reqType = this.getPostsRequestBody.context.type;
-      let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
-      this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
-      this.addPostForm.controls['context'].get('type').patchValue(this.getPostsRequestBody.context.type);
-    } else {
-      let reqType = this.addPostForm.controls['data'].get('_type').value;
+    if (this.getPostsRequestBody.context.type && this.getPostsRequestBody.context.type == 'ALL') {
+      let reqType = this.addPostForm.controls['data'].get('_type1').value;
       let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
       this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
       this.addPostForm.controls['context'].get('type').patchValue(reqType);
@@ -316,43 +277,48 @@ export class NoticerMainComponent implements OnInit {
     this.addPostForm.controls['data'].get('text').patchValue(txt);
 
     let imageUrls = [];
-    this.postImages.forEach(element => {
-      let formData: FormData = new FormData();
-            formData.append('file', element);
-      this.service.uploadImage(formData).subscribe((resData:any) => {
-        imageUrls.push(resData.url);
-        if(this.postImages.length == imageUrls.length){
-          this.addPostForm.controls["data"].get("images").patchValue(imageUrls);
-          if (this.addPostForm.valid) {
-            this.service.createPost(this.addPostForm.value).subscribe((resData: any) => {
-              if (resData && resData.code && resData.code.id) {
-                alert(resData.code.longMessage);
-              } else if (resData && resData.post) {
-                let data = resData.post;
-                data.maxLength = 25;
-                data.selectComments = false;
-                data.commentOffset = 0;
-                data.comments = [];
-                data.commentsSpinner = false;
-                this.postsList.splice(0, 0, data);
-                this.initAddPostForm();
-                alert("Successfully added post");
-                this.categoryModalReference.close();
-                this.postImages = [];
-              } else {
-                alert("Something went wrong!");
-              }
-      
-            })
-          } else {
-            alert("Plese fill all the details!");
+    if (this.postImages.length > 0) {
+      this.postImages.forEach(element => {
+        let formData: FormData = new FormData();
+        formData.append('file', element);
+        this.service.uploadImage(formData).subscribe((resData: any) => {
+          imageUrls.push(resData.url);
+          if (this.postImages.length == imageUrls.length) {
+            this.addPostForm.controls["data"].get("images").patchValue(imageUrls);
+            this.savePost();
           }
+        })
+      })
+    } else {
+      this.addPostForm.controls["data"].get("images").patchValue([]);
+      this.savePost()
+    }
+  }
+
+  savePost() {
+    if (this.addPostForm.valid) {
+      this.service.createPost(this.addPostForm.value).subscribe((resData: any) => {
+        if (resData && resData.code && resData.code.id) {
+          alert(resData.code.longMessage);
+        } else if (resData && resData.post) {
+          let data = resData.post;
+          data.maxLength = 300;
+          data.selectComments = false;
+          data.commentOffset = 0;
+          data.comments = [];
+          data.commentsSpinner = false;
+          this.postsList.splice(0, 0, data);
+          this.initAddPostForm();
+          alert("Successfully added post");
+          this.categoryModalReference.close();
+          this.postImages = [];
+        } else {
+          alert("Something went wrong!");
         }
       })
-    })
-
-    
-
+    } else {
+      alert("Plese fill all the details!");
+    }
   }
 
   getCommentsForPost(postId, index) {
@@ -369,7 +335,7 @@ export class NoticerMainComponent implements OnInit {
           if (comments.comments.length > 0) {
             this.postsList[index].comments = comments.comments;
             this.postsList[index].comments.forEach(element => {
-                element.maxLength = 25;
+              element.maxLength = 300;
             });
           }
         }
@@ -400,7 +366,6 @@ export class NoticerMainComponent implements OnInit {
     })
   }
 
-
   showMoreCommentsChecker(comments, commentsCount) {
     if (comments.length < 3 || comments.length == commentsCount) {
       return false;
@@ -409,7 +374,6 @@ export class NoticerMainComponent implements OnInit {
   }
 
   prepareGetComentsRequestBody(postId, index) {
-    // let body = { id: postId, limit: 3, offset: 0 };
     let postObj = this.postsList[index];
     let getCommentsRequest = new GetCommentRequest();
     let arrTypes = this.sectionsTypesMappings.filter(item => item._type == postObj._type);
@@ -441,39 +405,51 @@ export class NoticerMainComponent implements OnInit {
         alert(resData.code.longMessage);
       } else {
         this.postsList[index].commentText = null;
-        resData.comment.maxLength = 25;
+        resData.comment.maxLength = 100;
         this.postsList[index].comments.splice(0, 0, resData.comment);
-        // this.postsList[index].comments.push(resData.comment);
         this.postsList[index].commentsCount = this.postsList[index].commentsCount + 1;
       }
     })
   }
 
-
-  public categories: any = [];
-  public models: any = [];
-  public types: any = [];
-  public states: any = [];
-  public institutes: any = [];
   intitDummyData() {
-    this.categories = [
-      { label: 'CAT', value: 'CAT' },
-      { label: 'MAT', value: 'MAT' }
-    ];
-    this.models = [
-      { label: 'Aptitude', value: 'aptitude' },
-      { label: 'Reasoning', value: 'reasoning' }
-    ];
-    this.types = [
-      { label: 'Verbal', value: 'VERBAL' },
-      { label: 'Quants', value: 'QUANTS' },
-      { label: 'Events', value: 'EVENTS' }
-    ];
+    this.models = categories_types_models.MODELS;
+    this.types = categories_types_models.TYPES;
     this.states = [
       { label: 'AP', value: 'AP' },
       { label: 'TS', value: 'TS' }]
     this.institutes = [
       { label: 'IIIT', value: 'IIIT' },
       { label: 'RGUKT', value: 'RGUKT' }];
+  }
+
+  getCategoriesByType(type) {
+    this.categories = [];
+    categories_types_models.SECTIONS.forEach(sec => {
+      if (sec.title == "Topics") {
+        sec.sections.forEach(ty => {
+          if (ty.code == type) {
+            ty.categories.forEach(ca => {
+              if (ca.name != "HOME") {
+                let vo = { label: ca.name, value: ca.code };
+                this.categories.push(vo);
+              }
+            })
+          }
+        })
+      }
+    });
+  }
+
+  resetDropdowns() {
+    //resetting values after type chage
+    this.addPostForm.controls['data'].get('website').patchValue(null);
+    this.addPostForm.controls['data'].get('model').patchValue(null);
+    this.addPostForm.controls['data'].get('category').patchValue(null);
+    this.addPostForm.controls['data'].get('topic').patchValue(null);
+    this.addPostForm.controls['data'].get('contacts').patchValue(null);
+    this.addPostForm.controls['data'].get('fromdate').patchValue(null);
+    this.addPostForm.controls['data'].get('todate').patchValue(null);
+    this.addPostForm.controls['data'].get('qualifications').patchValue(null);
   }
 }
