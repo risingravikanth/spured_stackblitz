@@ -113,12 +113,13 @@ export class NoticerMainService {
         return this.httpClient.post(url, file).catch(this.handleError);
     }
 
-    deletePost(id) {
-        let url = "/v2/post/delete?id=" + id;
-        return this.httpClient.get(url).catch(this.handleError);
+    deletePost(body: any) {
+        let url = "/v2/post/delete";
+        return this.httpClient.post(url, body).catch(this.handleError);
     }
 
-    saveEditPost(){
-        
+    saveEditPost(body: any) {
+        let url = "/v2/post/update";
+        return this.httpClient.post(url, body).catch(this.handleError);
     }
 }

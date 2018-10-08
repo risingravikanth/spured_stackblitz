@@ -10,17 +10,22 @@ import { CommonService } from '../../../shared/services/common.service';
 import { Section } from '../../../shared/models/section.model';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SECTIONS } from './../../../shared/master-data/master-data'
+import { MobileDetectionService } from '../../../shared';
 
 @Component({
   selector: 'side-menu',
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.css'],
-  providers: [CustomValidator, MessageService],
+  providers: [CustomValidator, MessageService, MobileDetectionService],
   animations: [routerTransition()]
 })
 export class SideMenuComponent implements OnInit {
 
-  constructor(private router: Router, private formbuilder: FormBuilder, private commonService: CommonService, private customValidator: CustomValidator, private modalService: NgbModal) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, 
+    private commonService: CommonService,
+     private customValidator: CustomValidator, 
+     private modalService: NgbModal,
+      private mobileService: MobileDetectionService) { }
 
   @ViewChild('myTopnav') el: ElementRef;
 
@@ -35,9 +40,10 @@ export class SideMenuComponent implements OnInit {
   closeResult: string;
   public sectionModalReference: NgbModalRef;
   public categoryModalReference: NgbModalRef;
-
+  public isMobile: boolean;
   ngOnInit() {
     this.menuList = SECTIONS;
+    this.isMobile = this.mobileService.isMobile();
 
     this.commonService.toggleTopics.subscribe(toggelS => {
       this.isClassVisible = toggelS;
@@ -112,6 +118,10 @@ export class SideMenuComponent implements OnInit {
       this.selectedItem = sec+"HOME"
     } else {
       this.selectedItem = sec+cat;
+    }
+
+    if (this.isMobile) {
+      this.commonService.updateHeaderMenu("noticer");
     }
 
     // this.commonService.updateByFilter(data);

@@ -14,13 +14,13 @@ import { Pagination, Context, Data, GetPostsRequest, GetCommentRequest, CommentC
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as constant from '../../shared/others/constants'
 import * as categories_types_models from '../../shared/master-data/master-data'
-// import { ConfirmationService } from 'primeng/primeng';
+import { ConfirmationService } from 'primeng/primeng';
 
 @Component({
   selector: 'noticer-main',
   templateUrl: './noticer-main.component.html',
   styleUrls: ['./noticer-main.component.css'],
-  providers: [NoticerMainService, CustomValidator, MessageService],
+  providers: [NoticerMainService, CustomValidator, MessageService, ConfirmationService],
   animations: [routerTransition()]
 })
 export class NoticerMainComponent implements OnInit {
@@ -33,8 +33,8 @@ export class NoticerMainComponent implements OnInit {
     public mobileService: MobileDetectionService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    // private confirmService: ConfirmationService
-    ) { }
+    private confirmService: ConfirmationService
+  ) { }
 
   public questionName: any = '';
   public postsList: any = [];
@@ -105,9 +105,13 @@ export class NoticerMainComponent implements OnInit {
   }
   initEditForm() {
     this.editPostForm = this.formbuilder.group({
-      postId: [null, Validators.required],
-      postText: [null, Validators.required],
-      _type: [null, Validators.required]
+      context: this.formbuilder.group({
+        type: [null, Validators.required]
+      }),
+      data: this.formbuilder.group({
+        postId: [null, Validators.required],
+        text: [null, Validators.required]
+      })
     });
   }
 
@@ -137,9 +141,6 @@ export class NoticerMainComponent implements OnInit {
       this.questionName = "";
     } else {
       this.selectedCategory(sec);
-    }
-    if (this.isMobile) {
-      this.commonService.updateHeaderMenu("noticer");
     }
   }
 
@@ -467,23 +468,31 @@ export class NoticerMainComponent implements OnInit {
 
   deletePost(postId: any) {
     let index = this.postsList.findIndex(item => item.postId == postId);
-    // this.confirmService.confirm({
-    //   message: 'Are you sure that you want to delete?',
-    //   accept: () => {
-        //Actual logic to perform a confirmation
-        // this.service.deletePost(postId).subscribe(resData =>{
-        this.postsList.splice(index, 1);
-        // })
-    //   }
-    // });
+    let postObj = this.postsList[index];
+
+    this.editPostForm.controls['data'].get('postId').patchValue(postObj.postId);
+    let type = this.sectionsTypesMappings.filter(item => item._type == postObj._type)[0].section;
+    this.editPostForm.controls['context'].get('type').patchValue(type);
+
+    this.confirmService.confirm({
+      message: 'Are you sure that you want to delete?',
+      accept: () => {
+        // Actual logic to perform a confirmation
+        this.service.deletePost(this.editPostForm.value).subscribe(resData => {
+          console.log(resData)
+          this.postsList.splice(index, 1);
+        })
+      }
+    });
   }
 
   editPost(postId: any, content: any) {
     this.postsList.forEach(element => {
       if (element.postId == postId) {
-        this.editPostForm.controls['postText'].patchValue(element.postText);
-        this.editPostForm.controls['postId'].patchValue(element.postId);
-        this.editPostForm.controls['_type'].patchValue(element._type);
+        this.editPostForm.controls['data'].get('text').patchValue(element.postText);
+        this.editPostForm.controls['data'].get('postId').patchValue(element.postId);
+        let type = this.sectionsTypesMappings.filter(item => item._type == element._type)[0].section;
+        this.editPostForm.controls['context'].get('type').patchValue(type);
       }
     });
 
@@ -498,6 +507,14 @@ export class NoticerMainComponent implements OnInit {
 
   saveEditPost() {
     console.log(this.editPostForm.value);
-    this.categoryModalReference.close();
+    this.service.saveEditPost(this.editPostForm.value).subscribe(resData => {
+      console.log(resData)
+      this.postsList.forEach(element => {
+        if (element.postId == this.editPostForm.controls['data'].get('postId').value) {
+          element.postText = this.editPostForm.controls['data'].get('text').value
+        }
+      });
+      this.categoryModalReference.close();
+    })
   }
 }

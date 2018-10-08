@@ -28,7 +28,7 @@ export class HeaderMobileComponent implements OnInit {
         this.isMobile = this.mobileService.isMobile();
         this.commonService.menuChanges.subscribe(item =>{
             if(item == "noticer"){
-                this.hideMenu();
+                this.showMenu = false;
             }
         })
     }

@@ -28,9 +28,9 @@
             <div *ngFor="let post of postsList;index as i;">
                 <div class="card">
                     <div>
-                        <span style="font-size: 12px;padding-left: 10px;margin-top: 8px;color: gray">Type:
-                            {{post._type}}<span *ngIf="post.category">, Category:{{post.category | titlecase}}</span>
-                            <span *ngIf="post.model">, Model:{{post.model | titlecase}}</span></span>
+                        <span style="font-size: 12px;padding-left: 10px;margin-top: 8px;color: gray">
+                            {{post._type}} <span *ngIf="post.category"> / {{post.category | titlecase}}</span>
+                            <span *ngIf="post.model"> / {{post.model | titlecase}}</span></span>
                     </div>
                     <hr style="margin-top: 5px;">
                     <div class="typeAlign dropleft">
@@ -379,16 +379,18 @@
                 </button>
             </div>
             <form [formGroup]="editPostForm">
-                <div class="modal-body">
-                    <div class="form-group" style="padding:12px;">
-                        <textarea class="form-control" formControlName="postText" placeholder="What is your question?"></textarea>
+                <div formGroupName="data">
+                    <div class="modal-body">
+                        <div class="form-group" style="padding:12px;">
+                            <textarea class="form-control" formControlName="text" placeholder="What is your question?"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" [disabled]="editPostForm.invalid" (click)="saveEditPost()">Update</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" [disabled]="editPostForm.invalid" (click)="saveEditPost()">Update</button>
+                    </div>
                 </div>
             </form>
         </ng-template>
 
     </section>
-    <!-- <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog> -->
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
