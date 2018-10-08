@@ -14,7 +14,7 @@ import { Pagination, Context, Data, GetPostsRequest, GetCommentRequest, CommentC
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as constant from '../../shared/others/constants'
 import * as categories_types_models from '../../shared/master-data/master-data'
-import { ConfirmationService } from 'primeng/primeng';
+import { ConfirmationService } from 'primeng/components/common/api';
 
 @Component({
   selector: 'noticer-main',
