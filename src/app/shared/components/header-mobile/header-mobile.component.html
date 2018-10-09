@@ -45,7 +45,7 @@
                     <i class="fas fa-bars  header-icon-size"></i>
                 </b>
             </a>
-            <a class="nav-link" *ngIf="!showMenu" href="javascript:void(0);" (click)="hideMenu()">
+            <a class="nav-link" *ngIf="!showMenu" href="javascript:history.go(-1)" (click)="hideMenu()">
                 <b>
                     <i class="fas fa-times header-icon-size"></i>
                 </b>

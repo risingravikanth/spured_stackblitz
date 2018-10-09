@@ -475,7 +475,7 @@ export class NoticerMainComponent implements OnInit {
     this.editPostForm.controls['context'].get('type').patchValue(type);
 
     this.confirmService.confirm({
-      message: 'Are you sure that you want to delete?',
+      message: 'Are you sure you want to delete?',
       accept: () => {
         // Actual logic to perform a confirmation
         this.service.deletePost(this.editPostForm.value).subscribe(resData => {

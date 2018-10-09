@@ -28,7 +28,7 @@ export class HeaderMobileComponent implements OnInit {
         this.isMobile = this.mobileService.isMobile();
         this.commonService.menuChanges.subscribe(item =>{
             if(item == "noticer"){
-                this.showMenu = false;
+                this.showMenu = true;
             }
         })
     }
@@ -43,7 +43,7 @@ export class HeaderMobileComponent implements OnInit {
     }
     hideMenu(){
         this.showMenu = true;
-        this.router.navigate(["/noticer"])
+        // this.router.navigate(["/noticer"])
     }
 
     onLoggedout() {
