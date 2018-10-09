@@ -4,48 +4,6 @@ export const SECTIONS = [
         "select": false,
         "sections": [
             {
-                "name": "Quants",
-                "code": "QUANTS",
-                "categories": [
-                    {
-                        "name": "HOME",
-                        "code": "home"
-                    },
-                    {
-                        "name": "CAT",
-                        "code": "cat"
-                    },
-                    {
-                        "name": "GMAT",
-                        "code": "gmat"
-                    },
-                    {
-                        "name": "MAT",
-                        "code": "mat"
-                    },
-                    {
-                        "name": "GRE",
-                        "code": "gre"
-                    },
-                    {
-                        "name": "TOFEL",
-                        "code": "tofel"
-                    },
-                    {
-                        "name": "RAILWAY EXAMS",
-                        "code": "railway"
-                    },
-                    {
-                        "name": "BANK EXAMS",
-                        "code": "banks"
-                    },
-                    {
-                        "name": "OTHERS",
-                        "code": "others"
-                    }
-                ]
-            },
-            {
                 "name": "Verbal",
                 "code": "VERBAL",
                 "categories": [
@@ -74,15 +32,57 @@ export const SECTIONS = [
                         "code": "tofel"
                     },
                     {
-                        "name": "RAILWAY EXAMS",
+                        "name": "Railway Exams",
                         "code": "railway"
                     },
                     {
-                        "name": "BANK EXAMS",
+                        "name": "Bank Exams",
                         "code": "banks"
                     },
                     {
-                        "name": "OTHERS",
+                        "name": "Others",
+                        "code": "others"
+                    }
+                ]
+            },
+            {
+                "name": "Quants",
+                "code": "QUANTS",
+                "categories": [
+                    {
+                        "name": "HOME",
+                        "code": "home"
+                    },
+                    {
+                        "name": "CAT",
+                        "code": "cat"
+                    },
+                    {
+                        "name": "GMAT",
+                        "code": "gmat"
+                    },
+                    {
+                        "name": "MAT",
+                        "code": "mat"
+                    },
+                    {
+                        "name": "GRE",
+                        "code": "gre"
+                    },
+                    {
+                        "name": "TOFEL",
+                        "code": "tofel"
+                    },
+                    {
+                        "name": "Railway Exams",
+                        "code": "railway"
+                    },
+                    {
+                        "name": "Bank Exams",
+                        "code": "banks"
+                    },
+                    {
+                        "name": "Others",
                         "code": "others"
                     }
                 ]
@@ -96,15 +96,15 @@ export const SECTIONS = [
                         "code": "home"
                     },
                     {
-                        "name": "RAILWAY EXAMS",
+                        "name": "Rilway Exams",
                         "code": "railway"
                     },
                     {
-                        "name": "BANK EXAMS",
+                        "name": "Bank Exams",
                         "code": "banks"
                     },
                     {
-                        "name": "OTHERS",
+                        "name": "Others",
                         "code": "others"
                     }
                 ]
@@ -247,11 +247,11 @@ export const AUDIENCE = [
     { label: 'IT', value: 'IT' },
     { label: 'MECH', value: 'MECH' },
     { label: 'Chemical', value: 'CHEM' }
-  ];
+];
 
 export const SECTION_MAPPINGS = [
     { section: 'VERBAL', _type: 'VerbalPost' },
     { section: 'QUANTS', _type: 'QuantsPost' },
     { section: 'EVENTS', _type: 'EventsPost' },
     { section: 'CAREERS', _type: 'CareerPost' },
-  ];
+];

@@ -83,8 +83,8 @@
                         <div class="post-text">
                             <!-- [innerHTML] -->
                             <p>
-                                <label [innerHtml]="post.postText | slice:0:post.maxLength"></label>
-                                <!-- {{post.postText | slice:0:post.maxLength}} -->
+                                <!-- <label [innerHtml]="post.postText | slice:0:post.maxLength"></label> -->
+                                <label class="multiLineText">{{post.postText | slice:0:post.maxLength}}</label>
                                 <label *ngIf="post.postText.length > post.maxLength">...</label>
                                 <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="post.postText.length > post.maxLength"
                                     (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see more</a>
@@ -93,27 +93,17 @@
                     </div>
                     <div style="margin-top: -23px;">
                         <div *ngIf="post.images.length == 1">
-                            <img src="{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%;
-                                max-height: 100%;padding: 7px;"
-                                class="rounded" alt="Post">
+                            <a data-lightbox="image" data-title="Post Images" href="{{serverUrl}}/{{post.images[0]}}">
+                                <img src="{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%; max-height: 100%;padding: 7px;">
+                            </a>
                         </div>
 
                         <div class="images" *ngIf="post.images.length == 2" style="padding:7px;">
-                            <!-- <span class="item">
-                                <img src = "{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%;
-                            max-height: 100%;padding: 7px;"
-                                    class="rounded" alt="Post">
-                            </span>
-                            <span class="item">
-                                <img src = "{{serverUrl}}/{{post.images[1]}}" style="max-width: 100%;
-                            max-height: 100%;padding: 7px;"
-                                    class="rounded" alt="Post">
-                            </span> -->
                             <mat-grid-list cols="2" rowHeight="2:1">
                                 <mat-grid-tile *ngFor="let tile of post.images">
-                                    <img style="max-width: 100%;
-                                        max-height: 100%;"
-                                        src="{{serverUrl}}/{{tile}}">
+                                    <a data-lightbox="image" data-title="Post Images" href="{{serverUrl}}/{{tile}}">
+                                        <img style="max-width: 100%; max-height: 100%;" src="{{serverUrl}}/{{tile}}">
+                                    </a>
                                 </mat-grid-tile>
                             </mat-grid-list>
                         </div>
@@ -135,9 +125,9 @@
                             </div> -->
                             <mat-grid-list cols="3" rowHeight="2:2">
                                 <mat-grid-tile *ngFor="let tile of post.images">
-                                    <img style="max-width: 100%;
-                                        max-height: 100%;"
-                                        src="{{serverUrl}}/{{tile}}">
+                                    <a data-lightbox="image" data-title="Post Images" href="{{serverUrl}}/{{tile}}">
+                                        <img style="max-width: 100%; max-height: 100%;" src="{{serverUrl}}/{{tile}}">
+                                    </a>
                                 </mat-grid-tile>
                             </mat-grid-list>
                         </div>
@@ -145,9 +135,9 @@
                         <div class="images" *ngIf="post.images.length == 4" style="padding-right: 7px;">
                             <mat-grid-list cols="2" rowHeight="2:1">
                                 <mat-grid-tile *ngFor="let tile of post.images">
-                                    <img style="max-width: 100%;
-                                            max-height: 100%;"
-                                        src="{{serverUrl}}/{{tile}}">
+                                    <a data-lightbox="image" data-title="Post Images" href="{{serverUrl}}/{{tile}}">
+                                        <img style="max-width: 100%; max-height: 100%;" src="{{serverUrl}}/{{tile}}">
+                                    </a>
                                 </mat-grid-tile>
                             </mat-grid-list>
                             <!-- <span class="item">
@@ -200,9 +190,9 @@
                                             <i class="fas fa-share-square"></i>
                                         </button>
                                     </div>
-                                    <input type="text" class="form-control" style="border-radius: 17px;"
+                                    <textarea rows="1" type="text" class="form-control" style="border-radius: 17px;"
                                         [ngModelOptions]="{standalone: true}" [(ngModel)]="post.commentText"
-                                        placeholder="Add a comment..">
+                                        placeholder="Add a comment.."></textarea>
                                 </div>
                             </form>
                         </div>
@@ -223,7 +213,9 @@
                                             a'}}</li>
                                         <li style="font-size: 13px;">
                                             <!-- <p>{{comment.commentText}}</p> -->
-                                            <label [innerHtml]="comment.commentText | slice:0:comment.maxLength"></label>
+                                            <!-- <label [innerHtml]="comment.commentText | slice:0:comment.maxLength"></label> -->
+                                            <label class="multiLineText">{{comment.commentText |
+                                                slice:0:comment.maxLength}}</label>
                                             <label *ngIf="comment.commentText.length > comment.maxLength">...</label>
                                             <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="comment.commentText.length > comment.maxLength"
                                                 (click)="comment.maxLength = comment.commentText.length" href="javascript:void(0);">see
@@ -347,7 +339,12 @@
                 <!-- Images list start-->
                 <div class="addPost">
                     <div style="padding-left: 50px;padding-right: 3px;">
-                        <img *ngFor="let url of urls" [src]="url" class="rounded mb-3" width="150" height="150">
+                        <span *ngFor="let url of urls;index as in;">
+                            <figure>
+                                <img [src]="url" class="rounded mb-3" style="margin-left: 10px;" width="150" height="150">
+                                <figcaption><a href="javascript:void(0);" (click)="removeFromImages(in)">Remove</a></figcaption>
+                            </figure>
+                        </span>
                     </div>
                 </div>
                 <!-- Images list end-->

@@ -24,7 +24,7 @@
             </li>
             <li *ngFor="let section of menu.sections" [ngClass]="{active: isActive(section.name)}" style="padding-bottom: 12px;">
                 <span>
-                    <span style="font-size: 14px;" (click)="select(section.name);">
+                    <span (click)="select(section.name);">
                         <i class="fas fa-chevron-right" *ngIf="!isActive(section.name)"></i>
                         <i class="fas fa-chevron-down" *ngIf="isActive(section.name)"></i>&nbsp;&nbsp; {{section.name}}
                     </span>
@@ -37,7 +37,7 @@
                         </a>
                     </span>
                 </span>
-                <ul style="display:none; margin-left: -10px;font-size: 13px;">
+                <ul style="display:none; margin-left: -10px;">
                     <li *ngFor="let category of section.categories">
                         <a href="javascript:void(0);" style="color: black;" [routerLink]="['/noticer']" [queryParams]="{'type':section.code,'category':category.name }"
                             (click)="selectedCategory(section.code, category.name)" [class.selected]="section.code+category.name === selectedItem">&nbsp;

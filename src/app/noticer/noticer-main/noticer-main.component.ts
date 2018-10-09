@@ -173,6 +173,8 @@ export class NoticerMainComponent implements OnInit {
   private getDismissReason(reason: any): string {
     this.initAddPostForm();
     this.addPostForm.enable();
+    this.postImages = [];
+    this.urls = [];
     console.log(reason);
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -286,8 +288,8 @@ export class NoticerMainComponent implements OnInit {
 
     console.log(this.addPostForm.value);
     let postText = this.addPostForm.controls['data'].get('postText').value
-    let txt = postText.replace(/\n/g, '<br>');
-    this.addPostForm.controls['data'].get('text').patchValue(txt);
+    // let txt = postText.replace(/\n/g, '<br>');
+    this.addPostForm.controls['data'].get('text').patchValue(postText);
 
     let imageUrls = [];
     if (this.postImages.length > 0) {
@@ -325,6 +327,7 @@ export class NoticerMainComponent implements OnInit {
           alert("Successfully added post");
           this.categoryModalReference.close();
           this.postImages = [];
+          this.urls = [];
         } else {
           alert("Something went wrong!");
         }
@@ -516,5 +519,10 @@ export class NoticerMainComponent implements OnInit {
       });
       this.categoryModalReference.close();
     })
+  }
+
+  removeFromImages(index) {
+    this.urls.splice(index, 1);
+    this.postImages.splice(index, 1);
   }
 }

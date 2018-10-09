@@ -138,3 +138,14 @@ li {
 .item img {
     display: block;
 }
+
+.multiLineText{
+    white-space: pre-wrap
+}
+
+figure {
+    display:inline-block;
+}
+figcaption {
+    text-align: center;
+}
