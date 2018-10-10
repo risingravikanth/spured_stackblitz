@@ -14,4 +14,4 @@ deploy_production:
   environment:
   when: manual
   only:
-    - dev_v2
+    - master
