@@ -96,7 +96,7 @@ export const SECTIONS = [
                         "code": "home"
                     },
                     {
-                        "name": "Rilway Exams",
+                        "name": "Railway Exams",
                         "code": "railway"
                     },
                     {
@@ -118,7 +118,7 @@ export const SECTIONS = [
                         "code": "home"
                     },
                     {
-                        "name": "JOBS",
+                        "name": "Jobs",
                         "code": "jobs"
                     }
                 ]
