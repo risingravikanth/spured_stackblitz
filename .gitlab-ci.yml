@@ -6,9 +6,7 @@ stages:
 deploy_production:
   stage: deploy
   script:
-    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/noticer-gitlab.git
-    - git push heroku master
-    - echo "Deployed to production server"
+    - git push https://heroku:9f0c42bc-3d10-4cee-8ace-a8ada01bbc29@git.heroku.com/noticer-gitlab.git HEAD:master
   environment:
   when: manual
   only:
