@@ -74,6 +74,14 @@ export class UserSetupComponent implements OnInit {
       this.userSetUpService.saveUser(this.UserSetUpForm.value).subscribe(
         resData => {
           this.responseData = resData;
+          if (this.responseData.info || this.responseData.statusCode == "ERROR") {
+            alert(this.responseData.info);
+          } else if (this.responseData.email) {
+            alert("Success");
+            this.userSetUpForm();
+          } else {
+            console.log(this.responseData);
+          }
           this.showSpinner = false;
         }
       );

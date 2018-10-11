@@ -34,7 +34,14 @@ export class NoticerMainComponent implements OnInit {
     private modalService: NgbModal,
     private route: ActivatedRoute,
     private confirmService: ConfirmationService
-  ) { }
+  ) {
+    let user = localStorage.getItem("currentUser");
+    this.currentuserId = JSON.parse(user).userId;
+  }
+
+  public paramType: any;
+  public paramCategory: any;
+  public paramId: any;
 
   public questionName: any = '';
   public postsList: any = [];
@@ -66,7 +73,7 @@ export class NoticerMainComponent implements OnInit {
   public types: any = [];
   public states: any = [];
   public institutes: any = [];
-
+  public currentuserId: any;
   ngOnInit() {
     this.serverUrl = constant.REST_API_URL;
     this.audienceList = categories_types_models.AUDIENCE;
@@ -77,6 +84,7 @@ export class NoticerMainComponent implements OnInit {
     this.initAddPostForm();
     this.initEditForm();
     this.intitDummyData();
+
     this.route.queryParams.subscribe(this.handleParams.bind(this));
   }
 
@@ -129,15 +137,21 @@ export class NoticerMainComponent implements OnInit {
 
 
   handleParams(params: any[]) {
-    let type = params['type'];
-    let category = params['category'];
+    this.paramType = params['type'];
+    this.paramCategory = params['category'];
+    this.paramId = params['id'];
 
     let sec = new Section();
-    sec.section = type;
-    sec.category = category
-    if (type == undefined && category == undefined) {
+    sec.section = this.paramType;
+    sec.category = this.paramCategory
+    if (this.paramType == undefined && this.paramCategory == undefined) {
       this.initRequest()
-      this.getPosts();
+      if (this.paramId) {
+        console.log("have id");
+        this.getPostDetails();
+      } else {
+        this.getPosts();
+      }
       this.questionName = "";
     } else {
       this.selectedCategory(sec);
@@ -147,7 +161,10 @@ export class NoticerMainComponent implements OnInit {
 
   postQuestionDialog(content: any) {
     console.log("Modal for:" + this.getPostsRequestBody.context.type)
+    this.postImages = []
+    this.urls = [];
     this.resetDropdowns();
+    this.addPostForm.enable();
     if (this.getPostsRequestBody.context.type && this.getPostsRequestBody.context.type != 'ALL') {
       let reqType = this.getPostsRequestBody.context.type;
       this.getCategoriesByType(reqType);
@@ -175,6 +192,8 @@ export class NoticerMainComponent implements OnInit {
     this.addPostForm.enable();
     this.postImages = [];
     this.urls = [];
+    this.isValidCategory = false;
+    this.isValidType = false;
     console.log(reason);
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -203,7 +222,11 @@ export class NoticerMainComponent implements OnInit {
       if (data.section) {
         this.getPostsRequestBody.context.type = data.section.toUpperCase();
       }
-      this.getPosts();
+      if (this.paramId) {
+        this.getPostDetails();
+      } else {
+        this.getPosts();
+      }
     }
   }
 
@@ -263,17 +286,24 @@ export class NoticerMainComponent implements OnInit {
   }
 
   detectFiles(event) {
-    this.postImages = []
-    this.urls = [];
     let files = event.target.files;
-    if (files) {
+    if (files.length > 4 || (this.urls.length + files.length) > 4) {
+      alert("Only 4 images allowd");
+    } else if (files) {
       for (let file of files) {
         let reader = new FileReader();
+        let found = [];
         reader.onload = (e: any) => {
-          this.urls.push(e.target.result);
+          found = this.urls.filter(item => item == e.target.result);
+          if (found.length == 0) {
+
+            this.urls.push(e.target.result);
+          }
         }
         reader.readAsDataURL(file);
-        this.postImages.push(file);
+        if (found.length == 0) {
+          this.postImages.push(file);
+        }
       }
     }
   }
@@ -328,6 +358,8 @@ export class NoticerMainComponent implements OnInit {
           this.categoryModalReference.close();
           this.postImages = [];
           this.urls = [];
+          this.isValidCategory = false;
+          this.isValidType = false;
         } else {
           alert("Something went wrong!");
         }
@@ -524,5 +556,19 @@ export class NoticerMainComponent implements OnInit {
   removeFromImages(index) {
     this.urls.splice(index, 1);
     this.postImages.splice(index, 1);
+  }
+
+  navigateToPostDetails(postObj: any) {
+    let t = this.sectionsTypesMappings.filter(item => item._type == postObj._type)[0].section;
+    let c = postObj.category;
+    let id = postObj.postId;
+    window.open("/noticer?type=" + t + "&category=" + c +"&id=" + id, "_blank")
+  }
+
+  getPostDetails() {
+    this.service.getPostDetailsById(this.paramId, this.paramType).subscribe((resData:any) => {
+      this.postsList = resData.posts;
+      this.preparePostsList();
+    })
   }
 }

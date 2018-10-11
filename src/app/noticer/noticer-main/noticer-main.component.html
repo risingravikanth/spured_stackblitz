@@ -37,8 +37,11 @@
                         <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false" style="font-size: 20px;"></i>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button class="dropdown-item" type="button" (click)="editPost(post.postId, editPostDialog)">Edit</button>
-                            <button class="dropdown-item" type="button" (click)="deletePost(post.postId)">Delete</button>
+                            <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
+                                (click)="editPost(post.postId, editPostDialog)">Edit</button>
+                            <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
+                                (click)="deletePost(post.postId)">Delete</button>
+                            <button class="dropdown-item" type="button">Report</button>
                         </div>
                     </div>
                     <div class="row" style="padding-left: 9px;margin-top: -15px;">
@@ -83,11 +86,20 @@
                         <div class="post-text">
                             <!-- [innerHTML] -->
                             <p>
-                                <!-- <label [innerHtml]="post.postText | slice:0:post.maxLength"></label> -->
-                                <label class="multiLineText">{{post.postText | slice:0:post.maxLength}}</label>
-                                <label *ngIf="post.postText.length > post.maxLength">...</label>
-                                <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="post.postText.length > post.maxLength"
-                                    (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see more</a>
+                                <a (click)="navigateToPostDetails(post)" *ngIf="!paramId" style="color: black;">
+                                    <label class="multiLineText">{{post.postText | slice:0:post.maxLength}}</label>
+                                    <label *ngIf="post.postText.length > post.maxLength">...</label>
+                                    <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="post.postText.length > post.maxLength"
+                                        (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see
+                                        more</a>
+                                </a>
+                                <a *ngIf="paramId" style="color: black;">
+                                    <label class="multiLineText">{{post.postText | slice:0:post.maxLength}}</label>
+                                    <label *ngIf="post.postText.length > post.maxLength">...</label>
+                                    <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="post.postText.length > post.maxLength"
+                                        (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see
+                                        more</a>
+                                </a>
                             </p>
                         </div>
                     </div>
@@ -240,7 +252,7 @@
                 <div class="loader"></div>
             </div>
             <div class="text-center" *ngIf="!showPostSpinner">
-                <a *ngIf="postsList.length > 0 && showMoreLink" href="javascript:void(0);" (click)="loadMorePosts()">
+                <a *ngIf="postsList.length > 0 && showMoreLink && !paramId" href="javascript:void(0);" (click)="loadMorePosts()">
                     Show more </a>
                 <b *ngIf="postsList.length == 0">Opps! No Posts Available</b>
             </div>
@@ -354,7 +366,7 @@
             <ul class="list-inline postIcons">
                 <span class="btn btn-light btn-file">
                     <i class="fas fa-camera"></i> Browse photos
-                    <input type="file" accept="image/*" multiple (change)="detectFiles($event)">
+                    <input type="file" accept="image/gif, image/jpeg, image/jpg, image/png" multiple (change)="detectFiles($event)">
                 </span>
             </ul>
             <div class="modal-footer">
@@ -379,7 +391,7 @@
                 <div formGroupName="data">
                     <div class="modal-body">
                         <div class="form-group" style="padding:12px;">
-                            <textarea class="form-control" formControlName="text" placeholder="What is your question?"></textarea>
+                            <textarea class="form-control" formControlName="text" rows="10" placeholder="What is your question?"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

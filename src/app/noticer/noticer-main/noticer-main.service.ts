@@ -122,4 +122,20 @@ export class NoticerMainService {
         let url = "/v2/post/update";
         return this.httpClient.post(url, body).catch(this.handleError);
     }
+
+
+    getPostDetailsById(postId, type){
+        let url = "/v2/post/get";
+
+        let body = {
+            "context" : {
+                "type" : type
+            },
+            "data": {
+                "postId" : postId
+            }
+        }
+
+        return this.httpClient.post(url, body).catch(this.handleError);
+    }
 }

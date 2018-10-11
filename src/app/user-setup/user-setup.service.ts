@@ -11,7 +11,7 @@ export class UserSetUpService {
 
     saveUser(body: any) {
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        let url = "/users/createProfile";
+        let url = "/profile/createprofile";
         return this.httpClient.post(url, JSON.stringify(body), { headers: headers });
     }
 
