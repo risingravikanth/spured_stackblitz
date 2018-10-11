@@ -8,7 +8,7 @@ deploy_production:
   script:
     # - git remote add heroku https://heroku:$9f0c42bc-3d10-4cee-8ace-a8ada01bbc29@git.heroku.com/noticer-dev.git
     # - git push heroku master
-    - git push https://heroku:9f0c42bc-3d10-4cee-8ace-a8ada01bbc29@git.heroku.com/noticer-dev.git HEAD:master
+    - git push --force https://heroku:9f0c42bc-3d10-4cee-8ace-a8ada01bbc29@git.heroku.com/noticer-dev.git HEAD:master
     - echo "Deployed to production server"
   environment:
   when: manual
