@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MessageService } from "primeng/components/common/messageservice";
@@ -15,6 +15,7 @@ import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-boo
 import * as constant from '../../shared/others/constants'
 import * as categories_types_models from '../../shared/master-data/master-data'
 import { ConfirmationService } from 'primeng/components/common/api';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'noticer-main',
@@ -33,10 +34,13 @@ export class NoticerMainComponent implements OnInit {
     public mobileService: MobileDetectionService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private confirmService: ConfirmationService
+    private confirmService: ConfirmationService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    let user = localStorage.getItem("currentUser");
-    this.currentuserId = JSON.parse(user).userId;
+    if (isPlatformBrowser(this.platformId)) {
+      let user = localStorage.getItem("currentUser");
+      this.currentuserId = JSON.parse(user).userId;
+    }
   }
 
   public paramType: any;
@@ -562,11 +566,11 @@ export class NoticerMainComponent implements OnInit {
     let t = this.sectionsTypesMappings.filter(item => item._type == postObj._type)[0].section;
     let c = postObj.category;
     let id = postObj.postId;
-    window.open("/noticer?type=" + t + "&category=" + c +"&id=" + id, "_blank")
+    window.open("/noticer?type=" + t + "&category=" + c + "&id=" + id, "_blank")
   }
 
   getPostDetails() {
-    this.service.getPostDetailsById(this.paramId, this.paramType).subscribe((resData:any) => {
+    this.service.getPostDetailsById(this.paramId, this.paramType).subscribe((resData: any) => {
       this.postsList = resData.posts;
       this.preparePostsList();
     })
