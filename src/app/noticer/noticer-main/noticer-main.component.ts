@@ -518,8 +518,13 @@ export class NoticerMainComponent implements OnInit {
       accept: () => {
         // Actual logic to perform a confirmation
         this.service.deletePost(this.editPostForm.value).subscribe(resData => {
+          let obj: any = resData;
           console.log(resData)
-          this.postsList.splice(index, 1);
+          if (obj.error && obj.error.code && obj.error.code.id) {
+            alert(obj.error.code.message)
+          } else {
+            this.postsList.splice(index, 1);
+          }
         })
       }
     });
@@ -547,13 +552,18 @@ export class NoticerMainComponent implements OnInit {
   saveEditPost() {
     console.log(this.editPostForm.value);
     this.service.saveEditPost(this.editPostForm.value).subscribe(resData => {
+      let obj: any = resData;
       console.log(resData)
-      this.postsList.forEach(element => {
-        if (element.postId == this.editPostForm.controls['data'].get('postId').value) {
-          element.postText = this.editPostForm.controls['data'].get('text').value
-        }
-      });
-      this.categoryModalReference.close();
+      if (obj.error && obj.error.code && obj.error.code.id) {
+        alert(obj.error.code.message)
+      } else {
+        this.postsList.forEach(element => {
+          if (element.postId == this.editPostForm.controls['data'].get('postId').value) {
+            element.postText = this.editPostForm.controls['data'].get('text').value
+          }
+        });
+        this.categoryModalReference.close();
+      }
     })
   }
 
@@ -571,8 +581,13 @@ export class NoticerMainComponent implements OnInit {
 
   getPostDetails() {
     this.service.getPostDetailsById(this.paramId, this.paramType).subscribe((resData: any) => {
-      this.postsList = resData.posts;
-      this.preparePostsList();
+      let obj: any = resData;
+      if (obj.error && obj.error.code && obj.error.code.id) {
+        alert(obj.error.code.message)
+      } else {
+        this.postsList = resData.posts;
+        this.preparePostsList();
+      }
     })
   }
 }
