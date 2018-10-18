@@ -9,6 +9,7 @@ import { NoticerMainRoutingModule } from './noticer-main-routing.module';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MenuMobileComponent } from './menu-mobile/menu-mobile.component';
 import { RightMenuComponent } from './right-menu/right-menu.component';
+import { LinkifyPipe } from '../../shared/pipes/linkify.pipe';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { RightMenuComponent } from './right-menu/right-menu.component';
     NoticerMainComponent,
     SideMenuComponent,
     RightMenuComponent,
-    MenuMobileComponent
+    MenuMobileComponent,
+    LinkifyPipe
   ],
   entryComponents: [],
 })
