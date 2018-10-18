@@ -38,9 +38,9 @@
                             aria-expanded="false" style="font-size: 20px;"></i>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                             <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
-                                (click)="editPost(post.postId, editPostDialog)">Edit</button>
+                                (click)="editPost(post.postId, post._type, editPostDialog)">Edit</button>
                             <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
-                                (click)="deletePost(post.postId)">Delete</button>
+                                (click)="deletePost(post.postId, post._type)">Delete</button>
                             <button class="dropdown-item" type="button">Report</button>
                         </div>
                     </div>

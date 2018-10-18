@@ -505,8 +505,8 @@ export class NoticerMainComponent implements OnInit {
     this.addPostForm.controls['data'].get('qualifications').patchValue(null);
   }
 
-  deletePost(postId: any) {
-    let index = this.postsList.findIndex(item => item.postId == postId);
+  deletePost(postId: any, postType:any) {
+    let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
 
     this.editPostForm.controls['data'].get('postId').patchValue(postObj.postId);
@@ -530,9 +530,9 @@ export class NoticerMainComponent implements OnInit {
     });
   }
 
-  editPost(postId: any, content: any) {
+  editPost(postId: any, type:any, content: any) {
     this.postsList.forEach(element => {
-      if (element.postId == postId) {
+      if (element.postId == postId && element._type == type) {
         this.editPostForm.controls['data'].get('text').patchValue(element.postText);
         this.editPostForm.controls['data'].get('postId').patchValue(element.postId);
         let type = this.sectionsTypesMappings.filter(item => item._type == element._type)[0].section;
