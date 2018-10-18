@@ -16,6 +16,7 @@ const routes: Routes = [
     {
         path: 'noticer',
         component: NoticerComponent,
+        canActivate: [AuthGuard],
         children: [
           {
             path: '',

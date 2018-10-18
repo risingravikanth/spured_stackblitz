@@ -26,7 +26,9 @@ export class CurrentUserService {
     }
     checkValidUser(): boolean {
         if (isPlatformBrowser(this.platformId)) {
-            if (localStorage.getItem('currentUser') && this.jwtService.getToken()) {
+            if (localStorage.getItem('currentUser') 
+            //&& this.jwtService.getToken()) 
+            ){
                 return true;
             } else {
                 return false;
