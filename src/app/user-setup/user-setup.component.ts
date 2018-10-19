@@ -1,19 +1,19 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FormBuilder, Validators, FormGroup, AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
-import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { CustomValidator } from "../shared/others/custom.validator";
-import { UserSetUpService } from "./user-setup.service";
-import { ParamMap } from "./user-setup.module";
-import { PasswordValidation } from '../shared/others/password.validator';
-import { AuthService } from "../shared/services/auth.service";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Message } from 'primeng/components/common/api';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { routerTransition } from '../router.animations';
+import { CustomValidator } from "../shared/others/custom.validator";
+import { AuthService } from "../shared/services/auth.service";
+import { UserSetUpService } from "./user-setup.service";
 @Component({
   selector: 'user-setup',
   templateUrl: './user-setup.component.html',
-  styleUrls: ['./user-setup.component.css'],
-  providers: [CustomValidator, UserSetUpService, MessageService]
+  styleUrls: ['./user-setup.component.scss'],
+  providers: [CustomValidator, UserSetUpService, MessageService],
+  animations: [routerTransition()],
 })
 export class UserSetupComponent implements OnInit {
   imageBase64: any;
@@ -86,6 +86,10 @@ export class UserSetupComponent implements OnInit {
         }
       );
     }
+  }
+
+  redirectLogin(){
+    this.router.navigate(['/login']);
   }
 
 }

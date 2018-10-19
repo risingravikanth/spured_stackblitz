@@ -53,7 +53,7 @@ const routes: Routes = [
     { path: 'login', loadChildren: './login/login.module#LoginModule' },
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'not-found', component: NotFoundComponent },
-    { path: 'user-setup', component: UserSetupComponent },
+    { path: 'signup', component: UserSetupComponent },
     { path: '**', redirectTo: 'not-found' }
 ];
 

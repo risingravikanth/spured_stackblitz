@@ -1,9 +1,18 @@
 <section [@routerTransition]>
-
-    <div class="content">
-        <div class="login-box" style=" border:1px solid #f3f3f3;box-shadow: 0px 2px 11px 0px #888888;  padding:30px 20px 20px;  margin:10% auto 0;">
-            <div class="login-box-body">
-                <h4 class="login-box-msg">Sign in</h4>
+    <div class="row">
+        <div class="col-md-6 d-none d-sm-block" style="background: #1da1f2;margin-bottom: -15%;">
+            <div class="leftCenter fontText">
+                <font color="white">
+                    <b>
+                        <p><i class="fas fa-hand-point-right"></i>&nbsp; Welcome To Noticer</p>
+                        <p><i class="fas fa-hand-point-right"></i>&nbsp; Join the conversation</p>
+                        <p><i class="fas fa-hand-point-right"></i>&nbsp; Learn to enjoy every minute of your life.</p>
+                    </b>
+                </font>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="center">
                 <div *ngIf="errorTextMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>{{ errorTextMessage }}</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -12,16 +21,19 @@
                 </div>
                 <form (ngSubmit)="onLoggedin()" [formGroup]="authForm">
                     <div class="form-group">
-                        <input type="email" class="form-control" formControlName="email" placeholder="Email">
+                        <label>Email</label>
+                        <input class="form-control" type="text" formControlName="email" placeholder="email">
                     </div>
-                    <div class="form-group  ">
-                        <input type="password" class="form-control" placeholder="Password" formControlName="password">
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input class="form-control" type="password" placeholder="password"
+                            formControlName="password">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{status}}</button>
-                    <br>
-                    <label>Don't have a Noticer account?
-                        <a href="javascript:void(0);" routerLink="/user-setup"> Sign Up </a> Now</label>
-                        <!--  -->
+                    <p><a href="javascript:void(0);" class="linkGray">Forgot password?</a></p>
+                    <button type="submit" class="btn btn-primary btn-sm loginButton btn-block">Log in</button>
+                    <p class="signUpBtnMar"><b>Join Noticer Today</b></p>
+                    <button type="button" class="btn btn-default btn-sm btnShape btn-block" routerLink="/signup">Sign
+                        Up</button>
                 </form>
             </div>
         </div>

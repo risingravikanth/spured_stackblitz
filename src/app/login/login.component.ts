@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { routerTransition } from '../router.animations';
-import { User } from '../shared/models/user.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CurrentUserService } from '../shared/services/currentUser.service';
-import { AuthService } from '../shared/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
+import { routerTransition } from '../router.animations';
+import { AuthService } from '../shared/services/auth.service';
+import { CurrentUserService } from '../shared/services/currentUser.service';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
