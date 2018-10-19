@@ -56,8 +56,8 @@ export class UserSetupComponent implements OnInit {
     this.UserSetUpForm = this.formbuilder.group({
       userName: ["", { validators: [Validators.required] }],
       password: ['', { validators: [Validators.required] }],
-      matchingPassword: ['', { validators: [Validators.required] }],
-      phoneNum: ["", { validators: [Validators.required] }],
+      // matchingPassword: ['', { validators: [Validators.required] }],
+      phoneNum: [null],
       email: ["", { validators: [Validators.required] }],
       gender: ["", { validators: [Validators.required] }]
     }
@@ -67,9 +67,12 @@ export class UserSetupComponent implements OnInit {
   saveUserSetUp() {
     if (this.UserSetUpForm.invalid) {
       alert("Please fill all the fields")
-    } else if (this.UserSetUpForm.get('password').value != this.UserSetUpForm.get('matchingPassword').value) {
-      alert("password not matched")
-    } else {
+    } 
+    // else if (this.UserSetUpForm.get('password').value != this.UserSetUpForm.get('matchingPassword').value) {
+    //   alert("password not matched")
+    // }
+    //  
+    else {
       this.showSpinner = true;
       this.userSetUpService.saveUser(this.UserSetUpForm.value).subscribe(
         resData => {
