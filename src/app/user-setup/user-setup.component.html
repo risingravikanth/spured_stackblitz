@@ -1,6 +1,6 @@
 <section [@routerTransition]>
     <div class="row">
-        <div class="col-md-6 d-none d-sm-block" style="background: #1da1f2;margin-bottom: -13%;">
+        <div class="col-md-6 d-none d-sm-block" style="background: #1da1f2;margin-bottom: -17%;">
             <div class="leftCenter fontText">
                 <font color="white">
                     <b>
@@ -14,14 +14,12 @@
         <div class="col-md-6">
             <div class="center">
                 <form (ngSubmit)="saveUserSetUp()" [formGroup]="UserSetUpForm">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input class="form-control" type="text" formControlName="userName" placeholder="name">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input class="form-control" type="text" formControlName="email" placeholder="email">
-                    </div>
+                    <mat-form-field class="example-full-width">
+                        <input matInput type="text" placeholder="Name" formControlName="userName">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <input matInput type="text" placeholder="Email" formControlName="email">
+                    </mat-form-field>
                     <div class="form-group">
                         <label>Gender </label>&nbsp;
                         <div class="form-check form-check-inline">
@@ -37,10 +35,9 @@
                         <label>Mobile</label>
                         <input class="form-control" type="number" formControlName="phoneNum" placeholder="mobile">
                     </div> -->
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input class="form-control" type="password" formControlName="password" placeholder="password">
-                    </div>
+                    <mat-form-field class="example-full-width">
+                        <input matInput type="password" placeholder="Password" formControlName="password">
+                    </mat-form-field>
                     <!-- <div class="form-group">
                         <label>Confirm password</label>
                         <input class="form-control" type="password" placeholder="confirm password" formControlName="matchingPassword">
