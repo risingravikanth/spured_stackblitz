@@ -25,9 +25,15 @@ export class HeaderComponent implements OnInit {
 
     currentUser: User;
     public isMobile: boolean;
+    public profileImage:any;
 
     ngOnInit() {
-        // this.currentUser = this.userService.getCurrentUser();
+        this.currentUser = this.userService.getCurrentUser();
+        if(this.currentUser && this.currentUser.profileImageUrl){
+            this.profileImage = this.currentUser.profileImageUrl;
+        } else{
+            this.profileImage = "assets/images/noticer_default_user_img.png"
+        }
         this.isMobile = this.mobileService.isMobile();
     }
 

@@ -1,21 +1,22 @@
-import { Component, OnInit, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { MessageService } from "primeng/components/common/messageservice";
-import { CustomValidator } from "../../shared/others/custom.validator";
-import { routerTransition } from "../../router.animations";
-import { NoticerMainService } from './noticer-main.service';
-
-import { CommonService } from "../../shared/services/common.service";
-import { Section } from '../../shared/models/section.model';
-import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
-import { timeAgo } from '../../shared/others/time-age';
-import { Pagination, Context, Data, GetPostsRequest, GetCommentRequest, CommentContext, CreateCommentRequest, CreateCommentData } from '../../shared/models/request';
-import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import * as constant from '../../shared/others/constants'
-import * as categories_types_models from '../../shared/master-data/master-data'
-import { ConfirmationService } from 'primeng/components/common/api';
 import { isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationService } from 'primeng/components/common/api';
+import { MessageService } from "primeng/components/common/messageservice";
+import { routerTransition } from "../../router.animations";
+import * as categories_types_models from '../../shared/master-data/master-data';
+import { CommentContext, Context, CreateCommentData, CreateCommentRequest, Data, GetCommentRequest, GetPostsRequest, Pagination } from '../../shared/models/request';
+import { Section } from '../../shared/models/section.model';
+import * as constant from '../../shared/others/constants';
+import { CustomValidator } from "../../shared/others/custom.validator";
+import { CommonService } from "../../shared/services/common.service";
+import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
+import { NoticerMainService } from './noticer-main.service';
+import { User } from '../../shared/models/user.model';
+import { CurrentUserService } from '../../shared/services/currentUser.service';
+
 
 @Component({
   selector: 'noticer-main',
@@ -27,10 +28,12 @@ import { isPlatformBrowser } from '@angular/common';
 export class NoticerMainComponent implements OnInit {
 
   public isMobile: boolean;
+  public profileImage: any;
+  public currentUser: User;
 
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
-    private commonService: CommonService,
+    private userService: CurrentUserService,
     public mobileService: MobileDetectionService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
@@ -38,8 +41,15 @@ export class NoticerMainComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     if (isPlatformBrowser(this.platformId)) {
-      let user = localStorage.getItem("currentUser");
-      this.currentuserId = JSON.parse(user).userId;
+      this.currentUser = this.userService.getCurrentUser();
+      if (this.currentUser) {
+        this.currentuserId = this.currentUser.userId;
+      }
+      if (this.currentUser && this.currentUser.profileImageUrl) {
+        this.profileImage = this.currentUser.profileImageUrl;
+      } else {
+        this.profileImage = "assets/images/noticer_default_user_img.png"
+      }
     }
   }
 
@@ -89,7 +99,7 @@ export class NoticerMainComponent implements OnInit {
     this.initEditForm();
     this.intitDummyData();
 
-    this.route.queryParams.subscribe(this.handleParams.bind(this));
+    this.route.params.subscribe(this.handleParams.bind(this));
   }
 
   initAddPostForm() {
@@ -143,6 +153,9 @@ export class NoticerMainComponent implements OnInit {
   handleParams(params: any[]) {
     this.paramType = params['type'];
     this.paramCategory = params['category'];
+    if (this.paramType && this.paramCategory == undefined) {
+      this.paramCategory = "HOME"
+    }
     this.paramId = params['id'];
 
     let sec = new Section();
@@ -505,7 +518,7 @@ export class NoticerMainComponent implements OnInit {
     this.addPostForm.controls['data'].get('qualifications').patchValue(null);
   }
 
-  deletePost(postId: any, postType:any) {
+  deletePost(postId: any, postType: any) {
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
 
@@ -530,7 +543,7 @@ export class NoticerMainComponent implements OnInit {
     });
   }
 
-  editPost(postId: any, type:any, content: any) {
+  editPost(postId: any, type: any, content: any) {
     this.postsList.forEach(element => {
       if (element.postId == postId && element._type == type) {
         this.editPostForm.controls['data'].get('text').patchValue(element.postText);
@@ -576,7 +589,7 @@ export class NoticerMainComponent implements OnInit {
     let t = this.sectionsTypesMappings.filter(item => item._type == postObj._type)[0].section;
     let c = postObj.category;
     let id = postObj.postId;
-    window.open("/noticer?type=" + t + "&category=" + c + "&id=" + id, "_blank")
+    window.open("/posts/" + t + "/" + c + "/" + id, "_blank")
   }
 
   getPostDetails() {

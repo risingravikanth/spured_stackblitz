@@ -5,14 +5,14 @@
             <label class="siteTitle">Notcier</label>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" (click)="hideMenu()" routerLink="/noticer">
+            <a class="nav-link" href="javascript:void(0);" (click)="hideMenu()" routerLink="/feed">
                 <b>
                     <i class="fas fa-bell header-icon-size"></i>
                 </b>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" (click)="hideMenu()" routerLink="/noticer">
+            <a class="nav-link" href="javascript:void(0);" (click)="hideMenu()" routerLink="/feed">
                 <b>
                     <i class="fas fa-home header-icon-size"></i>
                 </b>
@@ -21,16 +21,16 @@
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="assets/images/img_avatar.png" class="img-circle special-img">
+                <img [src]="profileImage" class="img-circle special-img">
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="javascript:void(0);" (click)="hideMenu()"  routerLink="/noticer/settings">
+                <a class="dropdown-item" href="javascript:void(0);" (click)="hideMenu()"  routerLink="/feed/settings">
                     <i class="fas fa-cog"></i>&nbsp; Settings</a>
                 <a class="dropdown-item" href="javascript:void(0);" (click)="hideMenu()" (click)="goToUserProfile()">
                     <i class="far fa-user-circle"></i>&nbsp; Profile</a>
-                <a class="dropdown-item" href="javascript:void(0);" (click)="hideMenu()" routerLink="/noticer/help">
+                <a class="dropdown-item" href="javascript:void(0);" (click)="hideMenu()" routerLink="/feed/help">
                     <i class="fas fa-question-circle"></i>&nbsp; Help </a>
-                <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/noticer/reportus">
+                <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/feed/reportus">
                     <i class="fa fa-fw fa-power-off"></i>&nbsp; Report Us </a> -->
                 <a class="dropdown-item" href="javascript:void(0);" (click)="hideMenu()" (click)="onLoggedout()">
                     <i class="fa fa-fw fa-power-off"></i>&nbsp; Log Out </a>

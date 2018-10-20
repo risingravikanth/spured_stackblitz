@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { AuthGuard, CommonService } from './shared/index';
+import { AuthGuard, CommonService, AuthCanLoadGuard } from './shared/index';
 import { TokenInterceptor } from './shared/inerceptors/token.interceptor';
 import { JwtService } from './shared/services/jwt.service';
 import { CurrentUserService } from './shared/services/currentUser.service';
@@ -53,6 +53,7 @@ import { ReportUsModule } from './noticer/report-us/report-us.module';
     ],
     providers: [
         AuthGuard,
+        AuthCanLoadGuard,
         JwtService,
         CurrentUserService,
         DatePickerFormat,

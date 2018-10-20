@@ -126,10 +126,10 @@ export class SideMenuComponent implements OnInit {
 
     // this.commonService.updateByFilter(data);
     // if(sec && cat){
-    //   this.router.navigate(['/noticer'],
+    //   this.router.navigate(['/feed'],
     //        {queryParams: {type: sec, category: cat}});
     // } else if(sec){
-    //   this.router.navigate(['/noticer'],
+    //   this.router.navigate(['/feed'],
     //        {queryParams: {type: sec}});
     // }
   }

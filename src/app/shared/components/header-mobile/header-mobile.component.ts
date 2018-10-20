@@ -23,9 +23,18 @@ export class HeaderMobileComponent implements OnInit {
     currentUser: User;
     public isMobile: boolean;
     public showMenu:boolean = true;
+    public profileImage:any;
 
     ngOnInit() {
         this.isMobile = this.mobileService.isMobile();
+
+        this.currentUser = this.userService.getCurrentUser();
+        if(this.currentUser && this.currentUser.profileImageUrl){
+            this.profileImage = this.currentUser.profileImageUrl;
+        } else{
+            this.profileImage = "assets/images/noticer_default_user_img.png"
+        }
+
         this.commonService.menuChanges.subscribe(item =>{
             if(item == "noticer"){
                 this.showMenu = true;
@@ -43,7 +52,7 @@ export class HeaderMobileComponent implements OnInit {
     }
     hideMenu(){
         this.showMenu = true;
-        // this.router.navigate(["/noticer"])
+        // this.router.navigate(["/feed"])
     }
 
     onLoggedout() {

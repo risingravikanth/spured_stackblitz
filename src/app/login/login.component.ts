@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
     authForm: FormGroup;
     returnUrl: string;
-    status: string = 'Sign In';
+    status: string = 'Log in';
     disableLoginButton: boolean = false;
     loggedUser: any;
     errorTextMessage: string = '';
@@ -31,13 +31,13 @@ export class LoginComponent implements OnInit {
     ) { }
     ngOnInit() {
         if (this.currentUser.checkValidUser()) {
-            this.router.navigate(['/noticer']);
+            this.router.navigate(['/feed']);
         }
         let status = this.route.snapshot.queryParams['status'];
         if (status) {
             this.errorTextMessage = 'Login Again !'
         }
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/noticer';
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/feed';
         this.authForm = this.fb.group({
             email: ['', [
                 Validators.required,
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
                     } else if(this.responseVo.token){
                         this.loggedUser = this.responseVo;
                         this.authService.setAuth(this.loggedUser);
-                        this.router.navigate(['/noticer']);
+                        this.router.navigate(['/feed']);
                     }
                     else{
                         alert("Something went wrong");

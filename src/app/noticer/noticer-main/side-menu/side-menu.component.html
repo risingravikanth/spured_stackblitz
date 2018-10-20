@@ -37,9 +37,10 @@
                         </a>
                     </span>
                 </span>
+                <!-- [queryParams]="{'type':section.code,'category':category.name } -->
                 <ul style="display:none; margin-left: -10px;">
                     <li *ngFor="let category of section.categories">
-                        <a href="javascript:void(0);" style="color: black;" [routerLink]="['/noticer']" [queryParams]="{'type':section.code,'category':category.name }"
+                        <a href="javascript:void(0);" style="color: black;" [routerLink]="['/categories' + '/' + section.code + '/'+ category.name]"
                             (click)="selectedCategory(section.code, category.name)" [class.selected]="section.code+category.name === selectedItem">&nbsp;
                             {{category.name}}</a>
                         <span class="float-right" *ngIf="menu.select">
@@ -94,7 +95,7 @@
                     </span>
                     <ul style="display:none; margin-left: 0px;">
                         <li *ngFor="let category of section.categories">
-                            <a href="javascript:void(0);" [routerLink]="['/noticer']" [queryParams]="{'type':section.code,'category':category.name }" (click)="selectedCategory(section.code, category.name)" [class.selected]="section.code+category.name === selectedItem">&nbsp; {{category.name}}</a>
+                            <a href="javascript:void(0);" [routerLink]="['/feed']" [queryParams]="{'type':section.code,'category':category.name }" (click)="selectedCategory(section.code, category.name)" [class.selected]="section.code+category.name === selectedItem">&nbsp; {{category.name}}</a>
                             <span class="float-right" *ngIf="menu.select">
                                 <a href="javascript:void(0);" class="sectionOptIconsColor" *ngIf="category.name != 'HOME'">
                                     <i class="fas fa-trash"></i>

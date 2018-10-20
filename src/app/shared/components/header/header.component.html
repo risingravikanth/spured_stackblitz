@@ -4,7 +4,7 @@
             <img src="assets/images/sample_logo.png" alt="Smiley face" height="42" width="42">
         </li> -->
         <li class="nav-item d-none d-sm-block">
-            <a href="javascript:void(0);" routerLink="/noticer" class="navbar-brand mr-0">
+            <a href="javascript:void(0);" routerLink="/feed" class="navbar-brand mr-0">
                 <font style="font-family: cursive;color: #ffffff;font-size: 27px;">
                     <b>Noticer</b>
                 </font>
@@ -15,21 +15,21 @@
             <div class="input-group">
                 <input type="text" class="form-control searchbar" placeholder="Seach in noticer.." aria-label="search">
                 <div class="input-group-prepend">
-                    <a href="javascript:void(0);" routerLink="/noticer" class="input-group-text">
+                    <a href="javascript:void(0);" routerLink="/feed" class="input-group-text">
                         <i class="fas fa-search"></i>
                     </a>
                 </div>
             </div>
         </form>
         <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" routerLink="/noticer">
+            <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
                 <b>
                     <i class="fas fa-bell header-icon-size"></i>
                 </b>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" routerLink="/noticer">
+            <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
                 <b>
                     <i class="fas fa-home header-icon-size"></i>
                 </b>
@@ -38,17 +38,17 @@
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="assets/images/img_avatar.png" class="img-circle special-img">
+                <img [src]="profileImage" class="img-circle special-img">
                 <!-- <b>Durgarao</b>-->
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="javascript:void(0);"  routerLink="/noticer/settings">
+                <a class="dropdown-item" href="javascript:void(0);"  routerLink="/feed/settings">
                     <i class="fas fa-cog"></i>&nbsp; Settings</a>
                 <a class="dropdown-item" href="javascript:void(0);" (click)="goToUserProfile()">
                     <i class="far fa-user-circle"></i>&nbsp; Profile</a>
-                <a class="dropdown-item" href="#" routerLink="/noticer/help">
+                <a class="dropdown-item" href="#" routerLink="/feed/help">
                     <i class="fas fa-question-circle"></i>&nbsp; Help </a>
-                    <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/noticer/reportus">
+                    <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/feed/reportus">
                         <i class="fa fa-question-circle"></i>&nbsp; Report Us </a> -->
                 <a class="dropdown-item" href="javascript:void(0);" (click)="onLoggedout()">
                     <i class="fa fa-fw fa-power-off"></i>&nbsp; Log Out </a>

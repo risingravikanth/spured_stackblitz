@@ -1,12 +1,11 @@
 export class User {
     id: number;
+    email: string;
+    profileImageUrl: string;
+    userId: number;
     userName: string;
-    firstName: string;
-    lastName: string;
-    level: string;
     token: string;
-    role: any;
-    params: Array<Param>;
+    params: Array<any>;
 }
 
 export interface Param {
