@@ -589,7 +589,9 @@ export class NoticerMainComponent implements OnInit {
     let t = this.sectionsTypesMappings.filter(item => item._type == postObj._type)[0].section;
     let c = postObj.category;
     let id = postObj.postId;
-    window.open("/posts/" + t + "/" + c + "/" + id, "_blank")
+    if (isPlatformBrowser(this.platformId)) {
+      window.open("/posts/" + t + "/" + c + "/" + id, "_blank")
+    }
   }
 
   getPostDetails() {

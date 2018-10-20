@@ -10,6 +10,7 @@ import { SettingsComponent } from './noticer/settings/settings.component';
 import { UserProfileComponent } from './noticer/user-profile/user-profile.component';
 import { AuthGuard, AuthCanLoadGuard } from './shared';
 import { UserSetupComponent } from './user-setup/user-setup.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 const routes: Routes = [
   {
@@ -52,7 +53,7 @@ const routes: Routes = [
   {
     path: 'categories/:type',
     component: NoticerComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -64,7 +65,7 @@ const routes: Routes = [
   {
     path: 'categories/:type/:category',
     component: NoticerComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -88,6 +89,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'signup', component: UserSetupComponent },
+  { path: 'password_reset', component: PasswordResetComponent },
   { path: '**', redirectTo: 'not-found' }
 ];
 

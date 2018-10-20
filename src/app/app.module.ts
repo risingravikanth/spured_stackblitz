@@ -25,6 +25,7 @@ import { NoticerMainModule } from './noticer/noticer-main/noticer-main.module';
 import { HelpModule } from './noticer/help/help.module';
 import { SettingsModule } from './noticer/settings/settings.module';
 import { ReportUsModule } from './noticer/report-us/report-us.module';
+import { PasswordResetModule } from './password-reset/password-reset.module';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { ReportUsModule } from './noticer/report-us/report-us.module';
         UserProfileModule,
         NoticerModule,
         NoticerMainModule,
+        PasswordResetModule,
         HelpModule,
         SettingsModule,
         ReportUsModule

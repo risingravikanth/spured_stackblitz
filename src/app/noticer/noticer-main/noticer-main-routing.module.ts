@@ -9,7 +9,7 @@ const routes: Routes = [
     {
         path: '', 
         component: NoticerMainComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
     },
     {
         path: 'menu',
