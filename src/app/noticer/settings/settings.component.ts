@@ -28,4 +28,8 @@ export class SettingsComponent implements OnInit {
       newPassword:['']
     })
   }
+
+  savePassword(){
+    console.log("save password");
+  }
 }
