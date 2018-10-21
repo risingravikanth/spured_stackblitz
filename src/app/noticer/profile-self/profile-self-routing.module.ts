@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-// import { NgxPermissionsGuard } from 'ngx-permissions';
-import { UserProfileComponent } from './user-profile.component';
+import { SelfProfileComponent } from './profile-self.component';
 
 const routes: Routes = [
     {
-        path: '', component: UserProfileComponent
+        path: '', component: SelfProfileComponent
     }
 ];
 
@@ -13,4 +12,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class UserProfileRoutingModule { }
+export class SelfProfileRoutingModule { }

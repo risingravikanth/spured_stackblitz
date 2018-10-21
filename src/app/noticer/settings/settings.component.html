@@ -1,3 +1,25 @@
 <div class="container marTop50">
-    <h4>Settings page</h4>
+    <h5><b>Change password</b></h5>
+    <hr>
+    <form [formGroup]="changePassword">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div>
+                    <div class="form-group modalFormPad">
+                        <label>Current password</label>
+                        <input class="form-control" type="password" formControlName="currentPassword" placeholder="Current Password">
+                    </div>
+                    <div class="form-group modalFormPad">
+                        <label>New Password</label>
+                        <input class="form-control" type="password" formControlName="newPassword" placeholder="New Password">
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" [disabled]="changePassword.invalid" (click)="savePassword()">Update</button>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </form>
 </div>

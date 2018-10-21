@@ -52,7 +52,10 @@
                         <div style="margin-left: -48px;margin-top: 12px;">
                             <ul>
                                 <li>
-                                    <a href="javascript:void(0);" style="color: black;font-weight: 400;">
+                                    <a href="javascript:void(0);" *ngIf = "post.userProfile" (click)="redirectToOtherProfile(post.userProfile.userId)" style="color: black;font-weight: 400;">
+                                        {{post.userProfile ? post.userProfile.userName : '-NA-'}}
+                                    </a>
+                                    <a href="javascript:void(0);" *ngIf = "!post.userProfile" style="color: black;font-weight: 400;">
                                         {{post.userProfile ? post.userProfile.userName : '-NA-'}}
                                     </a>
                                 </li>

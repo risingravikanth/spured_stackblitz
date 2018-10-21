@@ -19,13 +19,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MobileDetectionService } from './shared/services/mobiledetection.service';
 import { UserSetupModule } from './user-setup/user-setup.module';
 import { NotFoundModule } from './not-found/not-found.module';
-import { UserProfileModule } from './noticer/user-profile/user-profile.module';
 import { NoticerModule } from './noticer/noticer.module';
 import { NoticerMainModule } from './noticer/noticer-main/noticer-main.module';
 import { HelpModule } from './noticer/help/help.module';
 import { SettingsModule } from './noticer/settings/settings.module';
 import { ReportUsModule } from './noticer/report-us/report-us.module';
 import { PasswordResetModule } from './password-reset/password-reset.module';
+import { OthersProfileModule } from './noticer/profile-other/profile-other.module';
+import { SelfProfileModule } from './noticer/profile-self/profile-self.module';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { PasswordResetModule } from './password-reset/password-reset.module';
         MatProgressSpinnerModule,
         UserSetupModule,
         NotFoundModule,
-        UserProfileModule,
+        OthersProfileModule,
+        SelfProfileModule,
         NoticerModule,
         NoticerMainModule,
         PasswordResetModule,

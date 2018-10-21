@@ -60,3 +60,12 @@ body {
         cursor: inherit;
         display: block;
       }
+
+      .contentPad{
+        padding-left: 4%;
+        padding-top: 4%;
+      }
+
+      .profileBorder{
+        border: 1px solid #d9dadb;
+      }

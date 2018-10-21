@@ -7,10 +7,11 @@ import { NoticerMainComponent } from './noticer/noticer-main/noticer-main.compon
 import { NoticerComponent } from './noticer/noticer.component';
 import { ReportUsComponent } from './noticer/report-us/report-us.component';
 import { SettingsComponent } from './noticer/settings/settings.component';
-import { UserProfileComponent } from './noticer/user-profile/user-profile.component';
-import { AuthGuard, AuthCanLoadGuard } from './shared';
-import { UserSetupComponent } from './user-setup/user-setup.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { AuthGuard } from './shared';
+import { UserSetupComponent } from './user-setup/user-setup.component';
+import { OthersProfileComponent } from './noticer/profile-other/profile-other.component';
+import { SelfProfileComponent } from './noticer/profile-self/profile-self.component';
 
 const routes: Routes = [
   {
@@ -24,28 +25,8 @@ const routes: Routes = [
         // canActivate: [AuthGuard]
       },
       {
-        path: 'user-profile',
-        component: UserProfileComponent,
-        // canActivate: [AuthGuard]
-      },
-      {
         path: 'mobile-menu',
         component: MenuMobileComponent,
-        // canActivate: [AuthGuard]
-      },
-      {
-        path: 'help',
-        component: HelpComponent,
-        // canActivate: [AuthGuard]
-      },
-      {
-        path: 'reportus',
-        component: ReportUsComponent,
-        // canActivate: [AuthGuard]
-      },
-      {
-        path: 'settings',
-        component: SettingsComponent,
         // canActivate: [AuthGuard]
       }
     ]
@@ -81,6 +62,59 @@ const routes: Routes = [
       {
         path: '',
         component: NoticerMainComponent,
+        // canActivate: [AuthGuard]
+      }
+    ]
+  },
+  {
+    path: 'profile',
+    component: NoticerComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'self',
+        component: SelfProfileComponent,
+        // canActivate: [AuthGuard]
+      },
+      {
+        path: 'users/:id',
+        component: OthersProfileComponent,
+        // canActivate: [AuthGuard]
+      }
+    ]
+  },
+  {
+    path: 'help',
+    component: NoticerComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: HelpComponent,
+        // canActivate: [AuthGuard]
+      }
+    ]
+  },
+  {
+    path: 'reportus',
+    component: NoticerComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: ReportUsComponent,
+        // canActivate: [AuthGuard]
+      }
+    ]
+  },
+  {
+    path: 'settings',
+    component: NoticerComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: SettingsComponent,
         // canActivate: [AuthGuard]
       }
     ]

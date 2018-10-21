@@ -1,0 +1,115 @@
+<div class="container marTop50">
+
+    <!-- <h4>Profile</h4>
+    <hr> -->
+    <div class="row">
+        <div class="card bg-light text-center col-md-2">
+            <div style="padding-top: 35%;">
+                <img class="card-img-top image" src="assets/images/img_avatar.png" alt="Card image" style="width:80%;border-radius: 150px;">
+            </div>
+            <div class="card-body">
+                <!-- <h6 class="card-title">Durgarao</h6> -->
+                <ul class="list-inline postIcons">
+                    <span class="btn btn-light btn-file marPic">
+                        <i class="fas fa-camera"></i>&nbsp; Change picture
+                        <input type="file" accept="image/gif, image/jpeg, image/jpg, image/png" multiple (change)="fnChangeProfilePicture($event)">
+                    </span>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10 contentPad profileBorder">
+            <div class="float-right" style="padding: 1%;">
+                <a href="javascript:void(0);" (click)="editProfile(editProfileDialog)" class="tooltip-test" title="Edit profile details">
+                    <small class="text-muted">Edit</small>
+                </a>
+            </div>
+            <br>
+            <div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Name: </label>
+                    <div class="col-sm-10">
+                        <p>&nbsp;Durgarao Asapu</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Email: </label>
+                    <div class="col-sm-10">
+                        <p>durgaraoa@gmail.com</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Gender: </label>
+                    <div class="col-sm-10">
+                        <p>Male</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Phone</label>
+                    <div class="col-sm-10">
+                        <p>8500506013</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Address: </label>
+                    <div class="col-sm-10">
+                        <p>Madhapur, Hyderabad, 5050505</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Member since: </label>
+                    <div class="col-sm-10">
+                        <p>09-03-1996</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section>
+    <ng-template #editProfileDialog let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modal-basic-title">
+                <b>Edit Profile</b>
+            </h5>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form [formGroup]="editProfileForm">
+            <div>
+                <div class="modal-body">
+
+                    <div class="form-group modalFormPad">
+                        <label>Name</label>
+                        <input class="form-control" formControlName="userName" placeholder="Name">
+                    </div>
+                    <div class="form-group modalFormPad">
+                        <label>Phone Number</label>
+                        <input class="form-control" formControlName="phoneNum" placeholder="Phone Number">
+                    </div>
+                    <div class="form-group modalFormPad">
+                        <label>Gender </label>&nbsp;
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" name="gender" formControlName="gender" type="radio" value="M"
+                                #male>
+                            <label class="form-check-label" for="inlineRadio1">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" name="gender" formControlName="gender" type="radio" value="F"
+                                #female>
+                            <label class="form-check-label" for="inlineRadio2">Female</label>
+                        </div>
+                    </div>
+                    <div class="form-group modalFormPad">
+                        <label>Address</label>
+                        <textarea class="form-control" formControlName="address" rows="2" placeholder="Address"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" [disabled]="editProfileForm.invalid" (click)="saveEditProfile()">Update</button>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+</section>

@@ -30,9 +30,9 @@ export class LoginComponent implements OnInit {
         private fb: FormBuilder
     ) { }
     ngOnInit() {
-        if (this.currentUser.checkValidUser()) {
-            this.router.navigate(['/feed']);
-        }
+        // if (this.currentUser.checkValidUser()) {
+        //     this.router.navigate(['/feed']);
+        // }
         let status = this.route.snapshot.queryParams['status'];
         if (status) {
             this.errorTextMessage = 'Login Again !'

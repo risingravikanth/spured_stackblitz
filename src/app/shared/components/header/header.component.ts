@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
     }
 
     goToUserProfile() {
-        this.router.navigate(['noticer/user-profile']);
+        this.router.navigate(['profile/self']);
     }
 
     toggleTopics() {

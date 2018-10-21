@@ -43,12 +43,12 @@ export class HeaderMobileComponent implements OnInit {
     }
 
     goToUserProfile() {
-        this.router.navigate(['noticer/user-profile']);
+        this.router.navigate(['feed/user-profile']);
     }
 
     toggleTopics() {
         this.showMenu = false;
-        this.router.navigate(['noticer/mobile-menu']);
+        this.router.navigate(['feed/mobile-menu']);
     }
     hideMenu(){
         this.showMenu = true;

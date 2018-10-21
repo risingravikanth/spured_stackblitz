@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, Form } from '@angular/forms';
 import { DatePickerFormat } from "../../shared/others/datepickerFormat";
 import { TimePickerFormat } from "../../shared/others/timepickerFormat";
 import { routerTransition } from "../../router.animations";
@@ -14,8 +14,18 @@ import { routerTransition } from "../../router.animations";
 })
 export class SettingsComponent implements OnInit {
 
+  changePassword:FormGroup;
+
   constructor(private router: Router, private formbuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.initForm();
+  }
+
+  initForm(){
+    this.changePassword = this.formbuilder.group({
+      currentPassword:[''],
+      newPassword:['']
+    })
   }
 }

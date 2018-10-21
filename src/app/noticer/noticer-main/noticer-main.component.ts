@@ -605,4 +605,9 @@ export class NoticerMainComponent implements OnInit {
       }
     })
   }
+
+
+  redirectToOtherProfile(userId: any) {
+    this.router.navigate(['profile/users/' + userId]);
+  }
 }

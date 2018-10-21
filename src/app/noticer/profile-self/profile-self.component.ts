@@ -1,0 +1,117 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MessageService } from "primeng/components/common/messageservice";
+import { routerTransition } from "../../router.animations";
+import { CustomValidator } from "../../shared/others/custom.validator";
+import { SelfProfileService } from './profile-self.service';
+import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+
+@Component({
+  selector: 'profile-self',
+  templateUrl: './profile-self.component.html',
+  styleUrls: ['./profile-self.component.css'],
+  providers: [SelfProfileService, CustomValidator, MessageService],
+  animations: [routerTransition()]
+})
+export class SelfProfileComponent implements OnInit {
+
+  constructor(private router: Router, 
+    private modalService: NgbModal,
+    private formbuilder: FormBuilder,
+    private service: SelfProfileService,
+    private customValidator: CustomValidator) { }
+
+    editProfileForm: FormGroup;
+
+  public profileLoader = false;
+  public educationLoader = false;
+  public examLoader = false;
+  public examuralLoader = false;
+  public mypostsLoader = false;
+  public urls: any = [];
+
+  public categoryModalReference: NgbModalRef;
+  closeResult: string;
+  
+  ngOnInit() {
+    this.loadProfileDetails();
+    this.initForm();
+  }
+
+
+  initForm(){
+    this.editProfileForm = this.formbuilder.group(
+      {
+        userName:[''],
+        email:[''],
+        phoneNum:[''],
+        gender:[''],
+        address:['']
+      }
+    )
+  }
+
+  loadProfileDetails() {
+    console.log("get profile details");
+    this.service.getUserInfo().subscribe(resData => {
+      console.log(resData);
+    })
+  }
+  loadEducationDetails() {
+    console.log("get education details");
+  }
+  loadExamDetails() {
+    console.log("get exam details");
+  }
+  loadExamuralDetails() {
+    console.log("get examural details");
+  }
+
+  fnChangeProfilePicture(event) {
+    if (event.target.files.length == 1) {
+      this.urls = [];
+      let files = event.target.files;
+      if (files) {
+        for (let file of files) {
+          let reader = new FileReader();
+          reader.onload = (e: any) => {
+            this.urls.push(e.target.result);
+          }
+          reader.readAsDataURL(file);
+        }
+      }
+    } else {
+      alert("Please select only one picture");
+      event.preventDefault();
+    }
+
+  }
+
+  editProfile(content: any) {
+    this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
+    this.categoryModalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      console.log(this.closeResult);
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    this.initForm();
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  saveEditProfile(){
+    this.categoryModalReference.close();
+  }
+
+
+}

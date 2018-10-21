@@ -26,11 +26,12 @@ export class CurrentUserService {
     }
     checkValidUser(): boolean {
         if (isPlatformBrowser(this.platformId)) {
-            if (localStorage.getItem('currentUser') 
-            //&& this.jwtService.getToken()) 
-            ){
+            if (this.getCurrentUser() && this.getCurrentUser().token) {
+                console.log("valid user - service" )
                 return true;
             } else {
+                console.log("invalid user - service")
+                console.log(this.getCurrentUser())
                 return false;
             }
         }

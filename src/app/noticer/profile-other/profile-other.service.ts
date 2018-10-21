@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { Observable } from "rxjs/Observable";
 
 @Injectable()
-export class UserProfileService {
+export class OthersProfileService {
     constructor(private httpClient: HttpClient) { }
 
 
