@@ -43,7 +43,7 @@ export class HeaderMobileComponent implements OnInit {
     }
 
     goToUserProfile() {
-        this.router.navigate(['feed/user-profile']);
+        this.router.navigate(['profile/self']);
     }
 
     toggleTopics() {
