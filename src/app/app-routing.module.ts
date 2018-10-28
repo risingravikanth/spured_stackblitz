@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: 'feed',
     component: NoticerComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -69,12 +69,12 @@ const routes: Routes = [
   {
     path: 'profile',
     component: NoticerComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: 'self',
         component: SelfProfileComponent,
-        // canActivate: [AuthGuard]
+        canActivate: [AuthGuard]
       },
       {
         path: 'users/:id',

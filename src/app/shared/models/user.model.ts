@@ -1,7 +1,7 @@
 export class User {
     id: number;
     email: string;
-    profileImageUrl: string;
+    imageUrl: string;
     userId: number;
     userName: string;
     token: string;

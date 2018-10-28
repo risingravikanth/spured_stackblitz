@@ -38,10 +38,10 @@
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img [src]="profileImage" class="img-circle special-img">
+                <img [src]="profileImage" class="img-circle profileAvatar">
                 <!-- <b>Durgarao</b>-->
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="validUser">
                 <a class="dropdown-item" href="javascript:void(0);"  routerLink="/settings">
                     <i class="fas fa-cog"></i>&nbsp; Settings</a>
                 <a class="dropdown-item" href="javascript:void(0);" (click)="goToUserProfile()">
@@ -55,6 +55,10 @@
                 <!-- <hr>
                 <a class="dropdown-item" href="javascript:void(0);">
                     <i class="fas fa-chart-line"></i>&nbsp; Activity </a> -->
+            </div>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="!validUser">
+                <a class="dropdown-item" href="javascript:void(0);" routerLink="/login">
+                    <i class="fa fa-sign-in"></i>&nbsp; Log In </a>
             </div>
         </li>
     </ul>

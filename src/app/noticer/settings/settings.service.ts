@@ -14,4 +14,11 @@ export class SettingsService {
         return Observable.throw(error);
     }
 
+
+    updatePassword(body: any) {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/profile/updatepassword";
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
+
 }

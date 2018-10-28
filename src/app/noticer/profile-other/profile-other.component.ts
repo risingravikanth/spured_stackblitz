@@ -14,10 +14,12 @@ import { OthersProfileService } from './profile-other.service';
 })
 export class OthersProfileComponent implements OnInit {
 
-  constructor( private route: ActivatedRoute, private service: OthersProfileService) { }
+  constructor(private route: ActivatedRoute, private service: OthersProfileService) { }
 
   public profileLoader = false;
   public urls: any = [];
+  public userDetails: any;
+  public profileImage: any = "assets/images/noticer_default_user_img.png";
   ngOnInit() {
     this.route.params.subscribe(this.handleParams.bind(this));
   }
@@ -29,5 +31,13 @@ export class OthersProfileComponent implements OnInit {
 
   loadProfileDetails(userId) {
     console.log("get profile details");
+    this.service.getUserInfo(userId).subscribe(resData => {
+      this.userDetails = resData;
+      if (this.userDetails && this.userDetails.profileImageUrl) {
+        this.profileImage = this.userDetails.profileImageUrl;
+      } else{
+        this.profileImage = "assets/images/noticer_default_user_img.png";
+      }
+    })
   }
 }

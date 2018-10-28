@@ -6,6 +6,8 @@ import { routerTransition } from "../../router.animations";
 import { CustomValidator } from "../../shared/others/custom.validator";
 import { SelfProfileService } from './profile-self.service';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { CurrentUserService } from '../../shared/services/currentUser.service';
+import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'profile-self',
@@ -16,13 +18,14 @@ import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-boo
 })
 export class SelfProfileComponent implements OnInit {
 
-  constructor(private router: Router, 
+  constructor(private router: Router,
     private modalService: NgbModal,
     private formbuilder: FormBuilder,
     private service: SelfProfileService,
-    private customValidator: CustomValidator) { }
+    private customValidator: CustomValidator,
+    private userService: CurrentUserService) { }
 
-    editProfileForm: FormGroup;
+  editProfileForm: FormGroup;
 
   public profileLoader = false;
   public educationLoader = false;
@@ -30,32 +33,47 @@ export class SelfProfileComponent implements OnInit {
   public examuralLoader = false;
   public mypostsLoader = false;
   public urls: any = [];
+  public userDetails: any;
 
   public categoryModalReference: NgbModalRef;
   closeResult: string;
-  
+  currentUser: User;
+  currentuserId: any;
+  public profileImage;
+
   ngOnInit() {
-    this.loadProfileDetails();
+    this.currentUser = this.userService.getCurrentUser();
+    if (this.currentUser) {
+      this.currentuserId = this.currentUser.userId;
+      this.loadProfileDetails(this.currentuserId);
+      if (this.currentUser && this.currentUser.imageUrl) {
+        this.profileImage = this.currentUser.imageUrl;
+      } else {
+        this.profileImage = "assets/images/noticer_default_user_img.png"
+      }
+    } else {
+      this.router.navigate(['/login']);
+    }
     this.initForm();
   }
 
 
-  initForm(){
+  initForm() {
     this.editProfileForm = this.formbuilder.group(
       {
-        userName:[''],
-        email:[''],
-        phoneNum:[''],
-        gender:[''],
-        address:['']
+        userName: [''],
+        email: [''],
+        phoneNum: [''],
+        gender: [''],
+        address: ['']
       }
     )
   }
 
-  loadProfileDetails() {
+  loadProfileDetails(userId: any) {
     console.log("get profile details");
-    this.service.getUserInfo().subscribe(resData => {
-      console.log(resData);
+    this.service.getUserInfo(userId).subscribe(resData => {
+      this.userDetails = resData;
     })
   }
   loadEducationDetails() {
@@ -109,7 +127,7 @@ export class SelfProfileComponent implements OnInit {
     }
   }
 
-  saveEditProfile(){
+  saveEditProfile() {
     this.categoryModalReference.close();
   }
 

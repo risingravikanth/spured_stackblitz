@@ -69,3 +69,9 @@ body {
       .profileBorder{
         border: 1px solid #d9dadb;
       }
+
+      .avatar{
+        width: 125px;
+        height: 125px;
+        border-radius: 50%;
+      }

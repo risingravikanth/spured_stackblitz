@@ -9,13 +9,12 @@ import { routerTransition } from "../../router.animations";
 import * as categories_types_models from '../../shared/master-data/master-data';
 import { CommentContext, Context, CreateCommentData, CreateCommentRequest, Data, GetCommentRequest, GetPostsRequest, Pagination } from '../../shared/models/request';
 import { Section } from '../../shared/models/section.model';
+import { User } from '../../shared/models/user.model';
 import * as constant from '../../shared/others/constants';
 import { CustomValidator } from "../../shared/others/custom.validator";
-import { CommonService } from "../../shared/services/common.service";
+import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
 import { NoticerMainService } from './noticer-main.service';
-import { User } from '../../shared/models/user.model';
-import { CurrentUserService } from '../../shared/services/currentUser.service';
 
 
 @Component({
@@ -30,6 +29,8 @@ export class NoticerMainComponent implements OnInit {
   public isMobile: boolean;
   public profileImage: any;
   public currentUser: User;
+  public defaultImage: any = "assets/images/noticer_default_user_img.png";
+  public validUser: boolean = false;
 
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
@@ -43,10 +44,11 @@ export class NoticerMainComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
       if (this.currentUser) {
+        this.validUser = true;
         this.currentuserId = this.currentUser.userId;
       }
-      if (this.currentUser && this.currentUser.profileImageUrl) {
-        this.profileImage = this.currentUser.profileImageUrl;
+      if (this.currentUser && this.currentUser.imageUrl) {
+        this.profileImage = this.currentUser.imageUrl;
       } else {
         this.profileImage = "assets/images/noticer_default_user_img.png"
       }
@@ -177,31 +179,36 @@ export class NoticerMainComponent implements OnInit {
 
 
   postQuestionDialog(content: any) {
-    console.log("Modal for:" + this.getPostsRequestBody.context.type)
-    this.postImages = []
-    this.urls = [];
-    this.resetDropdowns();
-    this.addPostForm.enable();
-    if (this.getPostsRequestBody.context.type && this.getPostsRequestBody.context.type != 'ALL') {
-      let reqType = this.getPostsRequestBody.context.type;
-      this.getCategoriesByType(reqType);
-      let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
-      this.addPostForm.controls['data'].get('_type1').patchValue(reqType);
-      this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
-      this.addPostForm.controls['context'].get('type').patchValue(reqType);
-      this.isValidType = true;
+    if (this.currentUser) {
+
+      console.log("Modal for:" + this.getPostsRequestBody.context.type)
+      this.postImages = []
+      this.urls = [];
+      this.resetDropdowns();
+      this.addPostForm.enable();
+      if (this.getPostsRequestBody.context.type && this.getPostsRequestBody.context.type != 'ALL') {
+        let reqType = this.getPostsRequestBody.context.type;
+        this.getCategoriesByType(reqType);
+        let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
+        this.addPostForm.controls['data'].get('_type1').patchValue(reqType);
+        this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
+        this.addPostForm.controls['context'].get('type').patchValue(reqType);
+        this.isValidType = true;
+      }
+      if (this.getPostsRequestBody.data.category) {
+        this.addPostForm.controls['data'].get('category').patchValue(this.getPostsRequestBody.data.category.toLocaleLowerCase());
+        this.isValidCategory = true;
+      }
+      this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
+      this.categoryModalReference.result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+        console.log(this.closeResult);
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+    } else {
+      this.router.navigate(['/login']);
     }
-    if (this.getPostsRequestBody.data.category) {
-      this.addPostForm.controls['data'].get('category').patchValue(this.getPostsRequestBody.data.category.toLocaleLowerCase());
-      this.isValidCategory = true;
-    }
-    this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
-    this.categoryModalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-      console.log(this.closeResult);
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
   }
 
   private getDismissReason(reason: any): string {

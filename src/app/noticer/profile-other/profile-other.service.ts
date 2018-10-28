@@ -14,4 +14,11 @@ export class OthersProfileService {
         return Observable.throw(error);
     }
 
+    getUserInfo(userId: any) {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/profile/getprofile";
+        let body = { userId: userId }
+        return this.httpClient.post(url, body, { headers: headers}).catch(this.handleError);
+    }
+
 }

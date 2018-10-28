@@ -1,10 +1,8 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Http, Response, RequestOptions, Headers } from '@angular/http';
-import { catchError } from 'rxjs/operators';
+import { Response } from '@angular/http';
 import { Observable } from "rxjs/Observable";
 
-import * as constant from '../../shared/others/constants'
 
 @Injectable()
 export class SelfProfileService {
@@ -16,9 +14,11 @@ export class SelfProfileService {
         return Observable.throw(error);
     }
 
-    getUserInfo(){
-        let url = constant.REST_API_URL + "/profile/myinfo/getmyinfo";
-        return this.httpClient.get(url).catch(this.handleError);
+    getUserInfo(userId: any) {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/profile/getprofile";
+        let body = { userId: userId }
+        return this.httpClient.post(url, body, { headers: headers}).catch(this.handleError);
     }
 
 }
