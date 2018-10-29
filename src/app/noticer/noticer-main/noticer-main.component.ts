@@ -31,6 +31,7 @@ export class NoticerMainComponent implements OnInit {
   public currentUser: User;
   public defaultImage: any = "assets/images/noticer_default_user_img.png";
   public validUser: boolean = false;
+  public noData:boolean = false;
 
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
@@ -307,6 +308,9 @@ export class NoticerMainComponent implements OnInit {
         element.commentsSpinner = false;
         element.commentText = null;
       });
+      this.noData = false;
+    } else{
+      this.noData = true;
     }
   }
 

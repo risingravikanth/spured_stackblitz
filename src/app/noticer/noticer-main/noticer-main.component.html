@@ -253,7 +253,7 @@
             <div class="text-center" *ngIf="!showPostSpinner">
                 <a *ngIf="postsList.length > 0 && showMoreLink && !paramId" href="javascript:void(0);" (click)="loadMorePosts()">
                     Show more </a>
-                <b *ngIf="postsList.length == 0">Opps! No Posts Available</b>
+                <b *ngIf="noData">Opps! No Posts Available</b>
             </div>
         </div>
         <div class="col-md-3" *ngIf="!isMobile">
