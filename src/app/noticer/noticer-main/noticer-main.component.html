@@ -47,7 +47,7 @@
                     <div class="row" style="padding-left: 9px;margin-top: -15px;">
                         <div>
                             <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="UserProfilePic"
-                                [src]="(post.userProfile && post.userProfile.profileImageUrl) ? post.userProfile.profileImageUrl : defaultImage">
+                                [src]="(post.userProfile && post.userProfile.profileImageUrl) ? this.serverUrl + post.userProfile.profileImageUrl : defaultImage">
                         </div>
                         <div style="margin-left: -48px;margin-top: 12px;">
                             <ul>

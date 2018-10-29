@@ -18,7 +18,19 @@ export class SelfProfileService {
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         let url = "/profile/getprofile";
         let body = { userId: userId }
-        return this.httpClient.post(url, body, { headers: headers}).catch(this.handleError);
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
+
+    saveEditProfile(body: any) {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/profile/updateprofile";
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
+
+    uploadImage(file) {
+        let url = "/v2/upload/postimage";
+        // let headers = new HttpHeaders().set("Content-Type", "multipart/form-data");
+        return this.httpClient.post(url, file).catch(this.handleError);
     }
 
 }

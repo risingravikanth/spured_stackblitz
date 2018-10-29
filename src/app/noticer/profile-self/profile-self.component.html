@@ -40,7 +40,8 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Gender: </label>
                     <div class="col-sm-10">
-                        <p>{{userDetails && userDetails.gender ? (userDetails.gender == "m" ? 'Male' : 'Female') : '-NA-'}}</p>
+                        <p>{{userDetails && userDetails.gender ? (userDetails.gender == "m" ? 'Male' : 'Female') :
+                            '-NA-'}}</p>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -50,21 +51,30 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Birthday: </label>
+                    <div class="col-sm-10">
+                        <p>{{userDetails && userDetails.dobYear ? userDetails.dobYear : '-NA-'}} -
+                            {{ userDetails && userDetails.dobMonth ? userDetails.dobMonth : '-NA-'}} -
+                            {{userDetails && userDetails.dobDate ? userDetails.dobDate : '-NA-'}}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Address: </label>
                     <div class="col-sm-10">
                         <p>{{userDetails && userDetails.currAddress ? userDetails.currAddress : '-NA-'}}</p>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Birthday: </label>
+                <!-- <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">PermAddress: </label>
                     <div class="col-sm-10">
-                        <p>{{userDetails && userDetails.dobYear ? (userDetails.dobYear - userDetails.dobMonth - userDetails.dobDate) : '-NA-'}}</p>
+                        <p>{{userDetails && userDetails.permAddress ? userDetails.permAddress : '-NA-'}}</p>
                     </div>
-                </div>
+                </div> -->
+
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Member since: </label>
                     <div class="col-sm-10">
-                        <p>{{userDetails && userDetails.reg ? userDetails.reg  : '-NA-'}}</p>
+                        <p>{{userDetails && userDetails.reg ? userDetails.reg : '-NA-'}}</p>
                     </div>
                 </div>
             </div>
@@ -97,23 +107,31 @@
                     <div class="form-group modalFormPad">
                         <label>Gender </label>&nbsp;
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" name="gender" formControlName="gender" type="radio" value="M"
+                            <input class="form-check-input" name="gender" formControlName="gender" type="radio" value="m"
                                 #male>
                             <label class="form-check-label" for="inlineRadio1">Male</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" name="gender" formControlName="gender" type="radio" value="F"
+                            <input class="form-check-input" name="gender" formControlName="gender" type="radio" value="f"
                                 #female>
                             <label class="form-check-label" for="inlineRadio2">Female</label>
                         </div>
                     </div>
                     <div class="form-group modalFormPad">
-                        <label>Address</label>
-                        <textarea class="form-control" formControlName="address" rows="2" placeholder="Address"></textarea>
+                        <label>Birthday </label>&nbsp;
+                        <my-date-picker name="mydate" [options]="myDatePickerOptions" formControlName="dob" required></my-date-picker>
                     </div>
+                    <div class="form-group modalFormPad">
+                        <label>Current Address</label>
+                        <textarea class="form-control" formControlName="currAddress" rows="2" placeholder="Address"></textarea>
+                    </div>
+                    <!-- <div class="form-group modalFormPad">
+                        <label>Permanant Address</label>
+                        <textarea class="form-control" formControlName="permAddress" rows="2" placeholder="Address"></textarea>
+                    </div> -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" [disabled]="editProfileForm.invalid" (click)="saveEditProfile()">Update</button>
+                    <button type="button" class="btn btn-primary" (click)="saveEditProfile()">Update</button>
                 </div>
             </div>
         </form>

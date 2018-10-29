@@ -6,6 +6,7 @@ import { CurrentUserService } from '../../services/currentUser.service';
 
 import { CommonService } from "../../services/common.service";
 import { MobileDetectionService } from '../../services/mobiledetection.service';
+import * as constant from '../../others/constants'
 
 @Component({
     selector: 'app-header',
@@ -34,7 +35,7 @@ export class HeaderComponent implements OnInit {
             this.validUser = true;
         }
         if(this.currentUser && this.currentUser.imageUrl){
-            this.profileImage = this.currentUser.imageUrl;
+            this.profileImage = constant.REST_API_URL + "/" + this.currentUser.imageUrl;
         } else{
             this.profileImage = "assets/images/noticer_default_user_img.png"
         }

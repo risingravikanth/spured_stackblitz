@@ -43,12 +43,13 @@ export class NoticerMainComponent implements OnInit {
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
+      this.serverUrl = constant.REST_API_URL+"/";
       if (this.currentUser) {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
       }
       if (this.currentUser && this.currentUser.imageUrl) {
-        this.profileImage = this.currentUser.imageUrl;
+        this.profileImage = this.serverUrl + this.currentUser.imageUrl;
       } else {
         this.profileImage = "assets/images/noticer_default_user_img.png"
       }
@@ -91,7 +92,7 @@ export class NoticerMainComponent implements OnInit {
   public institutes: any = [];
   public currentuserId: any;
   ngOnInit() {
-    this.serverUrl = constant.REST_API_URL;
+    
     this.audienceList = categories_types_models.AUDIENCE;
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;
 

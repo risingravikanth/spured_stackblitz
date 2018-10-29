@@ -5,6 +5,9 @@ import { MatExpansionModule, MatListModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SelfProfileComponent } from './profile-self.component';
 import { SelfProfileRoutingModule } from './profile-self-routing.module';
+import { CalendarModule } from 'primeng/primeng';
+import { MyDatePickerModule } from 'mydatepicker';
+
 
 @NgModule({
   imports: [
@@ -14,7 +17,9 @@ import { SelfProfileRoutingModule } from './profile-self-routing.module';
     CommonModule,
     MatListModule,
     SelfProfileRoutingModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    CalendarModule,
+    MyDatePickerModule
   ],
   declarations: [
     SelfProfileComponent
