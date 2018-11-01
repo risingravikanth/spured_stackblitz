@@ -32,11 +32,11 @@ export const SECTIONS = [
                         "code": "tofel"
                     },
                     {
-                        "name": "Railway Exams",
+                        "name": "Railway",
                         "code": "railway"
                     },
                     {
-                        "name": "Bank Exams",
+                        "name": "Banks",
                         "code": "banks"
                     },
                     {
@@ -74,11 +74,11 @@ export const SECTIONS = [
                         "code": "tofel"
                     },
                     {
-                        "name": "Railway Exams",
+                        "name": "Railway",
                         "code": "railway"
                     },
                     {
-                        "name": "Bank Exams",
+                        "name": "Banks",
                         "code": "banks"
                     },
                     {
@@ -96,11 +96,11 @@ export const SECTIONS = [
                         "code": "home"
                     },
                     {
-                        "name": "Railway Exams",
+                        "name": "Railway",
                         "code": "railway"
                     },
                     {
-                        "name": "Bank Exams",
+                        "name": "Banks",
                         "code": "banks"
                     },
                     {
