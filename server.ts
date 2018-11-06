@@ -31,6 +31,15 @@ var limitVal = 10;
 var limitCommentVal = 3;
 var serverUrl = "http://139.59.6.52:8080/SpringMvcJdbcTemplate";
 
+const domino = require("domino");
+const fs = require("fs");
+const path = require("path");
+const templateA = fs
+  .readFileSync(path.join("dist/browser", "index.html"))
+  .toString();
+const win = domino.createWindow(templateA);
+global["document"] = win.document;
+
 app.engine('html', (_, options, callback) => {
   renderModuleFactory(AppServerModuleNgFactory, {
     // Our index.html
