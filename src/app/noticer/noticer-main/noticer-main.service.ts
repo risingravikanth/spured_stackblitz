@@ -10,6 +10,11 @@ export class NoticerMainService {
 
 
     handleError(error: Response) {
+        if(error.status == 400){
+            alert("Something went wrong")
+        } else{
+            alert("Server error")
+        }
         return Observable.throw(error);
     }
 

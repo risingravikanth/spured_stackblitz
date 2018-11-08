@@ -1,7 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Http, Response, RequestOptions, Headers } from '@angular/http';
-import { catchError } from 'rxjs/operators';
+import { Response } from '@angular/http';
 import { Observable } from "rxjs/Observable";
 
 @Injectable()
@@ -10,6 +9,19 @@ export class SideMenuService {
     
     handleError(error: Response) {
         return Observable.throw(error);
+    }
+
+    getFavBoards(){
+        return this.httpClient.get("/favboards/getfavboardslist");   
+    }
+    getAllStates(){
+        return this.httpClient.get("/institutes/getallstates");   
+    }
+    getInstByState(){
+        return this.httpClient.get("/institutes/getinstitutesbystate");   
+    }
+    getBoardsByInst(){
+        return this.httpClient.get("/institutes/getinstitutesbystate");   
     }
 
 }
