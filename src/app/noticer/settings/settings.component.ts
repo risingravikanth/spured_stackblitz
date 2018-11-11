@@ -90,4 +90,8 @@ export class SettingsComponent implements OnInit {
       }
     })
   }
+
+  redirectToOtherProfile(userId: any) {
+    this.router.navigate(['profile/users/' + userId]);
+  }
 }
