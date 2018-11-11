@@ -256,4 +256,5 @@ export const SECTION_MAPPINGS = [
     { section: 'QUANTS', _type: 'QuantsPost' },
     { section: 'EVENTS', _type: 'EventsPost' },
     { section: 'CAREERS', _type: 'CareerPost' },
+    { section: 'BOARD', _type: 'BoardPost' },
 ];

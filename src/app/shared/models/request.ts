@@ -12,6 +12,7 @@ export class Pagination {
 export class Data {
     category: string;
     model: string;
+    boardId:number;
 }
 
 export class Context {

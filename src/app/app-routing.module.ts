@@ -67,6 +67,17 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'boards/closed/:boardId',
+    component: NoticerComponent,
+    children: [
+      {
+        path: '',
+        component: NoticerMainComponent,
+        // canActivate: [AuthGuard]
+      }
+    ]
+  },
+  {
     path: 'profile',
     component: NoticerComponent,
     // canActivate: [AuthGuard],

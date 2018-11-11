@@ -31,8 +31,9 @@ export class NoticerMainComponent implements OnInit {
   public currentUser: User;
   public defaultImage: any = "assets/images/noticer_default_user_img.png";
   public validUser: boolean = false;
-  public noData:boolean = false;
-
+  public noData: boolean = false;
+  boardId: any;
+  public reqestType:string;
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
     private userService: CurrentUserService,
@@ -44,7 +45,7 @@ export class NoticerMainComponent implements OnInit {
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-      this.serverUrl = constant.REST_API_URL+"/";
+      this.serverUrl = constant.REST_API_URL + "/";
       if (this.currentUser) {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
@@ -93,7 +94,7 @@ export class NoticerMainComponent implements OnInit {
   public institutes: any = [];
   public currentuserId: any;
   ngOnInit() {
-    
+
     this.audienceList = categories_types_models.AUDIENCE;
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;
 
@@ -115,6 +116,7 @@ export class NoticerMainComponent implements OnInit {
         _type: [null, Validators.required],
         _type1: [null, Validators.required],
         postText: [null, Validators.required],
+        boardId: [null],
         text: [null],
         model: [null],
         category: [null],
@@ -155,28 +157,43 @@ export class NoticerMainComponent implements OnInit {
 
 
   handleParams(params: any[]) {
-    this.paramType = params['type'];
-    this.paramCategory = params['category'];
-    if (this.paramType && this.paramCategory == undefined) {
-      this.paramCategory = "HOME"
-    }
-    this.paramId = params['id'];
-
-    let sec = new Section();
-    sec.section = this.paramType;
-    sec.category = this.paramCategory
-    if (this.paramType == undefined && this.paramCategory == undefined) {
-      this.initRequest()
-      if (this.paramId) {
-        console.log("have id");
-        this.getPostDetails();
-      } else {
-        this.getPosts();
-      }
-      this.questionName = "";
+    if (this.router.url.indexOf('boards/closed') !== -1) {
+      console.log("Handling boards");
+      this.boardId = params['boardId'];
+      this.prepareBoardPostReq(this.boardId);
     } else {
-      this.selectedCategory(sec);
+      this.paramType = params['type'];
+      this.paramCategory = params['category'];
+      console.log(this.router.url);
+      if (this.paramType && this.paramCategory == undefined) {
+        this.paramCategory = "HOME"
+      }
+      this.paramId = params['id'];
+
+      let sec = new Section();
+      sec.section = this.paramType;
+      sec.category = this.paramCategory
+      if (this.paramType == undefined && this.paramCategory == undefined) {
+        this.initRequest()
+        if (this.paramId) {
+          console.log("have id");
+          this.getPostDetails();
+        } else {
+          this.getPosts();
+        }
+        this.questionName = "";
+      } else {
+        this.selectedCategory(sec);
+      }
     }
+  }
+
+  prepareBoardPostReq(boardId: any) {
+    this.questionName = "Boards";
+    this.initRequest();
+    this.getPostsRequestBody.data.boardId = this.boardId;
+    this.getPostsRequestBody.context.type = "BOARD";
+    this.getPosts();
   }
 
 
@@ -190,11 +207,15 @@ export class NoticerMainComponent implements OnInit {
       this.addPostForm.enable();
       if (this.getPostsRequestBody.context.type && this.getPostsRequestBody.context.type != 'ALL') {
         let reqType = this.getPostsRequestBody.context.type;
+        this.reqestType = reqType;
         this.getCategoriesByType(reqType);
         let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
         this.addPostForm.controls['data'].get('_type1').patchValue(reqType);
         this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
         this.addPostForm.controls['context'].get('type').patchValue(reqType);
+        if(reqType == "BOARD"){
+          this.addPostForm.controls['data'].get('boardId').patchValue(this.boardId);
+        }
         this.isValidType = true;
       }
       if (this.getPostsRequestBody.data.category) {
@@ -309,7 +330,7 @@ export class NoticerMainComponent implements OnInit {
         element.commentText = null;
       });
       this.noData = false;
-    } else{
+    } else {
       this.noData = true;
     }
   }

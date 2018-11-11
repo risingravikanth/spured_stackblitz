@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from "rxjs/Observable";
@@ -6,22 +6,40 @@ import { Observable } from "rxjs/Observable";
 @Injectable()
 export class SideMenuService {
     constructor(private httpClient: HttpClient) { }
-    
+
     handleError(error: Response) {
         return Observable.throw(error);
     }
 
-    getFavBoards(){
-        return this.httpClient.get("/favboards/getfavboardslist");   
+    getFavBoards() {
+        return this.httpClient.get("/favboards/getfavboardslist");
     }
-    getAllStates(){
-        return this.httpClient.get("/institutes/getallstates");   
+    getBoardsByInstidDeptId(instId: any, deptId: any) {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.get("/boards/getclosedboardinfo/institute/" + instId + "/department/" + deptId, { headers: headers });
     }
-    getInstByState(){
-        return this.httpClient.get("/institutes/getinstitutesbystate");   
+    getUserClosedBoards() {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.get("/closedboards/getalluserclosedboards", { headers: headers });
     }
-    getBoardsByInst(){
-        return this.httpClient.get("/institutes/getinstitutesbystate");   
+    getAllStates() {
+        return this.httpClient.get("/institutes/getallstates");
+    }
+    getInstByState(value: any) {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.get("/institutes/getinstitutesbystate/" + value, { headers: headers });
+    }
+    getDepartmentsByInst(value: any) {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.get("/institutes/department/" + value, { headers: headers });
+    }
+    getBatchesByDepartment(value: any) {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.get("/institutes/department/" + value, { headers: headers });
+    }
+    addBoardRequest(boardId: any) {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post("/closedboards/requesttoaddclosedboards", boardId, { headers: headers });
     }
 
 }

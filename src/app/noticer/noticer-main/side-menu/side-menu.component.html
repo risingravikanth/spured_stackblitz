@@ -1,4 +1,45 @@
 <section style="position: fixed;">
+    <!-- BOARDS -->
+    <div *ngIf="validUser">
+        <ul style="margin-left: 25px;padding-top: 10px;font-size: 15px; line-height: 1.7;">
+            <li style="padding-right: 60px;">
+                <label>
+                    <b>Boards</b>
+                </label>
+                <span class="float-right" *ngIf="!showConfig">
+                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showConfig = true">
+                        <i class="fas fa-cog"></i>
+                    </a>
+                </span>
+                <span class="float-right" *ngIf="showConfig">
+                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showAddCategoryDialog(addBoardDialog)">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showConfig = false">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </span>
+            </li>
+            <div style="margin-left: 50%;" *ngIf="showPostSpinner">
+                <div class="loader"></div>
+            </div>
+            <div *ngIf="noBoards" style="margin-left: 16px;">No boards</div>
+            <div style="width: 82%;">
+                <li *ngFor="let board of boardsList">
+                    <a href="javascript:void(0);" style="color: black;" [routerLink]="['/boards/closed/'+board.boardId]"
+                        (click)="selectedBoard(board.boardId,board.boardName)" [class.selected]="board.boardId+board.boardName === selectedItem">&nbsp;
+                        {{board.boardName}}</a>
+                    <span class="float-right" *ngIf="showConfig">
+                        <a href="javascript:void(0);" class="sectionOptIconsColor">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </span>
+                </li>
+            </div>
+        </ul>
+    </div>
+
+    <!-- TOPICS -->
     <div>
         <ul *ngFor="let menu of menuList" style="margin-left: 25px;padding-top: 10px;font-size: 15px; line-height: 1.7;">
             <li>
@@ -52,177 +93,96 @@
                 </ul>
             </li>
         </ul>
-
-
-        <!-- <div *ngFor="let menu of menuList">
-            <ul>
-                <label>
-                    <b>{{menu.title}}</b>
-                </label>
-                <span class="float-right" *ngIf="!menu.select">
-                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="menu.select = true">
-                        <i class="fas fa-cog"></i>
-                    </a>
-                </span>
-                <span class="float-right" *ngIf="menu.select">
-                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showAddSectionDialog(sectionDialog)">
-                        <i class="fas fa-plus"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="saveSectionSettings()">
-                        <i class="fas fa-check"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="menu.select = false">
-                        <i class="fas fa-times"></i>
-                    </a>
-                </span>
-            </ul>
-            <hr class="hrMenu">
-            <ul style="margin-left: -20px;">
-                <li *ngFor="let section of menu.sections" [ngClass]="{active: isActive(section.name)}" style="padding-bottom: 12px;">
-                    <span>
-                        <span (click)="select(section.name);">
-                            <i class="fas fa-chevron-right" *ngIf="!isActive(section.name)"></i>
-                            <i class="fas fa-chevron-down" *ngIf="isActive(section.name)"></i>&nbsp;&nbsp; {{section.name}}
-                        </span>
-                        <span class="float-right" style="padding-left: 20px;" *ngIf="menu.select">
-                            <a href="javascript:void(0);" (click)="showAddCategoryDialog(categoryDialog)" class="sectionOptIconsColor">
-                                <i class="fas fa-plus"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="sectionOptIconsColor">
-                                <i class="fas fa-times"></i>
-                            </a>
-                        </span>
-                    </span>
-                    <ul style="display:none; margin-left: 0px;">
-                        <li *ngFor="let category of section.categories">
-                            <a href="javascript:void(0);" [routerLink]="['/feed']" [queryParams]="{'type':section.code,'category':category.name }" (click)="selectedCategory(section.code, category.name)" [class.selected]="section.code+category.name === selectedItem">&nbsp; {{category.name}}</a>
-                            <span class="float-right" *ngIf="menu.select">
-                                <a href="javascript:void(0);" class="sectionOptIconsColor" *ngIf="category.name != 'HOME'">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </span>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div> -->
-    </div>
-    <!-- BOARDS -->
-    <div>
-        <ul *ngFor="let menu of boardsList" style="margin-left: 25px;padding-top: 10px;font-size: 15px; line-height: 1.7;">
-            <li style="padding-right: 46px;">
-                <label>
-                    <b>{{menu.title}}</b>
-                </label>
-                <span class="float-right" *ngIf="!menu.select">
-                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="menu.select = true">
-                        <i class="fas fa-cog"></i>
-                    </a>
-                </span>
-                <span class="float-right" *ngIf="menu.select">
-                    <!-- <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showAddSectionDialog(sectionDialog)">
-                        <i class="fas fa-plus"></i>
-                    </a> -->
-                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="saveSectionSettings()">
-                        <i class="fas fa-check"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="menu.select = false">
-                        <i class="fas fa-times"></i>
-                    </a>
-                </span>
-            </li>
-            <li *ngFor="let section of menu.sections" [ngClass]="{active: isActive(section.code)}" style="padding-bottom: 12px;width: 80%;">
-                <span>
-                    <span (click)="select(section.code);">
-                        <i class="fas fa-chevron-right" *ngIf="!isActive(section.code)"></i>
-                        <i class="fas fa-chevron-down" *ngIf="isActive(section.code)"></i>&nbsp;&nbsp; {{section.name}}
-                    </span>
-                    <span class="float-right" style="padding-left: 20px;" *ngIf="menu.select">
-                        <a href="javascript:void(0);" (click)="showAddCategoryDialog(categoryDialog)" class="sectionOptIconsColor">
-                            <i class="fas fa-plus"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="sectionOptIconsColor">
-                            <i class="fas fa-times"></i>
-                        </a>
-                    </span>
-                </span>
-                <!-- [queryParams]="{'type':section.code,'category':category.name } -->
-                <ul style="display:none; margin-left: -10px;">
-                    <li *ngFor="let category of section.categories">
-                        <a href="javascript:void(0);" style="color: black;" [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
-                            (click)="selectedCategory(section.code, category.code)" [class.selected]="section.code+category.code === selectedItem">&nbsp;
-                            {{category.name}}</a>
-                        <span class="float-right" *ngIf="menu.select">
-                            <a href="javascript:void(0);" class="sectionOptIconsColor" *ngIf="category.code != 'home'">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </span>
-                    </li>
-                </ul>
-            </li>
-        </ul>
     </div>
 </section>
 
 
+<!-- Dialog box -->
 <section>
-    <!-- <ng-template #sectionDialog let-c="close" let-d="dismiss">
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Add Section</h4>
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form>
-                <div class="form-group">
-                    <label>Section: </label>
-                    <select class="form-control form-control-sm">
-                        <option>Select</option>
-                    </select>
-                </div>
-                <input class="form-control form-control-sm" type="text" placeholder="Comments">
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-success" (click)="saveModelSecions()">Save</button>
-        </div>
-    </ng-template> -->
-
-    <ng-template #categoryDialog let-c="close" let-d="dismiss">
+    <ng-template #addBoardDialog let-c="close" let-d="dismiss">
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">Add Board</h4>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body">
-            <form>
-                <div class="form-group">
-                    <label>State: </label>
-                    <select class="form-control form-control-sm">
-                        <option>Select</option>
-                        <option>CAT</option>
-                    </select>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                    aria-selected="true">Join</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                    aria-selected="false">Request board</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="modal-body">
+                    <form [formGroup]="addBoardForm">
+                        <div class="form-group">
+                            <label>State: </label>
+                            <p-dropdown placeholder=" State" formControlName="stateId" [options]="listOfStates" [style]="{'width':'100%'}"
+                                filter="true" (onChange)="getInstitutesByState(state.value)" #state>
+                                <ng-template let-state pTemplate="item">
+                                    <div class="ui-helper-clearfix">
+                                        <span style="vertical-align:middle">{{state.label}}</span>
+                                    </div>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="form-group">
+                            <label>Institute: </label>
+                            <p-dropdown placeholder="Institute" formControlName="instId" [options]="listOfInstitutes"
+                                [style]="{'width':'100%'}" filter="true" (onChange)="getDepartmentsByInstId(inst.value)"
+                                #inst>
+                                <ng-template let-inst pTemplate="item">
+                                    <div class="ui-helper-clearfix">
+                                        <span style="vertical-align:middle">{{inst.label}}</span>
+                                    </div>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="form-group">
+                            <label>Department: </label>
+                            <p-dropdown placeholder="Department" formControlName="deptId" [options]="listOfDepartments"
+                                [style]="{'width':'100%'}" filter="true" (onChange)="getBoardsByDepartment(dept.value)"
+                                #dept>
+                                <ng-template let-dept pTemplate="item">
+                                    <div class="ui-helper-clearfix">
+                                        <span style="vertical-align:middle">{{dept.label}}</span>
+                                    </div>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="form-group">
+                            <label>Boards: </label>
+                            <p-dropdown placeholder="Board" formControlName="boardId" [options]="listOfBoards" [style]="{'width':'100%'}"
+                                filter="true" #board>
+                                <ng-template let-board pTemplate="item">
+                                    <div class="ui-helper-clearfix">
+                                        <span style="vertical-align:middle">{{board.label}}</span>
+                                    </div>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label>Institute: </label>
-                    <select class="form-control form-control-sm">
-                        <option>Select</option>
-                        <option>CAT</option>
-                    </select>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" (click)="joinRequest(board.value)" [disabled]="addBoardForm.invalid">Join
+                        Request</button>
                 </div>
-                <div class="form-group">
-                    <label>Boards: </label>
-                    <select class="form-control form-control-sm">
-                        <option>Select</option>
-                        <option>CAT</option>
-                    </select>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="form-group modal-body">
+                    <label for="exampleFormControlTextarea1">Your request:</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                 </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-success" (click)="saveModelCategories()">Add</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success">Add
+                        Request</button>
+                </div>
+            </div>
         </div>
     </ng-template>
 </section>

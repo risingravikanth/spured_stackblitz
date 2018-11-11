@@ -283,7 +283,7 @@
                     <textarea class="form-control" formControlName="postText" placeholder="What is your question?"></textarea>
                 </div>
                 <!-- post start -->
-                <div class="addPost">
+                <div class="addPost" *ngIf="reqestType != 'BOARD'">
                     <div class="row">
                         <div class="form-group col-md-4">
                             <p-dropdown [disabled]="isValidType" placeholder=" Type" [options]="types" (onChange)="getCategoriesByType(_type.value)"

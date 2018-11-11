@@ -50,13 +50,14 @@ export class LoginComponent implements OnInit {
     onLoggedin() {
         this.errorTextMessage = '';
         if (this.authForm.valid) {
-            this.status = 'Just a moment ...';
+            this.status = 'Logging in, please wait...';
             this.disableLoginButton = true;
             this.authService.attemptAuth(this.authForm.value, this.returnUrl).subscribe(
                 resData => {
                     this.responseVo = JSON.parse(resData.body);
                     if(this.responseVo.statusCode == "ERROR"){
                         this.errorTextMessage = this.responseVo.info;
+                        this.status = 'Log in';
                     } else if(this.responseVo.token){
                         this.loggedUser = this.responseVo;
                         this.authService.setAuth(this.loggedUser);
@@ -64,6 +65,7 @@ export class LoginComponent implements OnInit {
                     }
                     else{
                         alert("Something went wrong");
+                        this.status = 'Log in';
                         this.errorTextMessage = "Something went wrong";
                     }
                 }, (err: HttpErrorResponse) => {
