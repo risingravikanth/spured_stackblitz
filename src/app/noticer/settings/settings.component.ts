@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormControl, Form } from '@angular/forms';
-import { DatePickerFormat } from "../../shared/others/datepickerFormat";
-import { TimePickerFormat } from "../../shared/others/timepickerFormat";
 import { routerTransition } from "../../router.animations";
 import { SettingsService } from './settings.service';
+import { isPlatformBrowser } from '@angular/common';
+import { CurrentUserService } from '../../shared/services/currentUser.service';
+import * as constant from '../../shared/others/constants'
+import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'settings',
@@ -16,11 +18,24 @@ import { SettingsService } from './settings.service';
 export class SettingsComponent implements OnInit {
 
   changePassword: FormGroup;
+  public getAllRequestsList: any = [];
+  public profileImage: any;
+  public currentUser: User;
+  serverUrl: string;
+  public showReq = false;
+  public defaultImage: any = "assets/images/noticer_default_user_img.png";
 
-  constructor(private router: Router, private formbuilder: FormBuilder, private service: SettingsService) { }
+  constructor(private router: Router, private formbuilder: FormBuilder, private service: SettingsService,
+    private userService: CurrentUserService, @Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.currentUser = this.userService.getCurrentUser();
+      this.serverUrl = constant.REST_API_URL + "/";
+    }
+  }
 
   ngOnInit() {
     this.initForm();
+    this.boardRequests();
   }
 
   initForm() {
@@ -41,5 +56,38 @@ export class SettingsComponent implements OnInit {
         }
       )
     }
+  }
+
+
+  boardRequests() {
+    this.service.getAllRequests().subscribe(
+      resData => {
+        this.getAllRequestsList = resData;
+        if (this.getAllRequestsList && this.getAllRequestsList.code == "ERROR") {
+          alert(this.getAllRequestsList.info);
+          this.showReq = false;
+        } else if (this.getAllRequestsList && this.getAllRequestsList.length > 0) {
+          this.showReq = true;
+        } else {
+          this.showReq = false;
+        }
+      }
+    )
+  }
+
+  updateStatus(reqId: any, status: any) {
+    let obj = {
+      "reqId" : reqId,
+      "status" : status
+    }
+    let index = this.getAllRequestsList.findIndex(item => item.reqId == reqId);
+    this.service.updateBoardReq(obj).subscribe((resData:any) =>{
+      if (resData && resData.statusCode == "ERROR") {
+        alert(resData.info)
+      } else {
+        alert("Request update successfully")
+        this.getAllRequestsList.splice(index, 1);
+      }
+    })
   }
 }

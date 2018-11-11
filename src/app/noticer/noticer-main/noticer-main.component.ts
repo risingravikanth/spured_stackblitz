@@ -177,6 +177,9 @@ export class NoticerMainComponent implements OnInit {
         this.initRequest()
         if (this.paramId) {
           console.log("have id");
+          if(this.router.url.indexOf("/posts/closed/") != -1){
+            this.paramType = "BOARD";
+          }
           this.getPostDetails();
         } else {
           this.getPosts();
@@ -623,7 +626,12 @@ export class NoticerMainComponent implements OnInit {
     let c = postObj.category;
     let id = postObj.postId;
     if (isPlatformBrowser(this.platformId)) {
-      window.open("/posts/" + t + "/" + c + "/" + id, "_blank")
+      console.log(t);
+      if(t == "BOARD"){
+        window.open("/posts/closed/" + id, "_blank")
+      } else{
+        window.open("/posts/" + t + "/" + c + "/" + id, "_blank")
+      }
     }
   }
 

@@ -20,5 +20,16 @@ export class SettingsService {
         let url = "/profile/updatepassword";
         return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
     }
+    updateBoardReq(body: any) {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/closedboards/updateboardrequest";
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
+
+    getAllRequests(){
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/closedboards/getalladminboardrequests";
+        return this.httpClient.get(url, { headers: headers }).catch(this.handleError);
+    }
 
 }

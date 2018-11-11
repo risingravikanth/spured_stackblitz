@@ -23,3 +23,48 @@
         </div>
     </form>
 </div>
+<div class="container" *ngIf="showReq" style="margin-top: 25px;">
+    <h5><b>Join Board Requests</b></h5>
+    <hr>
+    <div *ngFor="let req of getAllRequestsList">
+
+        <div style="padding: 2px 0px 5px 35px;">
+            <div>
+                <span>{{ req.boardInfo.boardName}} </span>
+            </div>
+            <div>
+                <div class="row" style="padding-left: 9px;margin-top: -15px;">
+                    <div class="col-md-5 row">
+
+                        <div>
+                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="UserProfilePic"
+                                [src]="(req.userProfile && req.userProfile.profileImageUrl) ? serverUrl + req.userProfile.profileImageUrl : defaultImage">
+                        </div>
+                        <div style="margin-left: -48px;margin-top: 12px;">
+                            <ul>
+                                <li>
+                                    <a href="javascript:void(0);" *ngIf="req.userProfile" (click)="redirectToOtherProfile(req.userProfile.userId)"
+                                        style="color: black;font-weight: 400;">
+                                        {{req.userProfile ? req.userProfile.userName : '-NA-'}}
+                                    </a>
+                                    <a href="javascript:void(0);" *ngIf="!req.userProfile" style="color: black;font-weight: 400;">
+                                        {{req.userProfile ? req.userProfile.userName : '-NA-'}}
+                                    </a>
+                                </li>
+                                <li class="text-muted" style="font-size: 12px;">{{req.create_time | date: 'MMM d, y,
+                                    h:mm:ss a'}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-success btn-sm" (click)="updateStatus(req.reqId,1)">
+                            <i class="fas fa-check"></i> Accept
+                        </button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-danger btn-sm" (click)="updateStatus(req.reqId,2)">
+                            <i class="fas fa-times"></i> Decline
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
