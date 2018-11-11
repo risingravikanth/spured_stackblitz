@@ -8,19 +8,19 @@ export class JwtService {
 
   getToken(): String {
     if (isPlatformBrowser(this.platformId)) {
-      return window.sessionStorage['jwtToken'];
+      return window.localStorage['jwtToken'];
     }
   }
 
   saveToken(token: String) {
     if (isPlatformBrowser(this.platformId)) {
-      window.sessionStorage['jwtToken'] = token;
+      window.localStorage['jwtToken'] = token;
     }
   }
 
   destroyToken() {
     if (isPlatformBrowser(this.platformId)) {
-      window.sessionStorage.removeItem('jwtToken');
+      window.localStorage.removeItem('jwtToken');
     }
   }
 

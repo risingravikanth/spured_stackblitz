@@ -45,10 +45,10 @@
                                 <li>
                                     <a href="javascript:void(0);" *ngIf="req.userProfile" (click)="redirectToOtherProfile(req.userProfile.userId)"
                                         style="color: black;font-weight: 400;">
-                                        {{req.userProfile ? req.userProfile.userName : '-NA-'}}
+                                        {{req.userProfile ? req.userProfile.userName : '-NA-'}} | {{req.userProfile ? req.userProfile.email : '-NA-'}}
                                     </a>
                                     <a href="javascript:void(0);" *ngIf="!req.userProfile" style="color: black;font-weight: 400;">
-                                        {{req.userProfile ? req.userProfile.userName : '-NA-'}}
+                                        {{req.userProfile ? req.userProfile.userName : '-NA-'}} | {{req.userProfile ? req.userProfile.email : '-NA-'}}
                                     </a>
                                 </li>
                                 <li class="text-muted" style="font-size: 12px;">{{req.create_time | date: 'MMM d, y,
