@@ -21,12 +21,21 @@
                 </div>
             </div>
         </form>
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
+        <li class="nav-item dropdown">
+            
+            <a class="nav-link dropdown-toggle" href="#" id="notificationMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <b>
-                    <i class="fas fa-bell header-icon-size"></i>
+                    <i class="fas fa-bell header-icon-size"><span *ngIf="showNotifications" style="font-size: 12px;" class="badge badge-danger">{{notificationsCount}}</span></i>
                 </b>
             </a>
+            <div class="dropdown-menu" aria-labelledby="notificationMenu">
+                <div class="dropdown-item" *ngIf="showNotifications">
+                    <span>You have {{notificationsCount}} <br>board join request <a href="javascript:void();" routerLink="/settings" >Go</a></span>
+                </div>
+                <div class="dropdown-item" *ngIf="!showNotifications">
+                    <span>No Notifications</span>
+                </div>
+            </div>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="javascript:void(0);" routerLink="/feed">

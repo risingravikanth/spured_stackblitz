@@ -7,11 +7,13 @@ import { CurrentUserService } from '../../services/currentUser.service';
 import { CommonService } from "../../services/common.service";
 import { MobileDetectionService } from '../../services/mobiledetection.service';
 import * as constant from '../../others/constants'
+import { SettingsService } from '../../../noticer/settings/settings.service';
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss']
+    styleUrls: ['./header.component.scss'],
+    providers:[SettingsService]
 })
 export class HeaderComponent implements OnInit {
 
@@ -19,9 +21,13 @@ export class HeaderComponent implements OnInit {
     toggleTopicsMenu: any = false;
 
     public responseVo: any = { info: null, source: null, statusCode: null };
+    getAllRequestsList:any = [];
+    showNotifications: boolean = false;
+    notificationsCount:any;
 
     constructor(public router: Router, private authService: AuthService,
         private userService: CurrentUserService,
+        private settingsService:SettingsService,
         private commonService: CommonService, private mobileService: MobileDetectionService) { }
 
     currentUser: User;
@@ -40,6 +46,7 @@ export class HeaderComponent implements OnInit {
             this.profileImage = "assets/images/noticer_default_user_img.png"
         }
         this.isMobile = this.mobileService.isMobile();
+        this.boardRequests();
     }
 
     goToUserProfile() {
@@ -62,4 +69,21 @@ export class HeaderComponent implements OnInit {
         //     }
         // });
     }
+
+    boardRequests() {
+        this.settingsService.getAllRequests().subscribe(
+          resData => {
+            this.getAllRequestsList = resData;
+            if (this.getAllRequestsList && this.getAllRequestsList.code == "ERROR") {
+              alert(this.getAllRequestsList.info);
+              this.showNotifications = false;
+            } else if (this.getAllRequestsList && this.getAllRequestsList.length > 0) {
+                this.notificationsCount = this.getAllRequestsList.length;
+              this.showNotifications = true;
+            } else {
+              this.showNotifications = false;
+            }
+          }
+        )
+      }
 }
