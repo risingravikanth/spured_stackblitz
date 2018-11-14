@@ -27,23 +27,27 @@
             <br>
             <div *ngFor="let post of postsList;index as i;">
                 <div class="card">
-                    <div>
-                        <span style="font-size: 12px;padding-left: 10px;margin-top: 8px;color: gray">
-                            {{post._type}} <span *ngIf="post.category"> / {{post.category | titlecase}}</span>
-                            <span *ngIf="post.model"> / {{post.model | titlecase}}</span></span>
-                    </div>
-                    <hr style="margin-top: 5px;">
-                    <div class="typeAlign dropleft">
-                        <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false" style="font-size: 20px;"></i>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
-                                (click)="editPost(post.postId, post._type, editPostDialog)">Edit</button>
-                            <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
-                                (click)="deletePost(post.postId, post._type)">Delete</button>
-                            <button class="dropdown-item" type="button">Report</button>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <span style="font-size: 12px;padding-left: 10px;margin-top: 8px;">
+                                <a style="color: gray" href="javascript:void(0);" (click)="goToCategoriesPage(post._type, null)">{{getSectionFromType(post._type) | titlecase}} </a>
+                                <span *ngIf="post.category"> / <a style="color: gray" href="javascript:void(0);" (click)="goToCategoriesPage(post._type, post.category)">{{post.category |
+                                        uppercase}}</a></span>
+                                <span *ngIf="post.model" style="color: gray"> / {{post.model | titlecase}}</span></span>
+                        </div>
+                        <div style="padding: 3px 7px 0px 0px;">
+                            <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="font-size: 20px;"></i>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
+                                    (click)="editPost(post.postId, post._type, editPostDialog)">Edit</button>
+                                <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
+                                    (click)="deletePost(post.postId, post._type)">Delete</button>
+                                <button class="dropdown-item" type="button">Report</button>
+                            </div>
                         </div>
                     </div>
+                    <hr style="margin-top: -3px;">
                     <div class="row" style="padding-left: 9px;margin-top: -15px;">
                         <div>
                             <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="UserProfilePic"
@@ -52,10 +56,11 @@
                         <div style="margin-left: -48px;margin-top: 12px;">
                             <ul>
                                 <li>
-                                    <a href="javascript:void(0);" *ngIf = "post.userProfile" (click)="redirectToOtherProfile(post.userProfile.userId)" style="color: black;font-weight: 400;">
+                                    <a href="javascript:void(0);" *ngIf="post.userProfile" (click)="redirectToOtherProfile(post.userProfile.userId)"
+                                        style="color: black;font-weight: 400;">
                                         {{post.userProfile ? post.userProfile.userName : '-NA-'}}
                                     </a>
-                                    <a href="javascript:void(0);" *ngIf = "!post.userProfile" style="color: black;font-weight: 400;">
+                                    <a href="javascript:void(0);" *ngIf="!post.userProfile" style="color: black;font-weight: 400;">
                                         {{post.userProfile ? post.userProfile.userName : '-NA-'}}
                                     </a>
                                 </li>
@@ -211,12 +216,13 @@
                             <div class="wrap" style="margin-top: -6px;">
                                 <div class="commentProfile">
                                     <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ProfilePic"
-                                    [src]="(comment.userProfile && comment.userProfile.profileImageUrl) ? (serverUrl + comment.userProfile.profileImageUrl) : defaultImage">
+                                        [src]="(comment.userProfile && comment.userProfile.profileImageUrl) ? (serverUrl + comment.userProfile.profileImageUrl) : defaultImage">
                                 </div>
                                 <div class="commentBody">
                                     <ul>
                                         <li>
-                                            <a style="font-size: 11px;color: black;font-weight: 500;" (click)="redirectToOtherProfile(comment.userProfile.userId)" href="javascript:void(0);">
+                                            <a style="font-size: 11px;color: black;font-weight: 500;" (click)="redirectToOtherProfile(comment.userProfile.userId)"
+                                                href="javascript:void(0);">
                                                 {{comment.userProfile.userName}}
                                             </a>
                                         </li>

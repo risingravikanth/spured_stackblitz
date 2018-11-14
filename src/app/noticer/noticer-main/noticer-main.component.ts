@@ -33,7 +33,7 @@ export class NoticerMainComponent implements OnInit {
   public validUser: boolean = false;
   public noData: boolean = false;
   boardId: any;
-  public reqestType:string;
+  public reqestType: string;
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
     private userService: CurrentUserService,
@@ -177,7 +177,7 @@ export class NoticerMainComponent implements OnInit {
         this.initRequest()
         if (this.paramId) {
           console.log("have id");
-          if(this.router.url.indexOf("/posts/closed/") != -1){
+          if (this.router.url.indexOf("/posts/closed/") != -1) {
             this.paramType = "BOARD";
           }
           this.getPostDetails();
@@ -216,7 +216,7 @@ export class NoticerMainComponent implements OnInit {
         this.addPostForm.controls['data'].get('_type1').patchValue(reqType);
         this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
         this.addPostForm.controls['context'].get('type').patchValue(reqType);
-        if(reqType == "BOARD"){
+        if (reqType == "BOARD") {
           this.addPostForm.controls['data'].get('boardId').patchValue(this.boardId);
         }
         this.isValidType = true;
@@ -627,9 +627,9 @@ export class NoticerMainComponent implements OnInit {
     let id = postObj.postId;
     if (isPlatformBrowser(this.platformId)) {
       console.log(t);
-      if(t == "BOARD"){
+      if (t == "BOARD") {
         window.open("/posts/closed/" + id, "_blank")
-      } else{
+      } else {
         window.open("/posts/" + t + "/" + c + "/" + id, "_blank")
       }
     }
@@ -650,5 +650,22 @@ export class NoticerMainComponent implements OnInit {
 
   redirectToOtherProfile(userId: any) {
     this.router.navigate(['profile/users/' + userId]);
+  }
+
+  getSectionFromType(_type: any) {
+    let _typeArr = this.sectionsTypesMappings.filter(item => item._type == _type);
+    if (_typeArr.length > 0) {
+      return _typeArr[0].section;
+    }
+    return "NA";
+  }
+
+  goToCategoriesPage(_type: any, category: any) {
+    let section = this.getSectionFromType(_type);
+    if(category == null){
+      this.router.navigate(['categories/'+section])
+    } else{
+      this.router.navigate(['categories/'+section+"/"+category.toUpperCase()])
+    }
   }
 }
