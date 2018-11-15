@@ -11,7 +11,7 @@ import { routerTransition } from '../router.animations';
   templateUrl: './password-reset.component.html',
   styleUrls: ['./password-reset.component.css'],
   providers: [UserProfileService, CustomValidator, MessageService],
-  animations: [routerTransition()]
+  // animations: [routerTransition()]
 })
 export class PasswordResetComponent implements OnInit {
 

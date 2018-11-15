@@ -18,7 +18,7 @@ import { SideMenuService } from './side-menu.service';
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.css'],
   providers: [CustomValidator, MessageService, MobileDetectionService, SideMenuService, CurrentUserService],
-  animations: [routerTransition()]
+  // animations: [routerTransition()]
 })
 export class SideMenuComponent implements OnInit {
   noBoards: boolean = false;

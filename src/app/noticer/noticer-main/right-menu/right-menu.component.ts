@@ -14,7 +14,7 @@ import { Section } from '../../../shared/models/section.model';
   templateUrl: './right-menu.component.html',
   styleUrls: ['./right-menu.component.css'],
   providers: [CustomValidator, MessageService],
-  animations: [routerTransition()]
+  // animations: [routerTransition()]
 })
 export class RightMenuComponent implements OnInit {
 

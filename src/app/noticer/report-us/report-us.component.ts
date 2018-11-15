@@ -8,7 +8,7 @@ import { routerTransition } from "../../router.animations";
   templateUrl: './report-us.component.html',
   styleUrls: ['./report-us.component.css'],
   providers: [],
-  animations: [routerTransition()]
+  // animations: [routerTransition()]
 })
 export class ReportUsComponent implements OnInit {
 

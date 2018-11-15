@@ -13,7 +13,7 @@ import { UserSetUpService } from "./user-setup.service";
   templateUrl: './user-setup.component.html',
   styleUrls: ['./user-setup.component.scss'],
   providers: [CustomValidator, UserSetUpService, MessageService],
-  animations: [routerTransition()],
+  // animations: [routerTransition()],
 })
 export class UserSetupComponent implements OnInit {
   imageBase64: any;

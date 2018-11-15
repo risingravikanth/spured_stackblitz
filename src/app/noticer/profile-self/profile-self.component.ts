@@ -16,7 +16,7 @@ import { IMyDpOptions } from 'mydatepicker';
     templateUrl: './profile-self.component.html',
     styleUrls: ['./profile-self.component.css'],
     providers: [SelfProfileService, CustomValidator, MessageService],
-    animations: [routerTransition()]
+    // animations: [routerTransition()]
 })
 export class SelfProfileComponent implements OnInit {
 

@@ -13,7 +13,7 @@ import { MobileDetectionService } from '../../../shared/services/mobiledetection
   templateUrl: './menu-mobile.component.html',
   styleUrls: ['./menu-mobile.component.css'],
   providers: [CustomValidator],
-  animations: [routerTransition()]
+  // animations: [routerTransition()]
 })
 export class MenuMobileComponent implements OnInit {
 

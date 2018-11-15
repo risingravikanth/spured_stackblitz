@@ -13,7 +13,7 @@ import { User } from '../../shared/models/user.model';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css'],
   providers: [SettingsService],
-  animations: [routerTransition()]
+  // animations: [routerTransition()]
 })
 export class SettingsComponent implements OnInit {
 

@@ -11,7 +11,7 @@ import * as constant from "../../shared/others/constants"
   templateUrl: './profile-other.component.html',
   styleUrls: ['./profile-other.component.css'],
   providers: [OthersProfileService, CustomValidator, MessageService],
-  animations: [routerTransition()]
+  // animations: [routerTransition()]
 })
 export class OthersProfileComponent implements OnInit {
 

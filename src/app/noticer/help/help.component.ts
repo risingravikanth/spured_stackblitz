@@ -9,7 +9,7 @@ import { ElementRef } from '@angular/core';
   templateUrl: './help.component.html',
   styleUrls: ['./help.component.css'],
   providers: [],
-  animations: [routerTransition()]
+  // animations: [routerTransition()]
 })
 export class HelpComponent implements OnInit {
 

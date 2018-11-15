@@ -22,7 +22,7 @@ import { NoticerMainService } from './noticer-main.service';
   templateUrl: './noticer-main.component.html',
   styleUrls: ['./noticer-main.component.css'],
   providers: [NoticerMainService, CustomValidator, MessageService, ConfirmationService],
-  animations: [routerTransition()]
+  // animations: [routerTransition()]
 })
 export class NoticerMainComponent implements OnInit {
 
