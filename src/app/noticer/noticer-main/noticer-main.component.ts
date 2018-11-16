@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService } from 'primeng/components/common/api';
 import { MessageService } from "primeng/components/common/messageservice";
-import { routerTransition } from "../../router.animations";
 import * as categories_types_models from '../../shared/master-data/master-data';
 import { CommentContext, Context, CreateCommentData, CreateCommentRequest, Data, GetCommentRequest, GetPostsRequest, Pagination } from '../../shared/models/request';
 import { Section } from '../../shared/models/section.model';
@@ -15,13 +14,14 @@ import { CustomValidator } from "../../shared/others/custom.validator";
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
 import { NoticerMainService } from './noticer-main.service';
+import { SeoService } from '../../shared/services';
 
 
 @Component({
   selector: 'noticer-main',
   templateUrl: './noticer-main.component.html',
   styleUrls: ['./noticer-main.component.css'],
-  providers: [NoticerMainService, CustomValidator, MessageService, ConfirmationService],
+  providers: [NoticerMainService, CustomValidator, MessageService, ConfirmationService, SeoService],
   // animations: [routerTransition()]
 })
 export class NoticerMainComponent implements OnInit {
@@ -41,7 +41,8 @@ export class NoticerMainComponent implements OnInit {
     private modalService: NgbModal,
     private route: ActivatedRoute,
     private confirmService: ConfirmationService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private seo: SeoService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
@@ -94,6 +95,12 @@ export class NoticerMainComponent implements OnInit {
   public institutes: any = [];
   public currentuserId: any;
   ngOnInit() {
+
+    this.seo.generateTags({
+      title: 'Noticer feed',
+      description: 'Noticer posts and comments',
+      slug: 'feed-page'
+    })
 
     this.audienceList = categories_types_models.AUDIENCE;
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;
@@ -161,12 +168,22 @@ export class NoticerMainComponent implements OnInit {
       console.log("Handling boards");
       this.boardId = params['boardId'];
       this.prepareBoardPostReq(this.boardId);
+      this.seo.generateTags({
+        title: 'Closed board posts',
+        description: 'All about closed board posts',
+        slug: 'boards-page'
+      })
     } else {
       this.paramType = params['type'];
       this.paramCategory = params['category'];
       console.log(this.router.url);
       if (this.paramType && this.paramCategory == undefined) {
         this.paramCategory = "HOME"
+        this.seo.generateTags({
+          title: this.paramType,
+          description: this.paramType + " posts & comments",
+          slug: this.paramType+'-page'
+        })
       }
       this.paramId = params['id'];
 
@@ -642,6 +659,11 @@ export class NoticerMainComponent implements OnInit {
         alert(obj.error.code.message)
       } else {
         this.postsList = resData.posts;
+        this.seo.generateTags({
+          title: 'Post details page',
+          description: this.postsList[0].postText, 
+          slug: 'post details page'
+      })
         this.preparePostsList();
       }
     })
@@ -662,10 +684,10 @@ export class NoticerMainComponent implements OnInit {
 
   goToCategoriesPage(_type: any, category: any) {
     let section = this.getSectionFromType(_type);
-    if(category == null){
-      this.router.navigate(['categories/'+section])
-    } else{
-      this.router.navigate(['categories/'+section+"/"+category.toUpperCase()])
+    if (category == null) {
+      this.router.navigate(['categories/' + section])
+    } else {
+      this.router.navigate(['categories/' + section + "/" + category.toUpperCase()])
     }
   }
 }

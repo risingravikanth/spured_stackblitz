@@ -6,12 +6,13 @@ import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 import { routerTransition } from '../router.animations';
 import { AuthService } from '../shared/services/auth.service';
 import { CurrentUserService } from '../shared/services/currentUser.service';
+import { SeoService } from '../shared/services';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
     animations: [routerTransition()],
-    providers: [NgbAlertConfig]
+    providers: [NgbAlertConfig, SeoService]
 })
 export class LoginComponent implements OnInit {
 
@@ -27,9 +28,15 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private authService: AuthService,
         private currentUser: CurrentUserService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private seo:SeoService
     ) { }
     ngOnInit() {
+        this.seo.generateTags({
+            title: 'Sign In',
+            description: 'login through this awesome site', 
+            slug: 'signin-page'
+        })
         if (this.currentUser.checkValidUser()) {
             // this.router.navigate(['/feed']);
             window.open('/feed',"_self")

@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MessageService } from "primeng/components/common/messageservice";
-import { routerTransition } from "../../router.animations";
-import { CustomValidator } from "../../shared/others/custom.validator";
-import { SelfProfileService } from './profile-self.service';
-import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { CurrentUserService } from '../../shared/services/currentUser.service';
-import { User } from '../../shared/models/user.model';
-import * as constant from '../../shared/others/constants'
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { IMyDpOptions } from 'mydatepicker';
+import { MessageService } from "primeng/components/common/messageservice";
+import { User } from '../../shared/models/user.model';
+import * as constant from '../../shared/others/constants';
+import { CustomValidator } from "../../shared/others/custom.validator";
+import { CurrentUserService } from '../../shared/services/currentUser.service';
+import { SelfProfileService } from './profile-self.service';
+import { SeoService } from '../../shared/services';
 
 @Component({
     selector: 'profile-self',
     templateUrl: './profile-self.component.html',
     styleUrls: ['./profile-self.component.css'],
-    providers: [SelfProfileService, CustomValidator, MessageService],
+    providers: [SelfProfileService, CustomValidator, MessageService, SeoService],
     // animations: [routerTransition()]
 })
 export class SelfProfileComponent implements OnInit {
@@ -25,7 +25,8 @@ export class SelfProfileComponent implements OnInit {
         private formbuilder: FormBuilder,
         private service: SelfProfileService,
         private customValidator: CustomValidator,
-        private userService: CurrentUserService) { }
+        private userService: CurrentUserService,
+        private seo: SeoService) { }
 
     editProfileForm: FormGroup;
 
@@ -49,6 +50,13 @@ export class SelfProfileComponent implements OnInit {
   };
 
     ngOnInit() {
+
+        this.seo.generateTags({
+            title: 'Self Profile',
+            description: 'Self profile page', 
+            slug: 'selfprofile-page'
+        })
+
         this.currentUser = this.userService.getCurrentUser();
         if (this.currentUser) {
             this.currentuserId = this.currentUser.userId;

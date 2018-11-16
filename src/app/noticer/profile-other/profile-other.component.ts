@@ -5,23 +5,29 @@ import { routerTransition } from "../../router.animations";
 import { CustomValidator } from "../../shared/others/custom.validator";
 import { OthersProfileService } from './profile-other.service';
 import * as constant from "../../shared/others/constants"
+import { SeoService } from '../../shared/services';
 
 @Component({
   selector: 'profile-other',
   templateUrl: './profile-other.component.html',
   styleUrls: ['./profile-other.component.css'],
-  providers: [OthersProfileService, CustomValidator, MessageService],
+  providers: [OthersProfileService, CustomValidator, MessageService, SeoService],
   // animations: [routerTransition()]
 })
 export class OthersProfileComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private service: OthersProfileService) { }
+  constructor(private route: ActivatedRoute, private service: OthersProfileService, private seo:SeoService) { }
 
   public profileLoader = false;
   public urls: any = [];
   public userDetails: any;
   public profileImage: any = "assets/images/noticer_default_user_img.png";
   ngOnInit() {
+    this.seo.generateTags({
+      title: 'Other Profile',
+      description: 'Others profile page', 
+      slug: 'others profile'
+  })
     this.route.params.subscribe(this.handleParams.bind(this));
   }
 
