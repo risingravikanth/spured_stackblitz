@@ -6,13 +6,13 @@ import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 import { routerTransition } from '../router.animations';
 import { AuthService } from '../shared/services/auth.service';
 import { CurrentUserService } from '../shared/services/currentUser.service';
-import { SeoService } from '../shared/services';
+import { SeoService, MobileDetectionService } from '../shared/services';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
     animations: [routerTransition()],
-    providers: [NgbAlertConfig, SeoService]
+    providers: [NgbAlertConfig, SeoService, MobileDetectionService]
 })
 export class LoginComponent implements OnInit {
 
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
     disableLoginButton: boolean = false;
     loggedUser: any;
     errorTextMessage: string = '';
+    public isMobile:boolean = false;
     public responseVo:any = {info: null, source: null, statusCode: null};
     constructor(
         private route: ActivatedRoute,
@@ -29,9 +30,11 @@ export class LoginComponent implements OnInit {
         private authService: AuthService,
         private currentUser: CurrentUserService,
         private fb: FormBuilder,
-        private seo:SeoService
+        private seo:SeoService,
+        private mobile:MobileDetectionService
     ) { }
     ngOnInit() {
+        this.isMobile = this.mobile.isMobile();
         this.seo.generateTags({
             title: 'Sign In',
             description: 'login through this awesome site', 
