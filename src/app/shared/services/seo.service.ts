@@ -11,7 +11,7 @@ export class SeoService {
     config = { 
       title: 'Noticer', 
       description: 'All about the students communication and competitive examinations. &copy; 2018 Noticer', 
-      image: 'assets/images/favicon.ico',
+      image: 'assets/images/noticer.png',
       slug: '',
       ...config
     }
