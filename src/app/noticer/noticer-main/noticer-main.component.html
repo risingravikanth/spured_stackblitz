@@ -30,8 +30,10 @@
                     <div class="d-flex justify-content-between">
                         <div>
                             <span style="font-size: 12px;padding-left: 10px;margin-top: 8px;">
-                                <a style="color: gray" href="javascript:void(0);" (click)="goToCategoriesPage(post._type, null)">{{getSectionFromType(post._type) | titlecase}} </a>
-                                <span *ngIf="post.category"> / <a style="color: gray" href="javascript:void(0);" (click)="goToCategoriesPage(post._type, post.category)">{{post.category |
+                                <a style="color: gray" href="javascript:void(0);" (click)="goToCategoriesPage(post._type, null)">{{getSectionFromType(post._type)
+                                    | titlecase}} </a>
+                                <span *ngIf="post.category"> / <a style="color: gray" href="javascript:void(0);"
+                                        (click)="goToCategoriesPage(post._type, post.category)">{{post.category |
                                         uppercase}}</a></span>
                                 <span *ngIf="post.model" style="color: gray"> / {{post.model | titlecase}}</span></span>
                         </div>
@@ -92,15 +94,20 @@
                             <br>
                         </div>
                         <div class="post-text">
+                            <b><a *ngIf="!paramId" (click)="navigateToPostDetails(post)" style="color:black" href="javascript:void(0);">Post
+                                    Title @ New feature</a>
+                                <span *ngIf="paramId">Post Title @ New feature</span></b>
+                        </div>
+                        <div class="post-text">
                             <!-- [innerHTML] -->
                             <p>
-                                <a (click)="navigateToPostDetails(post)" *ngIf="!paramId" style="color: black;">
+                                <a *ngIf="!paramId" style="color: black;">
                                     <label class="multiLineText">{{post.postText | slice:0:post.maxLength}}</label>
                                     <label *ngIf="post.postText.length > post.maxLength">...</label>
                                 </a>
-                                    <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="post.postText.length > post.maxLength"
-                                        (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see
-                                        more</a>
+                                <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="post.postText.length > post.maxLength"
+                                    (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see
+                                    more</a>
                                 <a *ngIf="paramId" style="color: black;">
                                     <label class="multiLineText">{{post.postText}}</label>
                                 </a>
@@ -286,7 +293,10 @@
         <form [formGroup]="addPostForm">
             <div class="modal-body" formGroupName="data">
                 <div class="form-group" style="padding:12px;">
-                    <textarea class="form-control" formControlName="postText" placeholder="What is your question?"></textarea>
+                    <textarea class="form-control" rows="1" formControlName="postTitle" placeholder="Question title"></textarea>
+                </div>
+                <div class="form-group" style="padding: 1px 12px 1px 12px;">
+                    <textarea class="form-control" rows="4" formControlName="postText" placeholder="Question description"></textarea>
                 </div>
                 <!-- post start -->
                 <div class="addPost" *ngIf="reqestType != 'BOARD'">
@@ -396,6 +406,9 @@
                 <div formGroupName="data">
                     <div class="modal-body">
                         <div class="form-group" style="padding:12px;">
+                            <textarea class="form-control" rows="1" formControlName="postTitle" placeholder="Question title"></textarea>
+                        </div>
+                        <div class="form-group" style="padding: 1px 12px 1px 12px;">
                             <textarea class="form-control" formControlName="text" rows="10" placeholder="What is your question?"></textarea>
                         </div>
                     </div>

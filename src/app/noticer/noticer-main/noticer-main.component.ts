@@ -123,6 +123,7 @@ export class NoticerMainComponent implements OnInit {
         _type: [null, Validators.required],
         _type1: [null, Validators.required],
         postText: [null, Validators.required],
+        postTitle: [null, Validators.required],
         boardId: [null],
         text: [null],
         model: [null],
@@ -145,7 +146,8 @@ export class NoticerMainComponent implements OnInit {
       }),
       data: this.formbuilder.group({
         postId: [null, Validators.required],
-        text: [null, Validators.required]
+        text: [null, Validators.required],
+        postTitle: [null, Validators.required],
       })
     });
   }
@@ -201,7 +203,7 @@ export class NoticerMainComponent implements OnInit {
         this.seo.generateTags({
           title: this.paramType,
           description: this.paramType + " posts & comments",
-          slug: this.paramType+'-page'
+          slug: this.paramType + '-page'
         })
         this.selectedCategory(sec);
       }
@@ -661,9 +663,9 @@ export class NoticerMainComponent implements OnInit {
         this.postsList = resData.posts;
         this.seo.generateTags({
           title: 'Post details page',
-          description: this.postsList[0].postText, 
+          description: this.postsList[0].postText,
           slug: 'post details page'
-      })
+        })
         this.preparePostsList();
       }
     })
