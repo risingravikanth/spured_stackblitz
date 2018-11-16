@@ -11,7 +11,7 @@ export class SeoService {
     config = { 
       title: 'Noticer', 
       description: 'All about the students communication and competitive examinations. &copy; 2018 Noticer', 
-      image: 'assets/images/noticer.png',
+      // image: 'assets/images/noticer.png',
       slug: '',
       ...config
     }
@@ -20,7 +20,7 @@ export class SeoService {
     this.meta.updateTag({ property: 'og:site', content: 'Noticer' });
     this.meta.updateTag({ property: 'og:title', content: config.title });
     this.meta.updateTag({ property: 'og:description', content: config.description });
-    this.meta.updateTag({ property: 'og:image', content: config.image });
+    // this.meta.updateTag({ property: 'og:image', content: config.image });
   }
 
 }
