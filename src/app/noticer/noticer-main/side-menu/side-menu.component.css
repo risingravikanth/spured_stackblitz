@@ -107,7 +107,24 @@ ul li{cursor:pointer;}
     width:50%;
   }
 
-  .scrollX{
-    height: 585px;
+  .scrollY{
     overflow: auto;
+    height: 499px;
   }
+
+  .posFix{
+    position: fixed;
+  }
+
+  ::-webkit-scrollbar{
+  width: 4px;  /* for vertical scrollbars */
+}
+::-webkit-scrollbar-track
+{
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: rgb(176, 176, 177);
+}

@@ -179,11 +179,6 @@ export class NoticerMainComponent implements OnInit {
       console.log(this.router.url);
       if (this.paramType && this.paramCategory == undefined) {
         this.paramCategory = "HOME"
-        this.seo.generateTags({
-          title: this.paramType,
-          description: this.paramType + " posts & comments",
-          slug: this.paramType+'-page'
-        })
       }
       this.paramId = params['id'];
 
@@ -203,6 +198,11 @@ export class NoticerMainComponent implements OnInit {
         }
         this.questionName = "";
       } else {
+        this.seo.generateTags({
+          title: this.paramType,
+          description: this.paramType + " posts & comments",
+          slug: this.paramType+'-page'
+        })
         this.selectedCategory(sec);
       }
     }
