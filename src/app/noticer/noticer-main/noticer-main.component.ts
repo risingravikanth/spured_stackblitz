@@ -1,4 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
+import { Location } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -42,7 +43,7 @@ export class NoticerMainComponent implements OnInit {
     private route: ActivatedRoute,
     private confirmService: ConfirmationService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private seo: SeoService
+    private seo: SeoService, private location: Location
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
@@ -117,13 +118,13 @@ export class NoticerMainComponent implements OnInit {
   initAddPostForm() {
     this.addPostForm = this.formbuilder.group({
       context: this.formbuilder.group({
-        type: [null, Validators.required]
+        type: [null]
       }),
       data: this.formbuilder.group({
-        _type: [null, Validators.required],
+        _type: [null],
         _type1: [null, Validators.required],
         postText: [null, Validators.required],
-        postTitle: [null, Validators.required],
+        title: [null, Validators.required],
         boardId: [null],
         text: [null],
         model: [null],
@@ -147,7 +148,7 @@ export class NoticerMainComponent implements OnInit {
       data: this.formbuilder.group({
         postId: [null, Validators.required],
         text: [null, Validators.required],
-        postTitle: [null, Validators.required],
+        title: [null, Validators.required],
       })
     });
   }
@@ -602,6 +603,7 @@ export class NoticerMainComponent implements OnInit {
     this.postsList.forEach(element => {
       if (element.postId == postId && element._type == type) {
         this.editPostForm.controls['data'].get('text').patchValue(element.postText);
+        this.editPostForm.controls['data'].get('title').patchValue(element.postTitle);
         this.editPostForm.controls['data'].get('postId').patchValue(element.postId);
         let type = this.sectionsTypesMappings.filter(item => item._type == element._type)[0].section;
         this.editPostForm.controls['context'].get('type').patchValue(type);
@@ -628,6 +630,7 @@ export class NoticerMainComponent implements OnInit {
         this.postsList.forEach(element => {
           if (element.postId == this.editPostForm.controls['data'].get('postId').value) {
             element.postText = this.editPostForm.controls['data'].get('text').value
+            element.postTitle = this.editPostForm.controls['data'].get('title').value
           }
         });
         this.categoryModalReference.close();
@@ -644,12 +647,25 @@ export class NoticerMainComponent implements OnInit {
     let t = this.sectionsTypesMappings.filter(item => item._type == postObj._type)[0].section;
     let c = postObj.category;
     let id = postObj.postId;
+    let title = postObj.postTitle;
     if (isPlatformBrowser(this.platformId)) {
       console.log(t);
       if (t == "BOARD") {
-        window.open("/posts/closed/" + id, "_blank")
+        window.open("/posts/closed/" + id + "/" + title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "", "_blank")
       } else {
-        window.open("/posts/" + t + "/" + c + "/" + id, "_blank")
+        if (c) {
+          if (title != undefined) {
+            window.open("/posts/" + t + "/" + c + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-'), "_blank")
+          } else {
+            window.open("/posts/" + t + "/" + c + "/" + id, "_blank")
+          }
+        } else {
+          if (title != undefined) {
+            window.open("/posts/" + t + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-'), "_blank")
+          } else {
+            window.open("/posts/" + t + "/" + id, "_blank")
+          }
+        }
       }
     }
   }
@@ -662,10 +678,28 @@ export class NoticerMainComponent implements OnInit {
       } else {
         this.postsList = resData.posts;
         this.seo.generateTags({
-          title: 'Post details page',
+          title: this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title",
           description: this.postsList[0].postText,
           slug: 'post details page'
         })
+
+        // Chaning postDeatail url
+        let arrUrl = this.router.url.split("/");
+        let newUrl = "";
+        for (let i = 0; i < arrUrl.length - 1; i++) {
+          if (arrUrl[i] != undefined) {
+            newUrl = newUrl + arrUrl[i] + "/"
+          } else {
+            newUrl = "/" + newUrl
+          }
+        }
+        let num:any = arrUrl[arrUrl.length - 1];
+        if(!isNaN(num)){
+          newUrl = newUrl + arrUrl[arrUrl.length - 1] + "/";
+        }
+        if(this.postsList[0].postTitle){
+          this.location.replaceState(newUrl + this.postsList[0].postTitle.replace(/[^a-zA-Z0-9]/g, '-'));
+        }
         this.preparePostsList();
       }
     })

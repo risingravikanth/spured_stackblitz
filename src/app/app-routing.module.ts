@@ -17,81 +17,64 @@ const routes: Routes = [
   {
     path: 'feed',
     component: NoticerComponent,
-    // canActivate: [AuthGuard],
     children: [
       {
         path: '',
         component: NoticerMainComponent,
-        // canActivate: [AuthGuard]
       },
       {
         path: 'mobile-menu',
         component: MenuMobileComponent,
-        // canActivate: [AuthGuard]
       }
     ]
   },
   {
-    path: 'categories/:type',
+    path: 'categories',
     component: NoticerComponent,
-    // canActivate: [AuthGuard],
     children: [
       {
-        path: '',
+        path: ':type',
         component: NoticerMainComponent,
-        // canActivate: [AuthGuard]
+      },
+      {
+        path: ':type/:category',
+        component: NoticerMainComponent,
       }
     ]
   },
   {
-    path: 'categories/:type/:category',
-    component: NoticerComponent,
-    // canActivate: [AuthGuard],
-    children: [
-      {
-        path: '',
-        component: NoticerMainComponent,
-        // canActivate: [AuthGuard]
-      }
-    ]
-  },
-  {
-    path: 'posts/:type/:category/:id',
+    path: 'posts',
     component: NoticerComponent,
     children: [
+      // {
+      //   path: ':type/:id',
+      //   component: NoticerMainComponent,
+      // },
+      // {
+      //   path: ':type/:id/:title',
+      //   component: NoticerMainComponent,
+      // },
       {
-        path: '',
+        path: ':type/:category/:id',
         component: NoticerMainComponent,
-        // canActivate: [AuthGuard]
-      }
-    ]
-  },
-  {
-    path: 'posts/closed/:id',
-    component: NoticerComponent,
-    children: [
+      },
       {
-        path: '',
+        path: ':type/:category/:id/:title',
         component: NoticerMainComponent,
-        // canActivate: [AuthGuard]
-      }
-    ]
-  },
-  {
-    path: 'boards/closed/:boardId',
-    component: NoticerComponent,
-    children: [
+      },
       {
-        path: '',
+        path: 'closed/:boardId',
         component: NoticerMainComponent,
-        // canActivate: [AuthGuard]
+      },
+      {
+        path: 'closed/:boardId/:title',
+        component: NoticerMainComponent,
       }
     ]
   },
   {
     path: 'profile',
     component: NoticerComponent,
-    // canActivate: [AuthGuard],
     children: [
       {
         path: 'self',
@@ -101,7 +84,6 @@ const routes: Routes = [
       {
         path: 'users/:id',
         component: OthersProfileComponent,
-        // canActivate: [AuthGuard]
       }
     ]
   },
@@ -113,7 +95,6 @@ const routes: Routes = [
       {
         path: '',
         component: HelpComponent,
-        // canActivate: [AuthGuard]
       }
     ]
   },
@@ -125,7 +106,6 @@ const routes: Routes = [
       {
         path: '',
         component: ReportUsComponent,
-        // canActivate: [AuthGuard]
       }
     ]
   },
@@ -137,7 +117,6 @@ const routes: Routes = [
       {
         path: '',
         component: SettingsComponent,
-        // canActivate: [AuthGuard]
       }
     ]
   },

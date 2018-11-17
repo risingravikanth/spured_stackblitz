@@ -4,10 +4,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Message } from 'primeng/components/common/api';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { routerTransition } from '../router.animations';
 import { CustomValidator } from "../shared/others/custom.validator";
 import { AuthService } from "../shared/services/auth.service";
 import { UserSetUpService } from "./user-setup.service";
+import { SeoService } from '../shared/services';
 @Component({
   selector: 'user-setup',
   templateUrl: './user-setup.component.html',
@@ -44,11 +44,17 @@ export class UserSetupComponent implements OnInit {
     private cus_validator: CustomValidator,
     private userSetUpService: UserSetUpService,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private seo: SeoService
   ) { }
 
   ngOnInit() {
     this.userSetUpForm();
+    this.seo.generateTags({
+      title: 'SignUp',
+      description: 'signup through this awesome site',
+      slug: 'signup-page'
+    })
   }
 
 
@@ -67,7 +73,7 @@ export class UserSetupComponent implements OnInit {
   saveUserSetUp() {
     if (this.UserSetUpForm.invalid) {
       alert("Please fill all the fields")
-    } 
+    }
     // else if (this.UserSetUpForm.get('password').value != this.UserSetUpForm.get('matchingPassword').value) {
     //   alert("password not matched")
     // }
@@ -91,7 +97,7 @@ export class UserSetupComponent implements OnInit {
     }
   }
 
-  redirectLogin(){
+  redirectLogin() {
     this.router.navigate(['/login']);
   }
 
