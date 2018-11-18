@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Message } from 'primeng/components/common/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { CustomValidator } from "../shared/others/custom.validator";
-import { SeoService } from '../shared/services';
+import { SeoService, MobileDetectionService } from '../shared/services';
 import { UserSetUpService } from "./user-setup.service";
 @Component({
   selector: 'user-setup',
@@ -23,7 +23,7 @@ export class UserSetupComponent implements OnInit {
   ConfigurationDetailsForm: FormGroup;
   authForm: FormGroup;
   returnUrl: string;
-  msgs: Message[] = [];
+  public msgs: Message[] = [];
   public showSpinner = false;
   public color = "primary";
   public mode = "indeterminate";
@@ -35,16 +35,19 @@ export class UserSetupComponent implements OnInit {
   showPasswordError: boolean = false;
   public image: File;
   loggedUser: any;
+  public isMobile:boolean = false;
 
   constructor(private messageService: MessageService,
     private router: Router,
     private formbuilder: FormBuilder,
     private userSetUpService: UserSetUpService,
     private route: ActivatedRoute,
-    private seo: SeoService
+    private seo: SeoService,
+    private mobile:MobileDetectionService
   ) { }
 
   ngOnInit() {
+    this.isMobile = this.mobile.isMobile();
     this.userSetUpForm();
     this.seo.generateTags({
       title: 'SignUp',
@@ -71,6 +74,7 @@ export class UserSetupComponent implements OnInit {
   get fControl() { return this.UserSetUpForm.controls; }
 
   saveUserSetUp() {
+    this.msgs = [];
     if (this.UserSetUpForm.invalid) {
       // alert("Please fill all the fields")
       this.messageService.add({ severity: 'error', summary: 'Failed', detail: 'Please fill all the fields!' });

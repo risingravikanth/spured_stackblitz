@@ -75,14 +75,17 @@ export class LoginComponent implements OnInit {
                     } else if (this.responseVo.token) {
                         this.loggedUser = this.responseVo;
                         this.authService.setAuth(this.loggedUser);
+                        this.msgs = [];
                         this.messageService.add({ severity: 'error', summary: 'Success', detail: 'Login sucessfull!' });
                         this.router.navigate(['/feed']);
                     }
                     else {
                         this.status = 'Log in';
+                        this.msgs = [];
                         this.messageService.add({ severity: 'error', summary: 'Failed', detail: 'Something went wrong' });
                     }
                 }, (err: HttpErrorResponse) => {
+                    this.msgs = [];
                     this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
                     this.status = 'Login';
                     this.disableLoginButton = false;

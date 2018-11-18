@@ -10,6 +10,7 @@ import { CustomValidator } from "../../shared/others/custom.validator";
 import { SeoService, CommonService } from '../../shared/services';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { SelfProfileService } from './profile-self.service';
+import { Message } from 'primeng/components/common/api';
 
 @Component({
     selector: 'profile-self',
@@ -48,6 +49,7 @@ export class SelfProfileComponent implements OnInit {
     public showSpinner = false;
     public color = "primary";
     public mode = "indeterminate";
+    public msgs: Message[] = [];
 
     public myDatePickerOptions: IMyDpOptions = {
         // other options...
@@ -103,6 +105,7 @@ export class SelfProfileComponent implements OnInit {
             this.userDetails = resData;
         }, error => {
             this.showSpinner = false;
+            this.msgs = [];
             this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
         })
     }
@@ -117,6 +120,7 @@ export class SelfProfileComponent implements OnInit {
     }
 
     fnChangeProfilePicture(event) {
+        this.msgs = [];
         if (event.target.files.length == 1) {
             this.urls = [];
             let files = event.target.files;
@@ -203,6 +207,7 @@ export class SelfProfileComponent implements OnInit {
             this.editProfileForm.controls['dobMonth'].patchValue(dob.date.month);
             this.editProfileForm.controls['dobYear'].patchValue(dob.date.year);
         }
+        this.msgs = [];
         this.service.saveEditProfile(this.editProfileForm.value).subscribe((resData: any) => {
             console.log(resData.info);
             this.showSpinner = false;
