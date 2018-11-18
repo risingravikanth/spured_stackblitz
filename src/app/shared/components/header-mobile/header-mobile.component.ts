@@ -42,6 +42,11 @@ export class HeaderMobileComponent implements OnInit {
         this.commonService.menuChanges.subscribe(item =>{
             if(item == "noticer"){
                 this.showMenu = true;
+            } else if(item == "updateProfilePic"){
+                this.currentUser = this.userService.getCurrentUser();
+                if(this.currentUser && this.currentUser.imageUrl){
+                    this.profileImage = constant.REST_API_URL + "/" + this.currentUser.imageUrl;
+                }       
             }
         })
     }

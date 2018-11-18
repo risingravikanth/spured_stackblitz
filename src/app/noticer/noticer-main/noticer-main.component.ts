@@ -30,7 +30,6 @@ export class NoticerMainComponent implements OnInit {
   public isMobile: boolean;
   public profileImage: any;
   public currentUser: User;
-  public defaultImage: any = "assets/images/noticer_default_user_img.png";
   public validUser: boolean = false;
   public noData: boolean = false;
   boardId: any;
@@ -43,7 +42,8 @@ export class NoticerMainComponent implements OnInit {
     private route: ActivatedRoute,
     private confirmService: ConfirmationService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private seo: SeoService, private location: Location
+    private seo: SeoService, private location: Location,
+    private messageService: MessageService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
@@ -179,9 +179,17 @@ export class NoticerMainComponent implements OnInit {
     } else {
       this.paramType = params['type'];
       this.paramCategory = params['category'];
+      if(this.paramType){
+        let _typeArr = this.sectionsTypesMappings.filter(item => item.section == this.paramType);
+        if (_typeArr.length == 0) {
+          alert("Sorry! Given url is wrong!");
+          this.router.navigate(['/feed'])
+          return;
+        }
+      }
       console.log(this.router.url);
       if (this.paramType && this.paramCategory == undefined) {
-        this.paramCategory = "HOME"
+        this.paramCategory = "home"  
       }
       this.paramId = params['id'];
 
@@ -233,13 +241,17 @@ export class NoticerMainComponent implements OnInit {
         this.reqestType = reqType;
         this.getCategoriesByType(reqType);
         let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
-        this.addPostForm.controls['data'].get('_type1').patchValue(reqType);
-        this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
-        this.addPostForm.controls['context'].get('type').patchValue(reqType);
-        if (reqType == "BOARD") {
-          this.addPostForm.controls['data'].get('boardId').patchValue(this.boardId);
+        if (_typeArr.length > 0) {
+          this.addPostForm.controls['data'].get('_type1').patchValue(reqType);
+          this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
+          this.addPostForm.controls['context'].get('type').patchValue(reqType);
+          if (reqType == "BOARD") {
+            this.addPostForm.controls['data'].get('boardId').patchValue(this.boardId);
+          }
+          this.isValidType = true;
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Given type is wrong!" });
         }
-        this.isValidType = true;
       }
       if (this.getPostsRequestBody.data.category) {
         this.addPostForm.controls['data'].get('category').patchValue(this.getPostsRequestBody.data.category.toLocaleLowerCase());
@@ -282,7 +294,7 @@ export class NoticerMainComponent implements OnInit {
         this.questionName = data.section.toUpperCase();
         this.getPostsRequestBody.context.type = this.questionName;
       }
-      if (data.category != 'HOME') {
+      if (data.category != 'home') {
         this.getPostsRequestBody.data.category = data.category.toUpperCase();
         this.questionName = this.questionName.toUpperCase() + " (" + data.category + ")";
       } else {
@@ -310,11 +322,13 @@ export class NoticerMainComponent implements OnInit {
         this.showPostSpinner = false;
         let obj: any = resData;
         if (obj.error && obj.error.code && obj.error.code.id) {
-          alert(obj.error.code.message)
+          this.messageService.add({ severity: 'error', summary: 'Failed', detail: obj.error.code.message });
         } else {
           this.postsList = obj.posts;
           this.preparePostsList();
         }
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
       })
   }
 
@@ -326,7 +340,7 @@ export class NoticerMainComponent implements OnInit {
         this.showPostSpinner = false;
         let obj: any = resData;
         if (obj.error && obj.error.code && obj.error.code.id) {
-          alert(obj.error.code.message);
+          this.messageService.add({ severity: 'error', summary: 'Failed', detail: obj.error.code.message });
         } else {
           if (obj.posts.length < 10) {
             this.showMoreLink = false;
@@ -339,6 +353,8 @@ export class NoticerMainComponent implements OnInit {
           });
           this.preparePostsList();
         }
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
       })
   }
 
@@ -361,7 +377,7 @@ export class NoticerMainComponent implements OnInit {
   detectFiles(event) {
     let files = event.target.files;
     if (files.length > 4 || (this.urls.length + files.length) > 4) {
-      alert("Only 4 images allowd");
+      this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Only 4 images allowd" });
     } else if (files) {
       for (let file of files) {
         let reader = new FileReader();
@@ -406,6 +422,8 @@ export class NoticerMainComponent implements OnInit {
             this.savePost();
           }
         })
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
       })
     } else {
       this.addPostForm.controls["data"].get("images").patchValue([]);
@@ -415,9 +433,12 @@ export class NoticerMainComponent implements OnInit {
 
   savePost() {
     if (this.addPostForm.valid) {
+      if (!this.addPostForm.controls['data'].get("category").value) {
+        !this.addPostForm.controls['data'].get("category").patchValue("others");
+      }
       this.service.createPost(this.addPostForm.value).subscribe((resData: any) => {
         if (resData && resData.code && resData.code.id) {
-          alert(resData.code.longMessage);
+          this.messageService.add({ severity: 'error', summary: 'Failed', detail: resData.code.longMessage });
         } else if (resData && resData.post) {
           let data = resData.post;
           data.maxLength = 300;
@@ -427,18 +448,20 @@ export class NoticerMainComponent implements OnInit {
           data.commentsSpinner = false;
           this.postsList.splice(0, 0, data);
           this.initAddPostForm();
-          alert("Successfully added post");
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: "Successfully added post" });
           this.categoryModalReference.close();
           this.postImages = [];
           this.urls = [];
           this.isValidCategory = false;
           this.isValidType = false;
         } else {
-          alert("Something went wrong!");
+          this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
         }
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
       })
     } else {
-      alert("Plese fill all the details!");
+      this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Plese fill all the details!" });
     }
   }
 
@@ -451,15 +474,18 @@ export class NoticerMainComponent implements OnInit {
         this.postsList[index].commentsSpinner = false;
         let comments: any = resData;
         if (comments && comments.code && comments.code.id) {
-          alert(comments.code.longMessage);
+          this.messageService.add({ severity: 'error', summary: 'Failed', detail: comments.code.longMessage });
         } else if (comments && comments.comments) {
           if (comments.comments.length > 0) {
             this.postsList[index].comments = comments.comments;
             this.postsList[index].comments.forEach(element => {
               element.maxLength = 300;
             });
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: "Comment added successfull" });
           }
         }
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
       })
     }
   }
@@ -473,7 +499,7 @@ export class NoticerMainComponent implements OnInit {
       this.postsList[index].commentsSpinner = false;
       let comments: any = resData;
       if (comments && comments.code && comments.code.id) {
-        alert(comments.code.longMessage);
+        this.messageService.add({ severity: 'error', summary: 'Failed', detail: comments.code.longMessage });
       } else if (comments && comments.comments) {
         if (comments.comments.length > 0) {
           comments.comments.forEach(element => {
@@ -484,6 +510,8 @@ export class NoticerMainComponent implements OnInit {
           });
         }
       }
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
     })
   }
 
@@ -523,13 +551,15 @@ export class NoticerMainComponent implements OnInit {
     this.service.createComment(createCommentRequest).subscribe((resData: any) => {
 
       if (resData && resData.code && resData.code.id) {
-        alert(resData.code.longMessage);
+        this.messageService.add({ severity: 'error', summary: 'Failed', detail: resData.code.longMessage });
       } else {
         this.postsList[index].commentText = null;
         resData.comment.maxLength = 100;
         this.postsList[index].comments.splice(0, 0, resData.comment);
         this.postsList[index].commentsCount = this.postsList[index].commentsCount + 1;
       }
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
     })
   }
 
@@ -551,7 +581,7 @@ export class NoticerMainComponent implements OnInit {
         sec.sections.forEach(ty => {
           if (ty.code == type) {
             ty.categories.forEach(ca => {
-              if (ca.name != "HOME") {
+              if (ca.name != "home") {
                 let vo = { label: ca.name, value: ca.code };
                 this.categories.push(vo);
               }
@@ -590,10 +620,13 @@ export class NoticerMainComponent implements OnInit {
           let obj: any = resData;
           console.log(resData)
           if (obj.error && obj.error.code && obj.error.code.id) {
-            alert(obj.error.code.message)
+            this.messageService.add({ severity: 'error', summary: 'Failed', detail: obj.error.code.message });
           } else {
             this.postsList.splice(index, 1);
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: "Post deleted successfully!" });
           }
+        }, error => {
+          this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
         })
       }
     });
@@ -625,7 +658,7 @@ export class NoticerMainComponent implements OnInit {
       let obj: any = resData;
       console.log(resData)
       if (obj.error && obj.error.code && obj.error.code.id) {
-        alert(obj.error.code.message)
+        this.messageService.add({ severity: 'error', summary: 'Failed', detail: obj.error.code.message });
       } else {
         this.postsList.forEach(element => {
           if (element.postId == this.editPostForm.controls['data'].get('postId').value) {
@@ -635,6 +668,8 @@ export class NoticerMainComponent implements OnInit {
         });
         this.categoryModalReference.close();
       }
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
     })
   }
 
@@ -651,7 +686,8 @@ export class NoticerMainComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       console.log(t);
       if (t == "BOARD") {
-        window.open("/posts/closed/" + id + "/" + title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "", "_blank")
+        let postUrl = "/posts/closed/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
+        window.open(postUrl, "_blank")
       } else {
         if (c) {
           if (title != undefined) {
@@ -674,7 +710,7 @@ export class NoticerMainComponent implements OnInit {
     this.service.getPostDetailsById(this.paramId, this.paramType).subscribe((resData: any) => {
       let obj: any = resData;
       if (obj.error && obj.error.code && obj.error.code.id) {
-        alert(obj.error.code.message)
+        this.messageService.add({ severity: 'error', summary: 'Failed', detail: obj.error.code.message });
       } else {
         this.postsList = resData.posts;
         this.seo.generateTags({
@@ -693,15 +729,17 @@ export class NoticerMainComponent implements OnInit {
             newUrl = "/" + newUrl
           }
         }
-        let num:any = arrUrl[arrUrl.length - 1];
-        if(!isNaN(num)){
+        let num: any = arrUrl[arrUrl.length - 1];
+        if (!isNaN(num)) {
           newUrl = newUrl + arrUrl[arrUrl.length - 1] + "/";
         }
-        if(this.postsList[0].postTitle){
+        if (this.postsList[0].postTitle) {
           this.location.replaceState(newUrl + this.postsList[0].postTitle.replace(/[^a-zA-Z0-9]/g, '-'));
         }
         this.preparePostsList();
       }
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
     })
   }
 

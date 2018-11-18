@@ -7,12 +7,14 @@ import { routerTransition } from '../router.animations';
 import { AuthService } from '../shared/services/auth.service';
 import { CurrentUserService } from '../shared/services/currentUser.service';
 import { SeoService, MobileDetectionService } from '../shared/services';
+import { Message } from 'primeng/primeng';
+import { MessageService } from 'primeng/components/common/messageservice';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
     animations: [routerTransition()],
-    providers: [NgbAlertConfig, SeoService, MobileDetectionService]
+    providers: [NgbAlertConfig, SeoService, MobileDetectionService, MessageService]
 })
 export class LoginComponent implements OnInit {
 
@@ -22,27 +24,29 @@ export class LoginComponent implements OnInit {
     disableLoginButton: boolean = false;
     loggedUser: any;
     errorTextMessage: string = '';
-    public isMobile:boolean = false;
-    public responseVo:any = {info: null, source: null, statusCode: null};
+    public isMobile: boolean = false;
+    public responseVo: any = { info: null, source: null, statusCode: null };
+    msgs: Message[] = [];
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private authService: AuthService,
         private currentUser: CurrentUserService,
         private fb: FormBuilder,
-        private seo:SeoService,
-        private mobile:MobileDetectionService
+        private seo: SeoService,
+        private mobile: MobileDetectionService,
+        private messageService: MessageService
     ) { }
     ngOnInit() {
         this.isMobile = this.mobile.isMobile();
         this.seo.generateTags({
             title: 'Sign In',
-            description: 'login through this awesome site', 
+            description: 'login through this awesome site',
             slug: 'signin-page'
         })
         if (this.currentUser.checkValidUser()) {
             // this.router.navigate(['/feed']);
-            window.open('/feed',"_self")
+            window.open('/feed', "_self")
         }
         let status = this.route.snapshot.queryParams['status'];
         if (status) {
@@ -65,20 +69,21 @@ export class LoginComponent implements OnInit {
             this.authService.attemptAuth(this.authForm.value, this.returnUrl).subscribe(
                 resData => {
                     this.responseVo = JSON.parse(resData.body);
-                    if(this.responseVo.statusCode == "ERROR"){
+                    if (this.responseVo.statusCode == "ERROR") {
                         this.errorTextMessage = this.responseVo.info;
                         this.status = 'Log in';
-                    } else if(this.responseVo.token){
+                    } else if (this.responseVo.token) {
                         this.loggedUser = this.responseVo;
                         this.authService.setAuth(this.loggedUser);
+                        this.messageService.add({ severity: 'error', summary: 'Success', detail: 'Login sucessfull!' });
                         this.router.navigate(['/feed']);
                     }
-                    else{
-                        alert("Something went wrong");
+                    else {
                         this.status = 'Log in';
-                        this.errorTextMessage = "Something went wrong";
+                        this.messageService.add({ severity: 'error', summary: 'Failed', detail: 'Something went wrong' });
                     }
                 }, (err: HttpErrorResponse) => {
+                    this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
                     this.status = 'Login';
                     this.disableLoginButton = false;
                 }

@@ -53,7 +53,7 @@
                     <div class="row" style="padding-left: 9px;margin-top: -15px;">
                         <div>
                             <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="UserProfilePic"
-                                [src]="(post.userProfile && post.userProfile.profileImageUrl) ? serverUrl + post.userProfile.profileImageUrl : defaultImage">
+                                [src]="(post.userProfile && post.userProfile.profileImageUrl) ? serverUrl + post.userProfile.profileImageUrl : assets/images/noticer_default_user_img.png">
                         </div>
                         <div style="margin-left: -48px;margin-top: 12px;">
                             <ul>
@@ -223,7 +223,7 @@
                             <div class="wrap" style="margin-top: -6px;">
                                 <div class="commentProfile">
                                     <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ProfilePic"
-                                        [src]="(comment.userProfile && comment.userProfile.profileImageUrl) ? (serverUrl + comment.userProfile.profileImageUrl) : defaultImage">
+                                        [src]="(comment.userProfile && comment.userProfile.profileImageUrl) ? (serverUrl + comment.userProfile.profileImageUrl) : assets/images/noticer_default_user_img.png">
                                 </div>
                                 <div class="commentBody">
                                     <ul>
@@ -336,13 +336,14 @@
                     <!-- events -->
                     <div class="row" *ngIf="addPostForm.controls['data'].get('_type1').value == 'EVENTS'">
                         <div class="form-group col-md-6">
-                            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="To Date" [style]="{'width':'95%'}"
-                                [inputStyle]="{'width':'95%'}"></p-calendar>
+                            <p-calendar [showIcon]="true" dateFormat="yy-mm-dd" formControlName="fromdate" placeholder="From Date"
+                                [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
                         <div class="form-group col-md-6">
-                            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" placeholder="From Date" [style]="{'width':'95%'}"
-                                [inputStyle]="{'width':'95%'}"></p-calendar>
+                            <p-calendar [showIcon]="true" dateFormat="yy-mm-dd" formControlName="todate" placeholder="To Date"
+                                [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
+
                     </div>
                     <div class="row" *ngIf="addPostForm.controls['data'].get('_type1').value == 'EVENTS'">
                         <div class="form-group col-md-6">
@@ -357,7 +358,7 @@
 
                     <!-- careers -->
                     <div class="col-md-4" *ngIf="addPostForm.controls['data'].get('_type1').value == 'CAREERS'">
-                        <p-multiSelect [options]="audienceList" [style]="{'width':'100%','height':'34px'}" defaultLabel="Qualifications"></p-multiSelect>
+                        <p-multiSelect formControlName="qualifications" [options]="audienceList" [style]="{'width':'100%','height':'34px'}" defaultLabel="Qualifications"></p-multiSelect>
                     </div>
                     <!-- careers end -->
                 </div>
@@ -420,4 +421,7 @@
         </ng-template>
 
     </section>
-    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="23%"></p-confirmDialog>
+    <section>
+        <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="23%"></p-confirmDialog>
+        <p-growl baseZIndex="100" life="4000" [(value)]="msgs"></p-growl>
+    </section>

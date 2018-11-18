@@ -46,14 +46,14 @@ const routes: Routes = [
     path: 'posts',
     component: NoticerComponent,
     children: [
-      // {
-      //   path: ':type/:id',
-      //   component: NoticerMainComponent,
-      // },
-      // {
-      //   path: ':type/:id/:title',
-      //   component: NoticerMainComponent,
-      // },
+      {
+        path: 'closed/:id',
+        component: NoticerMainComponent,
+      },
+      {
+        path: 'closed/:id/:title',
+        component: NoticerMainComponent,
+      },
       {
         path: ':type/:category/:id',
         component: NoticerMainComponent,
@@ -61,7 +61,13 @@ const routes: Routes = [
       {
         path: ':type/:category/:id/:title',
         component: NoticerMainComponent,
-      },
+      }
+    ]
+  },
+  {
+    path: 'boards',
+    component: NoticerComponent,
+    children: [
       {
         path: 'closed/:boardId',
         component: NoticerMainComponent,

@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule, MatDialogModule, MatProgressSpinnerModule, MatExpansionModule, MatListModule, MatFormFieldModule, MatSelectModule, MatGridListModule } from '@angular/material';
-import { CalendarModule, GrowlModule, DialogModule, MultiSelectModule, DropdownModule, ConfirmDialogModule } from "primeng/primeng";
-import { NoticerMainComponent } from './noticer-main.component';
-import { NoticerMainRoutingModule } from './noticer-main-routing.module';
-import { SideMenuComponent } from './side-menu/side-menu.component';
-import { MenuMobileComponent } from './menu-mobile/menu-mobile.component';
-import { RightMenuComponent } from './right-menu/right-menu.component';
+import { MatExpansionModule, MatFormFieldModule, MatGridListModule, MatListModule } from '@angular/material';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CalendarModule, ConfirmDialogModule, DropdownModule, GrowlModule, MultiSelectModule } from "primeng/primeng";
 import { LinkifyPipe } from '../../shared/pipes/linkify.pipe';
+import { MenuMobileComponent } from './menu-mobile/menu-mobile.component';
+import { NoticerMainRoutingModule } from './noticer-main-routing.module';
+import { NoticerMainComponent } from './noticer-main.component';
+import { RightMenuComponent } from './right-menu/right-menu.component';
+import { SideMenuComponent } from './side-menu/side-menu.component';
 
 @NgModule({
   imports: [
@@ -25,6 +25,7 @@ import { LinkifyPipe } from '../../shared/pipes/linkify.pipe';
     DropdownModule,
     MatGridListModule,
     ConfirmDialogModule,
+    GrowlModule,
     NgbModule.forRoot()
   ],
   declarations: [

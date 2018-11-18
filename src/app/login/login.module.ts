@@ -5,7 +5,7 @@ import { LoginComponent } from './login.component';
 import { Routes, RouterModule } from '@angular/router';
 import { MatSelectModule, MatInputModule, MatFormFieldModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-// import { NgxPermissionsModule } from 'ngx-permissions';
+import { GrowlModule } from 'primeng/primeng';
 
 const routes: Routes = [
     { path: '', component: LoginComponent }
@@ -20,7 +20,7 @@ const routes: Routes = [
         MatInputModule,
         MatSelectModule,
         NgbModule,
-        // NgxPermissionsModule.forChild()
+        GrowlModule
     ],
     declarations: [LoginComponent]
 })

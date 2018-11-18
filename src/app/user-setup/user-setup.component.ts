@@ -37,7 +37,6 @@ export class UserSetupComponent implements OnInit {
   loggedUser: any;
 
   constructor(private messageService: MessageService,
-    private httpClient: HttpClient,
     private router: Router,
     private formbuilder: FormBuilder,
     private userSetUpService: UserSetUpService,
@@ -74,7 +73,7 @@ export class UserSetupComponent implements OnInit {
   saveUserSetUp() {
     if (this.UserSetUpForm.invalid) {
       // alert("Please fill all the fields")
-      this.messageService.add({severity:'error', summary:'Failed', detail:'Please fill all the fields!'});
+      this.messageService.add({ severity: 'error', summary: 'Failed', detail: 'Please fill all the fields!' });
     }
     // else if (this.UserSetUpForm.get('password').value != this.UserSetUpForm.get('matchingPassword').value) {
     //   alert("password not matched")
@@ -86,14 +85,16 @@ export class UserSetupComponent implements OnInit {
         resData => {
           this.responseData = resData;
           if (this.responseData.info || this.responseData.statusCode == "ERROR") {
-            this.messageService.add({severity:'error', summary:'Failed', detail:this.responseData.info});
+            this.messageService.add({ severity: 'error', summary: 'Failed', detail: this.responseData.info });
           } else if (this.responseData.email) {
-            this.messageService.add({severity:'success', summary:'Signup Success', detail:'Soon you will get confirmation mail!'});
+            this.messageService.add({ severity: 'success', summary: 'Signup Success', detail: 'Soon you will get confirmation mail!' });
             this.userSetUpForm();
           } else {
             console.log(this.responseData);
           }
           this.showSpinner = false;
+        }, error => {
+          this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
         }
       );
     }

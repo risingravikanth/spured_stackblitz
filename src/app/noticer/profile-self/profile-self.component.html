@@ -1,14 +1,10 @@
 <div class="container marTop50">
-
-    <!-- <h4>Profile</h4>
-    <hr> -->
     <div class="row">
         <div class="card bg-light text-center col-md-2">
             <div style="padding-top: 12%;">
                 <img class="card-img-top image avatar" [src]="profileImage" alt="Card image">
             </div>
             <div class="card-body">
-                <!-- <h6 class="card-title">Durgarao</h6> -->
                 <ul class="list-inline postIcons">
                     <span class="btn btn-light btn-file marPic">
                         <i class="fas fa-camera"></i>&nbsp; Change picture
@@ -136,4 +132,11 @@
             </div>
         </form>
     </ng-template>
+</section>
+<section>
+    <div *ngIf="showSpinner" class="spinner">
+        <mat-progress-spinner [color]="color" [mode]="mode"></mat-progress-spinner>
+    </div>
+    <div *ngIf="showSpinner" class="spinnerOverlay"></div>
+    <p-growl baseZIndex="100" life="4000" [(value)]="msgs"></p-growl>
 </section>

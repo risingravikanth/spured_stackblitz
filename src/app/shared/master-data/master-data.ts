@@ -104,6 +104,18 @@ export const SECTIONS = [
                         "code": "banks"
                     },
                     {
+                        "name": "History",
+                        "code": "history"
+                    },
+                    {
+                        "name": "Geography",
+                        "code": "geography"
+                    },
+                    {
+                        "name": "Sports",
+                        "code": "sports"
+                    },
+                    {
                         "name": "Others",
                         "code": "others"
                     }
@@ -118,8 +130,76 @@ export const SECTIONS = [
                         "code": "home"
                     },
                     {
-                        "name": "Jobs",
-                        "code": "jobs"
+                        "name": "Accountancy",
+                        "code": "accountancy"
+                    },
+                    {
+                        "name": "Banking",
+                        "code": "banking"
+                    },
+                    {
+                        "name": "Business",
+                        "code": "business"
+                    },
+                    {
+                        "name": "Consulting",
+                        "code": "consulting"
+                    },
+                    {
+                        "name": "Charity",
+                        "code": "charity"
+                    },
+                    {
+                        "name": "Creative arts and design",
+                        "code": "creative_arts_and_design"
+                    },
+                    {
+                        "name": "Entergy and Utilities",
+                        "code": "entergy_and_utilities"
+                    },
+                    {
+                        "name": "Engineering and Manufacuturing",
+                        "code": "engineering_and_manufacuturing"
+                    },
+                    {
+                        "name": "Environment and Agriculture",
+                        "code": "environment_and_agriculture"
+                    },
+                    {
+                        "name": "Healthcare",
+                        "code": "healthcare"
+                    },
+                    {
+                        "name": "Hospitality and Events Management",
+                        "code": "hospitality_and_events_management"
+                    },
+                    {
+                        "name": "Marketing",
+                        "code": "marketing"
+                    },
+                    {
+                        "name": "Media and Internet",
+                        "code": "media_and_internet"
+                    },
+                    {
+                        "name": "Finance",
+                        "code": "finance"
+                    },
+                    {
+                        "name": "IT",
+                        "code": "it"
+                    },
+                    {
+                        "name": "Management",
+                        "code": "management"
+                    },
+                    {
+                        "name": "Voluntary work",
+                        "code": "voluntary_work"
+                    },
+                    {
+                        "name": "Others",
+                        "code": "others"
                     }
                 ]
             },
@@ -164,6 +244,10 @@ export const SECTIONS = [
                     {
                         "name": "HOME",
                         "code": "home"
+                    },
+                    {
+                        "name": "Others",
+                        "code": "others"
                     }
                 ]
             }
@@ -171,65 +255,11 @@ export const SECTIONS = [
     }
 ]
 
-export const BOARDS = [
-    {
-      "title": "Boards",
-      "select": false,
-      "sections": [
-        {
-          "name": "Open",
-          "code": "open",
-          "categories": [
-            {
-              "name": "HOME",
-              "code": "home"
-            },
-            {
-              "name": "JNTU Kakinada",
-              "code": "jntuk"
-            },
-            {
-              "name": "RGUKT CSE 2000-03",
-              "code": "1132"
-            }
-          ]
-        },
-        {
-          "name": "Close",
-          "code": "close",
-          "categories": [
-            {
-              "name": "HOME",
-              "code": "home"
-            },
-            {
-              "name": "RGUKT Nuzivid",
-              "code": "rgukt-nzv"
-            },
-            {
-              "name": "RGUKT Nuzivid CSE",
-              "code": "rgukt-cse"
-            },
-            {
-              "name": "RGUKT Nuzivid 2000-03",
-              "code": "rgukt-2000-03"
-            },
-            {
-              "name": "RGUKT Nuzivid CSE 2000-03",
-              "code": "211"
-            }
-          ]
-        }
-      ]
-    }
-]
-
-
-
 export const TYPES = [
     { label: 'Verbal', value: 'VERBAL' },
     { label: 'Quants', value: 'QUANTS' },
     { label: 'Events', value: 'EVENTS' },
+    { label: 'General Knowledge', value: 'GK' },
     { label: 'Careers', value: 'CAREERS' },
     { label: 'News', value: 'NEWS' }
 ]
@@ -240,11 +270,15 @@ export const CATEGORIES = [
 
 export const MODELS = [
     { label: 'Aptitude', value: 'aptitude' },
-    { label: 'Reasoning', value: 'reasoning' }
+    { label: 'Reasoning', value: 'reasoning' },
+    { label: 'General', value: 'general' },
+    { label: 'Num Com', value: 'num com' },
+    { label: 'Graphs', value: 'graphs' },
+    { label: 'Others', value: 'others' }
 ]
 
 export const AUDIENCE = [
-    { name: 'Computers', value: 'CSE' },
+    { label: 'Computers', value: 'CSE' },
     { label: 'Eletronics', value: 'ECE' },
     { label: 'IT', value: 'IT' },
     { label: 'MECH', value: 'MECH' },
@@ -255,6 +289,8 @@ export const SECTION_MAPPINGS = [
     { section: 'VERBAL', _type: 'VerbalPost' },
     { section: 'QUANTS', _type: 'QuantsPost' },
     { section: 'EVENTS', _type: 'EventsPost' },
+    { section: 'GK', _type: 'GKPost' },
     { section: 'CAREERS', _type: 'CareerPost' },
+    { section: 'NEWS', _type: 'NewsPost' },
     { section: 'BOARD', _type: 'BoardPost' },
 ];

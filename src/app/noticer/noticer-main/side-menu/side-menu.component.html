@@ -82,8 +82,8 @@
                 <!-- [queryParams]="{'type':section.code,'category':category.name } -->
                 <ul style="display:none; margin-left: -10px;">
                     <li *ngFor="let category of section.categories">
-                        <a href="javascript:void(0);" style="color: black;" [routerLink]="['/categories' + '/' + section.code + '/'+ category.name]"
-                            (click)="selectedCategory(section.code, category.name)" [class.selected]="section.code+category.name === selectedItem">&nbsp;
+                        <a style="width: 82%;" href="javascript:void(0);" style="color: black;" [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
+                            (click)="selectedCategory(section.code, category.code)" [class.selected]="section.code+category.code === selectedItem">&nbsp;
                             {{category.name}}</a>
                         <span class="float-right" *ngIf="menu.select">
                             <a href="javascript:void(0);" class="sectionOptIconsColor" *ngIf="category.name != 'HOME'">

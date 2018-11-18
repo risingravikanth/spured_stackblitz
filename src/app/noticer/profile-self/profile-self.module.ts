@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatExpansionModule, MatListModule } from '@angular/material';
+import { MatExpansionModule, MatListModule, MatProgressSpinnerModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SelfProfileComponent } from './profile-self.component';
-import { SelfProfileRoutingModule } from './profile-self-routing.module';
-import { CalendarModule } from 'primeng/primeng';
 import { MyDatePickerModule } from 'mydatepicker';
+import { CalendarModule, GrowlModule } from 'primeng/primeng';
+import { SelfProfileRoutingModule } from './profile-self-routing.module';
+import { SelfProfileComponent } from './profile-self.component';
 
 
 @NgModule({
@@ -19,7 +19,9 @@ import { MyDatePickerModule } from 'mydatepicker';
     SelfProfileRoutingModule,
     NgbModule.forRoot(),
     CalendarModule,
-    MyDatePickerModule
+    MyDatePickerModule,
+    GrowlModule,
+    MatProgressSpinnerModule
   ],
   declarations: [
     SelfProfileComponent

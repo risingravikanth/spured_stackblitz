@@ -7,9 +7,9 @@ import { MessageService } from "primeng/components/common/messageservice";
 import { User } from '../../shared/models/user.model';
 import * as constant from '../../shared/others/constants';
 import { CustomValidator } from "../../shared/others/custom.validator";
+import { SeoService, CommonService } from '../../shared/services';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { SelfProfileService } from './profile-self.service';
-import { SeoService } from '../../shared/services';
 
 @Component({
     selector: 'profile-self',
@@ -24,9 +24,10 @@ export class SelfProfileComponent implements OnInit {
         private modalService: NgbModal,
         private formbuilder: FormBuilder,
         private service: SelfProfileService,
-        private customValidator: CustomValidator,
         private userService: CurrentUserService,
-        private seo: SeoService) { }
+        private seo: SeoService,
+        private messageService: MessageService,
+        private commonService: CommonService) { }
 
     editProfileForm: FormGroup;
 
@@ -44,16 +45,19 @@ export class SelfProfileComponent implements OnInit {
     currentuserId: any;
     public profileImage;
 
+    public showSpinner = false;
+    public color = "primary";
+    public mode = "indeterminate";
+
     public myDatePickerOptions: IMyDpOptions = {
-      // other options...
-      dateFormat: 'yyyy-mm-dd',
-  };
+        // other options...
+        dateFormat: 'yyyy-mm-dd',
+    };
 
     ngOnInit() {
-
         this.seo.generateTags({
             title: 'Self Profile',
-            description: 'Self profile page', 
+            description: 'Self profile page',
             slug: 'selfprofile-page'
         })
 
@@ -70,7 +74,6 @@ export class SelfProfileComponent implements OnInit {
             this.router.navigate(['/login']);
         }
         this.initForm();
-        
     }
 
 
@@ -94,8 +97,13 @@ export class SelfProfileComponent implements OnInit {
 
     loadProfileDetails(userId: any) {
         console.log("get profile details");
+        this.showSpinner = true;
         this.service.getUserInfo(userId).subscribe(resData => {
+            this.showSpinner = false;
             this.userDetails = resData;
+        }, error => {
+            this.showSpinner = false;
+            this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
         })
     }
     loadEducationDetails() {
@@ -121,26 +129,35 @@ export class SelfProfileComponent implements OnInit {
                     reader.readAsDataURL(file);
                     let formData: FormData = new FormData();
                     formData.append('file', file);
+                    this.showSpinner = true;
                     this.service.uploadImage(formData).subscribe((resData: any) => {
-                        this.initForm();
-                        this.editProfileForm.controls['profileImageUrl'].patchValue(resData.url);
-                        this.userDetails.profileImageUrl = resData.url;
-                        this.currentUser.imageUrl = resData.url;
-                        localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-                        this.profileImage = constant.REST_API_URL + "/" + resData.url;
-                        this.saveEditProfile("imageUpdate");
+                        if (resData && resData.error && resData.error.code) {
+                            this.messageService.add({ severity: 'error', summary: 'Update Failed', detail: resData.error.code.longMessage });
+                        } else {
+                            this.initForm();
+                            this.editProfileForm.controls['profileImageUrl'].patchValue(resData.url);
+                            this.userDetails.profileImageUrl = resData.url;
+                            this.currentUser.imageUrl = resData.url;
+                            localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+                            this.profileImage = constant.REST_API_URL + "/" + resData.url;
+                            this.saveEditProfile("imageUpdate");
+                        }
+                        this.showSpinner = false;
+                    }, error => {
+                        this.showSpinner = false;
+                        this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
                     })
                 }
             }
         } else {
-            alert("Please select only one picture");
+            this.messageService.add({ severity: 'error', summary: 'Update Failed', detail: 'Please select only one picture' });
             event.preventDefault();
         }
 
     }
 
     editProfile(content: any) {
-      this.setValuesToForm();
+        this.setValuesToForm();
         this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
         this.categoryModalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -159,7 +176,7 @@ export class SelfProfileComponent implements OnInit {
         this.editProfileForm.controls['currAddress'].patchValue(this.userDetails.currAddress)
 
         if (this.userDetails.dobDate && this.userDetails.dobMonth && this.userDetails.dobYear) {
-          let dt = { date: { year: this.userDetails.dobYear, month: this.userDetails.dobMonth, day: this.userDetails.dobDate } }
+            let dt = { date: { year: this.userDetails.dobYear, month: this.userDetails.dobMonth, day: this.userDetails.dobDate } }
             this.editProfileForm.controls['dob'].patchValue(dt)
         } else {
             this.editProfileForm.controls['dob'].patchValue(new Date());
@@ -178,19 +195,31 @@ export class SelfProfileComponent implements OnInit {
     }
 
     saveEditProfile(from: any) {
-      console.log(this.editProfileForm.value);
-      let dob = this.editProfileForm.controls['dob'].value;
-      if(dob && dob.date){
-        this.editProfileForm.controls['dobDate'].patchValue(dob.date.day);
-        this.editProfileForm.controls['dobMonth'].patchValue(dob.date.month);
-        this.editProfileForm.controls['dobYear'].patchValue(dob.date.year);
-      }
-        this.service.saveEditProfile(this.editProfileForm.value).subscribe(resData => {
-            console.log(resData);
-            if(from != "imageUpdate"){
-              this.categoryModalReference.close();
+        this.showSpinner = true;
+        console.log(this.editProfileForm.value);
+        let dob = this.editProfileForm.controls['dob'].value;
+        if (dob && dob.date) {
+            this.editProfileForm.controls['dobDate'].patchValue(dob.date.day);
+            this.editProfileForm.controls['dobMonth'].patchValue(dob.date.month);
+            this.editProfileForm.controls['dobYear'].patchValue(dob.date.year);
+        }
+        this.service.saveEditProfile(this.editProfileForm.value).subscribe((resData: any) => {
+            console.log(resData.info);
+            this.showSpinner = false;
+            if (from != "imageUpdate") {
+                if (resData.info) {
+                    this.messageService.add({ severity: 'success', summary: 'Update Success', detail: resData.info });
+                }
+                this.categoryModalReference.close();
+            } else {
+                this.messageService.add({ severity: 'success', summary: 'Update Success', detail: 'Profile picture updated successfully!' });
+                // window.location.reload();
+                this.commonService.updateHeaderMenu("updateProfilePic");
             }
             this.loadProfileDetails(this.currentuserId);
+        }, error => {
+            this.showSpinner = false;
+            this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
         })
     }
 

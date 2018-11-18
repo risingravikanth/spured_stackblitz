@@ -120,13 +120,11 @@
             </div>
         </div>
     </div>
-
     <div>
         <div *ngIf="showSpinner" class="spinner">
             <mat-progress-spinner [color]="color" [mode]="mode"></mat-progress-spinner>
         </div>
         <div *ngIf="showSpinner" class="spinnerOverlay"></div>
-
         <p-growl baseZIndex="100" life="4000" [(value)]="msgs"></p-growl>
     </div>
 </section>

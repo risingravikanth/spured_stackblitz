@@ -47,6 +47,14 @@ export class HeaderComponent implements OnInit {
         }
         this.isMobile = this.mobileService.isMobile();
         this.boardRequests();
+        this.commonService.menuChanges.subscribe(resData =>{
+            if(resData == "updateProfilePic"){
+                this.currentUser = this.userService.getCurrentUser();
+                if(this.currentUser && this.currentUser.imageUrl){
+                    this.profileImage = constant.REST_API_URL + "/" + this.currentUser.imageUrl;
+                }       
+            }
+        })
     }
 
     goToUserProfile() {
