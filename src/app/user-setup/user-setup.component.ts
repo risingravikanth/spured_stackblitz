@@ -5,14 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Message } from 'primeng/components/common/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { CustomValidator } from "../shared/others/custom.validator";
-import { AuthService } from "../shared/services/auth.service";
-import { UserSetUpService } from "./user-setup.service";
 import { SeoService } from '../shared/services';
+import { UserSetUpService } from "./user-setup.service";
 @Component({
   selector: 'user-setup',
   templateUrl: './user-setup.component.html',
   styleUrls: ['./user-setup.component.scss'],
-  providers: [CustomValidator, UserSetUpService, MessageService],
+  providers: [CustomValidator, UserSetUpService, MessageService, SeoService],
   // animations: [routerTransition()],
 })
 export class UserSetupComponent implements OnInit {
@@ -41,9 +40,7 @@ export class UserSetupComponent implements OnInit {
     private httpClient: HttpClient,
     private router: Router,
     private formbuilder: FormBuilder,
-    private cus_validator: CustomValidator,
     private userSetUpService: UserSetUpService,
-    private authService: AuthService,
     private route: ActivatedRoute,
     private seo: SeoService
   ) { }
@@ -61,18 +58,23 @@ export class UserSetupComponent implements OnInit {
   userSetUpForm() {
     this.UserSetUpForm = this.formbuilder.group({
       userName: ["", { validators: [Validators.required] }],
-      password: ['', { validators: [Validators.required] }],
+      password: ["", { validators: [Validators.required] }],
       // matchingPassword: ['', { validators: [Validators.required] }],
       phoneNum: [null],
-      email: ["", { validators: [Validators.required] }],
+      email: ["", [
+        Validators.required, Validators.email
+      ]],
       gender: ["", { validators: [Validators.required] }]
     }
     );
   }
 
+  get fControl() { return this.UserSetUpForm.controls; }
+
   saveUserSetUp() {
     if (this.UserSetUpForm.invalid) {
-      alert("Please fill all the fields")
+      // alert("Please fill all the fields")
+      this.messageService.add({severity:'error', summary:'Failed', detail:'Please fill all the fields!'});
     }
     // else if (this.UserSetUpForm.get('password').value != this.UserSetUpForm.get('matchingPassword').value) {
     //   alert("password not matched")
@@ -84,9 +86,9 @@ export class UserSetupComponent implements OnInit {
         resData => {
           this.responseData = resData;
           if (this.responseData.info || this.responseData.statusCode == "ERROR") {
-            alert(this.responseData.info);
+            this.messageService.add({severity:'error', summary:'Failed', detail:this.responseData.info});
           } else if (this.responseData.email) {
-            alert("Success");
+            this.messageService.add({severity:'success', summary:'Signup Success', detail:'Soon you will get confirmation mail!'});
             this.userSetUpForm();
           } else {
             console.log(this.responseData);
