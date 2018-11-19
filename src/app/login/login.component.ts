@@ -14,7 +14,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
     animations: [routerTransition()],
-    providers: [NgbAlertConfig, SeoService, MobileDetectionService, MessageService]
+    providers: [NgbAlertConfig, SeoService, MobileDetectionService, MessageService, CurrentUserService]
 })
 export class LoginComponent implements OnInit {
 
@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
             description: 'login through this awesome site',
             slug: 'signin-page'
         })
+        this.currentUser.setTitle("Noticer | Sign In")
         if (this.currentUser.checkValidUser()) {
             // this.router.navigate(['/feed']);
             window.open('/feed', "_self")

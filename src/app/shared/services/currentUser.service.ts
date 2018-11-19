@@ -2,11 +2,12 @@ import { JwtService } from './jwt.service';
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { User } from '../models/user.model';
 import { isPlatformBrowser } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Injectable()
 export class CurrentUserService {
 
-    constructor(private jwtService: JwtService, @Inject(PLATFORM_ID) private platformId: Object) { }
+    constructor(private jwtService: JwtService, @Inject(PLATFORM_ID) private platformId: Object, private titleService: Title) { }
     setCurrentUser(user: User) {
         if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('currentUser', JSON.stringify(user));
@@ -36,4 +37,8 @@ export class CurrentUserService {
             }
         }
     }
+
+    public setTitle( newTitle: string) {
+        this.titleService.setTitle( newTitle );
+      }
 }

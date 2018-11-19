@@ -7,11 +7,12 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { CustomValidator } from "../shared/others/custom.validator";
 import { SeoService, MobileDetectionService } from '../shared/services';
 import { UserSetUpService } from "./user-setup.service";
+import { CurrentUserService } from '../shared/services/currentUser.service';
 @Component({
   selector: 'user-setup',
   templateUrl: './user-setup.component.html',
   styleUrls: ['./user-setup.component.scss'],
-  providers: [CustomValidator, UserSetUpService, MessageService, SeoService],
+  providers: [CustomValidator, UserSetUpService, MessageService, SeoService, CurrentUserService],
   // animations: [routerTransition()],
 })
 export class UserSetupComponent implements OnInit {
@@ -43,7 +44,8 @@ export class UserSetupComponent implements OnInit {
     private userSetUpService: UserSetUpService,
     private route: ActivatedRoute,
     private seo: SeoService,
-    private mobile:MobileDetectionService
+    private mobile:MobileDetectionService,
+    private userService:CurrentUserService
   ) { }
 
   ngOnInit() {
@@ -54,6 +56,7 @@ export class UserSetupComponent implements OnInit {
       description: 'signup through this awesome site',
       slug: 'signup-page'
     })
+    this.userService.setTitle("Noticer | Signup");
   }
 
 

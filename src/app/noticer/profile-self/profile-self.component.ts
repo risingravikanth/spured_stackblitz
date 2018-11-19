@@ -63,6 +63,8 @@ export class SelfProfileComponent implements OnInit {
             slug: 'selfprofile-page'
         })
 
+        this.userService.setTitle("Noticer | Self profile");
+
         this.currentUser = this.userService.getCurrentUser();
         if (this.currentUser) {
             this.currentuserId = this.currentUser.userId;
@@ -103,6 +105,7 @@ export class SelfProfileComponent implements OnInit {
         this.service.getUserInfo(userId).subscribe(resData => {
             this.showSpinner = false;
             this.userDetails = resData;
+            this.userService.setTitle("Noticer | "+this.userDetails.userName);
         }, error => {
             this.showSpinner = false;
             this.msgs = [];

@@ -99,10 +99,12 @@ export class NoticerMainComponent implements OnInit {
   ngOnInit() {
 
     this.seo.generateTags({
-      title: 'Noticer feed',
+      title: 'Noticer feed | Posts and comments',
       description: 'Noticer posts and comments',
       slug: 'feed-page'
     })
+
+    this.userService.setTitle("Noticer | Posts and comments");
 
     this.audienceList = categories_types_models.AUDIENCE;
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;
@@ -177,6 +179,7 @@ export class NoticerMainComponent implements OnInit {
         description: 'All about closed board posts',
         slug: 'boards-page'
       })
+      this.userService.setTitle("Noticer | Closed board posts and comments");
     } else {
       this.paramType = params['type'];
       this.paramCategory = params['category'];
@@ -212,9 +215,10 @@ export class NoticerMainComponent implements OnInit {
       } else {
         this.seo.generateTags({
           title: this.paramType,
-          description: this.paramType + " posts & comments",
+          description: this.paramType + " posts and comments",
           slug: this.paramType + '-page'
         })
+        this.userService.setTitle("Noticer | " + this.paramType + " posts and comments");
         this.selectedCategory(sec);
       }
     }
@@ -744,6 +748,8 @@ export class NoticerMainComponent implements OnInit {
           description: this.postsList[0].postText,
           slug: 'post details page'
         })
+
+        this.userService.setTitle("Noticer | " + (this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title"));
 
         // Chaning postDeatail url
         let arrUrl = this.router.url.split("/");

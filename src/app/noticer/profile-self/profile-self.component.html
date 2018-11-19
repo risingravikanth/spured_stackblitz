@@ -70,7 +70,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Member since: </label>
                     <div class="col-sm-10">
-                        <p>{{userDetails && userDetails.reg ? userDetails.reg : '-NA-'}}</p>
+                        <p>{{userDetails && userDetails.registrationTimeStamp ? (userDetails.registrationTimeStamp | date: 'MMM d, y')  : '-NA-'}}</p>
                     </div>
                 </div>
             </div>
