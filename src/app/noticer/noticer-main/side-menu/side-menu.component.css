@@ -110,7 +110,7 @@ ul li{cursor:pointer;}
   .scrollY{
     overflow: auto;
     height: 700px;
-    margin-left: -15px;
+    margin-left: -34px;
   }
 
   .posFix{

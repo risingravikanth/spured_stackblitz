@@ -28,7 +28,7 @@
             <div style="width: 82%;">
                 <li *ngFor="let board of boardsList">
                     <a href="javascript:void(0);" style="color: black;" [routerLink]="['/boards/closed/'+board.boardId]"
-                        (click)="selectedBoard(board.boardId,board.boardName)" [class.selected]="board.boardId+board.boardName === selectedItem">&nbsp;
+                        (click)="selectedBoard(board.boardId,board.boardName)" [class.selected]="board.boardId+board.boardName === selectedItem">
                         {{board.boardName}}</a>
                     <span class="float-right" *ngIf="showConfig">
                         <a href="javascript:void(0);" class="sectionOptIconsColor">
@@ -64,7 +64,7 @@
                     </a>
                 </span>
             </li>
-            <li *ngFor="let section of menu.sections" [ngClass]="{active: isActive(section.name)}" style="padding-bottom: 12px;">
+            <li *ngFor="let section of menu.sections" [ngClass]="{active: isActive(section.name)}" style="padding-bottom: 5px;width: 226px;">
                 <span>
                     <span (click)="select(section.name);">
                         <i class="fas fa-chevron-right" *ngIf="!isActive(section.name)"></i>
@@ -83,7 +83,7 @@
                 <ul style="display:none; margin-left: -10px;">
                     <li *ngFor="let category of section.categories">
                         <a style="width: 82%;" href="javascript:void(0);" style="color: black;" [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
-                            (click)="selectedCategory(section.code, category.code)" [class.selected]="section.code+category.code === selectedItem">&nbsp;
+                            (click)="selectedCategory(section.code, category.code)" [class.selected]="section.code+category.code === selectedItem">
                             {{category.name}}</a>
                         <span class="float-right" *ngIf="menu.select">
                             <a href="javascript:void(0);" class="sectionOptIconsColor" *ngIf="category.name != 'HOME'">
