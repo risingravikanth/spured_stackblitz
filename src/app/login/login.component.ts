@@ -1,14 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { Message } from 'primeng/primeng';
 import { routerTransition } from '../router.animations';
+import { MobileDetectionService, SeoService } from '../shared/services';
 import { AuthService } from '../shared/services/auth.service';
 import { CurrentUserService } from '../shared/services/currentUser.service';
-import { SeoService, MobileDetectionService } from '../shared/services';
-import { Message } from 'primeng/primeng';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { isPlatformBrowser } from '@angular/common';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -35,7 +36,8 @@ export class LoginComponent implements OnInit {
         private fb: FormBuilder,
         private seo: SeoService,
         private mobile: MobileDetectionService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        @Inject(PLATFORM_ID) private platformId: Object
     ) { }
     ngOnInit() {
         this.isMobile = this.mobile.isMobile();
@@ -47,7 +49,9 @@ export class LoginComponent implements OnInit {
         this.currentUser.setTitle("Noticer | Sign In")
         if (this.currentUser.checkValidUser()) {
             // this.router.navigate(['/feed']);
-            window.open('/feed', "_self")
+            if (isPlatformBrowser(this.platformId)) {
+                window.open('/feed', "_self")
+            }
         }
         let status = this.route.snapshot.queryParams['status'];
         if (status) {
