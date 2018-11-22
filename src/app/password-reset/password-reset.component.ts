@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from "primeng/components/common/messageservice";
-import { UserProfileService } from './password-reset.service';
 import { CustomValidator } from '../shared/others/custom.validator';
-import { routerTransition } from '../router.animations';
+import { UserProfileService } from './password-reset.service';
 
 @Component({
   selector: 'password-reset',

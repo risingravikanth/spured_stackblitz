@@ -1,20 +1,18 @@
+import { isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Message } from 'primeng/primeng';
-import { routerTransition } from '../router.animations';
 import { MobileDetectionService, SeoService } from '../shared/services';
 import { AuthService } from '../shared/services/auth.service';
 import { CurrentUserService } from '../shared/services/currentUser.service';
-import { isPlatformBrowser } from '@angular/common';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    animations: [routerTransition()],
     providers: [NgbAlertConfig, SeoService, MobileDetectionService, MessageService, CurrentUserService]
 })
 export class LoginComponent implements OnInit {

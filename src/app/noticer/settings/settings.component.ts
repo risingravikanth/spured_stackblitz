@@ -1,12 +1,11 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { routerTransition } from "../../router.animations";
-import { SettingsService } from './settings.service';
-import { isPlatformBrowser } from '@angular/common';
-import { CurrentUserService } from '../../shared/services/currentUser.service';
-import * as constant from '../../shared/others/constants'
 import { User } from '../../shared/models/user.model';
+import * as constant from '../../shared/others/constants';
+import { CurrentUserService } from '../../shared/services/currentUser.service';
+import { SettingsService } from './settings.service';
 
 @Component({
   selector: 'settings',

@@ -1,13 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Message } from 'primeng/components/common/api';
-import { ElementRef } from '@angular/core';
-import { CustomValidator } from '../../../shared/others/custom.validator';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { routerTransition } from '../../../router.animations';
+import { CustomValidator } from '../../../shared/others/custom.validator';
 import { CommonService } from '../../../shared/services/common.service';
-import { Section } from '../../../shared/models/section.model';
 
 @Component({
   selector: 'right-menu',

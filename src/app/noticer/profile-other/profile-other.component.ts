@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from "primeng/components/common/messageservice";
-import { routerTransition } from "../../router.animations";
+import * as constant from "../../shared/others/constants";
 import { CustomValidator } from "../../shared/others/custom.validator";
-import { OthersProfileService } from './profile-other.service';
-import * as constant from "../../shared/others/constants"
 import { SeoService } from '../../shared/services';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
+import { OthersProfileService } from './profile-other.service';
 
 @Component({
   selector: 'profile-other',

@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { routerTransition } from '../../../router.animations';
 import { MobileDetectionService } from '../../../shared';
 import { Section } from '../../../shared/models/section.model';
 import { User } from '../../../shared/models/user.model';
