@@ -76,4 +76,9 @@ export class HeaderMobileComponent implements OnInit {
         //     }
         // });
     }
+
+
+    sideMenuOpen(){
+        this.commonService.updateHeaderMenu("sideMenuOpen");
+    }
 }

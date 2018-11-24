@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ import { CustomValidator } from "../../shared/others/custom.validator";
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
 import { NoticerMainService } from './noticer-main.service';
-import { SeoService } from '../../shared/services';
+import { SeoService, CommonService } from '../../shared/services';
 
 
 @Component({
@@ -26,6 +26,8 @@ import { SeoService } from '../../shared/services';
   // animations: [routerTransition()]
 })
 export class NoticerMainComponent implements OnInit {
+
+  @ViewChild('sideMenuDialogDialog') sideMenuModalCotent: any;
 
   public isMobile: boolean;
   public profileImage: any;
@@ -44,7 +46,8 @@ export class NoticerMainComponent implements OnInit {
     private confirmService: ConfirmationService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private seo: SeoService, private location: Location,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private commonService:CommonService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
@@ -75,8 +78,6 @@ export class NoticerMainComponent implements OnInit {
   public categoryModalReference: NgbModalRef;
   closeResult: string;
 
-  fromdate: Date;
-  todate: Date;
   public audienceList: any[];
 
   addPostForm: FormGroup;
@@ -102,6 +103,12 @@ export class NoticerMainComponent implements OnInit {
       title: 'Noticer feed | Posts and comments',
       description: 'Noticer posts and comments',
       slug: 'feed-page'
+    })
+
+    this.commonService.menuChanges.subscribe(type =>{
+      if(type == "sideMenuOpen"){
+        this.open();
+      }
     })
 
     this.userService.setTitle("Noticer | Posts and comments");
@@ -136,8 +143,8 @@ export class NoticerMainComponent implements OnInit {
         topic: [null],
         contacts: [null],
         website: [null],
-        fromdate: [null],
-        todate: [null],
+        fromDate: [null],
+        toDate: [null],
         deadline: [null],
         qualifications: [null],
       }),
@@ -623,8 +630,8 @@ export class NoticerMainComponent implements OnInit {
     this.addPostForm.controls['data'].get('category').patchValue(null);
     this.addPostForm.controls['data'].get('topic').patchValue(null);
     this.addPostForm.controls['data'].get('contacts').patchValue(null);
-    this.addPostForm.controls['data'].get('fromdate').patchValue(null);
-    this.addPostForm.controls['data'].get('todate').patchValue(null);
+    this.addPostForm.controls['data'].get('fromDate').patchValue(null);
+    this.addPostForm.controls['data'].get('toDate').patchValue(null);
     this.addPostForm.controls['data'].get('qualifications').patchValue(null);
   }
 
@@ -797,4 +804,13 @@ export class NoticerMainComponent implements OnInit {
       this.router.navigate(['categories/' + section + "/" + category.toUpperCase()])
     }
   }
+
+  open() {
+    // and use the reference from the component itself
+    this.modalService.open(this.sideMenuModalCotent, { size: 'lg' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+        console.log(reason);
+    });
+}
 }

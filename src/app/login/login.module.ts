@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './login.component';
-import { Routes, RouterModule } from '@angular/router';
-import { MatSelectModule, MatInputModule, MatFormFieldModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
+import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { GrowlModule } from 'primeng/primeng';
+import { LoginComponent } from './login.component';
 
 const routes: Routes = [
     { path: '', component: LoginComponent }
@@ -19,8 +18,7 @@ const routes: Routes = [
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
-        NgbModule,
-        GrowlModule
+        NgbModule
     ],
     declarations: [LoginComponent]
 })

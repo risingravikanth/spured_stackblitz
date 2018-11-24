@@ -25,9 +25,6 @@ export class UserSetupComponent implements OnInit {
   authForm: FormGroup;
   returnUrl: string;
   public msgs: Message[] = [];
-  public showSpinner = false;
-  public color = "primary";
-  public mode = "indeterminate";
   user: any = {};
   placeholderString = 'Select timezone';
   mapJsonString: string;
@@ -37,6 +34,7 @@ export class UserSetupComponent implements OnInit {
   public image: File;
   loggedUser: any;
   public isMobile:boolean = false;
+  public btnText:any = "Submit";
 
   constructor(private messageService: MessageService,
     private router: Router,
@@ -87,7 +85,7 @@ export class UserSetupComponent implements OnInit {
     // }
     //  
     else {
-      this.showSpinner = true;
+      this.btnText = "Creating new user.."
       this.userSetUpService.saveUser(this.UserSetUpForm.value).subscribe(
         resData => {
           this.responseData = resData;
@@ -96,10 +94,10 @@ export class UserSetupComponent implements OnInit {
           } else if (this.responseData.email) {
             this.messageService.add({ severity: 'success', summary: 'Signup Success', detail: 'Soon you will get confirmation mail!' });
             this.userSetUpForm();
+            this.btnText = "Submit";
           } else {
             console.log(this.responseData);
           }
-          this.showSpinner = false;
         }, error => {
           this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
         }

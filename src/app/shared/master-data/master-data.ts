@@ -246,6 +246,18 @@ export const SECTIONS = [
                         "code": "home"
                     },
                     {
+                        "name": "Technical",
+                        "code": "technical"
+                    },
+                    {
+                        "name": "Business",
+                        "code": "business"
+                    },
+                    {
+                        "name": "Sports",
+                        "code": "sports"
+                    },
+                    {
                         "name": "Others",
                         "code": "others"
                     }
@@ -274,7 +286,11 @@ export const MODELS = [
     { label: 'General', value: 'general' },
     { label: 'Num Com', value: 'num com' },
     { label: 'Graphs', value: 'graphs' },
-    { label: 'Others', value: 'others' }
+    { label: 'Others', value: 'others' },
+    { label: 'Hocky', value: 'hocky' },
+    { label: 'Sensex', value: 'sensex' },
+    { label: 'Cricket', value: 'cricket' },
+    { label: 'Mobile', value: 'mobile' },
 ]
 
 export const AUDIENCE = [

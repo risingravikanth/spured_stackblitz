@@ -71,6 +71,11 @@
                             </ul>
                         </div>
                     </div>
+                    <div style="margin-left: 17px;">
+                        <div *ngIf="post._type == 'CareerPost'">
+                            Deadline: {{post.deadline}}
+                        </div>
+                    </div>
                     <div>
                         <div *ngIf="post._type == 'EventsPost'">
                             <table>
@@ -83,13 +88,13 @@
                                         {{post.fromdate}} to {{post.todate}}
                                     </td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td *ngIf="post.website">
                                         <a href="www.google.com">{{post.website}}</a>
                                     </td>
                                     <td *ngIf="post.contacts">
                                         <i class="fas fa-phone-square"></i> {{post.contacts}}</td>
-                                </tr>
+                                </tr> -->
                             </table>
                             <br>
                         </div>
@@ -336,11 +341,11 @@
                     <!-- events -->
                     <div class="row" *ngIf="addPostForm.controls['data'].get('_type1').value == 'EVENTS'">
                         <div class="form-group col-md-6">
-                            <p-calendar [showIcon]="true" dateFormat="yy-mm-dd" formControlName="fromdate" placeholder="From Date"
+                            <p-calendar [showIcon]="true" dateFormat="yy-mm-dd" formControlName="fromDate" placeholder="From Date"
                                 [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
                         <div class="form-group col-md-6">
-                            <p-calendar [showIcon]="true" dateFormat="yy-mm-dd" formControlName="todate" placeholder="To Date"
+                            <p-calendar [showIcon]="true" dateFormat="yy-mm-dd" formControlName="toDate" placeholder="To Date"
                                 [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
 
@@ -349,16 +354,17 @@
                         <div class="form-group col-md-6">
                             <input class="form-control form-control-sm" type="text" formControlName="topic" placeholder="Topic">
                         </div>
-                        <div class="form-group col-md-6">
+                        <!-- <div class="form-group col-md-6">
                             <input class="form-control form-control-sm" type="text" formControlName="contacts"
                                 placeholder="Contacts">
-                        </div>
+                        </div> -->
                     </div>
                     <!-- events end -->
 
                     <!-- careers -->
                     <div class="col-md-4" *ngIf="addPostForm.controls['data'].get('_type1').value == 'CAREERS'">
-                        <p-multiSelect formControlName="qualifications" [options]="audienceList" [style]="{'width':'100%','height':'34px'}" defaultLabel="Qualifications"></p-multiSelect>
+                            <p-calendar [showIcon]="true" dateFormat="yy-mm-dd" formControlName="deadline" placeholder="Deadline"
+                            [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
                     </div>
                     <!-- careers end -->
                 </div>
@@ -423,5 +429,21 @@
     </section>
     <section>
         <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="23%"></p-confirmDialog>
-        <!-- <p-growl baseZIndex="100" life="4000" [(value)]="msgs"></p-growl> -->
     </section>
+
+    <section>
+            <ng-template #sideMenuDialogDialog let-c="close" let-d="dismiss">
+                    <div class="modal-dialog">
+                            <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-basic-title">
+                            <b>Side Menu</b>
+                        </h5>
+                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <side-menu></side-menu>
+                    </div></div>
+                </ng-template>
+        </section>

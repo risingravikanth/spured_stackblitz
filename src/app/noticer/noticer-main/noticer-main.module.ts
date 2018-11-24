@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule, MatFormFieldModule, MatGridListModule, MatListModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarModule, ConfirmDialogModule, DropdownModule, GrowlModule, MultiSelectModule } from "primeng/primeng";
+import { CalendarModule, ConfirmDialogModule, DropdownModule, MultiSelectModule } from "primeng/primeng";
 import { LinkifyPipe } from '../../shared/pipes/linkify.pipe';
 import { MenuMobileComponent } from './menu-mobile/menu-mobile.component';
 import { NoticerMainRoutingModule } from './noticer-main-routing.module';
@@ -25,7 +25,6 @@ import { SideMenuComponent } from './side-menu/side-menu.component';
     DropdownModule,
     MatGridListModule,
     ConfirmDialogModule,
-    GrowlModule,
     NgbModule.forRoot()
   ],
   declarations: [

@@ -23,12 +23,15 @@
                     </button>
                 </div>
                 <form (ngSubmit)="onLoggedin()" [formGroup]="authForm">
-                    <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Email" formControlName="email">
-                    </mat-form-field>
-                    <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Password" formControlName="password" type="password">
-                    </mat-form-field>
+                    <div class="form-row">
+                        <label for="inputEmail4">Email</label>
+                        <input type="email" class="form-control  form-control-sm" id="inputEmail4" placeholder="Email" formControlName="email">
+                    </div>
+                    <div class="form-row">
+                        <label for="inputPassword4">Password</label>
+                        <input type="password" class="form-control  form-control-sm" id="inputPassword4" placeholder="Password"
+                            formControlName="password">
+                    </div>
                     <p><a href="javascript:void(0);" class="linkGray" routerLink="/password_reset">Forgot password?</a></p>
                     <button type="submit" class="btn btn-primary btn-sm loginButton btn-block">{{status}}</button>
                     <p class="signUpBtnMar text-center"><b>Join Noticer Today</b></p>
@@ -38,7 +41,4 @@
             </div>
         </div>
     </div>
-</section>
-<section>
-    <p-growl baseZIndex="100" life="4000" [(value)]="msgs"></p-growl>
 </section>

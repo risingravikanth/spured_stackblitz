@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule, MatListModule, MatProgressSpinnerModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MyDatePickerModule } from 'mydatepicker';
-import { CalendarModule, GrowlModule } from 'primeng/primeng';
+import { CalendarModule } from 'primeng/primeng';
 import { SelfProfileRoutingModule } from './profile-self-routing.module';
 import { SelfProfileComponent } from './profile-self.component';
 
@@ -20,7 +20,6 @@ import { SelfProfileComponent } from './profile-self.component';
     NgbModule.forRoot(),
     CalendarModule,
     MyDatePickerModule,
-    GrowlModule,
     MatProgressSpinnerModule
   ],
   declarations: [

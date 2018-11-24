@@ -1,11 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserSetupComponent } from './user-setup.component';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatFormFieldModule, MatSelectModule } from '@angular/material';
-import { MatInputModule, MatStepperModule, MatProgressSpinnerModule } from '@angular/material';
-import { Routes, RouterModule } from '@angular/router';
-import { GrowlModule } from "primeng/primeng";
+import { MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatSelectModule, MatStepperModule } from '@angular/material';
+import { Routes } from '@angular/router';
+import { UserSetupComponent } from './user-setup.component';
 
 const routes: Routes = [
   { path: '', component: UserSetupComponent }
@@ -20,7 +18,6 @@ const routes: Routes = [
     MatSelectModule,
     MatStepperModule,
     MatProgressSpinnerModule,
-    GrowlModule
   ],
   declarations: [
     UserSetupComponent

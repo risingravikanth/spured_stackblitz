@@ -1,32 +1,31 @@
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule, MatInputModule, MatStepperModule } from '@angular/material';
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { AuthGuard, CommonService, AuthCanLoadGuard } from './shared/index';
-import { TokenInterceptor } from './shared/inerceptors/token.interceptor';
-import { JwtService } from './shared/services/jwt.service';
-import { CurrentUserService } from './shared/services/currentUser.service';
-import { AuthService } from './shared/services/auth.service';
-import { MatDialogModule } from "@angular/material/dialog";
-import { MatFormFieldModule } from '@angular/material';
-import { MatInputModule, MatStepperModule } from '@angular/material';
-import { DatePickerFormat } from './shared/others/datepickerFormat';
-import { TimePickerFormat } from "./shared/others/timepickerFormat";
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MobileDetectionService } from './shared/services/mobiledetection.service';
-import { UserSetupModule } from './user-setup/user-setup.module';
 import { NotFoundModule } from './not-found/not-found.module';
-import { NoticerModule } from './noticer/noticer.module';
-import { NoticerMainModule } from './noticer/noticer-main/noticer-main.module';
 import { HelpModule } from './noticer/help/help.module';
-import { SettingsModule } from './noticer/settings/settings.module';
-import { ReportUsModule } from './noticer/report-us/report-us.module';
-import { PasswordResetModule } from './password-reset/password-reset.module';
+import { NoticerMainModule } from './noticer/noticer-main/noticer-main.module';
+import { NoticerModule } from './noticer/noticer.module';
 import { OthersProfileModule } from './noticer/profile-other/profile-other.module';
 import { SelfProfileModule } from './noticer/profile-self/profile-self.module';
+import { ReportUsModule } from './noticer/report-us/report-us.module';
+import { SettingsModule } from './noticer/settings/settings.module';
+import { PasswordResetModule } from './password-reset/password-reset.module';
+import { AuthCanLoadGuard, AuthGuard, CommonService } from './shared/index';
+import { TokenInterceptor } from './shared/inerceptors/token.interceptor';
+import { DatePickerFormat } from './shared/others/datepickerFormat';
+import { TimePickerFormat } from "./shared/others/timepickerFormat";
+import { AuthService } from './shared/services/auth.service';
+import { CurrentUserService } from './shared/services/currentUser.service';
+import { JwtService } from './shared/services/jwt.service';
+import { MobileDetectionService } from './shared/services/mobiledetection.service';
+import { UserSetupModule } from './user-setup/user-setup.module';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -35,7 +34,6 @@ import { SelfProfileModule } from './noticer/profile-self/profile-self.module';
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'noticer' }),
-        BrowserAnimationsModule,
         FormsModule,
         HttpClientModule,
         AppRoutingModule,
@@ -53,7 +51,8 @@ import { SelfProfileModule } from './noticer/profile-self/profile-self.module';
         PasswordResetModule,
         HelpModule,
         SettingsModule,
-        ReportUsModule
+        ReportUsModule,
+        BrowserAnimationsModule
     ],
     providers: [
         AuthGuard,
