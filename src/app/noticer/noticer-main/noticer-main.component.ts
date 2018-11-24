@@ -1,29 +1,27 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Location } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID, ViewChild, ElementRef } from '@angular/core';
+import { isPlatformBrowser, Location } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationService, Message } from 'primeng/components/common/api';
-import { MessageService } from "primeng/components/common/messageservice";
+import { ConfirmationService } from 'primeng/components/common/api';
 import * as categories_types_models from '../../shared/master-data/master-data';
 import { CommentContext, Context, CreateCommentData, CreateCommentRequest, Data, GetCommentRequest, GetPostsRequest, Pagination } from '../../shared/models/request';
 import { Section } from '../../shared/models/section.model';
 import { User } from '../../shared/models/user.model';
 import * as constant from '../../shared/others/constants';
 import { CustomValidator } from "../../shared/others/custom.validator";
+import { CommonService, SeoService } from '../../shared/services';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
+import { ToastrService } from '../../shared/services/Toastr.service';
 import { NoticerMainService } from './noticer-main.service';
-import { SeoService, CommonService } from '../../shared/services';
 
 
 @Component({
   selector: 'noticer-main',
   templateUrl: './noticer-main.component.html',
   styleUrls: ['./noticer-main.component.css'],
-  providers: [NoticerMainService, CustomValidator, MessageService, ConfirmationService, SeoService],
-  // animations: [routerTransition()]
+  providers: [NoticerMainService, CustomValidator, ConfirmationService, SeoService, ToastrService]
 })
 export class NoticerMainComponent implements OnInit {
 
@@ -36,7 +34,6 @@ export class NoticerMainComponent implements OnInit {
   public noData: boolean = false;
   boardId: any;
   public reqestType: string;
-  public msgs: Message[] = [];
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
     private userService: CurrentUserService,
@@ -46,8 +43,8 @@ export class NoticerMainComponent implements OnInit {
     private confirmService: ConfirmationService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private seo: SeoService, private location: Location,
-    private messageService: MessageService,
-    private commonService:CommonService
+    private commonService:CommonService,
+    private toastr:ToastrService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
@@ -120,7 +117,6 @@ export class NoticerMainComponent implements OnInit {
     this.questionName = "";
     this.initAddPostForm();
     this.initEditForm();
-    this.intitDummyData();
 
     this.route.params.subscribe(this.handleParams.bind(this));
   }
@@ -262,8 +258,7 @@ export class NoticerMainComponent implements OnInit {
           }
           this.isValidType = true;
         } else {
-          this.msgs = [];
-          this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Given type is wrong!" });
+          this.toastr.error("Failed", "Given type is wrong!");
         }
       }
       if (this.getPostsRequestBody.data.category) {
@@ -335,15 +330,13 @@ export class NoticerMainComponent implements OnInit {
         this.showPostSpinner = false;
         let obj: any = resData;
         if (obj.error && obj.error.code && obj.error.code.id) {
-          this.msgs = [];
-          this.messageService.add({ severity: 'error', summary: 'Failed', detail: obj.error.code.message });
+          this.toastr.error("Failed", obj.error.code.message);
         } else {
           this.postsList = obj.posts;
           this.preparePostsList();
         }
       }, error => {
-        this.msgs = [];
-        this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+        this.toastr.error("Failed", "Something went wrong!");
       })
   }
 
@@ -355,8 +348,7 @@ export class NoticerMainComponent implements OnInit {
         this.showPostSpinner = false;
         let obj: any = resData;
         if (obj.error && obj.error.code && obj.error.code.id) {
-          this.msgs = [];
-          this.messageService.add({ severity: 'error', summary: 'Failed', detail: obj.error.code.message });
+          this.toastr.error("Failed", obj.error.code.message);
         } else {
           if (obj.posts.length < 10) {
             this.showMoreLink = false;
@@ -370,8 +362,7 @@ export class NoticerMainComponent implements OnInit {
           this.preparePostsList();
         }
       }, error => {
-        this.msgs = [];
-        this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+        this.toastr.error("Failed", "Something went wrong!");
       })
   }
 
@@ -394,8 +385,7 @@ export class NoticerMainComponent implements OnInit {
   detectFiles(event) {
     let files = event.target.files;
     if (files.length > 4 || (this.urls.length + files.length) > 4) {
-      this.msgs = [];
-      this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Only 4 images allowd" });
+      this.toastr.error("Failed", "Only 4 images allowed");
     } else if (files) {
       for (let file of files) {
         let reader = new FileReader();
@@ -441,8 +431,7 @@ export class NoticerMainComponent implements OnInit {
           }
         })
       }, error => {
-        this.msgs = [];
-        this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+        this.toastr.error("Failed", "Something went wrong!");
       })
     } else {
       this.addPostForm.controls["data"].get("images").patchValue([]);
@@ -457,8 +446,7 @@ export class NoticerMainComponent implements OnInit {
       }
       this.service.createPost(this.addPostForm.value).subscribe((resData: any) => {
         if (resData && resData.code && resData.code.id) {
-          this.msgs = [];
-          this.messageService.add({ severity: 'error', summary: 'Failed', detail: resData.code.longMessage });
+          this.toastr.error("Failed", resData.code.longMessage);
         } else if (resData && resData.post) {
           let data = resData.post;
           data.maxLength = 300;
@@ -468,24 +456,20 @@ export class NoticerMainComponent implements OnInit {
           data.commentsSpinner = false;
           this.postsList.splice(0, 0, data);
           this.initAddPostForm();
-          this.msgs = [];
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: "Successfully added post" });
+          this.toastr.success("Post success", "Post successfully added");
           this.categoryModalReference.close();
           this.postImages = [];
           this.urls = [];
           this.isValidCategory = false;
           this.isValidType = false;
         } else {
-          this.msgs = [];
-          this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+          this.toastr.error("Failed", "Something went wrong!");
         }
       }, error => {
-        this.msgs = [];
-        this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+        this.toastr.error("Failed", "Something went wrong!");
       })
     } else {
-      this.msgs = [];
-      this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Plese fill all the details!" });
+      this.toastr.error("Failed", "Please fill all the details");
     }
   }
 
@@ -498,21 +482,17 @@ export class NoticerMainComponent implements OnInit {
         this.postsList[index].commentsSpinner = false;
         let comments: any = resData;
         if (comments && comments.code && comments.code.id) {
-          this.msgs = [];
-          this.messageService.add({ severity: 'error', summary: 'Failed', detail: comments.code.longMessage });
+          this.toastr.error("Failed", comments.code.longMessage);
         } else if (comments && comments.comments) {
           if (comments.comments.length > 0) {
             this.postsList[index].comments = comments.comments;
             this.postsList[index].comments.forEach(element => {
               element.maxLength = 300;
             });
-            this.msgs = [];
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: "Comment added successfull" });
+            this.toastr.success("Comment Success", "Comment added successfully");
           }
         }
-      }, error => {
-        this.msgs = [];
-        this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+      }, error => {this.toastr.error("Failed", "Something went wrong!");
       })
     }
   }
@@ -526,8 +506,7 @@ export class NoticerMainComponent implements OnInit {
       this.postsList[index].commentsSpinner = false;
       let comments: any = resData;
       if (comments && comments.code && comments.code.id) {
-        this.msgs = [];
-        this.messageService.add({ severity: 'error', summary: 'Failed', detail: comments.code.longMessage });
+        this.toastr.error("Failed", comments.code.longMessage);
       } else if (comments && comments.comments) {
         if (comments.comments.length > 0) {
           comments.comments.forEach(element => {
@@ -539,8 +518,7 @@ export class NoticerMainComponent implements OnInit {
         }
       }
     }, error => {
-      this.msgs = [];
-      this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+      this.toastr.error("Failed", "Something went wrong!");
     })
   }
 
@@ -580,8 +558,7 @@ export class NoticerMainComponent implements OnInit {
     this.service.createComment(createCommentRequest).subscribe((resData: any) => {
 
       if (resData && resData.code && resData.code.id) {
-        this.msgs = [];
-        this.messageService.add({ severity: 'error', summary: 'Failed', detail: resData.code.longMessage });
+        this.toastr.error("Failed", resData.code.longMessage);
       } else {
         this.postsList[index].commentText = null;
         resData.comment.maxLength = 100;
@@ -589,20 +566,8 @@ export class NoticerMainComponent implements OnInit {
         this.postsList[index].commentsCount = this.postsList[index].commentsCount + 1;
       }
     }, error => {
-      this.msgs = [];
-      this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+      this.toastr.error("Failed", "Something went wrong!");
     })
-  }
-
-  intitDummyData() {
-    this.models = categories_types_models.MODELS;
-    this.types = categories_types_models.TYPES;
-    this.states = [
-      { label: 'AP', value: 'AP' },
-      { label: 'TS', value: 'TS' }]
-    this.institutes = [
-      { label: 'IIIT', value: 'IIIT' },
-      { label: 'RGUKT', value: 'RGUKT' }];
   }
 
   getCategoriesByType(type) {
@@ -651,16 +616,13 @@ export class NoticerMainComponent implements OnInit {
           let obj: any = resData;
           console.log(resData)
           if (obj.error && obj.error.code && obj.error.code.id) {
-            this.msgs = [];
-            this.messageService.add({ severity: 'error', summary: 'Failed', detail: obj.error.code.message });
+            this.toastr.error("Failed", obj.error.code.message);
           } else {
             this.postsList.splice(index, 1);
-            this.msgs = [];
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: "Post deleted successfully!" });
+            this.toastr.success("Success", "Post deleted successfully");
           }
         }, error => {
-          this.msgs = [];
-          this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+          this.toastr.error("Failed", "Something went wrong!");
         })
       }
     });
@@ -692,8 +654,7 @@ export class NoticerMainComponent implements OnInit {
       let obj: any = resData;
       console.log(resData)
       if (obj.error && obj.error.code && obj.error.code.id) {
-        this.msgs = [];
-        this.messageService.add({ severity: 'error', summary: 'Failed', detail: obj.error.code.message });
+        this.toastr.error("Failed", obj.error.code.message);
       } else {
         this.postsList.forEach(element => {
           if (element.postId == this.editPostForm.controls['data'].get('postId').value) {
@@ -704,8 +665,7 @@ export class NoticerMainComponent implements OnInit {
         this.categoryModalReference.close();
       }
     }, error => {
-      this.msgs = [];
-      this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+      this.toastr.error("Failed", "Something went wrong!");
     })
   }
 
@@ -746,8 +706,7 @@ export class NoticerMainComponent implements OnInit {
     this.service.getPostDetailsById(this.paramId, this.paramType).subscribe((resData: any) => {
       let obj: any = resData;
       if (obj.error && obj.error.code && obj.error.code.id) {
-        this.msgs = [];
-        this.messageService.add({ severity: 'error', summary: 'Failed', detail: obj.error.code.message });
+        this.toastr.error("Failed", obj.error.code.message);
       } else {
         this.postsList = resData.posts;
         this.seo.generateTags({
@@ -778,8 +737,7 @@ export class NoticerMainComponent implements OnInit {
         this.preparePostsList();
       }
     }, error => {
-      this.msgs = [];
-      this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+      this.toastr.error("Failed", "Something went wrong!");
     })
   }
 

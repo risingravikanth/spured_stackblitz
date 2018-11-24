@@ -5,15 +5,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { Message } from 'primeng/primeng';
 import { MobileDetectionService, SeoService } from '../shared/services';
 import { AuthService } from '../shared/services/auth.service';
 import { CurrentUserService } from '../shared/services/currentUser.service';
+import { ToastrService } from '../shared/services/Toastr.service';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    providers: [NgbAlertConfig, SeoService, MobileDetectionService, MessageService, CurrentUserService]
+    providers: [NgbAlertConfig, SeoService, MobileDetectionService, MessageService, CurrentUserService, ToastrService]
 })
 export class LoginComponent implements OnInit {
 
@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
     errorTextMessage: string = '';
     public isMobile: boolean = false;
     public responseVo: any = { info: null, source: null, statusCode: null };
-    msgs: Message[] = [];
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -34,8 +33,8 @@ export class LoginComponent implements OnInit {
         private fb: FormBuilder,
         private seo: SeoService,
         private mobile: MobileDetectionService,
-        private messageService: MessageService,
-        @Inject(PLATFORM_ID) private platformId: Object
+        @Inject(PLATFORM_ID) private platformId: Object,
+        private toastr:ToastrService
     ) { }
     ngOnInit() {
         this.isMobile = this.mobile.isMobile();
@@ -44,7 +43,7 @@ export class LoginComponent implements OnInit {
             description: 'login through this awesome site',
             slug: 'signin-page'
         })
-        this.currentUser.setTitle("Noticer | Sign In")
+        this.currentUser.setTitle("Sign in - Noticer")
         if (this.currentUser.checkValidUser()) {
             // this.router.navigate(['/feed']);
             if (isPlatformBrowser(this.platformId)) {
@@ -78,18 +77,15 @@ export class LoginComponent implements OnInit {
                     } else if (this.responseVo.token) {
                         this.loggedUser = this.responseVo;
                         this.authService.setAuth(this.loggedUser);
-                        this.msgs = [];
-                        this.messageService.add({ severity: 'error', summary: 'Success', detail: 'Login sucessfull!' });
+                        this.toastr.success("Success", "Login sucessfull!");
                         this.router.navigate(['/feed']);
                     }
                     else {
                         this.status = 'Log in';
-                        this.msgs = [];
-                        this.messageService.add({ severity: 'error', summary: 'Failed', detail: 'Something went wrong' });
+                        this.toastr.error("Failed", 'Something went wrong')
                     }
                 }, (err: HttpErrorResponse) => {
-                    this.msgs = [];
-                    this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+                    this.toastr.error("Failed", 'Something went wrong')
                     this.status = 'Login';
                     this.disableLoginButton = false;
                 }

@@ -5,14 +5,14 @@ import { Router } from '@angular/router';
 import { User } from '../../shared/models/user.model';
 import * as constant from '../../shared/others/constants';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
+import { ToastrService } from '../../shared/services/Toastr.service';
 import { SettingsService } from './settings.service';
 
 @Component({
   selector: 'settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css'],
-  providers: [SettingsService],
-  // animations: [routerTransition()]
+  providers: [SettingsService,ToastrService ]
 })
 export class SettingsComponent implements OnInit {
 
@@ -25,7 +25,8 @@ export class SettingsComponent implements OnInit {
   public defaultImage: any = "assets/images/noticer_default_user_img.png";
 
   constructor(private router: Router, private formbuilder: FormBuilder, private service: SettingsService,
-    private userService: CurrentUserService, @Inject(PLATFORM_ID) private platformId: Object) {
+    private userService: CurrentUserService, @Inject(PLATFORM_ID) private platformId: Object,
+    private toastr: ToastrService) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
       this.serverUrl = constant.REST_API_URL + "/";
@@ -82,9 +83,9 @@ export class SettingsComponent implements OnInit {
     let index = this.getAllRequestsList.findIndex(item => item.reqId == reqId);
     this.service.updateBoardReq(obj).subscribe((resData:any) =>{
       if (resData && resData.statusCode == "ERROR") {
-        alert(resData.info)
+        this.toastr.success("Failed", resData.info);
       } else {
-        alert("Request update successfully")
+        this.toastr.success("Success", "Request update successfully");
         this.getAllRequestsList.splice(index, 1);
       }
     })

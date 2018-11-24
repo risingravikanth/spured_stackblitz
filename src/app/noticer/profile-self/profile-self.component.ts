@@ -7,17 +7,16 @@ import { MessageService } from "primeng/components/common/messageservice";
 import { User } from '../../shared/models/user.model';
 import * as constant from '../../shared/others/constants';
 import { CustomValidator } from "../../shared/others/custom.validator";
-import { SeoService, CommonService } from '../../shared/services';
+import { CommonService, SeoService } from '../../shared/services';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
+import { ToastrService } from '../../shared/services/Toastr.service';
 import { SelfProfileService } from './profile-self.service';
-import { Message } from 'primeng/components/common/api';
 
 @Component({
     selector: 'profile-self',
     templateUrl: './profile-self.component.html',
     styleUrls: ['./profile-self.component.css'],
-    providers: [SelfProfileService, CustomValidator, MessageService, SeoService],
-    // animations: [routerTransition()]
+    providers: [SelfProfileService, CustomValidator, MessageService, SeoService, ToastrService]
 })
 export class SelfProfileComponent implements OnInit {
 
@@ -27,8 +26,8 @@ export class SelfProfileComponent implements OnInit {
         private service: SelfProfileService,
         private userService: CurrentUserService,
         private seo: SeoService,
-        private messageService: MessageService,
-        private commonService: CommonService) { }
+        private commonService: CommonService,
+        private toastr:ToastrService) { }
 
     editProfileForm: FormGroup;
 
@@ -49,8 +48,6 @@ export class SelfProfileComponent implements OnInit {
     public showSpinner = false;
     public color = "primary";
     public mode = "indeterminate";
-    public msgs: Message[] = [];
-
     public myDatePickerOptions: IMyDpOptions = {
         // other options...
         dateFormat: 'yyyy-mm-dd',
@@ -63,7 +60,7 @@ export class SelfProfileComponent implements OnInit {
             slug: 'selfprofile-page'
         })
 
-        this.userService.setTitle("Noticer | Self profile");
+        this.userService.setTitle("Self Profile - Noticer");
 
         this.currentUser = this.userService.getCurrentUser();
         if (this.currentUser) {
@@ -105,11 +102,10 @@ export class SelfProfileComponent implements OnInit {
         this.service.getUserInfo(userId).subscribe(resData => {
             this.showSpinner = false;
             this.userDetails = resData;
-            this.userService.setTitle("Noticer | "+this.userDetails.userName);
+            this.userService.setTitle("Noticer - "+this.userDetails.userName);
         }, error => {
             this.showSpinner = false;
-            this.msgs = [];
-            this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+            this.toastr.error("Failed", "Something went wrong!");
         })
     }
     loadEducationDetails() {
@@ -123,7 +119,6 @@ export class SelfProfileComponent implements OnInit {
     }
 
     fnChangeProfilePicture(event) {
-        this.msgs = [];
         if (event.target.files.length == 1) {
             this.urls = [];
             let files = event.target.files;
@@ -139,7 +134,7 @@ export class SelfProfileComponent implements OnInit {
                     this.showSpinner = true;
                     this.service.uploadImage(formData).subscribe((resData: any) => {
                         if (resData && resData.error && resData.error.code) {
-                            this.messageService.add({ severity: 'error', summary: 'Update Failed', detail: resData.error.code.longMessage });
+                            this.toastr.error("Update Failed", resData.error.code.longMessage);
                         } else {
                             this.initForm();
                             this.editProfileForm.controls['profileImageUrl'].patchValue(resData.url);
@@ -152,12 +147,12 @@ export class SelfProfileComponent implements OnInit {
                         this.showSpinner = false;
                     }, error => {
                         this.showSpinner = false;
-                        this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+                        this.toastr.error("Failed", "Something went wrong!");
                     })
                 }
             }
         } else {
-            this.messageService.add({ severity: 'error', summary: 'Update Failed', detail: 'Please select only one picture' });
+            this.toastr.error("Failed", "Only one picture allowd");
             event.preventDefault();
         }
 
@@ -210,24 +205,22 @@ export class SelfProfileComponent implements OnInit {
             this.editProfileForm.controls['dobMonth'].patchValue(dob.date.month);
             this.editProfileForm.controls['dobYear'].patchValue(dob.date.year);
         }
-        this.msgs = [];
         this.service.saveEditProfile(this.editProfileForm.value).subscribe((resData: any) => {
             console.log(resData.info);
             this.showSpinner = false;
             if (from != "imageUpdate") {
                 if (resData.info) {
-                    this.messageService.add({ severity: 'success', summary: 'Update Success', detail: resData.info });
+                    this.toastr.success("Update Success", resData.info);
                 }
                 this.categoryModalReference.close();
             } else {
-                this.messageService.add({ severity: 'success', summary: 'Update Success', detail: 'Profile picture updated successfully!' });
-                // window.location.reload();
+                this.toastr.success("Success", "Profile picture updated successfully!");
                 this.commonService.updateHeaderMenu("updateProfilePic");
             }
             this.loadProfileDetails(this.currentuserId);
         }, error => {
             this.showSpinner = false;
-            this.messageService.add({ severity: 'error', summary: 'Failed', detail: "Something went wrong!" });
+            this.toastr.error("Failed", "Something went wrong!");
         })
     }
 

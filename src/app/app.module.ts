@@ -5,6 +5,7 @@ import { MatFormFieldModule, MatInputModule, MatStepperModule } from '@angular/m
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotFoundModule } from './not-found/not-found.module';
@@ -25,7 +26,6 @@ import { CurrentUserService } from './shared/services/currentUser.service';
 import { JwtService } from './shared/services/jwt.service';
 import { MobileDetectionService } from './shared/services/mobiledetection.service';
 import { UserSetupModule } from './user-setup/user-setup.module';
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 
 @NgModule({

@@ -46,6 +46,7 @@
     "primeng": "^5.2.3",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.2",
+    "toastr": "^2.1.4",
     "ts-loader": "^4.4.2",
     "zone.js": "^0.8.26"
   },
