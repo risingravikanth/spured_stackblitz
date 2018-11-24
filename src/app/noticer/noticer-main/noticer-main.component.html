@@ -307,7 +307,7 @@
                 <div class="addPost" *ngIf="reqestType != 'BOARD'">
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <p-dropdown  placeholder=" Type" [options]="types" (onChange)="getCategoriesByType(_type.value)"
+                            <p-dropdown placeholder=" Type" [options]="types" (onChange)="getCategoriesByType(_type.value)"
                                 [style]="{'width':'100%'}" formControlName="_type1" filter="true" #_type>
                                 <ng-template let-type pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
@@ -317,8 +317,8 @@
                             </p-dropdown>
                         </div>
                         <div class="form-group col-md-4">
-                            <p-dropdown placeholder=" Category" [options]="categories"
-                                [style]="{'width':'100%'}" formControlName="category" filter="true">
+                            <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}"
+                                formControlName="category" filter="true">
                                 <ng-template let-category pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
                                         <span style="vertical-align:middle">{{category.label}}</span>
@@ -363,7 +363,7 @@
 
                     <!-- careers -->
                     <div class="col-md-4" *ngIf="addPostForm.controls['data'].get('_type1').value == 'CAREERS'">
-                            <p-calendar [showIcon]="true" dateFormat="yy-mm-dd" formControlName="deadline" placeholder="Deadline"
+                        <p-calendar [showIcon]="true" dateFormat="yy-mm-dd" formControlName="deadline" placeholder="Deadline"
                             [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
                     </div>
                     <!-- careers end -->
@@ -430,20 +430,18 @@
     <section>
         <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="23%"></p-confirmDialog>
     </section>
-
     <section>
-            <ng-template #sideMenuDialogDialog let-c="close" let-d="dismiss">
-                    <div class="modal-dialog">
-                            <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modal-basic-title">
-                            <b>Side Menu</b>
-                        </h5>
-                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <side-menu></side-menu>
-                    </div></div>
-                </ng-template>
-        </section>
+        <p-sidebar [(visible)]="showSideMenuDialog" [blockScroll]="true" [fullScreen]="true" [baseZIndex]="10000">
+            <div class="header">
+                <b>Menu</b>
+                <div style="float:right">
+                    <button type="button" class="close" (click)="showSideMenuDialog = false">
+                            <i class="fas fa-times iconSize"></i>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <side-menu></side-menu>
+            </div>
+        </p-sidebar>
+    </section>

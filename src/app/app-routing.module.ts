@@ -127,7 +127,7 @@ const routes: Routes = [
     ]
   },
   { path: 'login', loadChildren: './login/login.module#LoginModule' },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'feed', pathMatch: 'full' },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'signup', component: UserSetupComponent },
   { path: 'password_reset', component: PasswordResetComponent },

@@ -5,14 +5,14 @@
             <label class="siteTitle">Notcier</label>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" (click)="hideMenu()" routerLink="/feed">
+            <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
                 <b>
                     <i class="fas fa-bell header-icon-size"></i>
                 </b>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" (click)="hideMenu()" routerLink="/feed">
+            <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
                 <b>
                     <i class="fas fa-home header-icon-size"></i>
                 </b>
@@ -24,15 +24,15 @@
                 <img [src]="profileImage" class="img-circle profileAvatar">
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="validUser">
-                <a class="dropdown-item" href="javascript:void(0);" (click)="hideMenu()"  routerLink="/settings">
+                <a class="dropdown-item" href="javascript:void(0);"  routerLink="/settings">
                     <i class="fas fa-cog"></i>&nbsp; Settings</a>
-                <a class="dropdown-item" href="javascript:void(0);" (click)="hideMenu()" (click)="goToUserProfile()">
+                <a class="dropdown-item" href="javascript:void(0);" (click)="goToUserProfile()">
                     <i class="far fa-user-circle"></i>&nbsp; Profile</a>
-                <a class="dropdown-item" href="javascript:void(0);" (click)="hideMenu()" routerLink="/help">
+                <a class="dropdown-item" href="javascript:void(0);" routerLink="/help">
                     <i class="fas fa-question-circle"></i>&nbsp; Help </a>
                 <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/feed/reportus">
                     <i class="fa fa-fw fa-power-off"></i>&nbsp; Report Us </a> -->
-                <a class="dropdown-item" href="javascript:void(0);" (click)="hideMenu()" (click)="onLoggedout()">
+                <a class="dropdown-item" href="javascript:void(0);" (click)="onLoggedout()">
                     <i class="fa fa-fw fa-power-off"></i>&nbsp; Log Out </a>
                 <!-- <hr>
                 <a class="dropdown-item" href="javascript:void(0);">
@@ -44,14 +44,9 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" *ngIf="showMenu" href="javascript:void(0);" (click)="toggleTopics()">
+            <a class="nav-link" href="javascript:void(0);" (click)="sideMenuOpen()">
                 <b>
                     <i class="fas fa-bars  header-icon-size"></i>
-                </b>
-            </a>
-            <a class="nav-link" *ngIf="!showMenu" href="javascript:history.go(-1)" (click)="hideMenu()">
-                <b>
-                    <i class="fas fa-times header-icon-size"></i>
                 </b>
             </a>
         </li>

@@ -33,6 +33,7 @@ export class NoticerMainComponent implements OnInit {
   public validUser: boolean = false;
   public noData: boolean = false;
   boardId: any;
+  public showSideMenuDialog:boolean = false;
   public reqestType: string;
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
@@ -104,7 +105,7 @@ export class NoticerMainComponent implements OnInit {
 
     this.commonService.menuChanges.subscribe(type => {
       if (type == "sideMenuOpen") {
-        this.open();
+        this.showSideMenuDialog = true;
       }
     })
 
@@ -176,6 +177,7 @@ export class NoticerMainComponent implements OnInit {
 
 
   handleParams(params: any[]) {
+    this.showSideMenuDialog = false;
     if (this.router.url.indexOf('boards/closed') !== -1) {
       console.log("Handling boards");
       this.boardId = params['boardId'];
@@ -785,14 +787,5 @@ export class NoticerMainComponent implements OnInit {
     } else {
       this.router.navigate(['categories/' + section + "/" + category.toUpperCase()])
     }
-  }
-
-  open() {
-    // and use the reference from the component itself
-    this.modalService.open(this.sideMenuModalCotent, { size: 'lg' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      console.log(reason);
-    });
   }
 }

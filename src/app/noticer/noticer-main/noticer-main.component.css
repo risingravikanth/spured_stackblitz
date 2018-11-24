@@ -149,3 +149,8 @@ figure {
 figcaption {
     text-align: center;
 }
+
+.header{
+    background-color: #dbdade99;
+    padding: 7px;
+}
