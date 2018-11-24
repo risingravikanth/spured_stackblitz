@@ -1,5 +1,5 @@
 <section>
-    <div id="div-1a" class="d-none d-sm-block">
+    <div *ngIf="!isMobile" id="div-1a" class="d-none d-sm-block">
         <div class="table-container">
             <div id="div_a" class="center">
                 <font color="white">
@@ -13,9 +13,9 @@
         </div>
     </div>
 
-    <div id="div-1b" [class.mobileWidth]="!isMobile">
-        <div class="table-container">
-            <div id="div_b">
+    <div [class.div-1b]="!isMobile" [class.mobilePadding]="!isMobile">
+        <div [class.table-container]="!isMobile">
+            <div [class.div_b]="!isMobile">
                 <form (ngSubmit)="saveUserSetUp()" [formGroup]="UserSetUpForm">
                     <div class="form-row">
                         <label for="inputEmail4">Name</label>

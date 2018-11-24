@@ -49,7 +49,7 @@
     background-color: #1da1f2;
 }
 
-#div-1b {
+.div-1b {
     position:absolute;
     top:0;
     right:0;
@@ -69,34 +69,14 @@
     padding-left: 25%;
 }
 
-#div_b {
+.div_b {
     vertical-align:middle;
     height:100%;
+    width: 50%;
     display:table-cell;
     padding: 20%;
 }
 
-.mobileWidth{
-    width: 50%;
+.mobilePadding{
+    padding: 42px;
 }
-
-
-.form-group {
-    position: relative;
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-control-placeholder {
-    position: absolute;
-    top: 0;
-    padding: 7px 0 0 13px;
-    transition: all 200ms;
-    opacity: 0.5;
-  }
-  
-  .form-control:focus + .form-control-placeholder,
-  .form-control:valid + .form-control-placeholder {
-    font-size: 75%;
-    transform: translate3d(0, -100%, 0);
-    opacity: 1;
-  }
