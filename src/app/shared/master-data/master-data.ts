@@ -293,6 +293,10 @@ export const MODELS = [
     { label: 'Mobile', value: 'mobile' },
 ]
 
+export const Modelss = [
+    {modelType: 'VERBAL', models:[]}
+]
+
 export const AUDIENCE = [
     { label: 'Computers', value: 'CSE' },
     { label: 'Eletronics', value: 'ECE' },

@@ -3,13 +3,13 @@ declare var toastr:any;
 @Injectable()
 export class ToastrService{
 
-    success(title:string, message:string){
+    success(message:string, title:string){
         toastr.success(title, message)
     }
-    error(title:string, message:string){
+    error(message:string, title:string){
         toastr.error(title, message)
     }
-    warning(title:string, message:string){
+    warning(message:string, title:string){
         toastr.warning(title, message)
     }
     info(message:string){

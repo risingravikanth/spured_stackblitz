@@ -307,7 +307,7 @@
                 <div class="addPost" *ngIf="reqestType != 'BOARD'">
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <p-dropdown [disabled]="isValidType" placeholder=" Type" [options]="types" (onChange)="getCategoriesByType(_type.value)"
+                            <p-dropdown  placeholder=" Type" [options]="types" (onChange)="getCategoriesByType(_type.value)"
                                 [style]="{'width':'100%'}" formControlName="_type1" filter="true" #_type>
                                 <ng-template let-type pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">
@@ -317,7 +317,7 @@
                             </p-dropdown>
                         </div>
                         <div class="form-group col-md-4">
-                            <p-dropdown [disabled]="isValidCategory" placeholder=" Category" [options]="categories"
+                            <p-dropdown placeholder=" Category" [options]="categories"
                                 [style]="{'width':'100%'}" formControlName="category" filter="true">
                                 <ng-template let-category pTemplate="item">
                                     <div class="ui-helper-clearfix" style="width: 25px;">

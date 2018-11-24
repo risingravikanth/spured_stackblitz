@@ -1,6 +1,6 @@
 import { isPlatformBrowser, Location } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService } from 'primeng/components/common/api';
@@ -43,8 +43,8 @@ export class NoticerMainComponent implements OnInit {
     private confirmService: ConfirmationService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private seo: SeoService, private location: Location,
-    private commonService:CommonService,
-    private toastr:ToastrService
+    private commonService: CommonService,
+    private toastr: ToastrService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
@@ -102,8 +102,8 @@ export class NoticerMainComponent implements OnInit {
       slug: 'feed-page'
     })
 
-    this.commonService.menuChanges.subscribe(type =>{
-      if(type == "sideMenuOpen"){
+    this.commonService.menuChanges.subscribe(type => {
+      if (type == "sideMenuOpen") {
         this.open();
       }
     })
@@ -118,6 +118,9 @@ export class NoticerMainComponent implements OnInit {
     this.initAddPostForm();
     this.initEditForm();
 
+    this.models = categories_types_models.MODELS;
+    this.types = categories_types_models.TYPES;
+
     this.route.params.subscribe(this.handleParams.bind(this));
   }
 
@@ -128,13 +131,13 @@ export class NoticerMainComponent implements OnInit {
       }),
       data: this.formbuilder.group({
         _type: [null],
-        _type1: [null, Validators.required],
+        _type1: new FormControl({value: null, disabled: true}, Validators.required),
         postText: [null, Validators.required],
         title: [null, Validators.required],
         boardId: [null],
         text: [null],
         model: [null],
-        category: [null],
+        category: new FormControl({value: null, disabled: true}, Validators.required),
         images: [""],
         topic: [null],
         contacts: [null],
@@ -186,7 +189,7 @@ export class NoticerMainComponent implements OnInit {
     } else {
       this.paramType = params['type'];
       this.paramCategory = params['category'];
-      if(this.paramType){
+      if (this.paramType) {
         let _typeArr = this.sectionsTypesMappings.filter(item => item.section == this.paramType);
         if (_typeArr.length == 0) {
           alert("Sorry! Given url is wrong!");
@@ -196,7 +199,7 @@ export class NoticerMainComponent implements OnInit {
       }
       console.log(this.router.url);
       if (this.paramType && this.paramCategory == undefined) {
-        this.paramCategory = "home"  
+        this.paramCategory = "home"
       }
       this.paramId = params['id'];
 
@@ -256,14 +259,16 @@ export class NoticerMainComponent implements OnInit {
           if (reqType == "BOARD") {
             this.addPostForm.controls['data'].get('boardId').patchValue(this.boardId);
           }
-          this.isValidType = true;
+          this.addPostForm.controls['data'].get('_type1').disable();
+          // this.isValidType = true;
         } else {
           this.toastr.error("Failed", "Given type is wrong!");
         }
       }
       if (this.getPostsRequestBody.data.category) {
         this.addPostForm.controls['data'].get('category').patchValue(this.getPostsRequestBody.data.category.toLocaleLowerCase());
-        this.isValidCategory = true;
+        // this.isValidCategory = true;
+        this.addPostForm.controls['data'].get('category').disable();
       }
       this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
       this.categoryModalReference.result.then((result) => {
@@ -282,8 +287,8 @@ export class NoticerMainComponent implements OnInit {
     this.addPostForm.enable();
     this.postImages = [];
     this.urls = [];
-    this.isValidCategory = false;
-    this.isValidType = false;
+    // this.isValidCategory = false;
+    // this.isValidType = false;
     console.log(reason);
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -492,7 +497,8 @@ export class NoticerMainComponent implements OnInit {
             this.toastr.success("Comment Success", "Comment added successfully");
           }
         }
-      }, error => {this.toastr.error("Failed", "Something went wrong!");
+      }, error => {
+        this.toastr.error("Failed", "Something went wrong!");
       })
     }
   }
@@ -577,7 +583,25 @@ export class NoticerMainComponent implements OnInit {
         sec.sections.forEach(ty => {
           if (ty.code == type) {
             ty.categories.forEach(ca => {
-              if (ca.name != "home") {
+              if (ca.name != "HOME") {
+                let vo = { label: ca.name, value: ca.code };
+                this.categories.push(vo);
+              }
+            })
+          }
+        })
+      }
+    });
+  }
+
+  getModelsByCategory(type) {
+    this.categories = [];
+    categories_types_models.SECTIONS.forEach(sec => {
+      if (sec.title == "Topics") {
+        sec.sections.forEach(ty => {
+          if (ty.code == type) {
+            ty.categories.forEach(ca => {
+              if (ca.name != "HOME") {
                 let vo = { label: ca.name, value: ca.code };
                 this.categories.push(vo);
               }
@@ -766,9 +790,9 @@ export class NoticerMainComponent implements OnInit {
   open() {
     // and use the reference from the component itself
     this.modalService.open(this.sideMenuModalCotent, { size: 'lg' }).result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
+      this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
-        console.log(reason);
+      console.log(reason);
     });
-}
+  }
 }
