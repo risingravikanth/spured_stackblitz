@@ -54,11 +54,7 @@ export class NoticerMainComponent implements OnInit {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
       }
-      if (this.currentUser && this.currentUser.imageUrl) {
-        this.profileImage = this.serverUrl + this.currentUser.imageUrl;
-      } else {
-        this.profileImage = "assets/images/noticer_default_user_img.png"
-      }
+      this.setProfilePic();
     }
   }
 
@@ -108,6 +104,8 @@ export class NoticerMainComponent implements OnInit {
         this.showSideMenuDialog = true;
       } else if(type == "sideMenuClose"){
         this.showSideMenuDialog = false;
+      } else if(type == "updateProfilePic"){
+        this.setProfilePic();
       }
     })
 
@@ -789,6 +787,15 @@ export class NoticerMainComponent implements OnInit {
       this.router.navigate(['categories/' + section])
     } else {
       this.router.navigate(['categories/' + section + "/" + category.toUpperCase()])
+    }
+  }
+
+  setProfilePic(){
+    this.currentUser = this.userService.getCurrentUser();
+    if (this.currentUser && this.currentUser.imageUrl) {
+      this.profileImage = this.serverUrl + this.currentUser.imageUrl;
+    } else {
+      this.profileImage = "assets/images/noticer_default_user_img.png"
     }
   }
 }
