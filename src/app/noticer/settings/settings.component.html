@@ -45,14 +45,24 @@
                                 <li>
                                     <a href="javascript:void(0);" *ngIf="req.userProfile" (click)="redirectToOtherProfile(req.userProfile.userId)"
                                         style="color: black;font-weight: 400;">
-                                        <div>
-                                            {{req.userProfile ? req.userProfile.userName : '-NA-'}}
+                                        <div *ngIf="!isMobile">
+                                            {{req.userProfile ? req.userProfile.userName : '-NA-'}} | {{req.userProfile
+                                            ? req.userProfile.email : '-NA-'}}
+                                        </div>
+                                        <div *ngIf="isMobile">
+                                            <div>{{req.userProfile ? req.userProfile.userName : '-NA-'}}</div>
+                                            <div>{{req.userProfile ? req.userProfile.email : '-NA-'}}</div>
                                         </div>
 
                                     </a>
                                     <a href="javascript:void(0);" *ngIf="!req.userProfile" style="color: black;font-weight: 400;">
-                                        <div>
-                                            {{req.userProfile ? req.userProfile.userName : '-NA-'}}
+                                        <div *ngIf="!isMobile">
+                                            {{req.userProfile ? req.userProfile.userName : '-NA-'}} | {{req.userProfile
+                                            ? req.userProfile.email : '-NA-'}}
+                                        </div>
+                                        <div *ngIf="isMobile">
+                                            <div>{{req.userProfile ? req.userProfile.userName : '-NA-'}}</div>
+                                            <div>{{req.userProfile ? req.userProfile.email : '-NA-'}}</div>
                                         </div>
                                     </a>
                                 </li>

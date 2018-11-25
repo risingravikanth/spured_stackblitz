@@ -73,7 +73,9 @@
                     </div>
                     <div style="margin-left: 17px;">
                         <div *ngIf="post._type == 'CareerPost'">
-                            Deadline: {{post.deadline}}
+                            <div *ngIf="post.deadline">
+                                Deadline: {{post.deadline}}
+                            </div>
                         </div>
                     </div>
                     <div>

@@ -7,6 +7,7 @@ import * as constant from '../../shared/others/constants';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { ToastrService } from '../../shared/services/Toastr.service';
 import { SettingsService } from './settings.service';
+import { MobileDetectionService } from '../../shared';
 
 @Component({
   selector: 'settings',
@@ -23,10 +24,11 @@ export class SettingsComponent implements OnInit {
   serverUrl: string;
   public showReq = false;
   public defaultImage: any = "assets/images/noticer_default_user_img.png";
+  public isMobile = false;
 
   constructor(private router: Router, private formbuilder: FormBuilder, private service: SettingsService,
     private userService: CurrentUserService, @Inject(PLATFORM_ID) private platformId: Object,
-    private toastr: ToastrService) {
+    private toastr: ToastrService, private mobileServie:MobileDetectionService) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
       this.serverUrl = constant.REST_API_URL + "/";
@@ -34,6 +36,7 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isMobile = this.mobileServie.isMobile();
     this.initForm();
     this.boardRequests();
   }

@@ -111,6 +111,7 @@ export class SideMenuComponent implements OnInit {
 
 
   showAddCategoryDialog(content: any) {
+    this.commonService.updateHeaderMenu("sideMenuClose");
     console.log("add category");
     this.service.getAllStates().subscribe(
       resData => {

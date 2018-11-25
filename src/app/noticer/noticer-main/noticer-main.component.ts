@@ -106,6 +106,8 @@ export class NoticerMainComponent implements OnInit {
     this.commonService.menuChanges.subscribe(type => {
       if (type == "sideMenuOpen") {
         this.showSideMenuDialog = true;
+      } else if(type == "sideMenuClose"){
+        this.showSideMenuDialog = false;
       }
     })
 
@@ -132,13 +134,13 @@ export class NoticerMainComponent implements OnInit {
       }),
       data: this.formbuilder.group({
         _type: [null],
-        _type1: new FormControl({value: null, disabled: true}, Validators.required),
+        _type1: [{value: null, disabled: true}, Validators.required],
         postText: [null, Validators.required],
         title: [null, Validators.required],
         boardId: [null],
         text: [null],
         model: [null],
-        category: new FormControl({value: null, disabled: true}, Validators.required),
+        category: [{value: null, disabled: true}, Validators.required],
         images: [""],
         topic: [null],
         contacts: [null],
@@ -268,7 +270,7 @@ export class NoticerMainComponent implements OnInit {
         }
       }
       if (this.getPostsRequestBody.data.category) {
-        this.addPostForm.controls['data'].get('category').patchValue(this.getPostsRequestBody.data.category.toLocaleLowerCase());
+        this.addPostForm.controls['data'].get('category').patchValue(this.getPostsRequestBody.data.category);
         // this.isValidCategory = true;
         this.addPostForm.controls['data'].get('category').disable();
       }
@@ -310,8 +312,8 @@ export class NoticerMainComponent implements OnInit {
         this.getPostsRequestBody.context.type = this.questionName;
       }
       if (data.category != 'home') {
-        this.getPostsRequestBody.data.category = data.category.toUpperCase();
-        this.questionName = this.questionName.toUpperCase() + " (" + data.category + ")";
+        this.getPostsRequestBody.data.category = data.category;
+        this.questionName = this.questionName.toUpperCase() + " (" + data.category.toUpperCase() + ")";
       } else {
         this.getPostsRequestBody.data.category = null;
       }
@@ -420,7 +422,7 @@ export class NoticerMainComponent implements OnInit {
       this.addPostForm.controls['context'].get('type').patchValue(reqType);
     }
 
-    console.log(this.addPostForm.value);
+    console.log(this.addPostForm.getRawValue());
     let postText = this.addPostForm.controls['data'].get('postText').value
     // let txt = postText.replace(/\n/g, '<br>');
     this.addPostForm.controls['data'].get('text').patchValue(postText);
@@ -451,7 +453,7 @@ export class NoticerMainComponent implements OnInit {
       if (!this.addPostForm.controls['data'].get("category").value) {
         !this.addPostForm.controls['data'].get("category").patchValue("others");
       }
-      this.service.createPost(this.addPostForm.value).subscribe((resData: any) => {
+      this.service.createPost(this.addPostForm.getRawValue()).subscribe((resData: any) => {
         if (resData && resData.code && resData.code.id) {
           this.toastr.error("Failed", resData.code.longMessage);
         } else if (resData && resData.post) {
@@ -464,6 +466,7 @@ export class NoticerMainComponent implements OnInit {
           this.postsList.splice(0, 0, data);
           this.initAddPostForm();
           this.toastr.success("Post success", "Post successfully added");
+          this.noData = false;
           this.categoryModalReference.close();
           this.postImages = [];
           this.urls = [];
