@@ -151,19 +151,19 @@ export const SECTIONS = [
                     },
                     {
                         "name": "Creative arts and design",
-                        "code": "creative_arts_and_design"
+                        "code": "creative-arts-and-design"
                     },
                     {
                         "name": "Entergy and Utilities",
-                        "code": "entergy_and_utilities"
+                        "code": "entergy-and-utilities"
                     },
                     {
                         "name": "Engineering and Manufacuturing",
-                        "code": "engineering_and_manufacuturing"
+                        "code": "engineering-and-manufacuturing"
                     },
                     {
                         "name": "Environment and Agriculture",
-                        "code": "environment_and_agriculture"
+                        "code": "environment-and-agriculture"
                     },
                     {
                         "name": "Healthcare",
@@ -171,7 +171,7 @@ export const SECTIONS = [
                     },
                     {
                         "name": "Hospitality and Events Management",
-                        "code": "hospitality_and_events_management"
+                        "code": "hospitality-and-events-management"
                     },
                     {
                         "name": "Marketing",
@@ -179,7 +179,7 @@ export const SECTIONS = [
                     },
                     {
                         "name": "Media and Internet",
-                        "code": "media_and_internet"
+                        "code": "media-and-internet"
                     },
                     {
                         "name": "Finance",
@@ -195,7 +195,7 @@ export const SECTIONS = [
                     },
                     {
                         "name": "Voluntary work",
-                        "code": "voluntary_work"
+                        "code": "voluntary-work"
                     },
                     {
                         "name": "Others",

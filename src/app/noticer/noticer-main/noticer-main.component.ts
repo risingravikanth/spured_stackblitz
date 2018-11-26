@@ -311,7 +311,8 @@ export class NoticerMainComponent implements OnInit {
       }
       if (data.category != 'home') {
         this.getPostsRequestBody.data.category = data.category;
-        this.questionName = this.questionName.toUpperCase() + " (" + data.category.toUpperCase() + ")";
+        let hifen = /-/gi
+        this.questionName = this.questionName.toUpperCase() + " (" + data.category.replace(hifen," ").toUpperCase() + ")";
       } else {
         this.getPostsRequestBody.data.category = null;
       }
