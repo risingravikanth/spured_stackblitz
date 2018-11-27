@@ -498,7 +498,6 @@ export class NoticerMainComponent implements OnInit {
             this.postsList[index].comments.forEach(element => {
               element.maxLength = 300;
             });
-            this.toastr.success("Comment Success", "Comment added successfully");
           }
         }
       }, error => {
@@ -574,6 +573,7 @@ export class NoticerMainComponent implements OnInit {
         resData.comment.maxLength = 100;
         this.postsList[index].comments.splice(0, 0, resData.comment);
         this.postsList[index].commentsCount = this.postsList[index].commentsCount + 1;
+        this.toastr.success("Comment Success", "Comment added successfully");
       }
     }, error => {
       this.toastr.error("Failed", "Something went wrong!");
