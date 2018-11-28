@@ -33,7 +33,7 @@ export class NoticerMainComponent implements OnInit {
   public validUser: boolean = false;
   public noData: boolean = false;
   boardId: any;
-  public showSideMenuDialog:boolean = false;
+  public showSideMenuDialog: boolean = false;
   public reqestType: string;
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
@@ -80,8 +80,6 @@ export class NoticerMainComponent implements OnInit {
   public fileSelected: File;
   public chooseFile = false;
   public postImages = [];
-  public isValidType = false;
-  public isValidCategory = false;
   public sectionsTypesMappings: any = [];
   public showMoreLink = true;
   public serverUrl;
@@ -102,9 +100,9 @@ export class NoticerMainComponent implements OnInit {
     this.commonService.menuChanges.subscribe(type => {
       if (type == "sideMenuOpen") {
         this.showSideMenuDialog = true;
-      } else if(type == "sideMenuClose"){
+      } else if (type == "sideMenuClose") {
         this.showSideMenuDialog = false;
-      } else if(type == "updateProfilePic"){
+      } else if (type == "updateProfilePic") {
         this.setProfilePic();
       }
     })
@@ -132,13 +130,13 @@ export class NoticerMainComponent implements OnInit {
       }),
       data: this.formbuilder.group({
         _type: [null],
-        _type1: [{value: null, disabled: true}, Validators.required],
+        _type1: [{ value: null, disabled: true }, Validators.required],
         postText: [null, Validators.required],
         title: [null, Validators.required],
         boardId: [null],
         text: [null],
         model: [null],
-        category: [{value: null, disabled: true}, Validators.required],
+        category: [{ value: null, disabled: true }, Validators.required],
         images: [""],
         topic: [null],
         contacts: [null],
@@ -312,7 +310,7 @@ export class NoticerMainComponent implements OnInit {
       if (data.category != 'home') {
         this.getPostsRequestBody.data.category = data.category;
         let hifen = /-/gi
-        this.questionName = this.questionName.toUpperCase() + " (" + data.category.replace(hifen," ").toUpperCase() + ")";
+        this.questionName = this.questionName.toUpperCase() + " (" + data.category.replace(hifen, " ").toUpperCase() + ")";
       } else {
         this.getPostsRequestBody.data.category = null;
       }
@@ -455,6 +453,8 @@ export class NoticerMainComponent implements OnInit {
       this.service.createPost(this.addPostForm.getRawValue()).subscribe((resData: any) => {
         if (resData && resData.code && resData.code.id) {
           this.toastr.error("Failed", resData.code.longMessage);
+        } else if (resData && resData.error && resData.error.code && resData.error.code.id) {
+          this.toastr.error("Failed", resData.error.code.longMessage);
         } else if (resData && resData.post) {
           let data = resData.post;
           data.maxLength = 300;
@@ -469,8 +469,6 @@ export class NoticerMainComponent implements OnInit {
           this.categoryModalReference.close();
           this.postImages = [];
           this.urls = [];
-          this.isValidCategory = false;
-          this.isValidType = false;
         } else {
           this.toastr.error("Failed", "Something went wrong!");
         }
@@ -568,7 +566,10 @@ export class NoticerMainComponent implements OnInit {
 
       if (resData && resData.code && resData.code.id) {
         this.toastr.error("Failed", resData.code.longMessage);
-      } else {
+      } else if (resData && resData.error && resData.error.code && resData.error.code.id) {
+        this.toastr.error("Failed", resData.error.code.longMessage);
+      }
+      else {
         this.postsList[index].commentText = null;
         resData.comment.maxLength = 100;
         this.postsList[index].comments.splice(0, 0, resData.comment);
@@ -791,7 +792,7 @@ export class NoticerMainComponent implements OnInit {
     }
   }
 
-  setProfilePic(){
+  setProfilePic() {
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser && this.currentUser.imageUrl) {
       this.profileImage = this.serverUrl + this.currentUser.imageUrl;
