@@ -597,22 +597,12 @@ export class NoticerMainComponent implements OnInit {
         })
       }
     });
-  }
 
-  getModelsByCategory(type) {
-    this.categories = [];
-    categories_types_models.SECTIONS.forEach(sec => {
-      if (sec.title == "Topics") {
-        sec.sections.forEach(ty => {
-          if (ty.code == type) {
-            ty.categories.forEach(ca => {
-              if (ca.name != "HOME") {
-                let vo = { label: ca.name, value: ca.code };
-                this.categories.push(vo);
-              }
-            })
-          }
-        })
+    this.models = [];
+    categories_types_models.MODELS.forEach(item => {
+      let type_search =  (type == "VERBAL" || type == "QUANTS" || type == "DI") ? "VERBAL" : type; 
+      if(item.type == type_search){
+        this.models = item.models;
       }
     });
   }
