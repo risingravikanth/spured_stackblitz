@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div [class.div-1b]="!isMobile" [class.mobilePadding]="!isMobile">
+    <div [class.div-1b]="!isMobile" [class.mobilePadding]="isMobile">
         <div [class.table-container]="!isMobile">
             <div [class.div_b]="!isMobile">
                 <form (ngSubmit)="saveUserSetUp()" [formGroup]="UserSetUpForm">

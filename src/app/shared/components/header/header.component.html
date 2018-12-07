@@ -22,15 +22,18 @@
             </div>
         </form>
         <li class="nav-item dropdown">
-            
-            <a class="nav-link dropdown-toggle" href="#" id="notificationMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+            <a class="nav-link dropdown-toggle" href="#" id="notificationMenu" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
                 <b>
-                    <i class="fas fa-bell header-icon-size"><span *ngIf="showNotifications" style="font-size: 12px;" class="badge badge-danger">{{notificationsCount}}</span></i>
+                    <i class="fas fa-bell header-icon-size"><span *ngIf="showNotifications" style="font-size: 12px;"
+                            class="badge badge-danger">{{notificationsCount}}</span></i>
                 </b>
             </a>
             <div class="dropdown-menu" aria-labelledby="notificationMenu">
                 <div class="dropdown-item" *ngIf="showNotifications">
-                    <span>You have {{notificationsCount}} <br>board join request <a href="javascript:void();" routerLink="/settings" >Go</a></span>
+                    <span>You have {{notificationsCount}} <br>board join request <a href="javascript:void();"
+                            routerLink="/settings">Go</a></span>
                 </div>
                 <div class="dropdown-item" *ngIf="!showNotifications">
                     <span>No Notifications</span>
@@ -46,28 +49,33 @@
         </li>
 
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 <img [src]="profileImage" class="img-circle profileAvatar">
                 <!-- <b>Durgarao</b>-->
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="validUser">
-                <a class="dropdown-item" href="javascript:void(0);"  routerLink="/settings">
+                <a class="dropdown-item" href="javascript:void(0);" routerLink="/settings">
                     <i class="fas fa-cog"></i>&nbsp; Settings</a>
                 <a class="dropdown-item" href="javascript:void(0);" (click)="goToUserProfile()">
                     <i class="far fa-user-circle"></i>&nbsp; Profile</a>
+                <a class="dropdown-item" href="javascript:void(0);" routerLink="/reportus">
+                    <i class="fa fa-question-circle"></i>&nbsp; Report Us </a>
                 <a class="dropdown-item" href="#" routerLink="/help">
-                    <i class="fas fa-question-circle"></i>&nbsp; Help </a>
-                    <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/feed/reportus">
-                        <i class="fa fa-question-circle"></i>&nbsp; Report Us </a> -->
+                    <i class="fab fa-hire-a-helper"></i>&nbsp; Help </a>
+                <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a>
+
                 <a class="dropdown-item" href="javascript:void(0);" (click)="onLoggedout()">
                     <i class="fa fa-fw fa-power-off"></i>&nbsp; Log Out </a>
-                <!-- <hr>
-                <a class="dropdown-item" href="javascript:void(0);">
-                    <i class="fas fa-chart-line"></i>&nbsp; Activity </a> -->
             </div>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="!validUser">
                 <a class="dropdown-item" href="javascript:void(0);" routerLink="/login">
-                    <i class="fa fa-sign-in"></i>&nbsp; Log In </a>
+                    <i class="fas fa-sign-in-alt"></i>&nbsp; Log In </a>
+                <a class="dropdown-item" href="#" routerLink="/help">
+                    <i class="fab fa-hire-a-helper"></i>&nbsp; Help </a>
+                <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a>
             </div>
         </li>
     </ul>

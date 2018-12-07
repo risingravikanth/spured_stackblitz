@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AboutComponent } from './noticer/about/about.component';
 import { HelpComponent } from './noticer/help/help.component';
 import { MenuMobileComponent } from './noticer/noticer-main/menu-mobile/menu-mobile.component';
 import { NoticerMainComponent } from './noticer/noticer-main/noticer-main.component';
 import { NoticerComponent } from './noticer/noticer.component';
+import { OthersProfileComponent } from './noticer/profile-other/profile-other.component';
+import { SelfProfileComponent } from './noticer/profile-self/profile-self.component';
 import { ReportUsComponent } from './noticer/report-us/report-us.component';
 import { SettingsComponent } from './noticer/settings/settings.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { AuthGuard } from './shared';
 import { UserSetupComponent } from './user-setup/user-setup.component';
-import { OthersProfileComponent } from './noticer/profile-other/profile-other.component';
-import { SelfProfileComponent } from './noticer/profile-self/profile-self.component';
 
 const routes: Routes = [
   {
@@ -96,7 +97,6 @@ const routes: Routes = [
   {
     path: 'help',
     component: NoticerComponent,
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -112,6 +112,16 @@ const routes: Routes = [
       {
         path: '',
         component: ReportUsComponent,
+      }
+    ]
+  },
+  {
+    path: 'about',
+    component: NoticerComponent,
+    children: [
+      {
+        path: '',
+        component: AboutComponent,
       }
     ]
   },

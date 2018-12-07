@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { HeaderComponent, SidebarComponent, FooterComponent } from '../shared';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgModule } from '@angular/core';
 import { MatDialogModule } from "@angular/material/dialog";
+import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FooterComponent, HeaderComponent, SidebarComponent } from '../shared';
+import { HeaderMobileComponent } from '../shared/components/header-mobile/header-mobile.component';
+import { AboutComponent } from './about/about.component';
+import { NoticerRoutingModule } from './noticer-routing.module';
 // import { NgxPermissionsModule } from 'ngx-permissions';
 import { NoticerComponent } from './noticer.component';
-import { NoticerRoutingModule } from './noticer-routing.module';
-import {HeaderMobileComponent} from '../shared/components/header-mobile/header-mobile.component'
 
 
 @NgModule({
@@ -24,7 +24,8 @@ import {HeaderMobileComponent} from '../shared/components/header-mobile/header-m
         HeaderComponent,
         HeaderMobileComponent,
         SidebarComponent,
-        FooterComponent
+        FooterComponent,
+        AboutComponent
     ]
 })
 export class NoticerModule { }
