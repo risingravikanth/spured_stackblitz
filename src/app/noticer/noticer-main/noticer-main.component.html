@@ -33,8 +33,8 @@
                                 <a style="color: gray" href="javascript:void(0);" (click)="goToCategoriesPage(post._type, null)">{{getSectionFromType(post._type)
                                     | titlecase}} </a>
                                 <span *ngIf="post.category"> / <a style="color: gray" href="javascript:void(0);"
-                                        (click)="goToCategoriesPage(post._type, post.category)">{{post.category |
-                                        uppercase}}</a></span>
+                                        (click)="goToCategoriesPage(post._type, post.category)">{{ getCategoryFromModel(post._type, post.category) |
+                                        titlecase}}</a></span>
                                 <span *ngIf="post.model" style="color: gray"> / {{post.model | titlecase}}</span></span>
                         </div>
                         <div style="padding: 3px 7px 0px 0px;">
@@ -138,21 +138,6 @@
                             </mat-grid-list>
                         </div>
                         <div class="images" *ngIf="post.images.length == 3" style="padding:7px;">
-                            <!-- <div class="row">
-                                <div class="col-md-6">
-                                    <img src = "{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%;
-                                        max-height: 100%;padding: 7px;height: 270px;"
-                                        class="rounded" alt="Post">
-                                </div>
-                                <div class="col-md-6">
-                                    <img src = "{{serverUrl}}/{{post.images[1]}}" style="max-width: 100%;
-                                    max-height: 100%;padding: 7px;"
-                                        class="rounded" alt="Post">
-                                    <img src = "{{serverUrl}}/{{post.images[2]}}" style="max-width: 100%;
-                                    max-height: 100%;padding: 7px;"
-                                        class="rounded" alt="Post">
-                                </div>
-                            </div> -->
                             <mat-grid-list cols="3" rowHeight="2:2">
                                 <mat-grid-tile *ngFor="let tile of post.images">
                                     <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{serverUrl}}/{{tile}}">
@@ -170,37 +155,11 @@
                                     </a>
                                 </mat-grid-tile>
                             </mat-grid-list>
-                            <!-- <span class="item">
-                                <img src = "{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%;
-                            max-height: 100%;padding: 7px;"
-                                    class="rounded" alt="Post">
-                            </span>
-                            <span class="item">
-                                <img src = "{{serverUrl}}/{{post.images[1]}}" style="max-width: 100%;
-                            max-height: 100%;padding: 7px;"
-                                    class="rounded" alt="Post">
-                            </span>
-                            <span class="item">
-                                <img src = "{{serverUrl}}/{{post.images[2]}}" style="max-width: 100%;
-                                max-height: 100%;padding: 7px;"
-                                    class="rounded" alt="Post">
-                            </span>
-                            <span class="item">
-                                <img src = "{{serverUrl}}/{{post.images[3]}}" style="max-width: 100%;
-                                max-height: 100%;padding: 7px;"
-                                    class="rounded" alt="Post">
-                            </span> -->
                         </div>
                     </div>
                     <hr>
                     <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
-                            <!-- <li class="list-inline-item paddingIcons" style="cursor: pointer;">
-                                <i class="far fa-thumbs-up iconSize"></i>&nbsp; 12
-                            </li>
-                            <li class="list-inline-item paddingIcons" style="cursor: pointer;">
-                                <i class="far fa-thumbs-down iconSize"></i>&nbsp; 3
-                            </li> -->
                             <li class="list-inline-item paddingIcons" style="cursor: pointer;" (click)="post.selectComments = !post.selectComments;getCommentsForPost(post.postId,i);">
                                 <i class="fas fa-comments iconSize"></i>&nbsp;
                                 <a>
@@ -312,7 +271,7 @@
                             <p-dropdown placeholder=" Type" [options]="types" (onChange)="getCategoriesByType(_type.value)"
                                 [style]="{'width':'100%'}" formControlName="_type1" filter="true" #_type>
                                 <ng-template let-type pTemplate="item">
-                                    <div class="ui-helper-clearfix" style="width: 25px;">
+                                    <div class="ui-helper-clearfix" [style]="{'width':'100%'}">
                                         <span style="vertical-align:middle">{{type.label}}</span>
                                     </div>
                                 </ng-template>
@@ -322,7 +281,7 @@
                             <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}"
                                 formControlName="category" filter="true">
                                 <ng-template let-category pTemplate="item">
-                                    <div class="ui-helper-clearfix" style="width: 25px;">
+                                    <div class="ui-helper-clearfix" [style]="{'width':'100%'}">
                                         <span style="vertical-align:middle">{{category.label}}</span>
                                     </div>
                                 </ng-template>
@@ -338,7 +297,7 @@
                             <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}"
                                 formControlName="model" filter="true">
                                 <ng-template let-model pTemplate="item">
-                                    <div class="ui-helper-clearfix" style="width: 25px;">
+                                    <div class="ui-helper-clearfix" [style]="{'width':'100%'}">
                                         <span style="vertical-align:middle">{{model.label}}</span>
                                     </div>
                                 </ng-template>

@@ -309,8 +309,7 @@ export class NoticerMainComponent implements OnInit {
       }
       if (data.category != 'home') {
         this.getPostsRequestBody.data.category = data.category;
-        let hifen = /-/gi
-        this.questionName = this.questionName.toUpperCase() + " (" + data.category.replace(hifen, " ").toUpperCase() + ")";
+        this.questionName = this.questionName.toUpperCase() + " (" + data.category.replace('_', " ").toUpperCase() + ")";
       } else {
         this.getPostsRequestBody.data.category = null;
       }
@@ -771,6 +770,25 @@ export class NoticerMainComponent implements OnInit {
       return _typeArr[0].section;
     }
     return "NA";
+  }
+
+  getCategoryFromModel(_type: any, category:any):string {
+    let type = this.getSectionFromType(_type);
+    let model = "NA"
+    categories_types_models.SECTIONS.forEach(sec => {
+      if (sec.title == "Topics") {
+        sec.sections.forEach(ty => {
+          if (ty.code == type) {
+            ty.categories.forEach(ca => {
+              if (ca.code == category) {
+                model = ca.name;
+              }
+            })
+          }
+        })
+      }
+    });
+    return model;
   }
 
   goToCategoriesPage(_type: any, category: any) {

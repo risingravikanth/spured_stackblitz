@@ -704,9 +704,6 @@ export const MODELS = [
     }
 ]
 
-export const Modelss = [
-    {modelType: 'VERBAL', models:[]}
-]
 
 export const AUDIENCE = [
     { label: 'Computers', value: 'CSE' },
@@ -721,6 +718,8 @@ export const SECTION_MAPPINGS = [
     { section: 'QUANTS', _type: 'QuantsPost' },
     { section: 'EVENTS', _type: 'EventsPost' },
     { section: 'GK', _type: 'GKPost' },
+    { section: 'DI', _type: 'DIPost' },
+    { section: 'CURRENT_AFFAIRS', _type: 'CAPost' },
     { section: 'CAREERS', _type: 'CareerPost' },
     { section: 'NEWS', _type: 'NewsPost' },
     { section: 'BOARD', _type: 'BoardPost' },
