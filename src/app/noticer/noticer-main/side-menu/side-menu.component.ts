@@ -191,6 +191,7 @@ export class SideMenuComponent implements OnInit {
 
   select(item) {
     this.selected = (this.selected === item ? null : item);
+    window.scrollTo(0,0);
   }
   isActive(item) {
     return this.selected === item;

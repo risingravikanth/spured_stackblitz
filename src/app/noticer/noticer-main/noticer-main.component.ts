@@ -176,6 +176,7 @@ export class NoticerMainComponent implements OnInit {
 
   handleParams(params: any[]) {
     this.showSideMenuDialog = false;
+    this.goToTop();
     if (this.router.url.indexOf('boards/closed') !== -1) {
       console.log("Handling boards");
       this.boardId = params['boardId'];
@@ -309,7 +310,7 @@ export class NoticerMainComponent implements OnInit {
       }
       if (data.category != 'home') {
         this.getPostsRequestBody.data.category = data.category;
-        this.questionName = this.questionName.toUpperCase() + " (" + data.category.replace('_', " ").toUpperCase() + ")";
+        this.questionName = this.questionName.toUpperCase() + " (" + data.category.replace(new RegExp('_', 'g'), " ").toUpperCase() + ")";
       } else {
         this.getPostsRequestBody.data.category = null;
       }
@@ -807,5 +808,9 @@ export class NoticerMainComponent implements OnInit {
     } else {
       this.profileImage = "assets/images/noticer_default_user_img.png"
     }
+  }
+
+  goToTop(){
+    window.scrollTo(0,0);
   }
 }

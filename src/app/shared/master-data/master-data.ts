@@ -126,8 +126,8 @@ export const SECTIONS = [
                         "code": "calendar"
                     },
                     {
-                        "name": "chain_rule",
-                        "code": "banks"
+                        "name": "Chain Rule",
+                        "code": "chain_rule"
                     },
                     {
                         "name": "Clock",
