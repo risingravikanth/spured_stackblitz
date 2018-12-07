@@ -26,6 +26,7 @@ export class HeaderMobileComponent implements OnInit {
     public showMenu:boolean = true;
     public profileImage:any;
     public validUser:boolean = false;
+    public showSideMenuDialog: boolean = false;
     ngOnInit() {
         this.isMobile = this.mobileService.isMobile();
 
@@ -47,7 +48,11 @@ export class HeaderMobileComponent implements OnInit {
                 if(this.currentUser && this.currentUser.imageUrl){
                     this.profileImage = constant.REST_API_URL + "/" + this.currentUser.imageUrl;
                 }       
-            }
+            } else if (item == "sideMenuOpen") {
+                this.showSideMenuDialog = true;
+              } else if (item == "sideMenuClose") {
+                this.showSideMenuDialog = false;
+              }
         })
     }
 
@@ -79,6 +84,7 @@ export class HeaderMobileComponent implements OnInit {
 
 
     sideMenuOpen(){
-        this.commonService.updateHeaderMenu("sideMenuOpen");
+        // this.commonService.updateHeaderMenu("sideMenuOpen");
+        this.showSideMenuDialog = true;
     }
 }

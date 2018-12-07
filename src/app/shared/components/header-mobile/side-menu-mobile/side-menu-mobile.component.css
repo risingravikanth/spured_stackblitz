@@ -131,7 +131,10 @@ ul li{cursor:pointer;}
 }
 
 .scrollMobile{
-    overflow: auto;
-    max-height: 100%;
+    z-index: 9999;
     position: absolute;
+    max-height: 93%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* border: 1px solid; */
   }

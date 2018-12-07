@@ -6,6 +6,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { SidebarModule } from "primeng/primeng";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotFoundModule } from './not-found/not-found.module';
@@ -26,11 +27,13 @@ import { CurrentUserService } from './shared/services/currentUser.service';
 import { JwtService } from './shared/services/jwt.service';
 import { MobileDetectionService } from './shared/services/mobiledetection.service';
 import { UserSetupModule } from './user-setup/user-setup.module';
+import { HeaderMobileModule } from "./shared/components/header-mobile/header-mobile.module";
 
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        // SideMenuMobileComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'noticer' }),
@@ -52,6 +55,7 @@ import { UserSetupModule } from './user-setup/user-setup.module';
         HelpModule,
         SettingsModule,
         ReportUsModule,
+        HeaderMobileModule,
         BrowserAnimationsModule
     ],
     providers: [

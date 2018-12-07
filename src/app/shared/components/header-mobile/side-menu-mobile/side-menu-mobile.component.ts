@@ -3,23 +3,22 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { MobileDetectionService } from '../../../shared';
-import { Section } from '../../../shared/models/section.model';
-import { User } from '../../../shared/models/user.model';
-import { CustomValidator } from '../../../shared/others/custom.validator';
-import { CommonService } from '../../../shared/services/common.service';
-import { CurrentUserService } from '../../../shared/services/currentUser.service';
-import { SECTIONS } from './../../../shared/master-data/master-data';
-import { SideMenuService } from './side-menu.service';
+import { SideMenuService } from '../../../../noticer/noticer-main/side-menu/side-menu.service';
+import { SECTIONS } from '../../../master-data/master-data';
+import { Section } from '../../../models/section.model';
+import { User } from '../../../models/user.model';
+import { CustomValidator } from '../../../others/custom.validator';
+import { CommonService } from '../../../services/common.service';
+import { CurrentUserService } from '../../../services/currentUser.service';
+import { MobileDetectionService } from '../../../services';
 
 @Component({
-  selector: 'side-menu',
-  templateUrl: './side-menu.component.html',
-  styleUrls: ['./side-menu.component.css'],
-  providers: [CustomValidator, MessageService, MobileDetectionService, SideMenuService, CurrentUserService],
-  // animations: [routerTransition()]
+  selector: 'side-menu-mobile',
+  templateUrl: './side-menu-mobile.component.html',
+  styleUrls: ['./side-menu-mobile.component.css'],
+  providers: [CustomValidator, MessageService, MobileDetectionService, SideMenuService, CurrentUserService]
 })
-export class SideMenuComponent implements OnInit {
+export class SideMenuMobileComponent implements OnInit {
   noBoards: boolean = false;
   showPostSpinner:boolean = false;
 
@@ -62,7 +61,7 @@ export class SideMenuComponent implements OnInit {
     }
 
     this.menuList = SECTIONS;
-    
+
   }
 
   initForm() {
@@ -88,6 +87,7 @@ export class SideMenuComponent implements OnInit {
     }
   }
 
+
   cacelSectionSettings() {
     this.varShowSectionSettings = true;
     this.varShowSectionOptions = false;
@@ -100,8 +100,9 @@ export class SideMenuComponent implements OnInit {
 
 
   showAddCategoryDialog(content: any) {
+    this.commonService.updateHeaderMenu("sideMenuClose");
     this.getAllSates();
-    this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
+    this.categoryModalReference = this.modalService.open(content);
     this.categoryModalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -120,6 +121,7 @@ export class SideMenuComponent implements OnInit {
 
   public selectedItem;
   selectedCategory(sec: any, cat: any) {
+    this.commonService.updateHeaderMenu("sideMenuClose");
     let data = new Section();
     data.section = sec;
     data.category = cat;
@@ -128,13 +130,10 @@ export class SideMenuComponent implements OnInit {
     } else {
       this.selectedItem = sec + cat;
     }
-
-    if (this.isMobile) {
-      this.commonService.updateHeaderMenu("noticer");
-    }
   }
 
   selectedBoard(boardId: any, boardName: any) {
+    this.commonService.updateHeaderMenu("sideMenuClose");
     this.selectedItem = boardId + boardName;
   }
 

@@ -33,7 +33,6 @@ export class NoticerMainComponent implements OnInit {
   public validUser: boolean = false;
   public noData: boolean = false;
   boardId: any;
-  public showSideMenuDialog: boolean = false;
   public reqestType: string;
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
@@ -98,11 +97,7 @@ export class NoticerMainComponent implements OnInit {
     })
 
     this.commonService.menuChanges.subscribe(type => {
-      if (type == "sideMenuOpen") {
-        this.showSideMenuDialog = true;
-      } else if (type == "sideMenuClose") {
-        this.showSideMenuDialog = false;
-      } else if (type == "updateProfilePic") {
+      if (type == "updateProfilePic") {
         this.setProfilePic();
       }
     })
@@ -175,7 +170,6 @@ export class NoticerMainComponent implements OnInit {
 
 
   handleParams(params: any[]) {
-    this.showSideMenuDialog = false;
     this.goToTop();
     if (this.router.url.indexOf('boards/closed') !== -1) {
       console.log("Handling boards");
@@ -482,25 +476,30 @@ export class NoticerMainComponent implements OnInit {
 
   getCommentsForPost(postId, index) {
     let reqBody = this.prepareGetComentsRequestBody(postId, index);
-    this.postsList[index].commentOffset = 0;;
-    if (this.postsList[index].commentsCount > 0) {
-      this.postsList[index].commentsSpinner = true;
-      this.service.getCommentsByPostId(reqBody).subscribe(resData => {
-        this.postsList[index].commentsSpinner = false;
-        let comments: any = resData;
-        if (comments && comments.code && comments.code.id) {
-          this.toastr.error("Failed", comments.code.longMessage);
-        } else if (comments && comments.comments) {
-          if (comments.comments.length > 0) {
-            this.postsList[index].comments = comments.comments;
-            this.postsList[index].comments.forEach(element => {
-              element.maxLength = 300;
-            });
+    this.postsList[index].commentOffset = 0;
+    if(!this.postsList[index].selectComments){
+      this.postsList[index].selectComments = !this.postsList[index].selectComments;
+      if (this.postsList[index].commentsCount > 0) {
+        this.postsList[index].commentsSpinner = true;
+        this.service.getCommentsByPostId(reqBody).subscribe(resData => {
+          this.postsList[index].commentsSpinner = false;
+          let comments: any = resData;
+          if (comments && comments.code && comments.code.id) {
+            this.toastr.error("Failed", comments.code.longMessage);
+          } else if (comments && comments.comments) {
+            if (comments.comments.length > 0) {
+              this.postsList[index].comments = comments.comments;
+              this.postsList[index].comments.forEach(element => {
+                element.maxLength = 300;
+              });
+            }
           }
-        }
-      }, error => {
-        this.toastr.error("Failed", "Something went wrong!");
-      })
+        }, error => {
+          this.toastr.error("Failed", "Something went wrong!");
+        })
+      }
+    } else{
+      this.postsList[index].selectComments = !this.postsList[index].selectComments;
     }
   }
 

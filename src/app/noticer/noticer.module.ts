@@ -2,12 +2,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatDialogModule } from "@angular/material/dialog";
 import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SidebarModule } from 'primeng/primeng';
 import { FooterComponent, HeaderComponent, SidebarComponent } from '../shared';
 import { HeaderMobileComponent } from '../shared/components/header-mobile/header-mobile.component';
+import { HeaderMobileModule } from '../shared/components/header-mobile/header-mobile.module';
 import { AboutComponent } from './about/about.component';
 import { NoticerRoutingModule } from './noticer-routing.module';
-// import { NgxPermissionsModule } from 'ngx-permissions';
 import { NoticerComponent } from './noticer.component';
+import { SiteMapComponent } from './sitemap/sitemap.component';
 
 
 @NgModule({
@@ -17,7 +19,8 @@ import { NoticerComponent } from './noticer.component';
         NoticerRoutingModule,
         NgbModule.forRoot(),
         MatDialogModule,
-        // NgxPermissionsModule.forChild()
+        SidebarModule,
+        HeaderMobileModule
     ],
     declarations: [
         NoticerComponent,
@@ -25,7 +28,8 @@ import { NoticerComponent } from './noticer.component';
         HeaderMobileComponent,
         SidebarComponent,
         FooterComponent,
-        AboutComponent
+        AboutComponent,
+        SiteMapComponent
     ]
 })
 export class NoticerModule { }

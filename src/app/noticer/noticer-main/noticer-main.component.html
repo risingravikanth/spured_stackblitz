@@ -30,7 +30,7 @@
                     <div class="d-flex justify-content-between">
                         <div>
                             <span style="font-size: 12px;padding-left: 10px;margin-top: 8px;">
-                                <a style="color: gray" href="javascript:void(0);" (click)="goToCategoriesPage(post._type, null)">{{getSectionFromType(post._type)
+                                <a *ngIf="post._type != 'BoardPost'" style="color: gray" href="javascript:void(0);" (click)="goToCategoriesPage(post._type, null)">{{getSectionFromType(post._type)
                                     | titlecase}} </a>
                                 <span *ngIf="post.category"> / <a style="color: gray" href="javascript:void(0);"
                                         (click)="goToCategoriesPage(post._type, post.category)">{{
@@ -161,7 +161,7 @@
                     <hr>
                     <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
-                            <li class="list-inline-item paddingIcons" style="cursor: pointer;" (click)="post.selectComments = !post.selectComments;getCommentsForPost(post.postId,i);">
+                            <li class="list-inline-item paddingIcons" style="cursor: pointer;" (click)="getCommentsForPost(post.postId,i);">
                                 <i class="fas fa-comments iconSize"></i>&nbsp;
                                 <a>
                                     {{post.commentsCount}} Comments
@@ -397,19 +397,4 @@
     </section>
     <section>
         <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="23%"></p-confirmDialog>
-    </section>
-    <section>
-        <p-sidebar [(visible)]="showSideMenuDialog" [blockScroll]="true" [fullScreen]="true" [baseZIndex]="10000">
-            <div class="header">
-                <b>Menu</b>
-                <div style="float:right">
-                    <button type="button" class="close" (click)="showSideMenuDialog = false">
-                        <i class="fas fa-times iconSize"></i>
-                    </button>
-                </div>
-            </div>
-            <div>
-                <side-menu></side-menu>
-            </div>
-        </p-sidebar>
     </section>

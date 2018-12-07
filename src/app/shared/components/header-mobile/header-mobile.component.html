@@ -56,3 +56,19 @@
         </li>
     </ul>
 </section>
+
+<section>
+    <p-sidebar [(visible)]="showSideMenuDialog" [blockScroll]="true" [fullScreen]="true" [baseZIndex]="10000">
+        <div class="header">
+            <b>Menu</b>
+            <div style="float:right">
+                <button type="button" class="close" (click)="showSideMenuDialog = false">
+                    <i class="fas fa-times iconSize"></i>
+                </button>
+            </div>
+        </div>
+        <div>
+            <side-menu-mobile></side-menu-mobile>
+        </div>
+    </p-sidebar>
+</section>
