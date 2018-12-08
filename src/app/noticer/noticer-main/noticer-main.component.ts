@@ -88,8 +88,8 @@ export class NoticerMainComponent implements OnInit {
   public states: any = [];
   public institutes: any = [];
   public currentuserId: any;
+  public dateMin:Date = new Date();;
   ngOnInit() {
-
     this.seo.generateTags({
       title: 'Noticer feed | Posts and comments',
       description: 'Noticer posts and comments',
