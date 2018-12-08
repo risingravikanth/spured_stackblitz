@@ -292,7 +292,7 @@
                         addPostForm.controls['data'].get('_type1').value == 'CAREERS' ||
                         addPostForm.controls['data'].get('_type1').value == 'VERBAL' ||
                         addPostForm.controls['data'].get('_type1').value == 'QUANTS' ||
-                        addPostForm.controls['data'].get('_type1').value == 'DI' ||
+                        addPostForm.controls['data'].get('_type1').value == 'DATA_INTERPRETATION' ||
                         addPostForm.controls['data'].get('_type1').value == 'CURRENT_AFFAIRS'">
                             <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}"
                                 formControlName="model" filter="true">
@@ -308,12 +308,12 @@
                     <!-- events -->
                     <div class="row" *ngIf="addPostForm.controls['data'].get('_type1').value == 'EVENTS'">
                         <div class="form-group col-md-6">
-                            <p-calendar [showIcon]="true" dateFormat="yy-mm-dd" formControlName="fromDate" placeholder="From Date"
-                                [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
+                            <p-calendar [inputStyleClass]="form-control" [showIcon]="true" dateFormat="yy-mm-dd" formControlName="fromDate" placeholder="From Date"
+                                [style]="{'width':'95%'}" dataType='string' [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
                         <div class="form-group col-md-6">
-                            <p-calendar [showIcon]="true" dateFormat="yy-mm-dd" formControlName="toDate" placeholder="To Date"
-                                [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
+                            <p-calendar [inputStyleClass]="form-control" [showIcon]="true" dateFormat="yy-mm-dd" formControlName="toDate" placeholder="To Date"
+                                [style]="{'width':'95%'}" dataType='string' [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
 
                     </div>
@@ -330,7 +330,7 @@
 
                     <!-- careers -->
                     <div class="col-md-4" *ngIf="addPostForm.controls['data'].get('_type1').value == 'CAREERS'">
-                        <p-calendar [showIcon]="true" dateFormat="yy-mm-dd" formControlName="deadline" placeholder="Deadline"
+                        <p-calendar [inputStyleClass]="form-control" [showIcon]="true" dataType='string' dateFormat="yy-mm-dd" formControlName="deadline" placeholder="Deadline"
                             [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"></p-calendar>
                     </div>
                     <!-- careers end -->

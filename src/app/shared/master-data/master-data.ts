@@ -612,7 +612,7 @@ export const TYPES = [
     { label: 'Quants', value: 'QUANTS' },
     { label: 'Events', value: 'EVENTS' },
     { label: 'Current Affairs', value: 'CURRENT_AFFAIRS' },
-    { label: 'Data Interpretation', value: 'DI' },
+    { label: 'Data Interpretation', value: 'DATA_INTERPRETATION' },
     { label: 'General Knowledge', value: 'GK' },
     { label: 'Careers', value: 'CAREERS' },
     { label: 'News', value: 'NEWS' }
