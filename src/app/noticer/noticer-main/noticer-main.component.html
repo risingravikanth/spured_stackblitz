@@ -108,16 +108,16 @@
                         <div class="post-text">
                             <!-- [innerHTML] -->
                             <p>
-                                <a *ngIf="!paramId" style="color: black;">
+                                <span *ngIf="!paramId" style="color: black;">
                                     <label class="multiLineText">{{post.postText | slice:0:post.maxLength}}</label>
                                     <label *ngIf="post.postText.length > post.maxLength">...</label>
-                                </a>
+                                </span>
                                 <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="!paramId && post.postText.length > post.maxLength"
                                     (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see
                                     more</a>
-                                <a *ngIf="paramId" style="color: black;">
+                                <span *ngIf="paramId" style="color: black;">
                                     <label class="multiLineText">{{post.postText}}</label>
-                                </a>
+                                </span>
                             </p>
                         </div>
                     </div>

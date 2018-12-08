@@ -19,7 +19,7 @@
                 <div *ngIf="noBoards" style="margin-left: 16px;">No boards</div>
                 <div>
                     <li *ngFor="let board of boardsList">
-                        <a href="javascript:void(0);" style="color: black;" [routerLink]="['/boards/closed/'+board.boardId]"
+                        <a href="javascript:void(0);" style="color: black;"
                             (click)="selectedBoard(board.boardId,board.boardName)" [class.selected]="board.boardId+board.boardName === selectedItem">
                             {{board.boardName}}</a>
                         <span class="float-right" *ngIf="showConfig">

@@ -134,6 +134,7 @@ export class SideMenuMobileComponent implements OnInit {
 
   selectedBoard(boardId: any, boardName: any) {
     this.commonService.updateHeaderMenu("sideMenuClose");
+    this.router.navigate(['/boards/closed/'+boardId+"/"+boardName]);
     this.selectedItem = boardId + boardName;
   }
 

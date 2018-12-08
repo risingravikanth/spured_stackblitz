@@ -32,7 +32,7 @@ export class NoticerMainComponent implements OnInit {
   public currentUser: User;
   public validUser: boolean = false;
   public noData: boolean = false;
-  boardId: any;
+  public boardId: any;
   public reqestType: string;
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
@@ -172,9 +172,8 @@ export class NoticerMainComponent implements OnInit {
   handleParams(params: any[]) {
     this.goToTop();
     if (this.router.url.indexOf('boards/closed') !== -1) {
-      console.log("Handling boards");
       this.boardId = params['boardId'];
-      this.prepareBoardPostReq(this.boardId);
+      this.prepareBoardPostReq(params['title']);
       this.seo.generateTags({
         title: 'Closed board posts',
         description: 'All about closed board posts',
@@ -225,8 +224,12 @@ export class NoticerMainComponent implements OnInit {
     }
   }
 
-  prepareBoardPostReq(boardId: any) {
-    this.questionName = "Boards";
+  prepareBoardPostReq(boardTitle:any) {
+    this.questionName = "Boards"
+    if(boardTitle){
+      this.questionName = boardTitle
+      // .replace(/[_-]/g, " ");
+    }
     this.initRequest();
     this.getPostsRequestBody.data.boardId = this.boardId;
     this.getPostsRequestBody.context.type = "BOARD";
@@ -296,12 +299,11 @@ export class NoticerMainComponent implements OnInit {
       }
       if (data.category != 'home') {
         this.getPostsRequestBody.data.category = data.category;
-        // c.replace(/[^_-]/g, '-')
-        this.questionName = this.questionName.toUpperCase() + " (" + data.category.replace(/[_-]/g, " ").toUpperCase() + ")";
+        this.questionName = this.questionName.toUpperCase() + " (" + data.category.toUpperCase() + ")";
       } else {
         this.getPostsRequestBody.data.category = null;
       }
-      console.log(this.questionName);
+      this.questionName = this.questionName.replace(/[_-]/g, " ");
       if (data.section) {
         this.getPostsRequestBody.context.type = data.section.toUpperCase();
       }
@@ -334,7 +336,7 @@ export class NoticerMainComponent implements OnInit {
   }
 
   loadMorePosts() {
-    this.getPostsRequestBody.pagination.offset = this.getPostsRequestBody.pagination.offset + 10;
+    this.getPostsRequestBody.pagination.offset = this.getPostsRequestBody.pagination.offset + constant.postsPerCall;
     this.showPostSpinner = true;
     this.service.getPostsList(this.getPostsRequestBody).subscribe(
       resData => {
@@ -343,7 +345,7 @@ export class NoticerMainComponent implements OnInit {
         if (obj.error && obj.error.code && obj.error.code.id) {
           this.toastr.error("Failed", obj.error.code.message);
         } else {
-          if (obj.posts.length < 10) {
+          if (obj.posts.length < constant.postsPerCall) {
             this.showMoreLink = false;
           }
           obj.posts.forEach(element => {
@@ -364,7 +366,7 @@ export class NoticerMainComponent implements OnInit {
       this.postsList = this.postsList.filter(item => item != null);
       this.postsList.forEach(element => {
         if(element){
-          element.maxLength = 300;
+          element.maxLength = constant.showSeeMorePostTextLenth;
           element.selectComments = false;
           element.commentOffset = 0;
           element.comments = [];
@@ -408,10 +410,7 @@ export class NoticerMainComponent implements OnInit {
       this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
       this.addPostForm.controls['context'].get('type').patchValue(reqType);
     }
-
-    console.log(this.addPostForm.getRawValue());
     let postText = this.addPostForm.controls['data'].get('postText').value
-    // let txt = postText.replace(/\n/g, '<br>');
     this.addPostForm.controls['data'].get('text').patchValue(postText);
 
     let imageUrls = [];
@@ -447,7 +446,7 @@ export class NoticerMainComponent implements OnInit {
           this.toastr.error("Failed", resData.error.code.longMessage);
         } else if (resData && resData.post) {
           let data = resData.post;
-          data.maxLength = 300;
+          data.maxLength = constant.showSeeMorePostTextLenth;
           data.selectComments = false;
           data.commentOffset = 0;
           data.comments = [];
@@ -486,7 +485,7 @@ export class NoticerMainComponent implements OnInit {
             if (comments.comments.length > 0) {
               this.postsList[index].comments = comments.comments;
               this.postsList[index].comments.forEach(element => {
-                element.maxLength = 300;
+                element.maxLength = constant.showSeeMorePostTextLenth;
               });
             }
           }
@@ -541,7 +540,7 @@ export class NoticerMainComponent implements OnInit {
     getCommentsRequest.data = {};
     getCommentsRequest.pagination = new Pagination();
     getCommentsRequest.pagination.offset = 0;
-    getCommentsRequest.pagination.limit = 3;
+    getCommentsRequest.pagination.limit = constant.commentsPerCall;
     return getCommentsRequest;
   }
 
@@ -566,7 +565,7 @@ export class NoticerMainComponent implements OnInit {
       }
       else {
         this.postsList[index].commentText = null;
-        resData.comment.maxLength = 100;
+        resData.comment.maxLength = constant.showSeeMoreCommentTextLenth;
         this.postsList[index].comments.splice(0, 0, resData.comment);
         this.postsList[index].commentsCount = this.postsList[index].commentsCount + 1;
         this.toastr.success("Comment Success", "Comment added successfully");
@@ -625,10 +624,8 @@ export class NoticerMainComponent implements OnInit {
     this.confirmService.confirm({
       message: 'Are you sure you want to delete?',
       accept: () => {
-        // Actual logic to perform a confirmation
         this.service.deletePost(this.editPostForm.value).subscribe(resData => {
           let obj: any = resData;
-          console.log(resData)
           if (obj.error && obj.error.code && obj.error.code.id) {
             this.toastr.error("Failed", obj.error.code.message);
           } else {
@@ -656,17 +653,14 @@ export class NoticerMainComponent implements OnInit {
     this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
     this.categoryModalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      console.log(this.closeResult);
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
 
   saveEditPost() {
-    console.log(this.editPostForm.value);
     this.service.saveEditPost(this.editPostForm.value).subscribe(resData => {
       let obj: any = resData;
-      console.log(resData)
       if (obj.error && obj.error.code && obj.error.code.id) {
         this.toastr.error("Failed", obj.error.code.message);
       } else {
@@ -694,16 +688,15 @@ export class NoticerMainComponent implements OnInit {
     let id = postObj.postId;
     let title = postObj.postTitle;
     if (isPlatformBrowser(this.platformId)) {
-      console.log(t);
       if (t == "BOARD") {
         let postUrl = "/posts/closed/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
         window.open(postUrl, "_blank")
       } else {
         if (c) {
           if (title != undefined) {
-            window.open("/posts/" + t.toLowerCase() + "/" + c.replace(/[^a-zA-Z0-9]/g, '-') + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-'), "_blank")
+            window.open("/posts/" + t.toLowerCase() + "/" + c + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-'), "_blank")
           } else {
-            window.open("/posts/" + t.toLowerCase() + "/" + c.replace(/[^a-zA-Z0-9]/g, '-') + "/" + id, "_blank")
+            window.open("/posts/" + t.toLowerCase() + "/" + c + "/" + id, "_blank")
           }
         } else {
           if (title != undefined) {

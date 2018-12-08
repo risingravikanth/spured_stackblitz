@@ -27,3 +27,12 @@
   .fntRed{
     color: red;
   }
+
+  .fntBlack{
+    color:black;
+  }
+
+  a:hover{
+    color: green !important;
+    text-decoration: none !important;
+}

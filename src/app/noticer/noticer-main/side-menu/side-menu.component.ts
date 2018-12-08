@@ -136,6 +136,9 @@ export class SideMenuComponent implements OnInit {
 
   selectedBoard(boardId: any, boardName: any) {
     this.selectedItem = boardId + boardName;
+    this.router.navigate(['/boards/closed/'+boardId+"/"+boardName
+    // .replace(/[^a-zA-Z0-9]/g, '-')
+    ])
   }
 
   select(item) {
