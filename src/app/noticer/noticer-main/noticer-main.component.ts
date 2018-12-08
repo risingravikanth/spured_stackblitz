@@ -361,13 +361,16 @@ export class NoticerMainComponent implements OnInit {
 
   preparePostsList() {
     if (this.postsList.length > 0) {
+      this.postsList = this.postsList.filter(item => item != null);
       this.postsList.forEach(element => {
-        element.maxLength = 300;
-        element.selectComments = false;
-        element.commentOffset = 0;
-        element.comments = [];
-        element.commentsSpinner = false;
-        element.commentText = null;
+        if(element){
+          element.maxLength = 300;
+          element.selectComments = false;
+          element.commentOffset = 0;
+          element.comments = [];
+          element.commentsSpinner = false;
+          element.commentText = null;
+        }
       });
       this.noData = false;
     } else {
