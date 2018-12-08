@@ -294,16 +294,20 @@ export class NoticerMainComponent implements OnInit {
       this.initRequest();
       this.questionName = '';
       if (data.section) {
-        this.questionName = data.section.toUpperCase();
-        this.getPostsRequestBody.context.type = this.questionName;
+        // this.questionName = data.section.toUpperCase();
+        this.getPostsRequestBody.context.type = data.section.toUpperCase();
       }
       if (data.category != 'home') {
         this.getPostsRequestBody.data.category = data.category;
-        this.questionName = this.questionName.toUpperCase() + " (" + data.category.toUpperCase() + ")";
+        // this.questionName = this.questionName.toUpperCase() + " (" + data.category.toUpperCase() + ")";
       } else {
         this.getPostsRequestBody.data.category = null;
       }
-      this.questionName = this.questionName.replace(/[_-]/g, " ");
+      if(data.category == undefined || data.category == "home"){
+        this.questionName = this.prepareQuestionName(data.section, null);
+      } else{
+        this.questionName = this.prepareQuestionName(data.section, data.category);
+      }
       if (data.section) {
         this.getPostsRequestBody.context.type = data.section.toUpperCase();
       }
@@ -313,6 +317,27 @@ export class NoticerMainComponent implements OnInit {
         this.getPosts();
       }
     }
+  }
+
+  prepareQuestionName(type, category){
+    let questionName = "";
+    categories_types_models.SECTIONS.forEach(sec => {
+      if (sec.title == "Topics") {
+        sec.sections.forEach(ty => {
+          if (ty.code.toUpperCase() == type.toUpperCase()) {
+            questionName = ty.name;
+            if(category){
+              ty.categories.forEach(ca => {
+                if (ca.code == category) {
+                  questionName = questionName + " (" + ca.name + ")";
+                }
+              })
+            }
+          }
+        })
+      }
+    });
+    return questionName;
   }
 
 
@@ -759,7 +784,7 @@ export class NoticerMainComponent implements OnInit {
     let mappings = this.sectionsTypesMappings;
     let _typeArr = mappings.filter(item => item._type.toUpperCase() == _type.toUpperCase());
     if (_typeArr.length > 0) {
-      t = _typeArr[0].section;
+      t = _typeArr[0].name;
     }
     return t;
   }
@@ -770,7 +795,7 @@ export class NoticerMainComponent implements OnInit {
     categories_types_models.SECTIONS.forEach(sec => {
       if (sec.title == "Topics") {
         sec.sections.forEach(ty => {
-          if (ty.code.toUpperCase() == type.toUpperCase()) {
+          if (ty.name.toUpperCase() == type.toUpperCase()) {
             ty.categories.forEach(ca => {
               if (ca.code == category) {
                 model = ca.name;

@@ -443,19 +443,19 @@ export const SECTIONS = [
                     },
                     {
                         "name": "Creative arts and design",
-                        "code": "creative-arts-and-design"
+                        "code": "creative_arts_and_design"
                     },
                     {
                         "name": "Entergy and Utilities",
-                        "code": "entergy-and-utilities"
+                        "code": "entergy_and_utilities"
                     },
                     {
                         "name": "Engineering and Manufacuturing",
-                        "code": "engineering-and-manufacuturing"
+                        "code": "engineering_and_manufacuturing"
                     },
                     {
                         "name": "Environment and Agriculture",
-                        "code": "environment-and-agriculture"
+                        "code": "environment_and_agriculture"
                     },
                     {
                         "name": "Healthcare",
@@ -463,7 +463,7 @@ export const SECTIONS = [
                     },
                     {
                         "name": "Hospitality and Events Management",
-                        "code": "hospitality-and-events-management"
+                        "code": "hospitality_and_events_management"
                     },
                     {
                         "name": "Marketing",
@@ -471,7 +471,7 @@ export const SECTIONS = [
                     },
                     {
                         "name": "Media and Internet",
-                        "code": "media-and-internet"
+                        "code": "media_and_internet"
                     },
                     {
                         "name": "Finance",
@@ -487,7 +487,7 @@ export const SECTIONS = [
                     },
                     {
                         "name": "Voluntary work",
-                        "code": "voluntary-work"
+                        "code": "voluntary_work"
                     },
                     {
                         "name": "Others",
@@ -714,13 +714,13 @@ export const AUDIENCE = [
 ];
 
 export const SECTION_MAPPINGS = [
-    { section: 'VERBAL', _type: 'VerbalPost' },
-    { section: 'QUANTS', _type: 'QuantsPost' },
-    { section: 'EVENTS', _type: 'EventsPost' },
-    { section: 'GK', _type: 'GKPost' },
-    { section: 'DATA_INTERPRETATION', _type: 'DataInterpretationPost' },
-    { section: 'CURRENT_AFFAIRS', _type: 'CurrentAffairsPost' },
-    { section: 'CAREERS', _type: 'CareerPost' },
-    { section: 'NEWS', _type: 'NewsPost' },
-    { section: 'BOARD', _type: 'BoardPost' },
+    { name: "Verbal", section: 'VERBAL', _type: 'VerbalPost' },
+    { name: "Quants", section: 'QUANTS', _type: 'QuantsPost' },
+    { name: "Events", section: 'EVENTS', _type: 'EventsPost' },
+    { name: "General Knowledge", section: 'GK', _type: 'GKPost' },
+    { name: "Data Interpretation", section: 'DATA_INTERPRETATION', _type: 'DataInterpretationPost' },
+    { name: "Current Affairs", section: 'CURRENT_AFFAIRS', _type: 'CurrentAffairsPost' },
+    { name: "Careers", section: 'CAREERS', _type: 'CareerPost' },
+    { name: "News", section: 'NEWS', _type: 'NewsPost' },
+    { name: "Board", section: 'BOARD', _type: 'BoardPost' },
 ];
