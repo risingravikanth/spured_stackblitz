@@ -185,14 +185,15 @@ export class NoticerMainComponent implements OnInit {
       this.paramType = params['type'];
       this.paramCategory = params['category'];
       if (this.paramType) {
-        let _typeArr = this.sectionsTypesMappings.filter(item => item.section == this.paramType);
+        let paramT1 = this.paramType;
+        let mappings = this.sectionsTypesMappings;
+        let _typeArr = mappings.filter(item => item.section.toUpperCase() == paramT1.toUpperCase());
         if (_typeArr.length == 0) {
           alert("Sorry! Given url is wrong!");
           this.router.navigate(['/feed'])
           return;
         }
       }
-      console.log(this.router.url);
       if (this.paramType && this.paramCategory == undefined) {
         this.paramCategory = "home"
       }
@@ -204,7 +205,6 @@ export class NoticerMainComponent implements OnInit {
       if (this.paramType == undefined && this.paramCategory == undefined) {
         this.initRequest()
         if (this.paramId) {
-          console.log("have id");
           if (this.router.url.indexOf("/posts/closed/") != -1) {
             this.paramType = "BOARD";
           }
@@ -236,8 +236,6 @@ export class NoticerMainComponent implements OnInit {
 
   postQuestionDialog(content: any) {
     if (this.currentUser) {
-
-      console.log("Modal for:" + this.getPostsRequestBody.context.type)
       this.postImages = []
       this.urls = [];
       this.resetDropdowns();
@@ -255,20 +253,17 @@ export class NoticerMainComponent implements OnInit {
             this.addPostForm.controls['data'].get('boardId').patchValue(this.boardId);
           }
           this.addPostForm.controls['data'].get('_type1').disable();
-          // this.isValidType = true;
         } else {
           this.toastr.error("Failed", "Given type is wrong!");
         }
       }
       if (this.getPostsRequestBody.data.category) {
         this.addPostForm.controls['data'].get('category').patchValue(this.getPostsRequestBody.data.category);
-        // this.isValidCategory = true;
         this.addPostForm.controls['data'].get('category').disable();
       }
       this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
       this.categoryModalReference.result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
-        console.log(this.closeResult);
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
@@ -282,9 +277,6 @@ export class NoticerMainComponent implements OnInit {
     this.addPostForm.enable();
     this.postImages = [];
     this.urls = [];
-    // this.isValidCategory = false;
-    // this.isValidType = false;
-    console.log(reason);
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -304,7 +296,8 @@ export class NoticerMainComponent implements OnInit {
       }
       if (data.category != 'home') {
         this.getPostsRequestBody.data.category = data.category;
-        this.questionName = this.questionName.toUpperCase() + " (" + data.category.replace(new RegExp('_', 'g'), " ").toUpperCase() + ")";
+        // c.replace(/[^_-]/g, '-')
+        this.questionName = this.questionName.toUpperCase() + " (" + data.category.replace(/[_-]/g, " ").toUpperCase() + ")";
       } else {
         this.getPostsRequestBody.data.category = null;
       }
@@ -585,7 +578,7 @@ export class NoticerMainComponent implements OnInit {
     categories_types_models.SECTIONS.forEach(sec => {
       if (sec.title == "Topics") {
         sec.sections.forEach(ty => {
-          if (ty.code == type) {
+          if (ty.code.toUpperCase() == type.toUpperCase()) {
             ty.categories.forEach(ca => {
               if (ca.name != "HOME") {
                 let vo = { label: ca.name, value: ca.code };
@@ -705,9 +698,9 @@ export class NoticerMainComponent implements OnInit {
       } else {
         if (c) {
           if (title != undefined) {
-            window.open("/posts/" + t + "/" + c + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-'), "_blank")
+            window.open("/posts/" + t.toLowerCase() + "/" + c.replace(/[^a-zA-Z0-9]/g, '-') + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-'), "_blank")
           } else {
-            window.open("/posts/" + t + "/" + c + "/" + id, "_blank")
+            window.open("/posts/" + t.toLowerCase() + "/" + c.replace(/[^a-zA-Z0-9]/g, '-') + "/" + id, "_blank")
           }
         } else {
           if (title != undefined) {
@@ -721,7 +714,8 @@ export class NoticerMainComponent implements OnInit {
   }
 
   getPostDetails() {
-    this.service.getPostDetailsById(this.paramId, this.paramType).subscribe((resData: any) => {
+    let paramTypeD = this.paramType.toUpperCase();
+    this.service.getPostDetailsById(this.paramId, paramTypeD).subscribe((resData: any) => {
       let obj: any = resData;
       if (obj.error && obj.error.code && obj.error.code.id) {
         this.toastr.error("Failed", obj.error.code.message);
@@ -765,11 +759,13 @@ export class NoticerMainComponent implements OnInit {
   }
 
   getSectionFromType(_type: any) {
-    let _typeArr = this.sectionsTypesMappings.filter(item => item._type == _type);
+    let t = "NA";
+    let mappings = this.sectionsTypesMappings;
+    let _typeArr = mappings.filter(item => item._type.toUpperCase() == _type.toUpperCase());
     if (_typeArr.length > 0) {
-      return _typeArr[0].section;
+      t = _typeArr[0].section;
     }
-    return "NA";
+    return t;
   }
 
   getCategoryFromModel(_type: any, category:any):string {
@@ -778,7 +774,7 @@ export class NoticerMainComponent implements OnInit {
     categories_types_models.SECTIONS.forEach(sec => {
       if (sec.title == "Topics") {
         sec.sections.forEach(ty => {
-          if (ty.code == type) {
+          if (ty.code.toUpperCase() == type.toUpperCase()) {
             ty.categories.forEach(ca => {
               if (ca.code == category) {
                 model = ca.name;
@@ -794,9 +790,9 @@ export class NoticerMainComponent implements OnInit {
   goToCategoriesPage(_type: any, category: any) {
     let section = this.getSectionFromType(_type);
     if (category == null) {
-      this.router.navigate(['categories/' + section])
+      this.router.navigate(['categories/' + section.toLowerCase()])
     } else {
-      this.router.navigate(['categories/' + section + "/" + category.toUpperCase()])
+      this.router.navigate(['categories/' + section.toLowerCase() + "/" + category])
     }
   }
 

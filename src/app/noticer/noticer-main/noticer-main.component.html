@@ -17,8 +17,7 @@
                             <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
                                 *ngIf="questionName?.length == 0">Add your question</a>
                             <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
-                                *ngIf="questionName?.length > 0">Add your question on
-                                <font color="red">{{questionName}}</font>
+                                *ngIf="questionName?.length > 0">Add your question on {{questionName | titlecase}}
                             </a>
                         </h3>
                     </div>

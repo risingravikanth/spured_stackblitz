@@ -9,7 +9,6 @@ import { HeaderMobileModule } from '../shared/components/header-mobile/header-mo
 import { AboutComponent } from './about/about.component';
 import { NoticerRoutingModule } from './noticer-routing.module';
 import { NoticerComponent } from './noticer.component';
-import { SiteMapComponent } from './sitemap/sitemap.component';
 
 
 @NgModule({
@@ -28,8 +27,7 @@ import { SiteMapComponent } from './sitemap/sitemap.component';
         HeaderMobileComponent,
         SidebarComponent,
         FooterComponent,
-        AboutComponent,
-        SiteMapComponent
+        AboutComponent
     ]
 })
 export class NoticerModule { }

@@ -13,7 +13,6 @@ import { SettingsComponent } from './noticer/settings/settings.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { AuthGuard } from './shared';
 import { UserSetupComponent } from './user-setup/user-setup.component';
-import { SiteMapComponent } from './noticer/sitemap/sitemap.component';
 
 const routes: Routes = [
   {
@@ -134,16 +133,6 @@ const routes: Routes = [
       {
         path: '',
         component: SettingsComponent,
-      }
-    ]
-  },
-  {
-    path: 'sitemap',
-    component: NoticerComponent,
-    children: [
-      {
-        path: '',
-        component: SiteMapComponent,
       }
     ]
   },

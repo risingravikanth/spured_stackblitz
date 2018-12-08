@@ -32,8 +32,7 @@ import { HeaderMobileModule } from "./shared/components/header-mobile/header-mob
 
 @NgModule({
     declarations: [
-        AppComponent,
-        // SideMenuMobileComponent
+        AppComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'noticer' }),

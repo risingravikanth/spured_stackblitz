@@ -5,7 +5,7 @@ export const SECTIONS = [
         "sections": [
             {
                 "name": "Verbal",
-                "code": "VERBAL",
+                "code": "verbal",
                 "categories": [
                     {
                         "name": "HOME",
@@ -95,7 +95,7 @@ export const SECTIONS = [
             },
             {
                 "name": "Quants",
-                "code": "QUANTS",
+                "code": "quants",
                 "categories": [
                     {
                         "name": "HOME",
@@ -237,7 +237,7 @@ export const SECTIONS = [
             },
             {
                 "name": "Data Interpretation",
-                "code": "DI",
+                "code": "di",
                 "categories": [
                     {
                         "name": "HOME",
@@ -263,7 +263,7 @@ export const SECTIONS = [
             },
             {
                 "name": "General Knowledge",
-                "code": "GK",
+                "code": "gk",
                 "categories": [
                     {
                         "name": "HOME",
@@ -357,7 +357,7 @@ export const SECTIONS = [
             },
             {
                 "name": "Current Affairs",
-                "code": "CURRENT_AFFAIRS",
+                "code": "current_affairs",
                 "categories": [
                     {
                         "name": "HOME",
@@ -415,7 +415,7 @@ export const SECTIONS = [
             },
             {
                 "name": "Careers",
-                "code": "CAREERS",
+                "code": "careers",
                 "categories": [
                     {
                         "name": "HOME",
@@ -497,7 +497,7 @@ export const SECTIONS = [
             },
             {
                 "name": "Events",
-                "code": "EVENTS",
+                "code": "events",
                 "categories": [
                     {
                         "name": "HOME",
@@ -535,7 +535,7 @@ export const SECTIONS = [
             },
             {
                 "name": "News",
-                "code": "NEWS",
+                "code": "news",
                 "categories": [
                     {
                         "name": "HOME",
