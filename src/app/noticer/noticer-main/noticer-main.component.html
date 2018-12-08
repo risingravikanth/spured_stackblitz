@@ -35,7 +35,7 @@
                                         (click)="goToCategoriesPage(post._type, post.category)">{{
                                         getCategoryFromModel(post._type, post.category) |
                                         titlecase}}</a></span>
-                                <span *ngIf="post.model" style="color: gray"> / {{post.model | titlecase}}</span></span>
+                                <span *ngIf="post.model" style="color: gray"> / {{post.model}}</span></span>
                         </div>
                         <div style="padding: 3px 7px 0px 0px;">
                             <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"

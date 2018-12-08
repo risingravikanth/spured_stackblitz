@@ -237,7 +237,7 @@ export const SECTIONS = [
             },
             {
                 "name": "Data Interpretation",
-                "code": "di",
+                "code": "data_interpretation",
                 "categories": [
                     {
                         "name": "HOME",
@@ -718,8 +718,8 @@ export const SECTION_MAPPINGS = [
     { section: 'QUANTS', _type: 'QuantsPost' },
     { section: 'EVENTS', _type: 'EventsPost' },
     { section: 'GK', _type: 'GKPost' },
-    { section: 'DI', _type: 'DIPost' },
-    { section: 'CURRENT_AFFAIRS', _type: 'CAPost' },
+    { section: 'DATA_INTERPRETATION', _type: 'DataInterpretationPost' },
+    { section: 'CURRENT_AFFAIRS', _type: 'CurrentAffairsPost' },
     { section: 'CAREERS', _type: 'CareerPost' },
     { section: 'NEWS', _type: 'NewsPost' },
     { section: 'BOARD', _type: 'BoardPost' },
