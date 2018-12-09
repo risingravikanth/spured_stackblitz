@@ -5,13 +5,13 @@
         </li> -->
         <li class="nav-item d-none d-sm-block">
             <a href="javascript:void(0);" routerLink="/feed" class="navbar-brand mr-0">
-                <font style="font-family: cursive;color: #ffffff;font-size: 27px;">
+                <font style="font-family: cursive;color: #ffffff;font-size: 24px;">
                     <b>Noticer</b>
                 </font>
             </a>
         </li>
         <li class="siteNameGap d-none d-sm-block"></li>
-        <form class="form-inline pad-search d-none d-sm-block">
+        <!-- <form class="form-inline pad-search d-none d-sm-block">
             <div class="input-group">
                 <input type="text" class="form-control searchbar" placeholder="Search in noticer.." aria-label="search">
                 <div class="input-group-prepend">
@@ -20,14 +20,29 @@
                     </a>
                 </div>
             </div>
-        </form>
+        </form> -->
+        <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
+                    <b>
+                        <i class="fas fa-home header-icon-size"><label class="headerIconLabel">Home</label></i>
+                    </b>
+                </a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0);" (click)="addPost()">
+                    <b>
+                        <i class="fas fa-edit header-icon-size"><label class="headerIconLabel">Add Post</label></i>
+                    </b>
+                </a>
+        </li>
         <li class="nav-item dropdown">
 
             <a class="nav-link dropdown-toggle" href="#" id="notificationMenu" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
                 <b>
                     <i class="fas fa-bell header-icon-size"><span *ngIf="showNotifications" style="font-size: 12px;"
-                            class="badge badge-danger">{{notificationsCount}}</span></i>
+                            class="badge badge-danger">{{notificationsCount}}</span></i> 
+                            <label class="headerIconLabel">Notifications</label>
                 </b>
             </a>
             <div class="dropdown-menu" aria-labelledby="notificationMenu">
@@ -40,13 +55,7 @@
                 </div>
             </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
-                <b>
-                    <i class="fas fa-home header-icon-size"></i>
-                </b>
-            </a>
-        </li>
+        
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"

@@ -1,5 +1,5 @@
 import { isPlatformBrowser, Location } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -26,6 +26,7 @@ import { NoticerMainService } from './noticer-main.service';
 export class NoticerMainComponent implements OnInit {
 
   @ViewChild('sideMenuDialogDialog') sideMenuModalCotent: any;
+  @ViewChild('postDialog') postDialog: ElementRef;
 
   public isMobile: boolean;
   public profileImage: any;
@@ -100,6 +101,8 @@ export class NoticerMainComponent implements OnInit {
     this.commonService.menuChanges.subscribe(type => {
       if (type == "updateProfilePic") {
         this.setProfilePic();
+      } else if(type == "openAddPostDialog"){
+        this.postQuestionDialog(this.postDialog);
       }
     })
 
@@ -642,7 +645,7 @@ export class NoticerMainComponent implements OnInit {
   resetDropdowns() {
     //resetting values after type chage
 
-    this.addPostForm.controls['data'].get('_type1').patchValue(null);
+    // this.addPostForm.controls['data'].get('_type1').patchValue(null);
     this.addPostForm.controls['data'].get('_type').patchValue(null);
     this.addPostForm.controls['context'].get('type').patchValue(null);
 

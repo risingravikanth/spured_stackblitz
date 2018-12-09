@@ -1,5 +1,12 @@
 <section>
     <ul class="nav nav-pills fixed-top justify-content-center navBackColor">
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" (click)="sideMenuOpen()">
+                <b>
+                    <i class="fas fa-bars  header-icon-size"></i>
+                </b>
+            </a>
+        </li>
         <li class="nav-item header_logo">
             <a href="javascript:void(0);" style="margin-top: 4px;" routerLink="/feed" class="navbar-brand mr-0">
                 <font style="font-family: cursive;color: #ffffff;font-size: 22px;">
@@ -49,13 +56,6 @@
                 <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
                     <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a>
             </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" (click)="sideMenuOpen()">
-                <b>
-                    <i class="fas fa-bars  header-icon-size"></i>
-                </b>
-            </a>
         </li>
     </ul>
 </section>

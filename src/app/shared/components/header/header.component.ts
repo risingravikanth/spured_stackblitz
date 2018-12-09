@@ -57,6 +57,10 @@ export class HeaderComponent implements OnInit {
         })
     }
 
+    addPost(){
+        this.commonService.updateHeaderMenu("openAddPostDialog");
+    }
+
     goToUserProfile() {
         this.router.navigate(['profile/self']);
     }
