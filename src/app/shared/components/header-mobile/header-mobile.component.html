@@ -7,20 +7,13 @@
                 </b>
             </a>
         </li>
-        <li class="nav-item header_logo">
+        <!-- <li class="nav-item header_logo">
             <a href="javascript:void(0);" style="margin-top: 4px;" routerLink="/feed" class="navbar-brand mr-0">
                 <font style="font-family: cursive;color: #ffffff;font-size: 22px;">
                     <b>Noticer</b>
                 </font>
             </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
-                <b>
-                    <i class="fas fa-bell header-icon-size"></i>
-                </b>
-            </a>
-        </li>
+        </li> -->
         <li class="nav-item">
             <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
                 <b>
@@ -28,6 +21,33 @@
                 </b>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" (click)="addPost()">
+                <b>
+                    <i class="fas fa-edit header-icon-size"></i>
+                </b>
+            </a>
+        </li>
+        <li class="nav-item dropdown">
+
+                <a class="nav-link dropdown-toggle" href="#" id="notificationMenu" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <b>
+                        <i class="fas fa-bell header-icon-size"><span *ngIf="showNotifications" style="font-size: 12px;"
+                                class="badge badge-danger">{{notificationsCount}}</span></i>
+                    </b>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="notificationMenu">
+                    <div class="dropdown-item" *ngIf="showNotifications">
+                        <span>You have {{notificationsCount}} <br>board join request <a href="javascript:void();"
+                                routerLink="/settings">Go</a></span>
+                    </div>
+                    <div class="dropdown-item" *ngIf="!showNotifications">
+                        <span>No Notifications</span>
+                    </div>
+                </div>
+            </li>
+
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"

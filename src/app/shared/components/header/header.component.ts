@@ -46,7 +46,9 @@ export class HeaderComponent implements OnInit {
             this.profileImage = "assets/images/noticer_default_user_img.png"
         }
         this.isMobile = this.mobileService.isMobile();
-        this.boardRequests();
+        if(!this.isMobile){
+            this.boardRequests();
+        }
         this.commonService.menuChanges.subscribe(resData =>{
             if(resData == "updateProfilePic"){
                 this.currentUser = this.userService.getCurrentUser();

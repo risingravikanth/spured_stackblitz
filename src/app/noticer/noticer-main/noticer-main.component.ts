@@ -101,7 +101,7 @@ export class NoticerMainComponent implements OnInit {
     this.commonService.menuChanges.subscribe(type => {
       if (type == "updateProfilePic") {
         this.setProfilePic();
-      } else if(type == "openAddPostDialog"){
+      } else if (type == "openAddPostDialog") {
         this.postQuestionDialog(this.postDialog);
       }
     })
@@ -144,8 +144,8 @@ export class NoticerMainComponent implements OnInit {
         toDate: [null],
         deadline: [null],
         qualifications: [null],
-        answer:[null],
-        files:[null]
+        answer: [null],
+        files: [null]
       }),
     });
   }
@@ -158,7 +158,7 @@ export class NoticerMainComponent implements OnInit {
         postId: [null, Validators.required],
         text: [null, Validators.required],
         title: [null, Validators.required],
-        answer:[null]
+        answer: [null]
       })
     });
   }
@@ -690,10 +690,12 @@ export class NoticerMainComponent implements OnInit {
       if (element.postId == postId && element._type == type) {
         this.editPostForm.controls['data'].get('text').patchValue(element.postText);
         this.editPostForm.controls['data'].get('title').patchValue(element.postTitle);
-        this.editPostForm.controls['data'].get('answer').patchValue(element.postAnswer);
         this.editPostForm.controls['data'].get('postId').patchValue(element.postId);
         let type = this.sectionsTypesMappings.filter(item => item._type == element._type)[0].section;
         this.editPostForm.controls['context'].get('type').patchValue(type);
+        if(type != "CAREERS" && type != "EVENTS"){
+          this.editPostForm.controls['data'].get('answer').patchValue(element.postAnswer);
+        }
       }
     });
 
@@ -864,5 +866,9 @@ export class NoticerMainComponent implements OnInit {
 
   goToTop() {
     window.scrollTo(0, 0);
+  }
+
+  onNavigate(link: any) {
+    window.open("http://"+link)
   }
 }
