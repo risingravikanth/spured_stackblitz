@@ -32,7 +32,19 @@
     color:black;
   }
 
+  .fntGreen{
+    color: #155a24;
+  }
+
   a:hover{
     color: #155a24 !important;
     text-decoration: none !important;
+}
+
+.btnDanger{
+  background-color: #dc3545 !important;
+}
+
+.btnSuccess{
+  background-color: #155a24 !important;
 }

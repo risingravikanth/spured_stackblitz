@@ -141,6 +141,8 @@ export class NoticerMainComponent implements OnInit {
         toDate: [null],
         deadline: [null],
         qualifications: [null],
+        answer:[null],
+        files:[null]
       }),
     });
   }
@@ -153,6 +155,7 @@ export class NoticerMainComponent implements OnInit {
         postId: [null, Validators.required],
         text: [null, Validators.required],
         title: [null, Validators.required],
+        answer:[null]
       })
     });
   }
@@ -398,6 +401,7 @@ export class NoticerMainComponent implements OnInit {
           element.comments = [];
           element.commentsSpinner = false;
           element.commentText = null;
+          element.viewAnswer = false;
         }
       });
       this.noData = false;
@@ -481,6 +485,7 @@ export class NoticerMainComponent implements OnInit {
           data.commentOffset = 0;
           data.comments = [];
           data.commentsSpinner = false;
+          data.viewAnswer = false;
           this.postsList.splice(0, 0, data);
           this.initAddPostForm();
           this.toastr.success("Post success", "Post successfully added");
@@ -682,6 +687,7 @@ export class NoticerMainComponent implements OnInit {
       if (element.postId == postId && element._type == type) {
         this.editPostForm.controls['data'].get('text').patchValue(element.postText);
         this.editPostForm.controls['data'].get('title').patchValue(element.postTitle);
+        this.editPostForm.controls['data'].get('answer').patchValue(element.postAnswer);
         this.editPostForm.controls['data'].get('postId').patchValue(element.postId);
         let type = this.sectionsTypesMappings.filter(item => item._type == element._type)[0].section;
         this.editPostForm.controls['context'].get('type').patchValue(type);

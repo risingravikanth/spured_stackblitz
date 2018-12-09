@@ -34,7 +34,7 @@
                                 </a>
                                 <span *ngIf="post.category"> / <a style="color: gray" href="javascript:void(0);"
                                         (click)="goToCategoriesPage(post._type, post.category)">{{
-                                            getModelFromTypeCategory(post._type, post.category)}}</a></span>
+                                        getModelFromTypeCategory(post._type, post.category)}}</a></span>
                                 <span *ngIf="post.model" style="color: gray"> / {{post.model}}</span></span>
                         </div>
                         <div style="padding: 3px 7px 0px 0px;">
@@ -120,6 +120,12 @@
                                 </span>
                             </p>
                         </div>
+                        <div class="post-text" *ngIf="post.postAnswer && post.viewAnswer">
+                            <span class="fntBlack">
+                                    <h6 class="fntGreen">Answer</h6>
+                                    <label class="multiLineText">{{post.postAnswer}}</label>
+                            </span>
+                        </div>
                     </div>
                     <div style="margin-top: -23px;">
                         <div *ngIf="post.images.length == 1">
@@ -164,6 +170,12 @@
                                 <i class="fas fa-comments iconSize"></i>&nbsp;
                                 <a>
                                     {{post.commentsCount}} Comments
+                                </a>
+                            </li>
+                            <li class="list-inline-item paddingIcons ml-auto" *ngIf="post.postAnswer" style="cursor: pointer;">
+                                <a (click)="post.viewAnswer = !post.viewAnswer">
+                                    <i class="fas fa-book-open"></i>&nbsp;
+                                    View Answer
                                 </a>
                             </li>
                         </ul>
@@ -265,6 +277,9 @@
                 <div class="form-group" style="padding: 1px 12px 1px 12px;">
                     <textarea class="form-control" rows="4" formControlName="postText" placeholder="Question description"></textarea>
                 </div>
+                <div class="form-group" style="padding:12px;">
+                    <textarea class="form-control" rows="4" maxlength="300" formControlName="answer" placeholder="Answer"></textarea>
+                </div>
                 <!-- post start -->
                 <div class="addPost" *ngIf="reqestType != 'BOARD'">
                     <div class="row">
@@ -307,12 +322,14 @@
                     <!-- events -->
                     <div class="row" *ngIf="addPostForm.controls['data'].get('_type1').value == 'EVENTS'">
                         <div class="form-group col-md-6">
-                            <p-calendar [inputStyleClass]="form-control" [showIcon]="true" dateFormat="yy-mm-dd" formControlName="fromDate" placeholder="From Date"
-                                [style]="{'width':'95%'}" [minDate]="dateMin" dataType='string' [inputStyle]="{'width':'95%'}"></p-calendar>
+                            <p-calendar [inputStyleClass]="form-control" [showIcon]="true" dateFormat="yy-mm-dd"
+                                formControlName="fromDate" placeholder="From Date" [style]="{'width':'95%'}" [minDate]="dateMin"
+                                dataType='string' [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
                         <div class="form-group col-md-6">
-                            <p-calendar [inputStyleClass]="form-control" [showIcon]="true" dateFormat="yy-mm-dd" formControlName="toDate" placeholder="To Date"
-                                [style]="{'width':'95%'}" dataType='string' [inputStyle]="{'width':'95%'}"></p-calendar>
+                            <p-calendar [inputStyleClass]="form-control" [showIcon]="true" dateFormat="yy-mm-dd"
+                                formControlName="toDate" placeholder="To Date" [style]="{'width':'95%'}" dataType='string'
+                                [inputStyle]="{'width':'95%'}"></p-calendar>
                         </div>
 
                     </div>
@@ -333,8 +350,9 @@
 
                     <!-- careers -->
                     <div class="col-md-4" *ngIf="addPostForm.controls['data'].get('_type1').value == 'CAREERS'">
-                        <p-calendar [inputStyleClass]="form-control" [showIcon]="true" dataType='string' dateFormat="yy-mm-dd" formControlName="deadline" placeholder="Deadline"
-                            [style]="{'width':'95%'}" [minDate]="dateMin" [inputStyle]="{'width':'95%'}"></p-calendar>
+                        <p-calendar [inputStyleClass]="form-control" [showIcon]="true" dataType='string' dateFormat="yy-mm-dd"
+                            formControlName="deadline" placeholder="Deadline" [style]="{'width':'95%'}" [minDate]="dateMin"
+                            [inputStyle]="{'width':'95%'}"></p-calendar>
                     </div>
                     <!-- careers end -->
                 </div>
@@ -362,7 +380,7 @@
                 </span>
             </ul>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" [disabled]="addPostForm.invalid" (click)="createPost()">{{postBtnTxt}}</button>
+                <button type="button" class="btn btn-primary btnSuccess" [disabled]="addPostForm.invalid" (click)="createPost()">{{postBtnTxt}}</button>
             </div>
         </form>
     </ng-template>
@@ -383,14 +401,21 @@
                 <div formGroupName="data">
                     <div class="modal-body">
                         <div class="form-group" style="padding:12px;">
+                            <h6>Title</h6>
                             <textarea class="form-control" rows="1" maxlength="300" formControlName="title" placeholder="Question title(max 300Chars)"></textarea>
                         </div>
                         <div class="form-group" style="padding: 1px 12px 1px 12px;">
-                            <textarea class="form-control" formControlName="text" rows="10" placeholder="What is your question?"></textarea>
+                            <h6>Question</h6>
+                            <textarea class="form-control" formControlName="text" rows="4" placeholder="What is your question?"></textarea>
+                        </div>
+                        <div class="form-group" style="padding:12px;">
+                            <h6>Answer</h6>
+                            <textarea class="form-control" rows="4" formControlName="answer" placeholder="Answer"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" [disabled]="editPostForm.invalid" (click)="saveEditPost()">Update</button>
+                        <button type="button" class="btn btn-primary btnSuccess" [disabled]="editPostForm.invalid"
+                            (click)="saveEditPost()">Update</button>
                     </div>
                 </div>
             </form>
@@ -398,5 +423,10 @@
 
     </section>
     <section>
-        <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="23%"></p-confirmDialog>
+        <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="23%" #cd>
+            <p-footer>
+                <button type="button" class="btnDanger" pButton icon="fa-times" label="No" (click)="cd.reject()"></button>
+                <button type="button" class="btnSuccess" pButton icon="fa-check" label="Yes" (click)="cd.accept()"></button>
+            </p-footer>
+        </p-confirmDialog>
     </section>
