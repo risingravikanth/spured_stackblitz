@@ -88,7 +88,8 @@ export class NoticerMainComponent implements OnInit {
   public states: any = [];
   public institutes: any = [];
   public currentuserId: any;
-  public dateMin:Date = new Date();;
+  public dateMin: Date = new Date();
+  public postBtnTxt = "Post";
   ngOnInit() {
     this.seo.generateTags({
       title: 'Noticer feed | Posts and comments',
@@ -224,9 +225,9 @@ export class NoticerMainComponent implements OnInit {
     }
   }
 
-  prepareBoardPostReq(boardTitle:any) {
+  prepareBoardPostReq(boardTitle: any) {
     this.questionName = "Boards"
-    if(boardTitle){
+    if (boardTitle) {
       this.questionName = boardTitle
       // .replace(/[_-]/g, " ");
     }
@@ -303,9 +304,9 @@ export class NoticerMainComponent implements OnInit {
       } else {
         this.getPostsRequestBody.data.category = null;
       }
-      if(data.category == undefined || data.category == "home"){
+      if (data.category == undefined || data.category == "home") {
         this.questionName = this.prepareQuestionName(data.section, null);
-      } else{
+      } else {
         this.questionName = this.prepareQuestionName(data.section, data.category);
       }
       if (data.section) {
@@ -319,14 +320,14 @@ export class NoticerMainComponent implements OnInit {
     }
   }
 
-  prepareQuestionName(type, category){
+  prepareQuestionName(type, category) {
     let questionName = "";
     categories_types_models.SECTIONS.forEach(sec => {
       if (sec.title == "Topics") {
         sec.sections.forEach(ty => {
           if (ty.code.toUpperCase() == type.toUpperCase()) {
             questionName = ty.name;
-            if(category){
+            if (category) {
               ty.categories.forEach(ca => {
                 if (ca.code == category) {
                   questionName = questionName + " (" + ca.name + ")";
@@ -390,7 +391,7 @@ export class NoticerMainComponent implements OnInit {
     if (this.postsList.length > 0) {
       this.postsList = this.postsList.filter(item => item != null);
       this.postsList.forEach(element => {
-        if(element){
+        if (element) {
           element.maxLength = constant.showSeeMorePostTextLenth;
           element.selectComments = false;
           element.commentOffset = 0;
@@ -464,12 +465,16 @@ export class NoticerMainComponent implements OnInit {
       if (!this.addPostForm.controls['data'].get("category").value) {
         !this.addPostForm.controls['data'].get("category").patchValue("others");
       }
+      this.postBtnTxt = "Posting..."
       this.service.createPost(this.addPostForm.getRawValue()).subscribe((resData: any) => {
         if (resData && resData.code && resData.code.id) {
           this.toastr.error("Failed", resData.code.longMessage);
+          this.postBtnTxt = "Post"
         } else if (resData && resData.error && resData.error.code && resData.error.code.id) {
           this.toastr.error("Failed", resData.error.code.longMessage);
+          this.postBtnTxt = "Post"
         } else if (resData && resData.post) {
+          this.postBtnTxt = "Success"
           let data = resData.post;
           data.maxLength = constant.showSeeMorePostTextLenth;
           data.selectComments = false;
@@ -484,12 +489,15 @@ export class NoticerMainComponent implements OnInit {
           this.postImages = [];
           this.urls = [];
         } else {
+          this.postBtnTxt = "Post"
           this.toastr.error("Failed", "Something went wrong!");
         }
       }, error => {
+        this.postBtnTxt = "Post"
         this.toastr.error("Failed", "Something went wrong!");
       })
     } else {
+      this.postBtnTxt = "Post"
       this.toastr.error("Failed", "Please fill all the details");
     }
   }
@@ -497,7 +505,7 @@ export class NoticerMainComponent implements OnInit {
   getCommentsForPost(postId, index) {
     let reqBody = this.prepareGetComentsRequestBody(postId, index);
     this.postsList[index].commentOffset = 0;
-    if(!this.postsList[index].selectComments){
+    if (!this.postsList[index].selectComments) {
       this.postsList[index].selectComments = !this.postsList[index].selectComments;
       if (this.postsList[index].commentsCount > 0) {
         this.postsList[index].commentsSpinner = true;
@@ -518,7 +526,7 @@ export class NoticerMainComponent implements OnInit {
           this.toastr.error("Failed", "Something went wrong!");
         })
       }
-    } else{
+    } else {
       this.postsList[index].selectComments = !this.postsList[index].selectComments;
     }
   }
@@ -619,8 +627,8 @@ export class NoticerMainComponent implements OnInit {
 
     this.models = [];
     categories_types_models.MODELS.forEach(item => {
-      let type_search =  (type == "VERBAL" || type == "QUANTS" || type == "DI") ? "VERBAL" : type; 
-      if(item.type == type_search){
+      let type_search = (type == "VERBAL" || type == "QUANTS" || type == "DI") ? "VERBAL" : type;
+      if (item.type == type_search) {
         this.models = item.models;
       }
     });
@@ -628,6 +636,11 @@ export class NoticerMainComponent implements OnInit {
 
   resetDropdowns() {
     //resetting values after type chage
+
+    this.addPostForm.controls['data'].get('_type1').patchValue(null);
+    this.addPostForm.controls['data'].get('_type').patchValue(null);
+    this.addPostForm.controls['context'].get('type').patchValue(null);
+
     this.addPostForm.controls['data'].get('website').patchValue(null);
     this.addPostForm.controls['data'].get('model').patchValue(null);
     this.addPostForm.controls['data'].get('category').patchValue(null);
@@ -779,6 +792,20 @@ export class NoticerMainComponent implements OnInit {
     this.router.navigate(['profile/users/' + userId]);
   }
 
+
+
+  getTypeFrom_Type(_type: any) {
+    let t = "NA";
+    let mappings = this.sectionsTypesMappings;
+    let _typeArr = mappings.filter(item => item._type.toUpperCase() == _type.toUpperCase());
+    if (_typeArr.length > 0) {
+      t = _typeArr[0].section;
+    }
+    return t;
+  }
+
+
+
   getSectionFromType(_type: any) {
     let t = "NA";
     let mappings = this.sectionsTypesMappings;
@@ -789,7 +816,7 @@ export class NoticerMainComponent implements OnInit {
     return t;
   }
 
-  getCategoryFromModel(_type: any, category:any):string {
+  getModelFromTypeCategory(_type: any, category: any): string {
     let type = this.getSectionFromType(_type);
     let model = "NA"
     categories_types_models.SECTIONS.forEach(sec => {
@@ -809,7 +836,7 @@ export class NoticerMainComponent implements OnInit {
   }
 
   goToCategoriesPage(_type: any, category: any) {
-    let section = this.getSectionFromType(_type);
+    let section = this.getTypeFrom_Type(_type);
     if (category == null) {
       this.router.navigate(['categories/' + section.toLowerCase()])
     } else {
@@ -826,7 +853,7 @@ export class NoticerMainComponent implements OnInit {
     }
   }
 
-  goToTop(){
-    window.scrollTo(0,0);
+  goToTop() {
+    window.scrollTo(0, 0);
   }
 }

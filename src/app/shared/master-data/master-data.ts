@@ -263,7 +263,7 @@ export const SECTIONS = [
             },
             {
                 "name": "General Knowledge",
-                "code": "gk",
+                "code": "general_knowledge",
                 "categories": [
                     {
                         "name": "HOME",
@@ -613,7 +613,7 @@ export const TYPES = [
     { label: 'Events', value: 'EVENTS' },
     { label: 'Current Affairs', value: 'CURRENT_AFFAIRS' },
     { label: 'Data Interpretation', value: 'DATA_INTERPRETATION' },
-    { label: 'General Knowledge', value: 'GK' },
+    { label: 'General Knowledge', value: 'GENERAL_KNOWLEDGE' },
     { label: 'Careers', value: 'CAREERS' },
     { label: 'News', value: 'NEWS' }
 ]
@@ -717,7 +717,7 @@ export const SECTION_MAPPINGS = [
     { name: "Verbal", section: 'VERBAL', _type: 'VerbalPost' },
     { name: "Quants", section: 'QUANTS', _type: 'QuantsPost' },
     { name: "Events", section: 'EVENTS', _type: 'EventsPost' },
-    { name: "General Knowledge", section: 'GK', _type: 'GKPost' },
+    { name: "General Knowledge", section: 'GENERAL_KNOWLEDGE', _type: 'GKPost' },
     { name: "Data Interpretation", section: 'DATA_INTERPRETATION', _type: 'DataInterpretationPost' },
     { name: "Current Affairs", section: 'CURRENT_AFFAIRS', _type: 'CurrentAffairsPost' },
     { name: "Careers", section: 'CAREERS', _type: 'CareerPost' },

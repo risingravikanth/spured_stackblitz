@@ -2,7 +2,7 @@
     <br class="d-block d-sm-none">
     <br>
     <div class="row">
-        <div class="col-md-3 col-sm-3" *ngIf="!isMobile">
+        <div class="col-md-3 col-sm-3 d-none d-sm-block" *ngIf="!isMobile">
             <side-menu></side-menu>
         </div>
         <div [class]="!isMobile ? 'col-md-6' : 'col-md-10'">
@@ -34,7 +34,7 @@
                                 </a>
                                 <span *ngIf="post.category"> / <a style="color: gray" href="javascript:void(0);"
                                         (click)="goToCategoriesPage(post._type, post.category)">{{
-                                        getCategoryFromModel(post._type, post.category)}}</a></span>
+                                            getModelFromTypeCategory(post._type, post.category)}}</a></span>
                                 <span *ngIf="post.model" style="color: gray"> / {{post.model}}</span></span>
                         </div>
                         <div style="padding: 3px 7px 0px 0px;">
@@ -90,13 +90,13 @@
                                         {{post.fromdate}} to {{post.todate}}
                                     </td>
                                 </tr>
-                                <!-- <tr>
+                                <tr>
                                     <td *ngIf="post.website">
                                         <a href="www.google.com">{{post.website}}</a>
                                     </td>
                                     <td *ngIf="post.contacts">
                                         <i class="fas fa-phone-square"></i> {{post.contacts}}</td>
-                                </tr> -->
+                                </tr>
                             </table>
                             <br>
                         </div>
@@ -235,7 +235,7 @@
                 <b *ngIf="noData">Opps! No Posts Available</b>
             </div>
         </div>
-        <div class="col-md-3" *ngIf="!isMobile">
+        <div class="col-md-3 d-none d-sm-block" *ngIf="!isMobile">
             <right-menu></right-menu>
         </div>
     </div>
@@ -292,7 +292,6 @@
                         addPostForm.controls['data'].get('_type1').value == 'CAREERS' ||
                         addPostForm.controls['data'].get('_type1').value == 'VERBAL' ||
                         addPostForm.controls['data'].get('_type1').value == 'QUANTS' ||
-                        addPostForm.controls['data'].get('_type1').value == 'DATA_INTERPRETATION' ||
                         addPostForm.controls['data'].get('_type1').value == 'CURRENT_AFFAIRS'">
                             <p-dropdown placeholder=" Model" [options]="models" [style]="{'width':'100%'}"
                                 formControlName="model" filter="true">
@@ -321,10 +320,14 @@
                         <div class="form-group col-md-6">
                             <input class="form-control form-control-sm" type="text" formControlName="topic" placeholder="Topic">
                         </div>
-                        <!-- <div class="form-group col-md-6">
+                        <div class="form-group col-md-6">
                             <input class="form-control form-control-sm" type="text" formControlName="contacts"
                                 placeholder="Contacts">
-                        </div> -->
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input class="form-control form-control-sm" type="text" formControlName="website"
+                                placeholder="Website">
+                        </div>
                     </div>
                     <!-- events end -->
 
@@ -359,7 +362,7 @@
                 </span>
             </ul>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" [disabled]="addPostForm.invalid" (click)="createPost()">Post</button>
+                <button type="button" class="btn btn-primary" [disabled]="addPostForm.invalid" (click)="createPost()">{{postBtnTxt}}</button>
             </div>
         </form>
     </ng-template>

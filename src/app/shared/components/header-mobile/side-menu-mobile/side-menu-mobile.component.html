@@ -69,7 +69,7 @@
                     </span>
                     <ul style="display:none; margin-left: -10px;">
                         <li *ngFor="let category of section.categories">
-                            <a style="width: 82%;" href="javascript:void(0);" style="color: black;" [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
+                            <a style="width: 82%;" href="javascript:void(0);" style="color: black;" 
                                 (click)="selectedCategory(section.code, category.code)" [class.selected]="section.code+category.code === selectedItem">
                                 {{category.name}}</a>
                             <span class="float-right" *ngIf="menu.select">
