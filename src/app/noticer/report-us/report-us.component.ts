@@ -16,4 +16,8 @@ export class ReportUsComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  reportIssue(){
+    alert("report issue");
+  }
 }
