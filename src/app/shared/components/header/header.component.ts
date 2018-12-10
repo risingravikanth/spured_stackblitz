@@ -91,8 +91,8 @@ export class HeaderComponent implements OnInit {
             if (this.getAllRequestsList && this.getAllRequestsList.code == "ERROR") {
               alert(this.getAllRequestsList.info);
               this.showNotifications = false;
-            } else if (this.getAllRequestsList && this.getAllRequestsList.length > 0) {
-                this.notificationsCount = this.getAllRequestsList.length;
+            } else if (this.getAllRequestsList && this.getAllRequestsList.requests && this.getAllRequestsList.requests.length > 0) {
+                this.notificationsCount = this.getAllRequestsList.requests.length;
               this.showNotifications = true;
             } else {
               this.showNotifications = false;

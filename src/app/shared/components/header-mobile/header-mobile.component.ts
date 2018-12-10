@@ -103,18 +103,18 @@ export class HeaderMobileComponent implements OnInit {
 
     boardRequests() {
         this.settingsService.getAllRequests().subscribe(
-          resData => {
-            this.getAllRequestsList = resData;
-            if (this.getAllRequestsList && this.getAllRequestsList.code == "ERROR") {
-              alert(this.getAllRequestsList.info);
-              this.showNotifications = false;
-            } else if (this.getAllRequestsList && this.getAllRequestsList.length > 0) {
-                this.notificationsCount = this.getAllRequestsList.length;
-              this.showNotifications = true;
-            } else {
-              this.showNotifications = false;
+            resData => {
+              this.getAllRequestsList = resData;
+              if (this.getAllRequestsList && this.getAllRequestsList.code == "ERROR") {
+                alert(this.getAllRequestsList.info);
+                this.showNotifications = false;
+              } else if (this.getAllRequestsList && this.getAllRequestsList.requests && this.getAllRequestsList.requests.length > 0) {
+                  this.notificationsCount = this.getAllRequestsList.requests.length;
+                this.showNotifications = true;
+              } else {
+                this.showNotifications = false;
+              }
             }
-          }
-        )
+          )
       }
 }

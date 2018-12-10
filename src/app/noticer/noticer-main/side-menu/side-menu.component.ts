@@ -218,12 +218,14 @@ export class SideMenuComponent implements OnInit {
   getBoardsList() {
     this.showPostSpinner = true;
     this.service.getUserClosedBoards().subscribe((resData: any) => {
-      this.boardsList = resData;
       this.showPostSpinner = false;
-      if(this.boardsList && this.boardsList.length > 0){
-        this.noBoards = false;
-      } else{
-        this.noBoards = true;
+      if(resData.boards){
+        this.boardsList = resData.boards;
+        if(this.boardsList && this.boardsList.length > 0){
+          this.noBoards = false;
+        } else{
+          this.noBoards = true;
+        }
       }
     })
   }

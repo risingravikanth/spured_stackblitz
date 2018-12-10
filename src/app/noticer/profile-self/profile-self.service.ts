@@ -14,6 +14,12 @@ export class SelfProfileService {
         return Observable.throw(error);
     }
 
+    isValidToken(){
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/profile/isvalidtoken";
+        return this.httpClient.get(url, { headers: headers }).catch(this.handleError);
+    }
+
     getUserInfo(userId: any) {
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         let url = "/profile/getprofile";
