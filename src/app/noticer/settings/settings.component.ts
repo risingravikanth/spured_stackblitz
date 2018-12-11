@@ -64,12 +64,12 @@ export class SettingsComponent implements OnInit {
 
   boardRequests() {
     this.service.getAllRequests().subscribe(
-      resData => {
-        this.getAllRequestsList = resData;
-        if (this.getAllRequestsList && this.getAllRequestsList.code == "ERROR") {
-          alert(this.getAllRequestsList.info);
+      (resData:any) => {
+        if (resData && resData.code == "ERROR") {
+          alert(resData.info);
           this.showReq = false;
-        } else if (this.getAllRequestsList && this.getAllRequestsList.length > 0) {
+        } else if (resData  && resData && resData.requests.length > 0) {
+          this.getAllRequestsList = resData.requests;
           this.showReq = true;
         } else {
           this.showReq = false;

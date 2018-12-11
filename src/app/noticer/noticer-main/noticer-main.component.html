@@ -6,7 +6,7 @@
             <side-menu></side-menu>
         </div>
         <div [class]="!isMobile ? 'col-md-6' : 'col-md-10'">
-            <div class="card question-back" *ngIf="validUser && !paramId">
+            <!-- <div class="card question-back" *ngIf="validUser && !paramId">
                 <div class="row" style="padding-left: 28px;">
                     <div style="width: 20%;">
                         <img width="80" height="80" style=" padding: 5px;border-radius: 50px;" alt="ProfilePic" [src]="profileImage">
@@ -22,7 +22,9 @@
                         </h3>
                     </div>
                 </div>
-            </div>
+            </div> -->
+
+            <create-post></create-post>
             <br>
             <div *ngFor="let post of postsList;index as i;">
                 <div class="card">

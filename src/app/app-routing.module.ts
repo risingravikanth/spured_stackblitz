@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AboutComponent } from './noticer/about/about.component';
 import { HelpComponent } from './noticer/help/help.component';
-import { MenuMobileComponent } from './noticer/noticer-main/menu-mobile/menu-mobile.component';
 import { NoticerMainComponent } from './noticer/noticer-main/noticer-main.component';
 import { NoticerComponent } from './noticer/noticer.component';
 import { OthersProfileComponent } from './noticer/profile-other/profile-other.component';
@@ -22,10 +21,6 @@ const routes: Routes = [
       {
         path: '',
         component: NoticerMainComponent,
-      },
-      {
-        path: 'mobile-menu',
-        component: MenuMobileComponent,
       }
     ]
   },

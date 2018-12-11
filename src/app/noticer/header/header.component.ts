@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/user.model';
-import { CurrentUserService } from '../../services/currentUser.service';
-
-import { CommonService } from "../../services/common.service";
-import { MobileDetectionService } from '../../services/mobiledetection.service';
-import * as constant from '../../others/constants'
-import { SettingsService } from '../../../noticer/settings/settings.service';
+import * as constant from '../../shared/others/constants'
+import { SettingsService } from '../settings/settings.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { CurrentUserService } from '../../shared/services/currentUser.service';
+import { CommonService } from '../../shared/services/common.service';
+import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
+import { User } from '../../shared/models/user.model';
+import { CreatePostComponent } from '../noticer-main/create-post/create-post.component';
 
 @Component({
     selector: 'app-header',
@@ -19,6 +19,8 @@ export class HeaderComponent implements OnInit {
 
     pushRightClass: string = 'push-right';
     toggleTopicsMenu: any = false;
+
+    public headerValue = "header";
 
     public responseVo: any = { info: null, source: null, statusCode: null };
     getAllRequestsList:any = [];
@@ -60,7 +62,7 @@ export class HeaderComponent implements OnInit {
     }
 
     addPost(){
-        this.commonService.updateHeaderMenu("openAddPostDialog");
+        // this.commonService.updateHeaderMenu("openAddPostDialog");
     }
 
     goToUserProfile() {
@@ -100,4 +102,11 @@ export class HeaderComponent implements OnInit {
           }
         )
       }
+
+      @ViewChild(CreatePostComponent)
+     private myChild: CreatePostComponent;
+
+   openTab(){		
+		this.myChild.open();	   
+   }
 }

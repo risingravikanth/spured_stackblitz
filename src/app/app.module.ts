@@ -27,7 +27,7 @@ import { CurrentUserService } from './shared/services/currentUser.service';
 import { JwtService } from './shared/services/jwt.service';
 import { MobileDetectionService } from './shared/services/mobiledetection.service';
 import { UserSetupModule } from './user-setup/user-setup.module';
-import { HeaderMobileModule } from "./shared/components/header-mobile/header-mobile.module";
+import { HeaderMobileModule } from "./noticer/header-mobile/header-mobile.module";
 
 
 @NgModule({
@@ -49,7 +49,7 @@ import { HeaderMobileModule } from "./shared/components/header-mobile/header-mob
         OthersProfileModule,
         SelfProfileModule,
         NoticerModule,
-        NoticerMainModule,
+        // NoticerMainModule,
         PasswordResetModule,
         HelpModule,
         SettingsModule,

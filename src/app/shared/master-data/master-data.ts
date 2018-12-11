@@ -258,6 +258,10 @@ export const SECTIONS = [
                     {
                         "name": "Line Charts",
                         "code": "line_charts"
+                    },
+                    {
+                        "name": "Others",
+                        "code": "others"
                     }
                 ]
             },

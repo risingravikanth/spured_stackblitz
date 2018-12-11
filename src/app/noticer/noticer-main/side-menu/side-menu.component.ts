@@ -100,6 +100,7 @@ export class SideMenuComponent implements OnInit {
 
 
   showAddCategoryDialog(content: any) {
+    this.commonService.updateHeaderMenu("sideMenuClose");
     this.getAllSates();
     this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
     this.categoryModalReference.result.then((result) => {
@@ -120,6 +121,7 @@ export class SideMenuComponent implements OnInit {
 
   public selectedItem;
   selectedCategory(sec: any, cat: any) {
+    this.commonService.updateHeaderMenu("sideMenuClose");
     let data = new Section();
     data.section = sec;
     data.category = cat;
@@ -135,6 +137,7 @@ export class SideMenuComponent implements OnInit {
   }
 
   selectedBoard(boardId: any, boardName: any) {
+    this.commonService.updateHeaderMenu("sideMenuClose");
     this.selectedItem = boardId + boardName;
     this.router.navigate(['/boards/closed/'+boardId+"/"+boardName
     // .replace(/[^a-zA-Z0-9]/g, '-')

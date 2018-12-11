@@ -5,7 +5,6 @@ import { MatExpansionModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropdownModule } from 'primeng/primeng';
-import { SideMenuMobileComponent } from './side-menu-mobile/side-menu-mobile.component';
 
 @NgModule({
   imports: [
@@ -19,9 +18,7 @@ import { SideMenuMobileComponent } from './side-menu-mobile/side-menu-mobile.com
     RouterModule,
   ],
   declarations: [
-    SideMenuMobileComponent
   ],
-  entryComponents: [],
-  exports:[SideMenuMobileComponent]
+  entryComponents: []
 })
 export class HeaderMobileModule { }

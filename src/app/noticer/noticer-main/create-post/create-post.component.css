@@ -1,0 +1,186 @@
+.marTop45
+{
+    /* margin-top: 45px; */
+    margin-top: 5%;
+}
+
+.special-img 
+{
+    border-radius: 21px;
+    height: 40px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.well {
+    min-height: 20px;
+    padding: 19px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+}
+
+
+.modal-body {
+    padding: 0 !important;
+}
+
+
+.question-text{
+    padding-top: 5%;
+    font-size: 20px;
+    padding-left: 20px;
+    padding-right: 1%;
+}
+
+.question-back{
+    background: #f3f3f3;
+}
+
+.postIcons {
+    padding-left:10px;
+}
+.postIconColor{
+    color: grey;
+}
+
+
+.typeAlign{
+    text-align: right;
+    margin-top: -52px;
+    padding: 11px;
+}
+
+.post-text{
+    padding-left: 16px;
+    padding-right: 6px;
+}
+
+.iconSize{
+    font-size: 15px;
+}
+
+.paddingIcons{
+    padding-left: 4%;
+}
+
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+  }
+
+  td
+  {
+      padding:0 15px 0 15px;
+      font-size: 13px;
+  }
+
+  .eventColor {
+      color: brown;
+  }
+
+  .addQuestion{
+    color: #000000bf
+  }
+
+  .addPost{
+    padding-left:12px;
+    padding-right: 12px;
+  }
+
+
+  .ui-dropdown .ui-dropdown-panel {
+    min-width: 100%;
+    width: 10% !important;
+}
+
+
+.wrap{
+    display: flex;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+
+.commentProfile{
+    width: 8%;
+}
+
+.commentBody{
+    width: 92%;
+    margin-top: 10px;
+}
+
+
+.item {
+    width: 50%;
+    float: left;
+}
+.item img {
+    display: block;
+}
+
+.multiLineText{
+    white-space: pre-wrap;
+    width:99%;
+}
+
+figure {
+    display:inline-block;
+}
+figcaption {
+    text-align: center;
+}
+
+.header{
+    background-color: #dbdade99;
+    padding: 7px;
+}
+
+.btt-btn {
+    cursor: pointer;
+    position: fixed;
+    bottom: .5em;
+    right: .5em;
+    padding: .5em;
+    text-decoration: none;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    outline-style: none;
+    /*display: none;*/
+ }
+ 
+ .btt-btn:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+ }
+ 
+ .btt-btn:active {
+    background-color: rgba(0, 0, 0, 0.8);
+ }
+ 
+ #backTT {
+    z-index: -9999999;
+    position: absolute;
+    top: 0;
+ }

@@ -29,7 +29,7 @@
                 </a>
         </li>
         <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);" (click)="addPost()">
+                <a class="nav-link" href="javascript:void(0);" (click)="openTab()">
                     <b>
                         <i class="fas fa-edit header-icon-size"><label class="headerIconLabel">Add Post</label></i>
                     </b>
@@ -72,8 +72,8 @@
                     <i class="fa fa-question-circle"></i>&nbsp; Report Us </a>
                 <a class="dropdown-item" href="#" routerLink="/help">
                     <i class="fab fa-hire-a-helper"></i>&nbsp; Help </a>
-                <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
-                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a>
+                <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a> -->
 
                 <a class="dropdown-item" href="javascript:void(0);" (click)="onLoggedout()">
                     <i class="fa fa-fw fa-power-off"></i>&nbsp; Log Out </a>
@@ -88,4 +88,7 @@
             </div>
         </li>
     </ul>
+</section>
+<section>
+    <create-post [isHeader]="headerValue"></create-post>
 </section>

@@ -102,9 +102,16 @@ export class NoticerMainComponent implements OnInit {
       if (type == "updateProfilePic") {
         this.setProfilePic();
       } else if (type == "openAddPostDialog") {
-        this.postQuestionDialog(this.postDialog);
+        // this.postQuestionDialog(this.postDialog);
       }
     })
+
+    this.commonService.addPostInList.subscribe(
+      postData =>{
+        this.postsList.splice(0, 0, postData);
+        this.noData = false;
+      }
+    )
 
     this.userService.setTitle("Noticer | Posts and comments");
 

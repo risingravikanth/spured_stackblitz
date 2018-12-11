@@ -12,6 +12,8 @@ export class CommonService {
     sectionChanges = new BehaviorSubject<Section>(null);
 
     menuChanges = new BehaviorSubject<string>(null);
+
+    addPostInList = new BehaviorSubject<any>(null);
 	
     constructor(private httpClient: HttpClient) { }
  
@@ -25,6 +27,10 @@ export class CommonService {
 
     updateHeaderMenu(value){
         this.menuChanges.next(value);
+    }
+
+    addPostInListofPosts(value){
+        this.addPostInList.next(value);
     }
     
 }
