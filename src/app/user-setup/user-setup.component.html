@@ -58,7 +58,7 @@
                     <p class="signUpBtnMar text-center"><b>Already have an account?</b></p>
                     <button type="button" class="btn btn-primary btn-sm loginButton btn-block" (click)="redirectLogin()">Log
                         In</button>
-                    <button *ngIf="!isValiUser" style="background: #155a24;" type="button" class="btn btn-default btn-sm btnShape  btn-block"
+                    <button *ngIf="!isValidUser" style="background: #155a24;" type="button" class="btn btn-default btn-sm btnShape  btn-block"
                         routerLink="/feed">Continue
                         as guest</button>
                 </form>
