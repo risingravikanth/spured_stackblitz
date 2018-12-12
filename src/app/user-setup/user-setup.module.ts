@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatSelectModule, MatStepperModule } from '@angular/material';
-import { Routes } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material';
+import { RouterModule, Routes } from '@angular/router';
 import { UserSetupComponent } from './user-setup.component';
 
 const routes: Routes = [
@@ -13,11 +13,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatStepperModule,
     MatProgressSpinnerModule,
+    RouterModule.forChild(routes),
   ],
   declarations: [
     UserSetupComponent

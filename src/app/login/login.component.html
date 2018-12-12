@@ -25,7 +25,8 @@
                 <form (ngSubmit)="onLoggedin()" [formGroup]="authForm">
                     <div class="form-row">
                         <label for="inputEmail4">Email</label>
-                        <input type="email" class="form-control  form-control-sm" id="inputEmail4" placeholder="Email" formControlName="email">
+                        <input type="email" class="form-control  form-control-sm" id="inputEmail4" placeholder="Email"
+                            formControlName="email">
                     </div>
                     <div class="form-row marT12">
                         <label for="inputPassword4">Password</label>
@@ -33,10 +34,13 @@
                             formControlName="password">
                     </div>
                     <p><a href="javascript:void(0);" class="linkGray" routerLink="/password_reset">Forgot password?</a></p>
-                    <button type="submit" class="btn btn-primary btn-sm loginButton btn-block">{{status}}</button>
+                    <button type="submit" class="btn btn-primary btn-sm loginButton btn-block" [disabled]="status == 'Logging in, please wait...'">{{status}}</button>
                     <p class="signUpBtnMar text-center"><b>Join Noticer Today</b></p>
                     <button type="button" class="btn btn-default btn-sm btnShape btn-block" routerLink="/signup">Sign
                         Up</button>
+                    <button *ngIf="!isValiUser" style="background: #155a24;" type="button" class="btn btn-default btn-sm btnShape  btn-block"
+                        routerLink="/feed">Continue
+                        as guest</button>
                 </form>
             </div>
         </div>

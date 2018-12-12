@@ -126,7 +126,7 @@
                             </span>
                         </div>
                     </div>
-                    <div style="margin-top: -23px;">
+                    <div>
                         <div *ngIf="post.images.length == 1">
                             <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{serverUrl}}/{{post.images[0]}}">
                                 <img src="{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%; max-height: 100%;padding: 7px;">

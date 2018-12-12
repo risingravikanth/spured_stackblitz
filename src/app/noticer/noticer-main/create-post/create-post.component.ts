@@ -123,7 +123,7 @@ export class CreatePostComponent implements OnInit {
     this.route.params.subscribe(this.handleParams.bind(this));
   }
 
-  open(){
+  open() {
     this.postQuestionDialog(this.postDialog);
   }
 
@@ -157,11 +157,11 @@ export class CreatePostComponent implements OnInit {
 
   handleParams(params: any[]) {
     if (this.router.url.indexOf('boards/closed') !== -1) {
-        this.boardId = params['boardId'];
+      this.boardId = params['boardId'];
       this.prepareBoardPostReq(params['title']);
       this.paramType = "BOARD";
     } else {
-        this.addPostForm.controls['data'].get('_type1').setValidators([Validators.required]);
+      this.addPostForm.controls['data'].get('_type1').setValidators([Validators.required]);
       this.paramType = params['type'];
       this.paramCategory = params['category'];
       let sec = new Section();
@@ -191,7 +191,7 @@ export class CreatePostComponent implements OnInit {
       this.urls = [];
       this.resetDropdowns();
       this.addPostForm.enable();
-      if (this.paramType) {
+      if (this.paramType && this.isHeader != "header") {
         let reqType = this.paramType.toUpperCase();
         this.reqestType = reqType;
         this.getCategoriesByType(reqType);
@@ -392,6 +392,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   createPost() {
+    this.postBtnTxt = "Posting..."
     if (this.addPostForm.controls['data'].get('_type1').value) {
       let reqType = this.addPostForm.controls['data'].get('_type1').value;
       let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
@@ -407,10 +408,11 @@ export class CreatePostComponent implements OnInit {
         let formData: FormData = new FormData();
         formData.append('file', element);
         this.service.uploadImage(formData).subscribe((resData: any) => {
-            if(resData && resData.error && resData.error.code){
-                this.toastr.error("Failed", resData.error.code.longMessage);
-            } else{
-                imageUrls.push(resData.url);
+          if (resData && resData.error && resData.error.code) {
+            this.toastr.error("Failed", resData.error.code.longMessage);
+            this.postBtnTxt = "Post"
+          } else {
+            imageUrls.push(resData.url);
           }
           if (this.postImages.length == imageUrls.length) {
             this.addPostForm.controls["data"].get("images").patchValue(imageUrls);
@@ -419,6 +421,7 @@ export class CreatePostComponent implements OnInit {
         })
       }, error => {
         this.toastr.error("Failed", "Something went wrong!");
+        this.postBtnTxt = "Post"
       })
     } else {
       this.addPostForm.controls["data"].get("images").patchValue([]);
@@ -431,7 +434,6 @@ export class CreatePostComponent implements OnInit {
       if (!this.addPostForm.controls['data'].get("category").value) {
         !this.addPostForm.controls['data'].get("category").patchValue("others");
       }
-      this.postBtnTxt = "Posting..."
       console.log(this.addPostForm.getRawValue());
       console.log(this.addPostForm.value);
       this.service.createPost(this.addPostForm.getRawValue()).subscribe((resData: any) => {
@@ -450,12 +452,12 @@ export class CreatePostComponent implements OnInit {
           data.comments = [];
           data.commentsSpinner = false;
           data.viewAnswer = false;
-        //   this.postsList.splice(0, 0, data);
+          //   this.postsList.splice(0, 0, data);
           this.initAddPostForm();
           this.toastr.success("Post success", "Post successfully added");
           this.noData = false;
           this.categoryModalReference.close();
-        this.commonService.addPostInListofPosts(data);
+          this.commonService.addPostInListofPosts(data);
           this.postImages = [];
           this.urls = [];
         } else {

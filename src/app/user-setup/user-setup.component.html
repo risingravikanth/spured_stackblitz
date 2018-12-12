@@ -52,10 +52,15 @@
                         <input type="password" class="form-control  form-control-sm" id="inputPwd4" placeholder="Password"
                             formControlName="password">
                     </div>
-                    <button type="submit" class="btn btn-default btn-sm btnShape  btn-block marT12" [disabled]="UserSetUpForm.invalid">{{btnText}}</button>
+                    <fieldset [disabled]="btnText == 'Creating new user..'">
+                        <button type="submit" class="btn btn-default btn-sm btnShape  btn-block marT12" [disabled]="UserSetUpForm.invalid">{{btnText}}</button>
+                    </fieldset>
                     <p class="signUpBtnMar text-center"><b>Already have an account?</b></p>
                     <button type="button" class="btn btn-primary btn-sm loginButton btn-block" (click)="redirectLogin()">Log
                         In</button>
+                    <button *ngIf="!isValiUser" style="background: #155a24;" type="button" class="btn btn-default btn-sm btnShape  btn-block"
+                        routerLink="/feed">Continue
+                        as guest</button>
                 </form>
             </div>
         </div>

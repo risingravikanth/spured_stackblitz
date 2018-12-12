@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
     errorTextMessage: string = '';
     public isMobile: boolean = false;
     public responseVo: any = { info: null, source: null, statusCode: null };
+    public isValiUser = false;
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit {
         })
         this.currentUser.setTitle("Sign in - Noticer")
         if (this.currentUser.checkValidUser()) {
-            // this.router.navigate(['/feed']);
+            this.isValiUser = true;
             if (isPlatformBrowser(this.platformId)) {
                 window.open('/feed', "_self")
             }

@@ -21,7 +21,7 @@ import { SideMenuService } from './side-menu.service';
 })
 export class SideMenuComponent implements OnInit {
   noBoards: boolean = false;
-  showPostSpinner:boolean = false;
+  showPostSpinner: boolean = false;
 
   constructor(private router: Router, private formbuilder: FormBuilder,
     private commonService: CommonService,
@@ -62,16 +62,23 @@ export class SideMenuComponent implements OnInit {
     }
 
     this.menuList = SECTIONS;
-    
+
   }
 
   initForm() {
     this.addBoardForm = this.formbuilder.group(
       {
+        requestType: [null],
         stateId: [null, Validators.required],
         instId: [null, Validators.required],
+        instName: [null],
+        instAddr: [null],
         deptId: [null, Validators.required],
-        boardId: [null, Validators.required]
+        deptName: [null],
+        startYear: [null],
+        endYear: [],
+        boardId: [null, Validators.required],
+        comments: [null]
       }
     )
     this.getBoardsList();
@@ -99,7 +106,7 @@ export class SideMenuComponent implements OnInit {
   }
 
 
-  showAddCategoryDialog(content: any) {
+  showAddBoardDialog(content: any) {
     this.commonService.updateHeaderMenu("sideMenuClose");
     this.getAllSates();
     this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
@@ -139,14 +146,14 @@ export class SideMenuComponent implements OnInit {
   selectedBoard(boardId: any, boardName: any) {
     this.commonService.updateHeaderMenu("sideMenuClose");
     this.selectedItem = boardId + boardName;
-    this.router.navigate(['/boards/closed/'+boardId+"/"+boardName
-    // .replace(/[^a-zA-Z0-9]/g, '-')
+    this.router.navigate(['/boards/closed/' + boardId + "/" + boardName
+      // .replace(/[^a-zA-Z0-9]/g, '-')
     ])
   }
 
   select(item) {
     this.selected = (this.selected === item ? null : item);
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
   }
   isActive(item) {
     return this.selected === item;
@@ -222,11 +229,11 @@ export class SideMenuComponent implements OnInit {
     this.showPostSpinner = true;
     this.service.getUserClosedBoards().subscribe((resData: any) => {
       this.showPostSpinner = false;
-      if(resData.boards){
+      if (resData.boards) {
         this.boardsList = resData.boards;
-        if(this.boardsList && this.boardsList.length > 0){
+        if (this.boardsList && this.boardsList.length > 0) {
           this.noBoards = false;
-        } else{
+        } else {
           this.noBoards = true;
         }
       }
@@ -259,6 +266,24 @@ export class SideMenuComponent implements OnInit {
       case "department":
         this.addBoardForm.controls['boardId'].patchValue(null);
         this.listOfBoards = [];
+    }
+  }
+
+
+  public noBordCheck = false;
+  public noInstCheck = false;
+  public noDeptCheck = false;
+
+  requestCheckBox(e, type) {
+    switch (type) {
+      case 'INSTITUTE':
+        this.noInstCheck = e.target.checked;
+      case 'DEPARTMENT':
+        this.noDeptCheck = e.target.checked;
+      case 'BOARD':
+        this.noBordCheck = e.target.checked;
+
+
     }
   }
 

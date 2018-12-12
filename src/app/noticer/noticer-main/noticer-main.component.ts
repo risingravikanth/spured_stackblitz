@@ -724,13 +724,19 @@ export class NoticerMainComponent implements OnInit {
       if (obj.error && obj.error.code && obj.error.code.id) {
         this.toastr.error("Failed", obj.error.code.message);
       } else {
-        this.postsList.forEach(element => {
-          if (element.postId == this.editPostForm.controls['data'].get('postId').value) {
-            element.postText = this.editPostForm.controls['data'].get('text').value
-            element.postTitle = this.editPostForm.controls['data'].get('title').value
+        if(obj && obj.posts.length>0){
+          if(obj.posts[0].postId){
+            this.postsList.forEach(element => {
+              if (element.postId == this.editPostForm.controls['data'].get('postId').value) {
+                element.postText = this.editPostForm.controls['data'].get('text').value
+                element.postTitle = this.editPostForm.controls['data'].get('title').value
+                element.postAnswer = this.editPostForm.controls['data'].get('answer').value
+              }
+            });
+            this.toastr.success("Update success", "Post updated successfully");
+            this.categoryModalReference.close();
           }
-        });
-        this.categoryModalReference.close();
+        }
       }
     }, error => {
       this.toastr.error("Failed", "Something went wrong!");

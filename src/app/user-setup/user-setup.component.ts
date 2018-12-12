@@ -35,7 +35,7 @@ export class UserSetupComponent implements OnInit {
   loggedUser: any;
   public isMobile:boolean = false;
   public btnText:any = "Submit";
-
+  public isValidUser = false;
   constructor(
     private router: Router,
     private formbuilder: FormBuilder,
@@ -56,6 +56,9 @@ export class UserSetupComponent implements OnInit {
       slug: 'signup-page'
     })
     this.userService.setTitle("Signup - Noticer");
+    if(this.userService.getCurrentUser()){
+      this.isValidUser = true;
+    }
   }
 
 
