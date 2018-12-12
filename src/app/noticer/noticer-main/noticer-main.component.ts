@@ -1,6 +1,6 @@
 import { isPlatformBrowser, Location } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService } from 'primeng/components/common/api';
@@ -107,7 +107,7 @@ export class NoticerMainComponent implements OnInit {
     })
 
     this.commonService.addPostInList.subscribe(
-      postData =>{
+      postData => {
         this.postsList.splice(0, 0, postData);
         this.noData = false;
       }
@@ -447,8 +447,10 @@ export class NoticerMainComponent implements OnInit {
     if (this.getPostsRequestBody.context.type && this.getPostsRequestBody.context.type == 'ALL') {
       let reqType = this.addPostForm.controls['data'].get('_type1').value;
       let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
-      this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
-      this.addPostForm.controls['context'].get('type').patchValue(reqType);
+      if(_typeArr.length > 0){
+        this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
+        this.addPostForm.controls['context'].get('type').patchValue(reqType);
+      }
     }
     let postText = this.addPostForm.controls['data'].get('postText').value
     this.addPostForm.controls['data'].get('text').patchValue(postText);
@@ -581,7 +583,7 @@ export class NoticerMainComponent implements OnInit {
   prepareGetComentsRequestBody(postId, index) {
     let postObj = this.postsList[index];
     let getCommentsRequest = new GetCommentRequest();
-    let arrTypes = this.sectionsTypesMappings.filter(item => item._type == postObj._type);
+    let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
     getCommentsRequest.context = new CommentContext();
     getCommentsRequest.context.postId = postId;
     getCommentsRequest.context.type = arrTypes[0].section;
@@ -595,7 +597,7 @@ export class NoticerMainComponent implements OnInit {
   createComment(commentText, index) {
     let createCommentRequest = new CreateCommentRequest();
     let postObj = this.postsList[index];
-    let arrTypes = this.sectionsTypesMappings.filter(item => item._type == postObj._type);
+    let arrTypes = this.sectionsTypesMappings.filter(item => (postObj &&  item._type == postObj._type));
     createCommentRequest.context = new CommentContext();
     createCommentRequest.context.type = arrTypes[0].section;
     createCommentRequest.context.postId = postObj.postId;
@@ -671,8 +673,10 @@ export class NoticerMainComponent implements OnInit {
     let postObj = this.postsList[index];
 
     this.editPostForm.controls['data'].get('postId').patchValue(postObj.postId);
-    let type = this.sectionsTypesMappings.filter(item => item._type == postObj._type)[0].section;
-    this.editPostForm.controls['context'].get('type').patchValue(type);
+    let typeAr = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
+    if(typeAr.length>0){
+      this.editPostForm.controls['context'].get('type').patchValue(typeAr[0].section);
+    }
 
     this.confirmService.confirm({
       message: 'Are you sure you want to delete?',
@@ -694,13 +698,13 @@ export class NoticerMainComponent implements OnInit {
 
   editPost(postId: any, type: any, content: any) {
     this.postsList.forEach(element => {
-      if (element.postId == postId && element._type == type) {
+      if (element && element.postId == postId && element._type == type) {
         this.editPostForm.controls['data'].get('text').patchValue(element.postText);
         this.editPostForm.controls['data'].get('title').patchValue(element.postTitle);
         this.editPostForm.controls['data'].get('postId').patchValue(element.postId);
         let type = this.sectionsTypesMappings.filter(item => item._type == element._type)[0].section;
         this.editPostForm.controls['context'].get('type').patchValue(type);
-        if(type != "CAREERS" && type != "EVENTS"){
+        if (type != "CAREERS" && type != "EVENTS") {
           this.editPostForm.controls['data'].get('answer').patchValue(element.postAnswer);
         }
       }
@@ -872,10 +876,14 @@ export class NoticerMainComponent implements OnInit {
   }
 
   goToTop() {
-    window.scrollTo(0, 0);
+    if (isPlatformBrowser(this.platformId)) {
+      window.scrollTo(0, 0);
+    }
   }
 
   onNavigate(link: any) {
-    window.open("http://"+link)
+    if (isPlatformBrowser(this.platformId)) {
+      window.open("http://" + link)
+    }
   }
 }

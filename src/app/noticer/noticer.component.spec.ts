@@ -3,8 +3,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { HeaderComponent, SidebarComponent } from '../shared';
+import { SidebarComponent } from '../shared';
 import { NoticerComponent } from './noticer.component';
+import { HeaderComponent } from './header/header.component';
 
 describe('NoticerComponent', () => {
   let component: NoticerComponent;
