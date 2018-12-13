@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { MobileDetectionService } from '../../../shared';
@@ -11,24 +11,30 @@ import { CommonService } from '../../../shared/services/common.service';
 import { CurrentUserService } from '../../../shared/services/currentUser.service';
 import { SECTIONS } from './../../../shared/master-data/master-data';
 import { SideMenuService } from './side-menu.service';
+import { ToastrService } from '../../../shared/services/Toastr.service';
 
 @Component({
   selector: 'side-menu',
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.css'],
-  providers: [CustomValidator, MessageService, MobileDetectionService, SideMenuService, CurrentUserService],
+  providers: [CustomValidator, MessageService, MobileDetectionService, SideMenuService, CurrentUserService, ToastrService],
   // animations: [routerTransition()]
 })
 export class SideMenuComponent implements OnInit {
   noBoards: boolean = false;
   showPostSpinner: boolean = false;
+  boardId: any;
+  paramType: any;
+  paramCategory: any;
 
   constructor(private router: Router, private formbuilder: FormBuilder,
     private commonService: CommonService,
     private modalService: NgbModal,
     private mobileService: MobileDetectionService,
     private service: SideMenuService,
-    private userService: CurrentUserService) { }
+    private userService: CurrentUserService,
+    private toastr: ToastrService,
+    private route: ActivatedRoute, ) { }
 
   @ViewChild('myTopnav') el: ElementRef;
 
@@ -53,6 +59,7 @@ export class SideMenuComponent implements OnInit {
   addBoardForm: FormGroup;
   currentUser: User;
   public validUser: boolean = false;
+  public pendingBoardsInfo: any = [];
   ngOnInit() {
     this.isMobile = this.mobileService.isMobile();
     this.initForm();
@@ -62,6 +69,8 @@ export class SideMenuComponent implements OnInit {
     }
 
     this.menuList = SECTIONS;
+
+    this.route.params.subscribe(this.handleParams.bind(this));
 
   }
 
@@ -82,6 +91,23 @@ export class SideMenuComponent implements OnInit {
       }
     )
     this.getBoardsList();
+  }
+
+
+  handleParams(params: any[]) {
+    if (this.router.url.indexOf('boards/closed') !== -1) {
+      this.boardId = params['boardId'];
+      this.selectedItem = "BOARD_" + this.boardId;
+    } else {
+      this.paramType = params['type'];
+      this.paramCategory = params['category'];
+      this.selected = this.paramType;
+      if(this.paramType && (this.paramCategory == undefined || this.paramCategory == "HOME")){
+        this.selectedItem = this.paramType+"HOME"
+      } else{
+        this.selectedItem = this.paramType+this.paramCategory;
+      }
+    }
   }
 
   private getDismissReason(reason: any): string {
@@ -109,6 +135,7 @@ export class SideMenuComponent implements OnInit {
   showAddBoardDialog(content: any) {
     this.commonService.updateHeaderMenu("sideMenuClose");
     this.getAllSates();
+    this.getUserPendingOrRejectedRequests();
     this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
     this.categoryModalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -137,15 +164,11 @@ export class SideMenuComponent implements OnInit {
     } else {
       this.selectedItem = sec + cat;
     }
-
-    if (this.isMobile) {
-      this.commonService.updateHeaderMenu("noticer");
-    }
   }
 
   selectedBoard(boardId: any, boardName: any) {
     this.commonService.updateHeaderMenu("sideMenuClose");
-    this.selectedItem = boardId + boardName;
+    this.selectedItem = "BOARD_" + boardId;
     this.router.navigate(['/boards/closed/' + boardId + "/" + boardName
       // .replace(/[^a-zA-Z0-9]/g, '-')
     ])
@@ -241,18 +264,39 @@ export class SideMenuComponent implements OnInit {
   }
 
 
-  joinRequest(boardId: any) {
-    this.service.addBoardRequest(boardId).subscribe(resData => {
+  joinRequest() {
+    let url;
+    let body;
+    if (this.addBoardForm.controls['requestType'].value == null) {
+      url = "/closedboards/requesttoaddclosedboards";
+      body = this.addBoardForm.controls['boardId'].value;
+    } else {
+      url = "/request/add/inst-dept-board";
+      this.addBoardForm.controls['boardId'].patchValue(null);
+      body = this.addBoardForm.value;
+    }
+
+
+    this.service.addBoardRequest(url, body).subscribe(resData => {
       let obj: any = resData;
       if (obj.statusCode == "ERROR") {
-        alert(obj.info);
+        this.toastr.error("Failed", obj.info);
       } else {
-        alert(obj.info);
-        console.log(resData);
+        this.toastr.success("Success", obj.info);
         this.showConfig = false;
         this.categoryModalReference.close();
       }
     })
+  }
+
+  getUserPendingOrRejectedRequests() {
+    this.service.getPendingBoardsInfo().subscribe(
+      (resData: any) => {
+        if (resData && resData.requests) {
+          this.pendingBoardsInfo = resData.requests;
+        }
+      }
+    )
   }
 
   resetDropdown(type: any) {
@@ -274,16 +318,100 @@ export class SideMenuComponent implements OnInit {
   public noInstCheck = false;
   public noDeptCheck = false;
 
+  public showDept = true;
+  public showBoard = true;
+  public showInst = true;
+
   requestCheckBox(e, type) {
+    this.enableTextFileds(e, type);
+    let typeCheck = e.target.checked;
     switch (type) {
       case 'INSTITUTE':
-        this.noInstCheck = e.target.checked;
+        if (typeCheck) {
+          this.addBoardForm.controls['instName'].setValidators(Validators.required);
+          this.addBoardForm.controls['instAddr'].setValidators(Validators.required);
+          this.addBoardForm.controls['instId'].clearValidators()
+          this.addBoardForm.controls['instId'].patchValue(null);
+        } else {
+          this.addBoardForm.controls['instName'].clearValidators();
+          this.addBoardForm.controls['instAddr'].clearValidators();
+          this.addBoardForm.controls['instName'].patchValue(null);
+          this.addBoardForm.controls['instAddr'].patchValue(null);
+          this.addBoardForm.controls['instId'].setValidators(Validators.required);
+        }
       case 'DEPARTMENT':
-        this.noDeptCheck = e.target.checked;
+        if (typeCheck) {
+          this.noDeptCheck = e.target.checked;
+          this.addBoardForm.controls['deptId'].clearValidators()
+          this.addBoardForm.controls['deptId'].patchValue(null);
+          this.addBoardForm.controls['deptName'].setValidators(Validators.required);
+        } else {
+          this.addBoardForm.controls['deptId'].setValidators(Validators.required);
+          this.addBoardForm.controls['deptName'].clearValidators();
+          this.addBoardForm.controls['deptName'].patchValue(null);
+        }
       case 'BOARD':
-        this.noBordCheck = e.target.checked;
+
+        if (typeCheck) {
+          this.noBordCheck = e.target.checked;
+          this.addBoardForm.controls['boardId'].clearValidators()
+          this.addBoardForm.controls['boardId'].patchValue(null);
+          this.addBoardForm.controls['startYear'].setValidators(Validators.required);
+          this.addBoardForm.controls['endYear'].setValidators(Validators.required);
+        }
+        else {
+          this.addBoardForm.controls['startYear'].clearValidators();
+          this.addBoardForm.controls['endYear'].clearValidators();
+          this.addBoardForm.controls['startYear'].patchValue(null)
+          this.addBoardForm.controls['endYear'].patchValue(null);
+          this.addBoardForm.controls['boardId'].setValidators(Validators.required);
+
+        }
+    }
+    this.addBoardForm.updateValueAndValidity();
+  }
 
 
+  enableTextFileds(e, type) {
+    let checkType: boolean = e.target.checked;
+    if (checkType) {
+      this.addBoardForm.controls['requestType'].patchValue(type);
+      this.addBoardForm.controls['comments'].setValidators(Validators.required)
+    } else {
+      this.addBoardForm.controls['comments'].clearValidators();
+      this.addBoardForm.controls['comments'].patchValue(null);
+      this.addBoardForm.controls['requestType'].patchValue(null);
+    }
+    this.addBoardForm.updateValueAndValidity();
+    if (type == "INSTITUTE") {
+      if (checkType) {
+        this.showDept = false;
+        this.showBoard = false;
+      } else {
+        this.showDept = true;
+        this.showBoard = true;
+        this.noDeptCheck = false
+        this.noBordCheck = false;
+      }
+
+    } else if (type == "DEPARTMENT") {
+      if (checkType) {
+        this.showInst = false;
+        this.showBoard = false;
+      } else {
+        this.showInst = true;
+        this.showBoard = true;
+        this.noBordCheck = false;
+      }
+
+    } else if (type == "BOARD") {
+      if (checkType) {
+        this.showInst = false;
+        this.showDept = false;
+      } else {
+        this.showInst = true;
+        this.showDept = true;
+      }
     }
   }
 

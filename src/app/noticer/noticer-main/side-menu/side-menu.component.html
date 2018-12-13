@@ -30,7 +30,7 @@
                 <div style="width: 82%;">
                     <li *ngFor="let board of boardsList" style="list-style-type: circle;">
                         <a href="javascript:void(0);" style="color: black;" (click)="selectedBoard(board.boardId,board.boardName)"
-                            [class.selected]="board.boardId+board.boardName === selectedItem">
+                            [class.selected]="'BOARD_'+board.boardId === selectedItem">
                             {{board.boardName}}</a>
                         <span class="float-right" *ngIf="showConfig">
                             <a href="javascript:void(0);" class="sectionOptIconsColor">
@@ -66,11 +66,11 @@
                         </a>
                     </span>
                 </li>
-                <li *ngFor="let section of menu.sections" [ngClass]="{active: isActive(section.name)}" style="padding-bottom: 5px;width: 226px;">
+                <li *ngFor="let section of menu.sections" [ngClass]="{active: isActive(section.code)}" style="padding-bottom: 5px;width: 226px;">
                     <span>
-                        <span (click)="select(section.name);">
-                            <i class="fas fa-chevron-right" *ngIf="!isActive(section.name)"></i>
-                            <i class="fas fa-chevron-down" *ngIf="isActive(section.name)"></i>&nbsp;&nbsp;
+                        <span (click)="select(section.code);">
+                            <i class="fas fa-chevron-right" *ngIf="!isActive(section.code)"></i>
+                            <i class="fas fa-chevron-down" *ngIf="isActive(section.code)"></i>&nbsp;&nbsp;
                             {{section.name}}
                         </span>
                         <span class="float-right" style="padding-left: 20px;" *ngIf="menu.select">
@@ -147,15 +147,23 @@
                                     </div>
                                 </ng-template>
                             </p-dropdown>
-                            <input class="form-control" *ngIf="noInstCheck" formControlName="instName" placeholder="institute" type="text">
-                            <input class="form-control" *ngIf="noInstCheck" formControlName="instAddr" placeholder="institute address" type="text">
-                            <input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="noInstCheck" data-md-icheck (change)="requestCheckBox($event,'INSTITUTE')" />
+                            <div class="row" *ngIf="noInstCheck">
+                                <div class="col-md-6">
+                                    <input class="form-control" formControlName="instName" placeholder="institute" type="text">
+                                </div>
+                                <div class="col-md-6">
+                                    <input class="form-control" formControlName="instAddr" placeholder="institute address"
+                                        type="text">
+                                </div>
+                            </div>
+                            <input [disabled]="!showInst" type="checkbox" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="noInstCheck" data-md-icheck (change)="requestCheckBox($event,'INSTITUTE')" />
                             No Institute
                         </div>
                         <div class="form-group">
                             <label>Department: </label>
-                            <p-dropdown *ngIf="!noDeptCheck" placeholder="Department" formControlName="deptId" [options]="listOfDepartments"
-                                [style]="{'width':'100%'}" filter="true" (onChange)="getBoardsByDepartment(dept.value)"
+                            <p-dropdown *ngIf="!noDeptCheck" placeholder="Department" formControlName="deptId"
+                                [options]="listOfDepartments" [style]="{'width':'100%'}" filter="true" (onChange)="getBoardsByDepartment(dept.value)"
                                 #dept>
                                 <ng-template let-dept pTemplate="item">
                                     <div class="ui-helper-clearfix">
@@ -163,46 +171,68 @@
                                     </div>
                                 </ng-template>
                             </p-dropdown>
-                            <input class="form-control" *ngIf="noDeptCheck" formControlName="deptName" placeholder="department" type="text">
-                            <input  type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="noDeptCheck" data-md-icheck (change)="requestCheckBox($event, 'DEPARTMENT')" />
+                            <input class="form-control" *ngIf="noDeptCheck" formControlName="deptName" placeholder="department"
+                                type="text">
+                            <input [disabled]="!showDept" type="checkbox" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="noDeptCheck" data-md-icheck (change)="requestCheckBox($event, 'DEPARTMENT')" />
                             No Department
                         </div>
                         <div class="form-group">
                             <label>Boards: </label>
-                            <p-dropdown *ngIf="!noBordCheck" placeholder="Board" formControlName="boardId" [options]="listOfBoards" [style]="{'width':'100%'}"
-                                filter="true" #board>
+                            <p-dropdown *ngIf="!noBordCheck" placeholder="Board" formControlName="boardId" [options]="listOfBoards"
+                                [style]="{'width':'100%'}" filter="true" #board>
                                 <ng-template let-board pTemplate="item">
                                     <div class="ui-helper-clearfix">
                                         <span style="vertical-align:middle">{{board.label}}</span>
                                     </div>
                                 </ng-template>
                             </p-dropdown>
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <input class="form-control" *ngIf="noBordCheck" formControlName="startYear" placeholder="start year" type="number">
+                            <div class="row" *ngIf="noBordCheck">
+                                <div class="col-md-6">
+                                    <input class="form-control" formControlName="startYear" placeholder="start year"
+                                        type="number">
                                 </div>
-                                <div class="col-md-5">
-                                    <input *ngIf="noBordCheck" class="form-control" formControlName="endYear" placeholder="end year" type="number">
+                                <div class="col-md-6">
+                                    <input class="form-control" formControlName="endYear" placeholder="end year" type="number">
                                 </div>
                             </div>
-                            <input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="noBordCheck" data-md-icheck (change)="requestCheckBox($event, 'BOARD')" />
+                            <input [disabled]="!showBoard" type="checkbox" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="noBordCheck" data-md-icheck (change)="requestCheckBox($event, 'BOARD')" />
                             No Board
                         </div>
-                        <textarea class="form-control" *ngIf="noDeptCheck || noBordCheck || noInstCheck" formControlName="comments" placeholder="comments" type="text"></textarea>
+                        <textarea class="form-control" *ngIf="noDeptCheck || noBordCheck || noInstCheck"
+                            formControlName="comments" placeholder="comments" type="text"></textarea>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" (click)="joinRequest(board.value)" [disabled]="addBoardForm.invalid">Join
+                    <button type="button" class="btn btn-success" (click)="joinRequest()" [disabled]="addBoardForm.invalid">Join
                         Request</button>
                 </div>
             </div>
             <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-tab">
-                <div class="row">
-                    <div class="col-md-8">
-                        BoardName
-                    </div>
-                    <div class="col-md-4">
-                        Status
+                <div style="padding: 10px 0px 0px 35px;" *ngFor="let request of pendingBoardsInfo">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <span style="font-size: 20px;">
+                                {{request.boardInfo ? request.boardInfo.boardName : '-NA-'}} <span class="boardsPendingInfo"
+                                    *ngIf="request.statusName == 'Pending'" style="color:green;font-size: 12px;">
+                                    ({{request.statusName}})
+                                </span>
+                                <span class="boardsPendingInfo" *ngIf="request.statusName == 'Rejected'" style="color:red;">
+                                    ({{request.statusName}})
+                                </span>
+                            </span>
+                            <div *ngIf="request.statusName == 'Pending'">
+                                <p class="text-muted" style="font-size: 12px;">RequstedTime: {{request.create_time |
+                                    date: 'MMM d, y,
+                                    h:mm:ss a'}}</p>
+                            </div>
+                            <div *ngIf="request.statusName == 'Rejected'">
+                                <p class="text-muted" style="font-size: 12px;">RequstedTime: {{request.update_time |
+                                    date: 'MMM d, y,
+                                    h:mm:ss a'}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

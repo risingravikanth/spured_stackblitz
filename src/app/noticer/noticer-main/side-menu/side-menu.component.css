@@ -138,3 +138,8 @@ ul li{cursor:pointer;}
     overflow-x: hidden;
     /* border: 1px solid; */
   }
+
+  .boardsPendingInfo{
+    padding: 6px;
+    border-radius: 15px;
+  }
