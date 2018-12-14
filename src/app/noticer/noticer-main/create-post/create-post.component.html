@@ -8,11 +8,18 @@
             <div style="width: 80%;">
                 <h3 class="question-text">
                     <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
-                        *ngIf="questionName?.length == 0">Add your question</a>
+                        *ngIf="questionName?.length == 0">Click here to add your question</a>
                     <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
-                        *ngIf="questionName?.length > 0">Add your question on {{questionName}}
+                        *ngIf="questionName?.length > 0">
+                            <i *ngIf="questionName && questionName.indexOf('Close') > 0" class="fa fa-link" aria-hidden="true"></i>
+                            <i *ngIf="questionName && questionName.indexOf('Close')  == -1" class="fa fa-unlink" aria-hidden="true"></i>
+                             {{questionName}}
                     </a>
                 </h3>
+                <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
+                        *ngIf="questionName?.length > 0">Click here to add your question
+                </a>
+                
             </div>
         </div>
     </div>

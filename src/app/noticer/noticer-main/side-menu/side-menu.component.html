@@ -5,7 +5,11 @@
         <!-- BOARDS -->
         <div *ngIf="validUser">
             <ul style="margin-left: 25px;padding-top: 10px;font-size: 15px; line-height: 1.7;">
-                <li style="padding-right: 60px;">
+                <!--<li style="padding-right: 60px;">
+                V1.0
+                commented for make + icon visible in clear
+            -->
+            	<li >
                     <label>
                         <b>Boards</b>
                     </label>
@@ -15,7 +19,7 @@
                     </a>
                 </span> -->
                     <span class="float-right">
-                        <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showAddBoardDialog(addBoardDialog)">
+                        <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add new board"  (click)="showAddBoardDialog(addBoardDialog)">
                             <i class="fas fa-plus"></i>
                         </a>
                         <!-- <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showConfig = false">
@@ -28,7 +32,7 @@
                 </div>
                 <div *ngIf="noBoards" style="margin-left: 16px;">No boards</div>
                 <div style="width: 82%;">
-                    <li *ngFor="let board of boardsList" style="list-style-type: circle;">
+                    <li *ngFor="let board of boardsList" class="overflowText">
                         <a href="javascript:void(0);" style="color: black;" (click)="selectedBoard(board.boardId,board.boardName)"
                             [class.selected]="'BOARD_'+board.boardId === selectedItem">
                             {{board.boardName}}</a>
@@ -84,9 +88,10 @@
                     </span>
                     <!-- [queryParams]="{'type':section.code,'category':category.name } -->
                     <ul style="display:none; margin-left: -10px;">
-                        <li *ngFor="let category of section.categories">
+                        <li *ngFor="let category of section.categories" class="overflowText">
                             <a style="width: 82%;" href="javascript:void(0);" style="color: black;" [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
-                                (click)="selectedCategory(section.code, category.code)" [class.selected]="section.code+category.code === selectedItem">
+                                title={{category.name}}
+								(click)="selectedCategory(section.code, category.code)" [class.selected]="section.code+category.code === selectedItem">
                                 {{category.name}}</a>
                             <span class="float-right" *ngIf="menu.select">
                                 <a href="javascript:void(0);" class="sectionOptIconsColor" *ngIf="category.name != 'HOME'">
@@ -205,7 +210,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" (click)="joinRequest()" [disabled]="addBoardForm.invalid">Join
+                    <button type="button" class="btn btn-success" (click)="joinRequest(board.value)" [disabled]="addBoardForm.invalid">Join
                         Request</button>
                 </div>
             </div>

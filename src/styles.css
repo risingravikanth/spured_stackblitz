@@ -1,3 +1,141 @@
+/* body https://www.w3schools.com/howto/howto_css_contact_chips.asp*/
+ 
+/* left side boards links css */
+.selected{
+      border-radius: 5px !important;
+}
+
+li>a{
+ padding :5px;
+}
+
+/*notifaction count */
+.notification-count{
+    position: relative;
+    top: -15px;
+    left: -9px;
+}
+.notification-label{
+  margin-left: -8px !important;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: transparent !important;
+}
+.overflowText{
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.bd-callout-info {
+    border-left-color: #5bc0de !important;
+}
+.bd-callout-open {
+    border-left-color: #f0ad4e;
+}
+.bd-callout {
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid #eee;
+    border-left-width: .25rem;
+    border-radius: .25rem;
+}
+
+/*.dropdown-notifications > .dropdown-container, .dropdown-notifications > .dropdown-menu {
+    width: 450px;
+    max-width: 450px;
+}
+.show > .dropdown-container > .dropdown-menu, .show > .dropdown-container {
+    display: block;
+}
+.dropdown-position-bottomright {
+    right: 0;
+    left: auto;
+}
+.dropdown-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 200px;
+    max-width: 330px;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+}
+
+.dropdown-notifications .dropdown-menu {
+    padding: 0;
+}
+.dropdown-container > .dropdown-menu {
+    position: static;
+    z-index: 1000;
+    float: none!important;
+    padding: 10px 0;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    max-height: 330px;
+    overflow-y: auto;
+}
+.notification {
+    display: block;
+    padding: 9.6px 12px;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: #eeeeee;
+    background-color: #fff;
+    color: #333333;
+    text-decoration: none;
+}
+.media:first-child {
+    margin-top: 0;
+}
+.media, .media-body {
+    zoom: 1;
+    overflow: hidden;
+}
+.media {
+    margin-top: 15px;
+}
+.media-left, .media-right, .media-body {
+    display: table-cell;
+    vertical-align: top;
+}
+.media-left, .media>.pull-left {
+    padding-right: 10px;
+}
+.notification .media-body {
+    padding-top: 5.6px;
+}
+.media-left, .media-right, .media-body {
+    display: table-cell;
+    vertical-align: top;
+}
+.media-body {
+    width: 10000px;
+}
+.media, .media-body {
+    zoom: 1;
+    overflow: hidden;
+}
+.media-object {
+    display: block;
+}
 /* Custom spinner(loader) */
 .loader {
     border: 5px solid #f3f3f3;

@@ -23,6 +23,7 @@
                         </div>
                         <div style="padding: 3px 7px 0px 0px;">
                             <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+                                placement="top" ngbTooltip="Click here to edit/remove/report."
                                 aria-expanded="false" style="font-size: 20px;"></i>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
@@ -148,11 +149,16 @@
                     <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
                             <li class="list-inline-item paddingIcons" style="cursor: pointer;" (click)="getCommentsForPost(post.postId,i);">
-                                <i class="fas fa-comments iconSize"></i>&nbsp;
+                                <i class="fas fa-comments iconSize"
+                                placement="top" [ngbTooltip]="tipComment"
+                                ></i>&nbsp;
                                 <a>
                                     {{post.commentsCount}} Comments
                                 </a>
                             </li>
+                            <ng-template #tipComment>
+                                 {{ (post.selectComments) ? "Click to hide comments" : "Click to view comments" }}
+                            </ng-template>
                             <li class="list-inline-item paddingIcons ml-auto" *ngIf="post.postAnswer" style="cursor: pointer;margin-bottom: -16px;">
                                 <a (click)="post.viewAnswer = !post.viewAnswer">
                                     <p *ngIf="!post.viewAnswer"><i class="fas fa-book-open"></i>&nbsp;View Answer</p>
@@ -225,7 +231,10 @@
             <div class="text-center" *ngIf="!showPostSpinner">
                 <a *ngIf="postsList.length > 0 && showMoreLink && !paramId" href="javascript:void(0);" (click)="loadMorePosts()">
                     Show more </a>
-                <b *ngIf="noData">Opps! No Posts Available</b>
+                <!-- 
+                    V1.0
+                    added new app-oopserror component in shared folder to make unique div in entire applicaiton -->
+                <b *ngIf="noData"><app-oopserror></app-oopserror></b>
             </div>
         </div>
         <div class="col-md-3 d-none d-sm-block" *ngIf="!isMobile">

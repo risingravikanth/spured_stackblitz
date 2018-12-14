@@ -8,7 +8,7 @@ export const SECTIONS = [
                 "code": "verbal",
                 "categories": [
                     {
-                        "name": "HOME",
+                        "name": "Home",
                         "code": "home"
                     },
                     {
@@ -98,7 +98,7 @@ export const SECTIONS = [
                 "code": "quants",
                 "categories": [
                     {
-                        "name": "HOME",
+                        "name": "Home",
                         "code": "home"
                     },
                     {
@@ -240,7 +240,7 @@ export const SECTIONS = [
                 "code": "data_interpretation",
                 "categories": [
                     {
-                        "name": "HOME",
+                        "name": "Home",
                         "code": "home"
                     },
                     {
@@ -270,7 +270,7 @@ export const SECTIONS = [
                 "code": "general_knowledge",
                 "categories": [
                     {
-                        "name": "HOME",
+                        "name": "Home",
                         "code": "home"
                     },
                     {
@@ -364,7 +364,7 @@ export const SECTIONS = [
                 "code": "current_affairs",
                 "categories": [
                     {
-                        "name": "HOME",
+                        "name": "Home",
                         "code": "home"
                     },
                     {
@@ -422,7 +422,7 @@ export const SECTIONS = [
                 "code": "careers",
                 "categories": [
                     {
-                        "name": "HOME",
+                        "name": "Home",
                         "code": "home"
                     },
                     {
@@ -504,7 +504,7 @@ export const SECTIONS = [
                 "code": "events",
                 "categories": [
                     {
-                        "name": "HOME",
+                        "name": "Home",
                         "code": "home"
                     },
                     {
@@ -542,7 +542,7 @@ export const SECTIONS = [
                 "code": "news",
                 "categories": [
                     {
-                        "name": "HOME",
+                        "name": "Home",
                         "code": "home"
                     },
                     {
