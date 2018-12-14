@@ -62,23 +62,17 @@ export class NoticerMainComponent implements OnInit {
   public paramCategory: any;
   public paramId: any;
 
-  public questionName: any = '';
   public postsList: any = [];
   public showPostSpinner = false;
 
-  public urls = new Array<string>();
   public getPostsRequestBody = new GetPostsRequest();
 
   public categoryModalReference: NgbModalRef;
   closeResult: string;
 
-  public audienceList: any[];
 
-  addPostForm: FormGroup;
   editPostForm: FormGroup;
 
-  public fileSelected: File;
-  public chooseFile = false;
   public postImages = [];
   public sectionsTypesMappings: any = [];
   public showMoreLink = true;
@@ -86,11 +80,7 @@ export class NoticerMainComponent implements OnInit {
   public categories: any = [];
   public models: any = [];
   public types: any = [];
-  public states: any = [];
-  public institutes: any = [];
   public currentuserId: any;
-  public dateMin: Date = new Date();
-  public postBtnTxt = "Post";
   ngOnInit() {
     this.seo.generateTags({
       title: 'Noticer feed | Posts and comments',
@@ -101,8 +91,6 @@ export class NoticerMainComponent implements OnInit {
     this.commonService.menuChanges.subscribe(type => {
       if (type == "updateProfilePic") {
         this.setProfilePic();
-      } else if (type == "openAddPostDialog") {
-        // this.postQuestionDialog(this.postDialog);
       }
     })
 
@@ -115,12 +103,9 @@ export class NoticerMainComponent implements OnInit {
 
     this.userService.setTitle("Noticer | Posts and comments");
 
-    this.audienceList = categories_types_models.AUDIENCE;
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;
 
     this.isMobile = this.mobileService.isMobile();
-    this.questionName = "";
-    this.initAddPostForm();
     this.initEditForm();
 
     this.models = categories_types_models.MODELS;
@@ -129,33 +114,6 @@ export class NoticerMainComponent implements OnInit {
     this.route.params.subscribe(this.handleParams.bind(this));
   }
 
-  initAddPostForm() {
-    this.addPostForm = this.formbuilder.group({
-      context: this.formbuilder.group({
-        type: [null]
-      }),
-      data: this.formbuilder.group({
-        _type: [null],
-        _type1: [{ value: null, disabled: true }, Validators.required],
-        postText: [null, Validators.required],
-        title: [null, Validators.required],
-        boardId: [null],
-        text: [null],
-        model: [null],
-        category: [{ value: null, disabled: true }, Validators.required],
-        images: [""],
-        topic: [null],
-        contacts: [null],
-        website: [null],
-        fromDate: [null],
-        toDate: [null],
-        deadline: [null],
-        qualifications: [null],
-        answer: [null],
-        files: [null]
-      }),
-    });
-  }
   initEditForm() {
     this.editPostForm = this.formbuilder.group({
       context: this.formbuilder.group({
@@ -225,7 +183,6 @@ export class NoticerMainComponent implements OnInit {
         } else {
           this.getPosts();
         }
-        this.questionName = "";
       } else {
         this.seo.generateTags({
           title: this.paramType,
@@ -239,61 +196,13 @@ export class NoticerMainComponent implements OnInit {
   }
 
   prepareBoardPostReq(boardTitle: any) {
-    this.questionName = "Boards"
-    if (boardTitle) {
-      this.questionName = boardTitle
-      // .replace(/[_-]/g, " ");
-    }
     this.initRequest();
     this.getPostsRequestBody.data.boardId = this.boardId;
     this.getPostsRequestBody.context.type = "BOARD";
     this.getPosts();
   }
 
-
-  postQuestionDialog(content: any) {
-    if (this.currentUser) {
-      this.postImages = []
-      this.urls = [];
-      this.resetDropdowns();
-      this.addPostForm.enable();
-      if (this.getPostsRequestBody.context.type && this.getPostsRequestBody.context.type != 'ALL') {
-        let reqType = this.getPostsRequestBody.context.type;
-        this.reqestType = reqType;
-        this.getCategoriesByType(reqType);
-        let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
-        if (_typeArr.length > 0) {
-          this.addPostForm.controls['data'].get('_type1').patchValue(reqType);
-          this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
-          this.addPostForm.controls['context'].get('type').patchValue(reqType);
-          if (reqType == "BOARD") {
-            this.addPostForm.controls['data'].get('boardId').patchValue(this.boardId);
-          }
-          this.addPostForm.controls['data'].get('_type1').disable();
-        } else {
-          this.toastr.error("Failed", "Given type is wrong!");
-        }
-      }
-      if (this.getPostsRequestBody.data.category) {
-        this.addPostForm.controls['data'].get('category').patchValue(this.getPostsRequestBody.data.category);
-        this.addPostForm.controls['data'].get('category').disable();
-      }
-      this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
-      this.categoryModalReference.result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
-      }, (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      });
-    } else {
-      this.router.navigate(['/login']);
-    }
-  }
-
   private getDismissReason(reason: any): string {
-    this.initAddPostForm();
-    this.addPostForm.enable();
-    this.postImages = [];
-    this.urls = [];
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -306,7 +215,6 @@ export class NoticerMainComponent implements OnInit {
   selectedCategory(data: Section) {
     if (data) {
       this.initRequest();
-      this.questionName = '';
       if (data.section) {
         // this.questionName = data.section.toUpperCase();
         this.getPostsRequestBody.context.type = data.section.toUpperCase();
@@ -317,11 +225,6 @@ export class NoticerMainComponent implements OnInit {
       } else {
         this.getPostsRequestBody.data.category = null;
       }
-      if (data.category == undefined || data.category == "home") {
-        this.questionName = this.prepareQuestionName(data.section, null);
-      } else {
-        this.questionName = this.prepareQuestionName(data.section, data.category);
-      }
       if (data.section) {
         this.getPostsRequestBody.context.type = data.section.toUpperCase();
       }
@@ -331,27 +234,6 @@ export class NoticerMainComponent implements OnInit {
         this.getPosts();
       }
     }
-  }
-
-  prepareQuestionName(type, category) {
-    let questionName = "";
-    categories_types_models.SECTIONS.forEach(sec => {
-      if (sec.title == "Topics") {
-        sec.sections.forEach(ty => {
-          if (ty.code.toUpperCase() == type.toUpperCase()) {
-            questionName = ty.name;
-            if (category) {
-              ty.categories.forEach(ca => {
-                if (ca.code == category) {
-                  questionName = questionName + " (" + ca.name + ")";
-                }
-              })
-            }
-          }
-        })
-      }
-    });
-    return questionName;
   }
 
 
@@ -417,105 +299,6 @@ export class NoticerMainComponent implements OnInit {
       this.noData = false;
     } else {
       this.noData = true;
-    }
-  }
-
-  detectFiles(event) {
-    let files = event.target.files;
-    if (files.length > 4 || (this.urls.length + files.length) > 4) {
-      this.toastr.error("Failed", "Only 4 images allowed");
-    } else if (files) {
-      for (let file of files) {
-        let reader = new FileReader();
-        let found = [];
-        reader.onload = (e: any) => {
-          found = this.urls.filter(item => item == e.target.result);
-          if (found.length == 0) {
-
-            this.urls.push(e.target.result);
-          }
-        }
-        reader.readAsDataURL(file);
-        if (found.length == 0) {
-          this.postImages.push(file);
-        }
-      }
-    }
-  }
-
-  createPost() {
-    if (this.getPostsRequestBody.context.type && this.getPostsRequestBody.context.type == 'ALL') {
-      let reqType = this.addPostForm.controls['data'].get('_type1').value;
-      let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
-      if(_typeArr.length > 0){
-        this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
-        this.addPostForm.controls['context'].get('type').patchValue(reqType);
-      }
-    }
-    let postText = this.addPostForm.controls['data'].get('postText').value
-    this.addPostForm.controls['data'].get('text').patchValue(postText);
-
-    let imageUrls = [];
-    if (this.postImages.length > 0) {
-      this.postImages.forEach(element => {
-        let formData: FormData = new FormData();
-        formData.append('file', element);
-        this.service.uploadImage(formData).subscribe((resData: any) => {
-          imageUrls.push(resData.url);
-          if (this.postImages.length == imageUrls.length) {
-            this.addPostForm.controls["data"].get("images").patchValue(imageUrls);
-            this.savePost();
-          }
-        })
-      }, error => {
-        this.toastr.error("Failed", "Something went wrong!");
-      })
-    } else {
-      this.addPostForm.controls["data"].get("images").patchValue([]);
-      this.savePost()
-    }
-  }
-
-  savePost() {
-    if (this.addPostForm.valid) {
-      if (!this.addPostForm.controls['data'].get("category").value) {
-        !this.addPostForm.controls['data'].get("category").patchValue("others");
-      }
-      this.postBtnTxt = "Posting..."
-      this.service.createPost(this.addPostForm.getRawValue()).subscribe((resData: any) => {
-        if (resData && resData.code && resData.code.id) {
-          this.toastr.error("Failed", resData.code.longMessage);
-          this.postBtnTxt = "Post"
-        } else if (resData && resData.error && resData.error.code && resData.error.code.id) {
-          this.toastr.error("Failed", resData.error.code.longMessage);
-          this.postBtnTxt = "Post"
-        } else if (resData && resData.post) {
-          this.postBtnTxt = "Success"
-          let data = resData.post;
-          data.maxLength = constant.showSeeMorePostTextLenth;
-          data.selectComments = false;
-          data.commentOffset = 0;
-          data.comments = [];
-          data.commentsSpinner = false;
-          data.viewAnswer = false;
-          this.postsList.splice(0, 0, data);
-          this.initAddPostForm();
-          this.toastr.success("Post success", "Post successfully added");
-          this.noData = false;
-          this.categoryModalReference.close();
-          this.postImages = [];
-          this.urls = [];
-        } else {
-          this.postBtnTxt = "Post"
-          this.toastr.error("Failed", "Something went wrong!");
-        }
-      }, error => {
-        this.postBtnTxt = "Post"
-        this.toastr.error("Failed", "Something went wrong!");
-      })
-    } else {
-      this.postBtnTxt = "Post"
-      this.toastr.error("Failed", "Please fill all the details");
     }
   }
 
@@ -597,7 +380,7 @@ export class NoticerMainComponent implements OnInit {
   createComment(commentText, index) {
     let createCommentRequest = new CreateCommentRequest();
     let postObj = this.postsList[index];
-    let arrTypes = this.sectionsTypesMappings.filter(item => (postObj &&  item._type == postObj._type));
+    let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
     createCommentRequest.context = new CommentContext();
     createCommentRequest.context.type = arrTypes[0].section;
     createCommentRequest.context.postId = postObj.postId;
@@ -625,56 +408,13 @@ export class NoticerMainComponent implements OnInit {
     })
   }
 
-  getCategoriesByType(type) {
-    this.categories = [];
-    categories_types_models.SECTIONS.forEach(sec => {
-      if (sec.title == "Topics") {
-        sec.sections.forEach(ty => {
-          if (ty.code.toUpperCase() == type.toUpperCase()) {
-            ty.categories.forEach(ca => {
-              if (ca.name != "HOME") {
-                let vo = { label: ca.name, value: ca.code };
-                this.categories.push(vo);
-              }
-            })
-          }
-        })
-      }
-    });
-
-    this.models = [];
-    categories_types_models.MODELS.forEach(item => {
-      let type_search = (type == "VERBAL" || type == "QUANTS" || type == "DI") ? "VERBAL" : type;
-      if (item.type == type_search) {
-        this.models = item.models;
-      }
-    });
-  }
-
-  resetDropdowns() {
-    //resetting values after type chage
-
-    // this.addPostForm.controls['data'].get('_type1').patchValue(null);
-    this.addPostForm.controls['data'].get('_type').patchValue(null);
-    this.addPostForm.controls['context'].get('type').patchValue(null);
-
-    this.addPostForm.controls['data'].get('website').patchValue(null);
-    this.addPostForm.controls['data'].get('model').patchValue(null);
-    this.addPostForm.controls['data'].get('category').patchValue(null);
-    this.addPostForm.controls['data'].get('topic').patchValue(null);
-    this.addPostForm.controls['data'].get('contacts').patchValue(null);
-    this.addPostForm.controls['data'].get('fromDate').patchValue(null);
-    this.addPostForm.controls['data'].get('toDate').patchValue(null);
-    this.addPostForm.controls['data'].get('qualifications').patchValue(null);
-  }
-
   deletePost(postId: any, postType: any) {
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
 
     this.editPostForm.controls['data'].get('postId').patchValue(postObj.postId);
     let typeAr = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
-    if(typeAr.length>0){
+    if (typeAr.length > 0) {
       this.editPostForm.controls['context'].get('type').patchValue(typeAr[0].section);
     }
 
@@ -724,8 +464,8 @@ export class NoticerMainComponent implements OnInit {
       if (obj.error && obj.error.code && obj.error.code.id) {
         this.toastr.error("Failed", obj.error.code.message);
       } else {
-        if(obj && obj.posts.length>0){
-          if(obj.posts[0].postId){
+        if (obj && obj.posts.length > 0) {
+          if (obj.posts[0].postId) {
             this.postsList.forEach(element => {
               if (element.postId == this.editPostForm.controls['data'].get('postId').value) {
                 element.postText = this.editPostForm.controls['data'].get('text').value
@@ -741,11 +481,6 @@ export class NoticerMainComponent implements OnInit {
     }, error => {
       this.toastr.error("Failed", "Something went wrong!");
     })
-  }
-
-  removeFromImages(index) {
-    this.urls.splice(index, 1);
-    this.postImages.splice(index, 1);
   }
 
   navigateToPostDetails(postObj: any) {

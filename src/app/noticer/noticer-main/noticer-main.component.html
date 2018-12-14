@@ -37,7 +37,7 @@
                     <hr style="margin-top: -3px;">
                     <div class="row" style="padding-left: 9px;margin-top: -15px;">
                         <div>
-                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="UserProfilePic"
+                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="user"
                                 [src]="(post.userProfile && post.userProfile.profileImageUrl) ? serverUrl + post.userProfile.profileImageUrl : assets/images/noticer_default_user_img.png">
                         </div>
                         <div style="margin-left: -48px;margin-top: 12px;">
@@ -148,9 +148,9 @@
                     <hr>
                     <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
-                            <li class="list-inline-item paddingIcons" style="cursor: pointer;" (click)="getCommentsForPost(post.postId,i);">
+                            <li [ngbTooltip]="tipComment" class="list-inline-item paddingIcons" style="cursor: pointer;" (click)="getCommentsForPost(post.postId,i);">
                                 <i class="fas fa-comments iconSize"
-                                placement="top" [ngbTooltip]="tipComment"
+                                placement="top" 
                                 ></i>&nbsp;
                                 <a>
                                     {{post.commentsCount}} Comments

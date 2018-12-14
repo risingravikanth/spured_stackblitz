@@ -1,20 +1,20 @@
-import { isPlatformBrowser, Location } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID, ViewChild, ElementRef, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, ElementRef, Inject, Input, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService } from 'primeng/components/common/api';
+import { CommonService, MobileDetectionService } from '../../../shared';
+import * as categories_types_models from '../../../shared/master-data/master-data';
+import { GetPostsRequest } from '../../../shared/models/request';
+import { Section } from '../../../shared/models/section.model';
+import { User } from '../../../shared/models/user.model';
 import * as constant from '../../../shared/others/constants';
-import { NoticerMainService } from '../noticer-main.service';
 import { CustomValidator } from '../../../shared/others/custom.validator';
+import { CurrentUserService } from '../../../shared/services/currentUser.service';
 import { SeoService } from '../../../shared/services/seo.service';
 import { ToastrService } from '../../../shared/services/Toastr.service';
-import { User } from '../../../shared/models/user.model';
-import { CurrentUserService } from '../../../shared/services/currentUser.service';
-import { MobileDetectionService, CommonService } from '../../../shared';
-import { GetPostsRequest, Pagination, Context, Data, GetCommentRequest, CommentContext, CreateCommentRequest, CreateCommentData } from '../../../shared/models/request';
-import * as categories_types_models from '../../../shared/master-data/master-data'
-import { Section } from '../../../shared/models/section.model';
+import { NoticerMainService } from '../noticer-main.service';
 
 
 @Component({
@@ -43,9 +43,8 @@ export class CreatePostComponent implements OnInit {
     public mobileService: MobileDetectionService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private confirmService: ConfirmationService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private seo: SeoService, private location: Location,
+    private seo: SeoService,
     private commonService: CommonService,
     private toastr: ToastrService
   ) {
@@ -299,7 +298,7 @@ export class CreatePostComponent implements OnInit {
         sec.sections.forEach(ty => {
           if (ty.code.toUpperCase() == type.toUpperCase()) {
             ty.categories.forEach(ca => {
-              if (ca.name != "HOME") {
+              if (ca.name != "Home") {
                 let vo = { label: ca.name, value: ca.code };
                 this.categories.push(vo);
               }

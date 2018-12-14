@@ -33,9 +33,12 @@
                 <div *ngIf="noBoards" style="margin-left: 16px;">No boards</div>
                 <div style="width: 82%;">
                     <li *ngFor="let board of boardsList" class="overflowText">
-                        <a href="javascript:void(0);" style="color: black;" (click)="selectedBoard(board.boardId,board.boardName)"
+                        <a [ngbTooltip]="tipComment" href="javascript:void(0);" style="color: black;" (click)="selectedBoard(board.boardId,board.boardName)"
                             [class.selected]="'BOARD_'+board.boardId === selectedItem">
                             {{board.boardName}}</a>
+                            <ng-template #tipComment>
+                                    {{board.boardName}}
+                               </ng-template>
                         <span class="float-right" *ngIf="showConfig">
                             <a href="javascript:void(0);" class="sectionOptIconsColor">
                                 <i class="fas fa-trash"></i>
