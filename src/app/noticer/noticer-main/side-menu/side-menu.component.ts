@@ -275,8 +275,6 @@ export class SideMenuComponent implements OnInit {
       this.addBoardForm.controls['boardId'].patchValue(null);
       body = this.addBoardForm.value;
     }
-
-
     this.service.addBoardRequest(url, body).subscribe(resData => {
       let obj: any = resData;
       if (obj.statusCode == "ERROR") {

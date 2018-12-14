@@ -39,7 +39,7 @@ export class SideMenuService {
     }
     addBoardRequest(url:any, body: any) {
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        return this.httpClient.post("/closedboards/requesttoaddclosedboards", boardId, { headers: headers });
+        return this.httpClient.post(url, body, { headers: headers });
     }
 
     getPendingBoardsInfo(){
