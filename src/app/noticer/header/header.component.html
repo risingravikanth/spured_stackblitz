@@ -46,7 +46,7 @@
                 <b>
                     <i class="fas fa-bell header-icon-size"><span *ngIf="showNotifications" style="font-size: 12px;"
                             class="badge badge-danger notification-count">{{notificationsCount}}</span></i> 
-                            <label class="headerIconLabel notification-label">Notifications</label>
+                            <label class="headerIconLabel" [ngClass]="{' notification-label': (notificationsCount && notificationsCount > 0)}">Notifications</label>
                 </b>
             </a>
             <!--
