@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
     notificationsList: any = [];
     showNotifications: boolean = false;
 
-    notificationDetails:any;
+    notificationDetails: any;
 
     constructor(public router: Router, private authService: AuthService,
         private userService: CurrentUserService,
@@ -53,14 +53,16 @@ export class HeaderComponent implements OnInit {
             this.profileImage = "assets/images/noticer_default_user_img.png"
         }
         this.isMobile = this.mobileService.isMobile();
-        if (!this.isMobile && this.validUser) {
-            this.getAllNotifications();
-        }
-        this.commonService.menuChanges.subscribe(resData => {
+        this.commonService.menuChanges.subscribe((resData:any) => {
             if (resData == "updateProfilePic") {
                 this.currentUser = this.userService.getCurrentUser();
                 if (this.currentUser && this.currentUser.imageUrl) {
                     this.profileImage = constant.REST_API_URL + "/" + this.currentUser.imageUrl;
+                }
+            } else if (resData && resData.type == "updateNoficiationCount"){
+                if (resData.count > 0) {
+                    this.notificationsCount = resData.count;
+                    this.showNotifications = true;
                 }
             }
         })
@@ -86,26 +88,6 @@ export class HeaderComponent implements OnInit {
     }
 
 
-    getAllNotifications() {
-        let body = {
-            "data": {
-                "_type": "Message",
-                "messageType": "NOTIFICATION"
-            },
-            "pagination": {
-                "limit": 10,
-                "offset": 0
-            }
-        }
-        this.notifyService.getAllMessages(body).subscribe((resData: any) => {
-            if (resData && resData.code == "ERROR") {
-                alert(resData.info);
-                this.showNotifications = false;
-            } else if (resData && resData.unreadCount > 0) {
-                this.showNotifications = true;
-                this.notificationsCount = resData.unreadCount;
-            }
-        })
-    }
 
+    
 }

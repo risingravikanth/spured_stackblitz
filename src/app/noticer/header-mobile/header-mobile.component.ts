@@ -56,7 +56,7 @@ export class HeaderMobileComponent implements OnInit {
             this.getAllNotifications();
         }
 
-        this.commonService.menuChanges.subscribe(item => {
+        this.commonService.menuChanges.subscribe((item:any) => {
             if (item == "updateProfilePic") {
                 this.currentUser = this.userService.getCurrentUser();
                 if (this.currentUser && this.currentUser.imageUrl) {
@@ -66,6 +66,11 @@ export class HeaderMobileComponent implements OnInit {
                 this.showSideMenuDialog = true;
             } else if (item == "sideMenuClose") {
                 this.showSideMenuDialog = false;
+            }  else if (item && item.type == "updateNoficiationCount"){
+                if (item.count > 0) {
+                    this.notificationsCount = item.count;
+                    this.showNotifications = true;
+                }
             }
         })
     }

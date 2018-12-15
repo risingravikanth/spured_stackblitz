@@ -1,14 +1,20 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsService } from './notifications.service';
+import { User } from '../../shared/models/user.model';
+import { CurrentUserService } from '../../shared/services/currentUser.service';
+import * as constant from '../../shared/others/constants'
+import { CommonService } from '../../shared';
 
 @Component({
   selector: 'notifications',
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.css'],
-  providers: [NotificationsService]
+  providers: [NotificationsService, CurrentUserService]
 })
 export class NotificationsComponent implements OnInit {
+
+  @Output() childNotificationCount: EventEmitter<any> = new EventEmitter<any>();
 
   public categoryModalReference: NgbModalRef;
   closeResult: string;
@@ -20,56 +26,94 @@ export class NotificationsComponent implements OnInit {
   notificationDetails: any;
 
   @Input() from: any
-  @Input() totalNotificationsCount:any;
-  limit:number = 10;
+  @Input() totalNotificationsCount: any;
+  limit: number = 5;
+  offset: number = 0;
 
   public showPostSpinner = false;
+  currentUser: User;
+  public validUser: boolean = false;
+  public showMore: boolean = false;
   ngOnInit() {
-    if(this.from == 'header'){
+    this.currentUser = this.userService.getCurrentUser();
+    if (this.currentUser) {
+      this.validUser = true;
+    }
+    if (this.from == 'header') {
       this.limit = this.totalNotificationsCount;
     }
-    this.getAllNotifications();
+    if (this.validUser) {
+      if (this.from == 'header') {
+        this.limit = constant.onHeaderNotificationsPerPage;
+      } else {
+        this.limit = constant.onComponentNotificationsPerPage;
+      }
+      this.getAllNotifications(this.paepareGetRequest());
+    }
   }
 
   constructor(private modalService: NgbModal,
-    private notifyService: NotificationsService) {
+    private notifyService: NotificationsService,
+    private userService: CurrentUserService,
+    private commonService:CommonService ) {
 
   }
 
-  getAllNotifications() {
-    let body = {
-      "data": {
-        "_type": "Message",
-        "messageType": "NOTIFICATION"
-      },
-      "pagination": {
-        "limit": 10,
-        "offset": 0
-      }
-    }
+  getAllNotifications(body: any) {
     this.showPostSpinner = true;
     this.notifyService.getAllMessages(body).subscribe((resData: any) => {
       this.showPostSpinner = false;
       if (resData && resData.code == "ERROR") {
         alert(resData.info);
         this.showNotifications = false;
-      } else if (resData && resData.unreadCount > 0) {
-        this.notificationsCount = resData.unreadCount;
-        this.notificationsList = resData.messages;
+      } else if (resData && resData.messages.length > 0) {
+        if (resData.unreadCount) {
+          this.notificationsCount = resData.unreadCount;
+        }
+        resData.messages.forEach(element => {
+          this.notificationsList.push(element);
+        });
+        this.showMore = true;
+
+        if (this.from == 'header') {
+          this.commonService.updateHeaderMenu({type:"updateNoficiationCount", count: this.notificationsCount})
+        }
         this.showNotifications = true;
       } else {
+        this.showMore = false;
         this.showNotifications = false;
       }
     })
   }
 
+  paepareGetRequest() {
+    let body = {
+      "data": {
+        "_type": "Message",
+        "messageType": "NOTIFICATION"
+      },
+      "pagination": {
+        "limit": this.limit,
+        "offset": this.offset
+      }
+    }
+    return body;
+  }
+
+  loadMoreMessages() {
+    this.offset = this.offset + constant.onComponentNotificationsPerPage;
+    let body = this.paepareGetRequest();
+    this.getAllNotifications(body);
+  }
+
 
   openNotificationModel(notification: any, content: any) {
     this.notificationDetails = notification;
-    if(notification.status != 'READ'){
+    if (notification.status != 'READ') {
       this.notificationDetails.status = "READ";
       this.notifyService.updateNotificationStatus(this.notificationDetails).subscribe(resData => {
-  
+        this.notificationsCount = this.notificationsCount - 1;
+        this.commonService.updateHeaderMenu({type:"updateNoficiationCount", count: this.notificationsCount})
       })
     }
     this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
