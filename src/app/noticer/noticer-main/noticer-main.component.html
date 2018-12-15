@@ -1,7 +1,8 @@
 <div class="container marTop45">
     <br class="d-block d-sm-none">
     <br>
-    <div class="row">
+    <div class="row" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300"
+    (scrolled)="loadMorePosts()">
         <div class="col-md-3 col-sm-3 d-none d-sm-block" *ngIf="!isMobile">
             <side-menu></side-menu>
         </div>
@@ -230,8 +231,8 @@
                 <div class="loader"></div>
             </div>
             <div class="text-center" *ngIf="!showPostSpinner">
-                <a *ngIf="postsList.length > 0 && showMoreLink && !paramId" href="javascript:void(0);" (click)="loadMorePosts()">
-                    Show more </a>
+                <!-- <a *ngIf="postsList.length > 0 && showMoreLink && !paramId" href="javascript:void(0);" (click)="loadMorePosts()">
+                    Show more </a> -->
                 <!-- 
                     V1.0
                     added new app-oopserror component in shared folder to make unique div in entire applicaiton -->

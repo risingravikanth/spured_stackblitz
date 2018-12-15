@@ -240,6 +240,7 @@ export class NoticerMainComponent implements OnInit {
   getPosts() {
     this.showPostSpinner = true;
     this.postsList = [];
+    this.goToTop();
 
     this.service.getPostsList(this.getPostsRequestBody).subscribe(
       resData => {
@@ -257,7 +258,18 @@ export class NoticerMainComponent implements OnInit {
   }
 
   loadMorePosts() {
-    this.getPostsRequestBody.pagination.offset = this.getPostsRequestBody.pagination.offset + constant.postsPerCall;
+    this.getPostsRequestBody.pagination.offset = 0;//this.getPostsRequestBody.pagination.offset + constant.postsPerCall;
+    if (this.router.url.indexOf('feed') !== -1) {
+      if(this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].upid){
+        return;
+      }
+      this.getPostsRequestBody.data.maxId = this.postsList[this.postsList.length - 1].upid;
+    } else{
+      if(this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].postId){
+        return;
+      }
+      this.getPostsRequestBody.data.maxId = this.postsList[this.postsList.length - 1].postId;
+    }
     this.showPostSpinner = true;
     this.service.getPostsList(this.getPostsRequestBody).subscribe(
       resData => {
@@ -266,7 +278,7 @@ export class NoticerMainComponent implements OnInit {
         if (obj.error && obj.error.code && obj.error.code.id) {
           this.toastr.error("Failed", obj.error.code.message);
         } else {
-          if (obj.posts.length < constant.postsPerCall) {
+          if (obj.posts.length  == 0) {
             this.showMoreLink = false;
           }
           obj.posts.forEach(element => {

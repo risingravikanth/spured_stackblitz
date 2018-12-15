@@ -18,6 +18,7 @@ import { NoticerComponent } from './noticer.component';
 import { CreatePostComponent } from './noticer-main/create-post/create-post.component';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
         DropdownModule,
         MatGridListModule,
         ConfirmDialogModule,
-        OverlayPanelModule
+        OverlayPanelModule,
+        InfiniteScrollModule
     ],
     declarations: [
         NoticerComponent,
