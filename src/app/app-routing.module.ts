@@ -37,6 +37,10 @@ const routes: Routes = [
       {
         path: ':type/:category',
         component: NoticerMainComponent,
+      },
+      {
+        path: ':type/:category/:model',
+        component: NoticerMainComponent,
       }
     ]
   },

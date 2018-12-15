@@ -60,6 +60,7 @@ export class NoticerMainComponent implements OnInit {
 
   public paramType: any;
   public paramCategory: any;
+  public paramModel: any;
   public paramId: any;
 
   public postsList: any = [];
@@ -155,6 +156,7 @@ export class NoticerMainComponent implements OnInit {
     } else {
       this.paramType = params['type'];
       this.paramCategory = params['category'];
+      this.paramModel = params['model'];
       if (this.paramType) {
         let paramT1 = this.paramType;
         let mappings = this.sectionsTypesMappings;
@@ -172,7 +174,8 @@ export class NoticerMainComponent implements OnInit {
 
       let sec = new Section();
       sec.section = this.paramType;
-      sec.category = this.paramCategory
+      sec.category = this.paramCategory;
+      sec.model = this.paramModel;
       if (this.paramType == undefined && this.paramCategory == undefined) {
         this.initRequest()
         if (this.paramId) {
@@ -227,6 +230,9 @@ export class NoticerMainComponent implements OnInit {
       }
       if (data.section) {
         this.getPostsRequestBody.context.type = data.section.toUpperCase();
+      }
+      if(data.model){
+        this.getPostsRequestBody.data.model = data.model;
       }
       if (this.paramId) {
         this.getPostDetails();
@@ -618,13 +624,16 @@ export class NoticerMainComponent implements OnInit {
     return model;
   }
 
-  goToCategoriesPage(_type: any, category: any) {
+  goToCategoriesPage(_type: any, category: any, model:any) {
     let section = this.getTypeFrom_Type(_type);
-    if (category == null) {
-      this.router.navigate(['categories/' + section.toLowerCase()])
-    } else {
-      this.router.navigate(['categories/' + section.toLowerCase() + "/" + category])
+    let url = 'categories/' + section.toLowerCase();
+    if (category != null) {
+      url = url + "/"+category;
+    } 
+    if(model != null){
+      url = url + "/"+model;
     }
+      this.router.navigate([url])
   }
 
   setProfilePic() {
