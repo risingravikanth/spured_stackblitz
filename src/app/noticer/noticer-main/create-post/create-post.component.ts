@@ -149,7 +149,8 @@ export class CreatePostComponent implements OnInit {
         deadline: [null],
         qualifications: [null],
         answer: [null],
-        files: [null]
+        files: [null],
+        location:[null]
       }),
     });
   }

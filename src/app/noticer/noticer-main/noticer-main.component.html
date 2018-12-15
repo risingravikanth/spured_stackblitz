@@ -23,8 +23,8 @@
                         </div>
                         <div style="padding: 3px 7px 0px 0px;">
                             <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
-                                placement="top" ngbTooltip="Click here to edit/remove/report."
-                                aria-expanded="false" style="font-size: 20px;"></i>
+                                placement="top" ngbTooltip="Click here to edit/remove/report." aria-expanded="false"
+                                style="font-size: 20px;"></i>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
                                     (click)="editPost(post.postId, post._type, editPostDialog)">Edit</button>
@@ -64,23 +64,24 @@
                         </div>
                     </div>
                     <div>
-                        <div *ngIf="post._type == 'EventsPost'">
-                            <table>
-                                <tr>
-                                    <td *ngIf="post.fromdate && post.todate">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        {{post.fromdate}} to {{post.todate}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td *ngIf="post.website">
-                                        <a href="javascript:void(0);" (click)="onNavigate(post.website)" >{{post.website}}</a>
-                                    </td>
-                                    <td *ngIf="post.contacts">
-                                        <i class="fas fa-phone-square"></i> {{post.contacts}}</td>
-                                </tr>
-                            </table>
-                            <br>
+                        <div style="padding-left: 18px;padding-bottom: 10px;" *ngIf="post._type == 'EventsPost'">
+                            <div class="row">
+                                <div *ngIf="post.fromdate && post.todate" class="col-md-6">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{post.fromdate}} to {{post.todate}}
+                                </div>
+                                <div *ngIf="post.website" class="col-md-6">
+                                    <a href="javascript:void(0);" (click)="onNavigate(post.website)">{{post.website}}</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" *ngIf="post.contacts">
+                                    <i class="fas fa-phone-square"></i> {{post.contacts}}
+                                </div>
+                                <div class="col-md-6" *ngIf="post.location">
+                                    {{post.location}}
+                                </div>
+                            </div>
                         </div>
                         <div class="post-text">
                             <h6><b><a *ngIf="!paramId" (click)="navigateToPostDetails(post)" style="color:black" href="javascript:void(0);">
@@ -104,15 +105,16 @@
                         </div>
                         <div class="post-text" *ngIf="post.postAnswer && post.viewAnswer">
                             <span class="fntBlack">
-                                    <h6 class="fntGreen">Answer</h6>
-                                    <label class="multiLineText">{{post.postAnswer}}</label>
+                                <h6 class="fntGreen">Answer</h6>
+                                <label class="multiLineText">{{post.postAnswer}}</label>
                             </span>
                         </div>
                     </div>
                     <div>
                         <div *ngIf="post.images.length == 1">
                             <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{imageFromAws(post.images[0]) ? '' : serverUrl}}{{imageFromAws(post.images[0]) ? '' : '/'}}{{post.images[0]}}">
-                                <img src="{{imageFromAws(post.images[0]) ? '' : serverUrl}}{{imageFromAws(post.images[0]) ? '' : '/'}}{{post.images[0]}}" style="max-width: 100%; max-height: 100%;padding: 7px;">
+                                <img src="{{imageFromAws(post.images[0]) ? '' : serverUrl}}{{imageFromAws(post.images[0]) ? '' : '/'}}{{post.images[0]}}"
+                                    style="max-width: 100%; max-height: 100%;padding: 7px;">
                             </a>
                         </div>
 
@@ -148,16 +150,15 @@
                     <hr>
                     <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
-                            <li [ngbTooltip]="tipComment" class="list-inline-item paddingIcons" style="cursor: pointer;" (click)="getCommentsForPost(post.postId,i);">
-                                <i class="fas fa-comments iconSize"
-                                placement="top" 
-                                ></i>&nbsp;
+                            <li [ngbTooltip]="tipComment" class="list-inline-item paddingIcons" style="cursor: pointer;"
+                                (click)="getCommentsForPost(post.postId,i);">
+                                <i class="fas fa-comments iconSize" placement="top"></i>&nbsp;
                                 <a>
                                     {{post.commentsCount}} Comments
                                 </a>
                             </li>
                             <ng-template #tipComment>
-                                 {{ (post.selectComments) ? "Click to hide comments" : "Click to view comments" }}
+                                {{ (post.selectComments) ? "Click to hide comments" : "Click to view comments" }}
                             </ng-template>
                             <li class="list-inline-item paddingIcons ml-auto" *ngIf="post.postAnswer" style="cursor: pointer;margin-bottom: -16px;">
                                 <a (click)="post.viewAnswer = !post.viewAnswer">
@@ -234,7 +235,9 @@
                 <!-- 
                     V1.0
                     added new app-oopserror component in shared folder to make unique div in entire applicaiton -->
-                <b *ngIf="noData"><app-oopserror></app-oopserror></b>
+                <b *ngIf="noData">
+                    <app-oopserror></app-oopserror>
+                </b>
             </div>
         </div>
         <div class="col-md-3 d-none d-sm-block" *ngIf="!isMobile">
@@ -247,47 +250,46 @@
 
 
 
-    <section>
-        <ng-template #editPostDialog let-c="close" let-d="dismiss">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modal-basic-title">
-                    <b>Edit Post</b>
-                </h5>
-                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form [formGroup]="editPostForm">
-                <div formGroupName="data">
-                    <div class="modal-body">
-                        <div class="form-group" style="padding:12px;">
-                            <h6>Title</h6>
-                            <textarea class="form-control" rows="1" maxlength="300" formControlName="title" placeholder="Question title(max 300Chars)"></textarea>
-                        </div>
-                        <div class="form-group" style="padding: 1px 12px 1px 12px;">
-                            <h6>Question</h6>
-                            <textarea class="form-control" formControlName="text" rows="4" placeholder="What is your question?"></textarea>
-                        </div>
-                        <div class="form-group" style="padding:12px;" *ngIf="editPostForm.controls['context'].get('type').value != 'CAREERS'
-                         && editPostForm.controls['context'].get('type').value != 'EVENTS'">
-                            <h6>Answer</h6>
-                            <textarea class="form-control" rows="2" formControlName="answer" placeholder="Answer"></textarea>
-                        </div>
+<section>
+    <ng-template #editPostDialog let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modal-basic-title">
+                <b>Edit Post</b>
+            </h5>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form [formGroup]="editPostForm">
+            <div formGroupName="data">
+                <div class="modal-body">
+                    <div class="form-group" style="padding:12px;">
+                        <h6>Title</h6>
+                        <textarea class="form-control" rows="1" maxlength="300" formControlName="title" placeholder="Question title(max 300Chars)"></textarea>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btnSuccess" [disabled]="editPostForm.invalid"
-                            (click)="saveEditPost()">Update</button>
+                    <div class="form-group" style="padding: 1px 12px 1px 12px;">
+                        <h6>Question</h6>
+                        <textarea class="form-control" formControlName="text" rows="4" placeholder="What is your question?"></textarea>
+                    </div>
+                    <div class="form-group" style="padding:12px;" *ngIf="editPostForm.controls['context'].get('type').value != 'CAREERS'
+                         && editPostForm.controls['context'].get('type').value != 'EVENTS'">
+                        <h6>Answer</h6>
+                        <textarea class="form-control" rows="2" formControlName="answer" placeholder="Answer"></textarea>
                     </div>
                 </div>
-            </form>
-        </ng-template>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btnSuccess" [disabled]="editPostForm.invalid" (click)="saveEditPost()">Update</button>
+                </div>
+            </div>
+        </form>
+    </ng-template>
 
-    </section>
-    <section>
-        <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="23%" #cd>
-            <p-footer>
-                <button type="button" class="btnDanger" pButton icon="fa-times" label="No" (click)="cd.reject()"></button>
-                <button type="button" class="btnSuccess" pButton icon="fa-check" label="Yes" (click)="cd.accept()"></button>
-            </p-footer>
-        </p-confirmDialog>
-    </section>
+</section>
+<section>
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="23%" #cd>
+        <p-footer>
+            <button type="button" class="btnDanger" pButton icon="fa-times" label="No" (click)="cd.reject()"></button>
+            <button type="button" class="btnSuccess" pButton icon="fa-check" label="Yes" (click)="cd.accept()"></button>
+        </p-footer>
+    </p-confirmDialog>
+</section>
