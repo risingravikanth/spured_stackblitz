@@ -25,9 +25,9 @@ export class HeaderMobileComponent implements OnInit {
 
     constructor(public router: Router, private authService: AuthService,
         private userService: CurrentUserService,
-        private commonService: CommonService, 
+        private commonService: CommonService,
         private mobileService: MobileDetectionService,
-        private notifyService: NotificationsService,) { }
+        private notifyService: NotificationsService, ) { }
 
     currentUser: User;
     public isMobile: boolean;
@@ -62,11 +62,15 @@ export class HeaderMobileComponent implements OnInit {
                 if (this.currentUser && this.currentUser.imageUrl) {
                     this.profileImage = constant.REST_API_URL + "/" + this.currentUser.imageUrl;
                 }
+            } else if (item == "sideMenuOpen") {
+                this.showSideMenuDialog = true;
+            } else if (item == "sideMenuClose") {
+                this.showSideMenuDialog = false;
             }
         })
     }
 
-    sideMenuOpen(){
+    sideMenuOpen() {
         this.showSideMenuDialog = true;
     }
 

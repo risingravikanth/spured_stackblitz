@@ -21,7 +21,7 @@ import { ToastrService } from '../../../shared/services/Toastr.service';
   // animations: [routerTransition()]
 })
 export class SideMenuComponent implements OnInit {
-  noBoards: boolean = false;
+  noBoards: boolean = true;
   showPostSpinner: boolean = false;
   boardId: any;
   paramType: any;
@@ -253,10 +253,14 @@ export class SideMenuComponent implements OnInit {
     this.service.getUserClosedBoards().subscribe((resData: any) => {
       this.showPostSpinner = false;
       if (resData.boards) {
-        this.boardsList = resData.boards;
-        if (this.boardsList && this.boardsList.length > 0) {
-          this.noBoards = false;
-        } else {
+        if(resData.boards){
+          this.boardsList = resData.boards;
+          if (this.boardsList && this.boardsList.length > 0) {
+            this.noBoards = false;
+          } else {
+            this.noBoards = true;
+          }
+        } else{
           this.noBoards = true;
         }
       }
