@@ -7,10 +7,12 @@
             <side-menu></side-menu>
         </div>
         <div [class]="!isMobile ? 'col-md-6' : 'col-md-10'">
-            <create-post></create-post>
+            <div *ngIf="validUser && !paramId">
+                <create-post ></create-post>
+            </div>
             <br>
             <div *ngFor="let post of postsList;index as i;">
-                <div class="card">
+                <div class="card div_hover" *ngIf="post && post.postId">
                     <div class="d-flex justify-content-between">
                         <div>
                             <span style="font-size: 12px;padding-left: 10px;margin-top: 8px;">
@@ -53,7 +55,7 @@
                                     </a>
                                 </li>
                                 <li class="text-muted" style="font-size: 12px;">{{post.createTime | date: 'MMM d, y,
-                                    h:mm:ss a'}}</li>
+                                    h:mm a'}}</li>
                             </ul>
                         </div>
                     </div>
@@ -200,7 +202,7 @@
                                                 {{comment.userProfile.userName}}
                                             </a>
                                         </li>
-                                        <li style="font-size: 10px;">{{comment.createTime | date: 'MMM d, y, h:mm:ss
+                                        <li style="font-size: 10px;">{{comment.createTime | date: 'MMM d, y, h:mm
                                             a'}}</li>
                                         <li style="font-size: 13px;">
                                             <!-- <p>{{comment.commentText}}</p> -->

@@ -258,6 +258,9 @@ export class NoticerMainComponent implements OnInit {
   }
 
   loadMorePosts() {
+    if(this.paramId){
+      return;
+    }
     this.getPostsRequestBody.pagination.offset = 0;//this.getPostsRequestBody.pagination.offset + constant.postsPerCall;
     if (this.router.url.indexOf('feed') !== -1) {
       if(this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].upid){
@@ -530,32 +533,37 @@ export class NoticerMainComponent implements OnInit {
         this.toastr.error("Failed", obj.error.code.message);
       } else {
         this.postsList = resData.posts;
-        this.seo.generateTags({
-          title: this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title",
-          description: this.postsList[0].postText,
-          slug: 'post details page'
-        })
+        if(this.postsList.length > 0){
 
-        this.userService.setTitle("Noticer | " + (this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title"));
-
-        // Chaning postDeatail url
-        let arrUrl = this.router.url.split("/");
-        let newUrl = "";
-        for (let i = 0; i < arrUrl.length - 1; i++) {
-          if (arrUrl[i] != undefined) {
-            newUrl = newUrl + arrUrl[i] + "/"
-          } else {
-            newUrl = "/" + newUrl
+          this.seo.generateTags({
+            title: this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title",
+            description: this.postsList[0].postText,
+            slug: 'post details page'
+          })
+  
+          this.userService.setTitle("Noticer | " + (this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title"));
+  
+          // Chaning postDeatail url
+          let arrUrl = this.router.url.split("/");
+          let newUrl = "";
+          for (let i = 0; i < arrUrl.length - 1; i++) {
+            if (arrUrl[i] != undefined) {
+              newUrl = newUrl + arrUrl[i] + "/"
+            } else {
+              newUrl = "/" + newUrl
+            }
           }
+          let num: any = arrUrl[arrUrl.length - 1];
+          if (!isNaN(num)) {
+            newUrl = newUrl + arrUrl[arrUrl.length - 1] + "/";
+          }
+          if (this.postsList[0].postTitle) {
+            this.location.replaceState(newUrl + this.postsList[0].postTitle.replace(/[^a-zA-Z0-9]/g, '-'));
+          }
+          this.preparePostsList();
+        } else{
+          this.toastr.error("Failed", "The post your looking is deleted");    
         }
-        let num: any = arrUrl[arrUrl.length - 1];
-        if (!isNaN(num)) {
-          newUrl = newUrl + arrUrl[arrUrl.length - 1] + "/";
-        }
-        if (this.postsList[0].postTitle) {
-          this.location.replaceState(newUrl + this.postsList[0].postTitle.replace(/[^a-zA-Z0-9]/g, '-'));
-        }
-        this.preparePostsList();
       }
     }, error => {
       this.toastr.error("Failed", "Something went wrong!");

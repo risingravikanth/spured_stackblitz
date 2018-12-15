@@ -444,6 +444,17 @@ export class CreatePostComponent implements OnInit {
           this.toastr.error("Failed", resData.error.code.longMessage);
           this.postBtnTxt = "Post"
         } else if (resData && resData.post) {
+          if (this.router.url.indexOf('categories') !== -1 || this.router.url.indexOf('feed') !== -1 ) {
+
+          } else{
+            let _t:string = this.addPostForm.controls['context'].get("type").value
+            let c = this.addPostForm.controls['data'].get("category").value;
+            let url = "categories/"+ _t.toLowerCase();
+            if(c){
+              url = url + "/" + c;
+            }
+            this.router.navigate([url]);
+          }
           this.postBtnTxt = "Post"
           let data = resData.post;
           data.maxLength = constant.showSeeMorePostTextLenth;
