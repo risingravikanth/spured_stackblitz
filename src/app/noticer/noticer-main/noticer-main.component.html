@@ -38,7 +38,7 @@
                     <div class="row" style="padding-left: 9px;margin-top: -15px;">
                         <div>
                             <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="user"
-                                [src]="(post.userProfile && post.userProfile.profileImageUrl) ? serverUrl + post.userProfile.profileImageUrl : assets/images/noticer_default_user_img.png">
+                                [src]="(post.userProfile && post.userProfile.profileImageUrl) ? (imageFromAws(post.userProfile.profileImageUrl) ? '' : serverUrl) + post.userProfile.profileImageUrl : assets/images/noticer_default_user_img.png">
                         </div>
                         <div style="margin-left: -48px;margin-top: 12px;">
                             <ul>
@@ -111,16 +111,16 @@
                     </div>
                     <div>
                         <div *ngIf="post.images.length == 1">
-                            <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{serverUrl}}/{{post.images[0]}}">
-                                <img src="{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%; max-height: 100%;padding: 7px;">
+                            <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{imageFromAws(post.images[0]) ? '' : serverUrl}}{{imageFromAws(post.images[0]) ? '' : '/'}}{{post.images[0]}}">
+                                <img src="{{imageFromAws(post.images[0]) ? '' : serverUrl}}{{imageFromAws(post.images[0]) ? '' : '/'}}{{post.images[0]}}" style="max-width: 100%; max-height: 100%;padding: 7px;">
                             </a>
                         </div>
 
                         <div class="images" *ngIf="post.images.length == 2" style="padding:7px;">
                             <mat-grid-list cols="2" rowHeight="2:1">
                                 <mat-grid-tile *ngFor="let tile of post.images">
-                                    <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{serverUrl}}/{{tile}}">
-                                        <img style="max-width: 100%; max-height: 100%;" src="{{serverUrl}}/{{tile}}">
+                                    <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
+                                        <img style="max-width: 100%; max-height: 100%;" src="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
                                     </a>
                                 </mat-grid-tile>
                             </mat-grid-list>
@@ -128,8 +128,8 @@
                         <div class="images" *ngIf="post.images.length == 3" style="padding:7px;">
                             <mat-grid-list cols="3" rowHeight="2:2">
                                 <mat-grid-tile *ngFor="let tile of post.images">
-                                    <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{serverUrl}}/{{tile}}">
-                                        <img style="max-width: 100%; max-height: 100%;" src="{{serverUrl}}/{{tile}}">
+                                    <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
+                                        <img style="max-width: 100%; max-height: 100%;" src="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
                                     </a>
                                 </mat-grid-tile>
                             </mat-grid-list>
@@ -138,8 +138,8 @@
                         <div class="images" *ngIf="post.images.length == 4" style="padding-right: 7px;">
                             <mat-grid-list cols="2" rowHeight="2:1">
                                 <mat-grid-tile *ngFor="let tile of post.images">
-                                    <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{serverUrl}}/{{tile}}">
-                                        <img style="max-width: 100%; max-height: 100%;" src="{{serverUrl}}/{{tile}}">
+                                    <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
+                                        <img style="max-width: 100%; max-height: 100%;" src="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
                                     </a>
                                 </mat-grid-tile>
                             </mat-grid-list>
@@ -188,7 +188,7 @@
                             <div class="wrap" style="margin-top: -6px;">
                                 <div class="commentProfile">
                                     <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ProfilePic"
-                                        [src]="(comment.userProfile && comment.userProfile.profileImageUrl) ? (serverUrl + comment.userProfile.profileImageUrl) : assets/images/noticer_default_user_img.png">
+                                        [src]="(comment.userProfile && comment.userProfile.profileImageUrl) ? ((imageFromAws(comment.userProfile.profileImageUrl) ? '' : serverUrl) + comment.userProfile.profileImageUrl) : assets/images/noticer_default_user_img.png">
                                 </div>
                                 <div class="commentBody">
                                     <ul>

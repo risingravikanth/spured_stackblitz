@@ -26,43 +26,55 @@
             </div>
         </form> -->
         <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
-                     
-                        <i class="fas fa-home header-icon-size"><label class="headerIconLabel">Home</label></i>
-                     
-                </a>
+            <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
+
+                <i class="fas fa-home header-icon-size"><label class="headerIconLabel">Home</label></i>
+
+            </a>
         </li>
         <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);" (click)="openTab()">
-                     
-                        <i class="fas fa-edit header-icon-size"><label class="headerIconLabel">Add Post</label></i>
-                     
-                </a>
+            <a class="nav-link" href="javascript:void(0);" (click)="addPost()">
+
+                <i class="fas fa-edit header-icon-size"><label class="headerIconLabel">Add Post</label></i>
+
+            </a>
         </li>
         <li class="nav-item dropdown dropdown-notifications">
 
             <a class="nav-link dropdown-toggle" href="#" id="notificationMenu" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
                 <b>
-                    <i class="fas fa-bell header-icon-size"><span *ngIf="showNotifications" style="font-size: 12px;"
-                            class="badge badge-danger notification-count">{{notificationsCount}}</span></i> 
-                            <label class="headerIconLabel" [ngClass]="{' notification-label': (notificationsCount && notificationsCount > 0)}">Notifications</label>
+                    <i class="fas fa-bell header-icon-size" [class.mar12]="!showNotifications"><span *ngIf="showNotifications" style="font-size: 12px;"
+                            class="badge badge-danger notification-count">{{notificationsCount}}</span></i>
+                    <label class="headerIconLabel" [ngClass]="{' notification-label': (notificationsCount && notificationsCount > 0)}">Notifications</label>
                 </b>
             </a>
             <!--
             V1.0 commented to provide new notificaiton bar -->
 
-            <div class="dropdown-menu" aria-labelledby="notificationMenu">
-                <div class="dropdown-item" *ngIf="showNotifications">
-                    <span>You have {{notificationsCount}} <br>board join request <a href="javascript:void();"
-                            routerLink="/settings">Go</a></span>
+            <div class="dropdown-menu notificationDropDownMenu" aria-labelledby="notificationMenu">
+                <!-- <div class="" *ngFor="let data of notificationsList">
+                    <div class="dropdown-item" [class.newNotification]="data.status == 'NEW'" [class.readNotification]="data.status == 'READ'">
+                        <div>
+                            <a href="javascript:void(0);" class="fntBlack" (click)="openNotificationModel(data, notificationDetailsDialog)">
+                                <div><b>{{data.title}}</b></div>
+                                <div *ngIf="data.text?.length>0">{{data.text}}</div>
+                            </a>
+                        </div>
+                    </div>
+                    <hr class="hrMargin">
                 </div>
+                <div class="dropdown-item text-center"><a class="fntGreen" href="javascript:void(0);" routerLink="/notifications">See
+                        all
+                        notifications</a></div>
                 <div class="dropdown-item" *ngIf="!showNotifications">
                     <span>No Notifications</span>
-                </div>
+                </div> -->
+
+                <notifications [from]="headerValue" [totalNotificationsCount]="notificationsCount" ></notifications>
             </div>
 
-           <!-- <div class="dropdown-container">
+            <!-- <div class="dropdown-container">
 
                   <div class="dropdown-toolbar">
                     <div class="dropdown-toolbar-actions">
@@ -117,7 +129,7 @@
 
             </div>-->
         </li>
-        
+
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"

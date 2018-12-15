@@ -384,7 +384,7 @@ export class CreatePostComponent implements OnInit {
   setProfilePic() {
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser && this.currentUser.imageUrl) {
-      this.profileImage = this.serverUrl + this.currentUser.imageUrl;
+      this.profileImage = this.imageFromAws(this.currentUser.imageUrl) ? '' : this.serverUrl + this.currentUser.imageUrl;
     } else {
       this.profileImage = "assets/images/noticer_default_user_img.png"
     }
@@ -471,6 +471,10 @@ export class CreatePostComponent implements OnInit {
       this.postBtnTxt = "Post"
       this.toastr.error("Failed", "Please fill all the details");
     }
+  }
+
+  imageFromAws(url){
+    return url.indexOf("https://") != -1 ? true : false;
   }
 
 }

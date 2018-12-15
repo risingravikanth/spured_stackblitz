@@ -16,6 +16,8 @@ import { SideMenuComponent } from './noticer-main/side-menu/side-menu.component'
 import { NoticerRoutingModule } from './noticer-routing.module';
 import { NoticerComponent } from './noticer.component';
 import { CreatePostComponent } from './noticer-main/create-post/create-post.component';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 
 @NgModule({
@@ -37,7 +39,8 @@ import { CreatePostComponent } from './noticer-main/create-post/create-post.comp
         MultiSelectModule,
         DropdownModule,
         MatGridListModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        OverlayPanelModule
     ],
     declarations: [
         NoticerComponent,
@@ -50,7 +53,8 @@ import { CreatePostComponent } from './noticer-main/create-post/create-post.comp
         SideMenuComponent,
         NoticerMainComponent,
         RightMenuComponent,
-        CreatePostComponent
+        CreatePostComponent,
+        NotificationsComponent
     ],
     exports:[SideMenuComponent]
 })

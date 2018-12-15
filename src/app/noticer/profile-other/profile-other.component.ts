@@ -43,10 +43,14 @@ export class OthersProfileComponent implements OnInit {
       this.userDetails = resData;
       this.userService.setTitle("Noticer | "+this.userDetails.userName);
       if (this.userDetails && this.userDetails.profileImageUrl) {
-        this.profileImage = constant.REST_API_URL + "/" +this.userDetails.profileImageUrl;
+        this.profileImage = this.imageFromAws(this.userDetails.profileImageUrl) ? '' : (constant.REST_API_URL + "/") +  this.userDetails.profileImageUrl;
       } else{
         this.profileImage = "assets/images/noticer_default_user_img.png";
       }
     })
   }
+  
+imageFromAws(url){
+  return url.indexOf("https://") != -1 ? true : false;
+}
 }

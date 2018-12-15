@@ -627,4 +627,9 @@ export class NoticerMainComponent implements OnInit {
       window.open("http://" + link)
     }
   }
+
+
+  imageFromAws(url){
+    return url.indexOf("https://") != -1 ? true : false;
+  }
 }
