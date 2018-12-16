@@ -186,3 +186,14 @@ li>a{
 .btnSuccess{
   background-color: #155a24 !important;
 }
+
+.bg { 
+ 
+  background-image: url("assets/images/bg-img3.jpg");
+ 
+  height: 100%; 
+ 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
