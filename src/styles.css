@@ -34,6 +34,10 @@ li>a{
 .bd-callout-open {
     border-left-color: #f0ad4e;
 }
+.bd-callout-danger {
+    border-left-color: #c82333 !important;
+}
+
 .bd-callout {
     padding: 1.25rem;
     margin-top: 1.25rem;
