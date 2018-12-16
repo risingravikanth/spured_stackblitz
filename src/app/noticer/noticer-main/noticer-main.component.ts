@@ -268,16 +268,18 @@ export class NoticerMainComponent implements OnInit {
       return;
     }
     this.getPostsRequestBody.pagination.offset = 0;//this.getPostsRequestBody.pagination.offset + constant.postsPerCall;
-    if (this.router.url.indexOf('feed') !== -1) {
-      if(this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].upid){
-        return;
+    if(this.postsList[this.postsList.length - 1]){
+      if (this.router.url.indexOf('feed') !== -1) {
+        if(this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].upid){
+          return;
+        }
+        this.getPostsRequestBody.data.maxId = this.postsList[this.postsList.length - 1].upid;
+      } else{
+        if(this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].postId){
+          return;
+        }
+        this.getPostsRequestBody.data.maxId = this.postsList[this.postsList.length - 1].postId;
       }
-      this.getPostsRequestBody.data.maxId = this.postsList[this.postsList.length - 1].upid;
-    } else{
-      if(this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].postId){
-        return;
-      }
-      this.getPostsRequestBody.data.maxId = this.postsList[this.postsList.length - 1].postId;
     }
     this.showPostSpinner = true;
     this.service.getPostsList(this.getPostsRequestBody).subscribe(
