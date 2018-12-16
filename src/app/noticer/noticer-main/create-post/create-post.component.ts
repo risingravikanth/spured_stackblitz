@@ -1,20 +1,20 @@
-import { isPlatformBrowser, Location } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID, ViewChild, ElementRef, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, ElementRef, Inject, Input, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService } from 'primeng/components/common/api';
+import { CommonService, MobileDetectionService } from '../../../shared';
+import * as categories_types_models from '../../../shared/master-data/master-data';
+import { GetPostsRequest } from '../../../shared/models/request';
+import { Section } from '../../../shared/models/section.model';
+import { User } from '../../../shared/models/user.model';
 import * as constant from '../../../shared/others/constants';
-import { NoticerMainService } from '../noticer-main.service';
 import { CustomValidator } from '../../../shared/others/custom.validator';
+import { CurrentUserService } from '../../../shared/services/currentUser.service';
 import { SeoService } from '../../../shared/services/seo.service';
 import { ToastrService } from '../../../shared/services/Toastr.service';
-import { User } from '../../../shared/models/user.model';
-import { CurrentUserService } from '../../../shared/services/currentUser.service';
-import { MobileDetectionService, CommonService } from '../../../shared';
-import { GetPostsRequest, Pagination, Context, Data, GetCommentRequest, CommentContext, CreateCommentRequest, CreateCommentData } from '../../../shared/models/request';
-import * as categories_types_models from '../../../shared/master-data/master-data'
-import { Section } from '../../../shared/models/section.model';
+import { NoticerMainService } from '../noticer-main.service';
 
 
 @Component({
@@ -43,9 +43,8 @@ export class CreatePostComponent implements OnInit {
     public mobileService: MobileDetectionService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private confirmService: ConfirmationService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private seo: SeoService, private location: Location,
+    private seo: SeoService,
     private commonService: CommonService,
     private toastr: ToastrService
   ) {
@@ -150,7 +149,8 @@ export class CreatePostComponent implements OnInit {
         deadline: [null],
         qualifications: [null],
         answer: [null],
-        files: [null]
+        files: [null],
+        location:[null]
       }),
     });
   }
@@ -299,7 +299,7 @@ export class CreatePostComponent implements OnInit {
         sec.sections.forEach(ty => {
           if (ty.code.toUpperCase() == type.toUpperCase()) {
             ty.categories.forEach(ca => {
-              if (ca.name != "HOME") {
+              if (ca.name != "Home") {
                 let vo = { label: ca.name, value: ca.code };
                 this.categories.push(vo);
               }
@@ -385,7 +385,7 @@ export class CreatePostComponent implements OnInit {
   setProfilePic() {
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser && this.currentUser.imageUrl) {
-      this.profileImage = this.serverUrl + this.currentUser.imageUrl;
+      this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (this.serverUrl+"/")) + this.currentUser.imageUrl;
     } else {
       this.profileImage = "assets/images/noticer_default_user_img.png"
     }
@@ -444,6 +444,17 @@ export class CreatePostComponent implements OnInit {
           this.toastr.error("Failed", resData.error.code.longMessage);
           this.postBtnTxt = "Post"
         } else if (resData && resData.post) {
+          if (this.router.url.indexOf('categories') !== -1 || this.router.url.indexOf('feed') !== -1 ) {
+
+          } else{
+            let _t:string = this.addPostForm.controls['context'].get("type").value
+            let c = this.addPostForm.controls['data'].get("category").value;
+            let url = "categories/"+ _t.toLowerCase();
+            if(c){
+              url = url + "/" + c;
+            }
+            this.router.navigate([url]);
+          }
           this.postBtnTxt = "Post"
           let data = resData.post;
           data.maxLength = constant.showSeeMorePostTextLenth;
@@ -472,6 +483,10 @@ export class CreatePostComponent implements OnInit {
       this.postBtnTxt = "Post"
       this.toastr.error("Failed", "Please fill all the details");
     }
+  }
+
+  imageFromAws(url){
+    return url.indexOf("https://") != -1 ? true : false;
   }
 
 }

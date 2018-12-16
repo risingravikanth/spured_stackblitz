@@ -87,12 +87,12 @@ export class UserSetupComponent implements OnInit {
       this.userSetUpService.saveUser(this.UserSetUpForm.value).subscribe(
         resData => {
           this.responseData = resData;
+          this.btnText = "Submit";
           if (this.responseData.info || this.responseData.statusCode == "ERROR") {
             this.toastr.error("Failed", this.responseData.info)
           } else if (this.responseData.email) {
-            this.toastr.error("Signup Success", 'Soon you will get confirmation mail!')
+            this.toastr.success("Signup Success", 'Soon you will get confirmation mail!')
             this.userSetUpForm();
-            this.btnText = "Submit";
           } else {
             console.log(this.responseData);
           }

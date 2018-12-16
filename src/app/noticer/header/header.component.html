@@ -15,7 +15,7 @@
             </a>
         </li>
         <li class="siteNameGap d-none d-sm-block"></li>
-        <form class="form-inline pad-search d-none d-sm-block">
+        <!-- <form class="form-inline pad-search d-none d-sm-block">
             <div class="input-group">
                 <input type="text" class="form-control searchbar" placeholder="Search in noticer.." aria-label="search">
                 <div class="input-group-prepend">
@@ -24,100 +24,41 @@
                     </a>
                 </div>
             </div>
-        </form>
+        </form> -->
         <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
-                     
-                        <i class="fas fa-home header-icon-size"><label class="headerIconLabel">Home</label></i>
-                     
-                </a>
+            <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
+
+                <i class="fas fa-home header-icon-size"><label class="headerIconLabel">Home</label></i>
+
+            </a>
         </li>
         <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);" (click)="openTab()">
-                     
-                        <i class="fas fa-edit header-icon-size"><label class="headerIconLabel">Add Post</label></i>
-                     
-                </a>
+            <a class="nav-link" href="javascript:void(0);" (click)="addPost()">
+
+                <i class="fas fa-edit header-icon-size"><label class="headerIconLabel">Add Post</label></i>
+
+            </a>
         </li>
         <li class="nav-item dropdown dropdown-notifications">
 
             <a class="nav-link dropdown-toggle" href="#" id="notificationMenu" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
                 <b>
-                    <i class="fas fa-bell header-icon-size"><span *ngIf="showNotifications" style="font-size: 12px;"
-                            class="badge badge-danger notification-count">{{notificationsCount}}</span></i> 
-                            <label class="headerIconLabel" [ngClass]="{' notification-label': (notificationsCount && notificationsCount > 0)}">Notifications</label>
+                    <i class="fas fa-bell header-icon-size" [class.mar12]="!showNotifications"><span *ngIf="showNotifications" style="font-size: 12px;"
+                            class="badge badge-danger notification-count">{{notificationsCount}}</span></i>
+                    <label class="headerIconLabel" [ngClass]="{' notification-label': (notificationsCount && notificationsCount > 0)}">Notifications</label>
                 </b>
             </a>
             <!--
             V1.0 commented to provide new notificaiton bar -->
 
-            <div class="dropdown-menu" aria-labelledby="notificationMenu">
-                <div class="dropdown-item" *ngIf="showNotifications">
-                    <span>You have {{notificationsCount}} <br>board join request <a href="javascript:void();"
-                            routerLink="/settings">Go</a></span>
-                </div>
-                <div class="dropdown-item" *ngIf="!showNotifications">
-                    <span>No Notifications</span>
-                </div>
+            <div class="dropdown-menu notificationDropDownMenu" aria-labelledby="notificationMenu">
+                
+                <notifications [from]="headerValue" ></notifications>
             </div>
 
-           <!-- <div class="dropdown-container">
-
-                  <div class="dropdown-toolbar">
-                    <div class="dropdown-toolbar-actions">
-                      <a href="#">Mark all as read</a>
-                    </div>
-                    <h3 class="dropdown-toolbar-title"></h3>
-                  </div>
-
-                  <ul class="dropdown-menu">
-                      <li class="notification">
-                          <div class="media">
-                            <div class="media-left">
-                              <div class="media-object">
-                                <img data-src="holder.js/50x50?bg=cccccc" class="img-circle" alt="50x50" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2250%22%20height%3D%2250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2050%2050%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_167a2a63761%20text%20%7B%20fill%3A%23919191%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_167a2a63761%22%3E%3Crect%20width%3D%2250%22%20height%3D%2250%22%20fill%3D%22%23cccccc%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%226.46875%22%20y%3D%2229.5%22%3E50x50%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 50px; height: 50px;">
-                              </div>
-                            </div>
-                            <div class="media-body">
-                              <strong class="notification-title"><a href="#">Dave Lister</a> commented on <a href="#">DWARF-13 - Maintenance</a></strong>
-                              <p class="notification-desc">I totally don't wanna do it. Rimmer can do it.</p>
-
-                              <div class="notification-meta">
-                                <small class="timestamp">27. 11. 2015, 15:00</small>
-                              </div>
-                            </div>
-                          </div>
-                      </li>
-                      <li class="notification active">
-                          <div class="media">
-                            <div class="media-left">
-                              <div class="media-object">
-                                <img data-src="holder.js/50x50?bg=cccccc" class="img-circle" alt="50x50" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2250%22%20height%3D%2250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2050%2050%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_167a2a63763%20text%20%7B%20fill%3A%23919191%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_167a2a63763%22%3E%3Crect%20width%3D%2250%22%20height%3D%2250%22%20fill%3D%22%23cccccc%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%226.46875%22%20y%3D%2229.5%22%3E50x50%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 50px; height: 50px;">
-                              </div>
-                            </div>
-                            <div class="media-body">
-                              <strong class="notification-title"><a href="#">Nikola Tesla</a> resolved <a href="#">T-14 - Awesome stuff</a></strong>
-
-                              <p class="notification-desc">Resolution: Fixed, Work log: 4h</p>
-
-                              <div class="notification-meta">
-                                <small class="timestamp">27. 10. 2015, 08:00</small>
-                              </div>
-
-                            </div>
-                          </div>
-                      </li>
-
-                  </ul>
-
-                  <div class="dropdown-footer text-center">
-                    <a href="#">View All</a>
-                  </div>
-
-            </div>-->
         </li>
-        
+
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
@@ -145,8 +86,8 @@
                     <i class="fas fa-sign-in-alt"></i>&nbsp; Log In </a>
                 <a class="dropdown-item" href="#" routerLink="/help">
                     <i class="fab fa-hire-a-helper"></i>&nbsp; Help </a>
-                <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
-                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a>
+                <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a> -->
             </div>
         </li>
     </ul>

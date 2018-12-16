@@ -12,6 +12,8 @@ import { SettingsComponent } from './noticer/settings/settings.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { AuthGuard } from './shared';
 import { UserSetupComponent } from './user-setup/user-setup.component';
+import { AccountActivateComponent } from './account-activate/account-activate.component';
+import { NotificationsComponent } from './noticer/notifications/notifications.component';
 
 const routes: Routes = [
   {
@@ -34,6 +36,10 @@ const routes: Routes = [
       },
       {
         path: ':type/:category',
+        component: NoticerMainComponent,
+      },
+      {
+        path: ':type/:category/:model',
         component: NoticerMainComponent,
       }
     ]
@@ -131,6 +137,18 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'notifications',
+    component: NoticerComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: NotificationsComponent,
+      }
+    ]
+  },
+  { path: 'users/activate/:code', component: AccountActivateComponent },
   { path: 'login', loadChildren: './login/login.module#LoginModule' },
   { path: '', redirectTo: 'feed', pathMatch: 'full' },
   { path: 'not-found', component: NotFoundComponent },

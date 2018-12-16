@@ -14,3 +14,8 @@ export const showSeeMorePostTextLenth = 300;
 export const showSeeMoreCommentTextLenth = 100;
 export const postsPerCall = 10;
 export const commentsPerCall = 10;
+
+export const onHeaderNotificationsPerPage = 5;
+export const onComponentNotificationsPerPage = 10;
+
+export const domainName = "http://noticer.herokuapp.com";

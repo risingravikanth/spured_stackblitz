@@ -53,4 +53,9 @@ export class AuthService {
         }
         return this.http.post(url, null);
     }
+
+    activateUserThroughUrl(code:any){
+        let url = "/profile/activate/" + code;
+        return this.http.get(url);
+    }
 }

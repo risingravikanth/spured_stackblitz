@@ -1,19 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import * as constant from '../../shared/others/constants'
-import { SettingsService } from '../settings/settings.service';
-import { AuthService } from '../../shared/services/auth.service';
-import { CurrentUserService } from '../../shared/services/currentUser.service';
-import { CommonService } from '../../shared/services/common.service';
-import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
 import { User } from '../../shared/models/user.model';
+import * as constant from '../../shared/others/constants';
+import { AuthService } from '../../shared/services/auth.service';
+import { CommonService } from '../../shared/services/common.service';
+import { CurrentUserService } from '../../shared/services/currentUser.service';
+import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
 import { CreatePostComponent } from '../noticer-main/create-post/create-post.component';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
-    providers:[SettingsService]
+    providers: [NotificationsService]
 })
 export class HeaderComponent implements OnInit {
 
@@ -21,48 +21,55 @@ export class HeaderComponent implements OnInit {
     toggleTopicsMenu: any = false;
 
     public headerValue = "header";
+    public notificationsCount: any;
 
     public responseVo: any = { info: null, source: null, statusCode: null };
-    getAllRequestsList:any = [];
+    notificationsList: any = [];
     showNotifications: boolean = false;
-    notificationsCount:any;
+
+    notificationDetails: any;
 
     constructor(public router: Router, private authService: AuthService,
         private userService: CurrentUserService,
-        private settingsService:SettingsService,
+        private notifyService: NotificationsService,
         private commonService: CommonService, private mobileService: MobileDetectionService) { }
 
     currentUser: User;
     public isMobile: boolean;
-    public profileImage:any;
+    public profileImage: any;
     public validUser: boolean = false;
+
+    @ViewChild(CreatePostComponent)
+    private myChild: CreatePostComponent;
 
     ngOnInit() {
         this.currentUser = this.userService.getCurrentUser();
-        if(this.currentUser){
+        if (this.currentUser) {
             this.validUser = true;
         }
-        if(this.currentUser && this.currentUser.imageUrl){
-            this.profileImage = constant.REST_API_URL + "/" + this.currentUser.imageUrl;
-        } else{
+        if (this.currentUser && this.currentUser.imageUrl) {
+            this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (constant.REST_API_URL + "/")) + this.currentUser.imageUrl;
+        } else {
             this.profileImage = "assets/images/noticer_default_user_img.png"
         }
         this.isMobile = this.mobileService.isMobile();
-        if(!this.isMobile){
-            this.boardRequests();
-        }
-        this.commonService.menuChanges.subscribe(resData =>{
-            if(resData == "updateProfilePic"){
+        this.commonService.menuChanges.subscribe((resData:any) => {
+            if (resData == "updateProfilePic") {
                 this.currentUser = this.userService.getCurrentUser();
-                if(this.currentUser && this.currentUser.imageUrl){
-                    this.profileImage = constant.REST_API_URL + "/" + this.currentUser.imageUrl;
-                }       
+                if (this.currentUser && this.currentUser.imageUrl) {
+                    this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (constant.REST_API_URL + "/")) + this.currentUser.imageUrl;
+                }
+            } else if (resData && resData.type == "updateNoficiationCount"){
+                if (resData.count > 0) {
+                    this.notificationsCount = resData.count;
+                    this.showNotifications = true;
+                }
             }
         })
     }
 
-    addPost(){
-        // this.commonService.updateHeaderMenu("openAddPostDialog");
+    addPost() {
+        this.myChild.open();
     }
 
     goToUserProfile() {
@@ -74,39 +81,15 @@ export class HeaderComponent implements OnInit {
     }
 
     onLoggedout() {
-        // this.authService.attemptLogout(this.authService.getCurrentUser()).subscribe(resData => {
-        //     this.responseVo = resData;
-        //     if (this.responseVo.statusCode == 'SUCCESS') {
-                console.log("logged out successfully");
-                this.authService.purgeAuth();
-                this.router.navigate(["/login"])
-        //     } else {
-        //         alert("failed");
-        //     }
-        // });
+        console.log("logged out successfully");
+        this.authService.purgeAuth();
+        this.router.navigate(["/login"])
+
     }
 
-    boardRequests() {
-        this.settingsService.getAllRequests().subscribe(
-          resData => {
-            this.getAllRequestsList = resData;
-            if (this.getAllRequestsList && this.getAllRequestsList.code == "ERROR") {
-              alert(this.getAllRequestsList.info);
-              this.showNotifications = false;
-            } else if (this.getAllRequestsList && this.getAllRequestsList.requests && this.getAllRequestsList.requests.length > 0) {
-                this.notificationsCount = this.getAllRequestsList.requests.length;
-              this.showNotifications = true;
-            } else {
-              this.showNotifications = false;
-            }
-          }
-        )
+
+
+    imageFromAws(url){
+        return url.indexOf("https://") != -1 ? true : false;
       }
-
-      @ViewChild(CreatePostComponent)
-     private myChild: CreatePostComponent;
-
-   openTab(){		
-		this.myChild.open();	   
-   }
 }

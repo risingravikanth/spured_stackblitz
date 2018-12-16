@@ -1,0 +1,52 @@
+<div class="container marTop50" [class.marTop50]="from != 'header'">
+    <small class="fntGreen"><b>Notifications</b></small>
+    <hr class="hrMargin">
+    <div class="" *ngFor="let data of notificationsList">
+        <div class="dropdown-item" [class.newNotification]="data.status == 'NEW'" [class.readNotification]="data.status == 'READ'">
+            <div>
+                <a href="javascript:void(0);" class="fntBlack" (click)="openNotificationModel(data, notificationDetailsDialog)">
+                    <div><b>{{data.title}}</b></div>
+                    <div *ngIf="data.text?.length>0">{{data.text}}</div>
+                </a>
+            </div>
+        </div>
+        <hr class="hrMargin">
+    </div>
+    <div style="margin-left: 50%;" *ngIf="showPostSpinner">
+        <div class="loader"></div>
+    </div>
+    <div class="dropdown-item text-center" *ngIf="from == 'header' && !showPostSpinner && showNotifications"><a class="fntGreen" href="javascript:void(0);"
+            routerLink="/notifications">See
+            all
+            notifications</a></div>
+    <div class="dropdown-item text-center" *ngIf="!showNotifications && offset > 0">
+        <span>No Notifications</span>
+    </div>
+    <div class="dropdown-item text-center" *ngIf="from != 'header' && !showPostSpinner && showMore">
+        <a class="fntGreen" href="javascript:void(0);"
+        (click)="loadMoreMessages()">Show More</a></div>
+
+</div>
+
+
+<section>
+    <ng-template #notificationDetailsDialog let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modal-basic-title">
+                <b>Notification Details</b>
+            </h5>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-content" style="padding: 15px;">
+            <div><b>Title</b></div>
+            <div>{{notificationDetails.title}}</div>
+            <div><b>Message</b></div>
+            <div *ngIf="notificationDetails.text?.length>0">{{notificationDetails.text}}</div>
+            <div><b>Notification Time:</b> {{notificationDetails.createTime | date: 'MMM d, y,
+                h:mm a'}}</div>
+        </div>
+    </ng-template>
+
+</section>

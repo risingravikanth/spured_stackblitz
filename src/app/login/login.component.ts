@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
         private seo: SeoService,
         private mobile: MobileDetectionService,
         @Inject(PLATFORM_ID) private platformId: Object,
-        private toastr:ToastrService
+        private toastr: ToastrService
     ) { }
     ngOnInit() {
         this.isMobile = this.mobile.isMobile();
@@ -72,7 +72,11 @@ export class LoginComponent implements OnInit {
             this.authService.attemptAuth(this.authForm.value, this.returnUrl).subscribe(
                 resData => {
                     this.responseVo = JSON.parse(resData.body);
-                    if (this.responseVo.statusCode == "ERROR") {
+                    if (this.responseVo && this.responseVo.error && this.responseVo.error.code) {
+                        this.status = 'Log in';
+                        this.toastr.error("Failed", this.responseVo.error.code.longMessage);
+                    }
+                    else if (this.responseVo.statusCode == "ERROR") {
                         this.errorTextMessage = this.responseVo.info;
                         this.status = 'Log in';
                     } else if (this.responseVo.token) {

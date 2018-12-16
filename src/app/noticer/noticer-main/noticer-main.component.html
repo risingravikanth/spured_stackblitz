@@ -1,44 +1,50 @@
 <div class="container marTop45">
     <br class="d-block d-sm-none">
     <br>
-    <div class="row">
+    <div class="row" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300"
+    (scrolled)="loadMorePosts()">
         <div class="col-md-3 col-sm-3 d-none d-sm-block" *ngIf="!isMobile">
             <side-menu></side-menu>
         </div>
         <div [class]="!isMobile ? 'col-md-6' : 'col-md-10'">
-            <create-post></create-post>
+            <div *ngIf="validUser && !paramId">
+                <create-post ></create-post>
+            </div>
             <br>
             <div *ngFor="let post of postsList;index as i;">
-                <div class="card">
+                <div class="card div_hover" *ngIf="post && post.postId">
                     <div class="d-flex justify-content-between">
                         <div>
                             <span style="font-size: 12px;padding-left: 10px;margin-top: 8px;">
                                 <a *ngIf="post._type != 'BoardPost'" style="color: gray" href="javascript:void(0);"
-                                    (click)="goToCategoriesPage(post._type, null)">{{getSectionFromType(post._type)}}
+                                    (click)="goToCategoriesPage(post._type, null, null)">{{getSectionFromType(post._type)}}
                                 </a>
                                 <span *ngIf="post.category"> / <a style="color: gray" href="javascript:void(0);"
-                                        (click)="goToCategoriesPage(post._type, post.category)">{{
+                                        (click)="goToCategoriesPage(post._type, post.category, null)">{{
                                         getModelFromTypeCategory(post._type, post.category)}}</a></span>
-                                <span *ngIf="post.model" style="color: gray"> / {{post.model}}</span></span>
+                                <span *ngIf="post.model"> / <a style="color: gray" href="javascript:void(0);"
+                                    (click)="goToCategoriesPage(post._type, post.category, post.model)">{{
+                                    post.model}}</a></span></span>
                         </div>
                         <div style="padding: 3px 7px 0px 0px;">
                             <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
-                                placement="top" ngbTooltip="Click here to edit/remove/report."
-                                aria-expanded="false" style="font-size: 20px;"></i>
+                                placement="top" ngbTooltip="Click here to edit/remove/report." aria-expanded="false"
+                                style="font-size: 20px;"></i>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
                                     (click)="editPost(post.postId, post._type, editPostDialog)">Edit</button>
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
                                     (click)="deletePost(post.postId, post._type)">Delete</button>
                                 <button class="dropdown-item" type="button">Report</button>
+                                <button class="dropdown-item" type="button" (click)="copyMethod(post)">Copy Link</button>
                             </div>
                         </div>
                     </div>
                     <hr style="margin-top: -3px;">
                     <div class="row" style="padding-left: 9px;margin-top: -15px;">
                         <div>
-                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="UserProfilePic"
-                                [src]="(post.userProfile && post.userProfile.profileImageUrl) ? serverUrl + post.userProfile.profileImageUrl : assets/images/noticer_default_user_img.png">
+                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="user"
+                                [src]="(post.userProfile && post.userProfile.profileImageUrl) ? (imageFromAws(post.userProfile.profileImageUrl) ? '' : serverUrl) + post.userProfile.profileImageUrl : assets/images/noticer_default_user_img.png">
                         </div>
                         <div style="margin-left: -48px;margin-top: 12px;">
                             <ul>
@@ -52,7 +58,7 @@
                                     </a>
                                 </li>
                                 <li class="text-muted" style="font-size: 12px;">{{post.createTime | date: 'MMM d, y,
-                                    h:mm:ss a'}}</li>
+                                    h:mm a'}}</li>
                             </ul>
                         </div>
                     </div>
@@ -64,23 +70,24 @@
                         </div>
                     </div>
                     <div>
-                        <div *ngIf="post._type == 'EventsPost'">
-                            <table>
-                                <tr>
-                                    <td *ngIf="post.fromdate && post.todate">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        {{post.fromdate}} to {{post.todate}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td *ngIf="post.website">
-                                        <a href="javascript:void(0);" (click)="onNavigate(post.website)" >{{post.website}}</a>
-                                    </td>
-                                    <td *ngIf="post.contacts">
-                                        <i class="fas fa-phone-square"></i> {{post.contacts}}</td>
-                                </tr>
-                            </table>
-                            <br>
+                        <div style="padding-left: 18px;padding-bottom: 10px;" *ngIf="post._type == 'EventsPost'">
+                            <div class="row">
+                                <div *ngIf="post.fromdate && post.todate" class="col-md-6">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{post.fromdate}} to {{post.todate}}
+                                </div>
+                                <div *ngIf="post.website" class="col-md-6">
+                                    <a href="javascript:void(0);" (click)="onNavigate(post.website)">{{post.website}}</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" *ngIf="post.contacts">
+                                    <i class="fas fa-phone-square"></i> {{post.contacts}}
+                                </div>
+                                <div class="col-md-6" *ngIf="post.location">
+                                    {{post.location}}
+                                </div>
+                            </div>
                         </div>
                         <div class="post-text">
                             <h6><b><a *ngIf="!paramId" (click)="navigateToPostDetails(post)" style="color:black" href="javascript:void(0);">
@@ -102,25 +109,20 @@
                                 </span>
                             </p>
                         </div>
-                        <div class="post-text" *ngIf="post.postAnswer && post.viewAnswer">
-                            <span class="fntBlack">
-                                    <h6 class="fntGreen">Answer</h6>
-                                    <label class="multiLineText">{{post.postAnswer}}</label>
-                            </span>
-                        </div>
                     </div>
                     <div>
                         <div *ngIf="post.images.length == 1">
-                            <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{serverUrl}}/{{post.images[0]}}">
-                                <img src="{{serverUrl}}/{{post.images[0]}}" style="max-width: 100%; max-height: 100%;padding: 7px;">
+                            <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{imageFromAws(post.images[0]) ? '' : serverUrl}}{{imageFromAws(post.images[0]) ? '' : '/'}}{{post.images[0]}}">
+                                <img src="{{imageFromAws(post.images[0]) ? '' : serverUrl}}{{imageFromAws(post.images[0]) ? '' : '/'}}{{post.images[0]}}"
+                                    style="max-width: 100%; max-height: 100%;padding: 7px;">
                             </a>
                         </div>
 
                         <div class="images" *ngIf="post.images.length == 2" style="padding:7px;">
                             <mat-grid-list cols="2" rowHeight="2:1">
                                 <mat-grid-tile *ngFor="let tile of post.images">
-                                    <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{serverUrl}}/{{tile}}">
-                                        <img style="max-width: 100%; max-height: 100%;" src="{{serverUrl}}/{{tile}}">
+                                    <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
+                                        <img style="max-width: 100%; max-height: 100%;" src="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
                                     </a>
                                 </mat-grid-tile>
                             </mat-grid-list>
@@ -128,8 +130,8 @@
                         <div class="images" *ngIf="post.images.length == 3" style="padding:7px;">
                             <mat-grid-list cols="3" rowHeight="2:2">
                                 <mat-grid-tile *ngFor="let tile of post.images">
-                                    <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{serverUrl}}/{{tile}}">
-                                        <img style="max-width: 100%; max-height: 100%;" src="{{serverUrl}}/{{tile}}">
+                                    <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
+                                        <img style="max-width: 100%; max-height: 100%;" src="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
                                     </a>
                                 </mat-grid-tile>
                             </mat-grid-list>
@@ -138,26 +140,31 @@
                         <div class="images" *ngIf="post.images.length == 4" style="padding-right: 7px;">
                             <mat-grid-list cols="2" rowHeight="2:1">
                                 <mat-grid-tile *ngFor="let tile of post.images">
-                                    <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{serverUrl}}/{{tile}}">
-                                        <img style="max-width: 100%; max-height: 100%;" src="{{serverUrl}}/{{tile}}">
+                                    <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
+                                        <img style="max-width: 100%; max-height: 100%;" src="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
                                     </a>
                                 </mat-grid-tile>
                             </mat-grid-list>
                         </div>
                     </div>
+                    <div class="post-text" *ngIf="post.postAnswer && post.viewAnswer">
+                        <span class="fntBlack">
+                            <h6 class="fntGreen">Answer</h6>
+                            <label class="multiLineText">{{post.postAnswer}}</label>
+                        </span>
+                    </div>
                     <hr>
                     <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
-                            <li class="list-inline-item paddingIcons" style="cursor: pointer;" (click)="getCommentsForPost(post.postId,i);">
-                                <i class="fas fa-comments iconSize"
-                                placement="top" [ngbTooltip]="tipComment"
-                                ></i>&nbsp;
+                            <li [ngbTooltip]="tipComment" class="list-inline-item paddingIcons" style="cursor: pointer;"
+                                (click)="getCommentsForPost(post.postId,i);">
+                                <i class="fas fa-comments iconSize" placement="top"></i>&nbsp;
                                 <a>
                                     {{post.commentsCount}} Comments
                                 </a>
                             </li>
                             <ng-template #tipComment>
-                                 {{ (post.selectComments) ? "Click to hide comments" : "Click to view comments" }}
+                                {{ (post.selectComments) ? "Click to hide comments" : "Click to view comments" }}
                             </ng-template>
                             <li class="list-inline-item paddingIcons ml-auto" *ngIf="post.postAnswer" style="cursor: pointer;margin-bottom: -16px;">
                                 <a (click)="post.viewAnswer = !post.viewAnswer">
@@ -188,7 +195,7 @@
                             <div class="wrap" style="margin-top: -6px;">
                                 <div class="commentProfile">
                                     <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ProfilePic"
-                                        [src]="(comment.userProfile && comment.userProfile.profileImageUrl) ? (serverUrl + comment.userProfile.profileImageUrl) : assets/images/noticer_default_user_img.png">
+                                        [src]="(comment.userProfile && comment.userProfile.profileImageUrl) ? ((imageFromAws(comment.userProfile.profileImageUrl) ? '' : serverUrl) + comment.userProfile.profileImageUrl) : assets/images/noticer_default_user_img.png">
                                 </div>
                                 <div class="commentBody">
                                     <ul>
@@ -198,7 +205,7 @@
                                                 {{comment.userProfile.userName}}
                                             </a>
                                         </li>
-                                        <li style="font-size: 10px;">{{comment.createTime | date: 'MMM d, y, h:mm:ss
+                                        <li style="font-size: 10px;">{{comment.createTime | date: 'MMM d, y, h:mm
                                             a'}}</li>
                                         <li style="font-size: 13px;">
                                             <!-- <p>{{comment.commentText}}</p> -->
@@ -229,12 +236,14 @@
                 <div class="loader"></div>
             </div>
             <div class="text-center" *ngIf="!showPostSpinner">
-                <a *ngIf="postsList.length > 0 && showMoreLink && !paramId" href="javascript:void(0);" (click)="loadMorePosts()">
-                    Show more </a>
+                <!-- <a *ngIf="postsList.length > 0 && showMoreLink && !paramId" href="javascript:void(0);" (click)="loadMorePosts()">
+                    Show more </a> -->
                 <!-- 
                     V1.0
                     added new app-oopserror component in shared folder to make unique div in entire applicaiton -->
-                <b *ngIf="noData"><app-oopserror></app-oopserror></b>
+                <b *ngIf="noData">
+                    <app-oopserror></app-oopserror>
+                </b>
             </div>
         </div>
         <div class="col-md-3 d-none d-sm-block" *ngIf="!isMobile">
@@ -247,47 +256,46 @@
 
 
 
-    <section>
-        <ng-template #editPostDialog let-c="close" let-d="dismiss">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modal-basic-title">
-                    <b>Edit Post</b>
-                </h5>
-                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form [formGroup]="editPostForm">
-                <div formGroupName="data">
-                    <div class="modal-body">
-                        <div class="form-group" style="padding:12px;">
-                            <h6>Title</h6>
-                            <textarea class="form-control" rows="1" maxlength="300" formControlName="title" placeholder="Question title(max 300Chars)"></textarea>
-                        </div>
-                        <div class="form-group" style="padding: 1px 12px 1px 12px;">
-                            <h6>Question</h6>
-                            <textarea class="form-control" formControlName="text" rows="4" placeholder="What is your question?"></textarea>
-                        </div>
-                        <div class="form-group" style="padding:12px;" *ngIf="editPostForm.controls['context'].get('type').value != 'CAREERS'
-                         && editPostForm.controls['context'].get('type').value != 'EVENTS'">
-                            <h6>Answer</h6>
-                            <textarea class="form-control" rows="2" formControlName="answer" placeholder="Answer"></textarea>
-                        </div>
+<section>
+    <ng-template #editPostDialog let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modal-basic-title">
+                <b>Edit Post</b>
+            </h5>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form [formGroup]="editPostForm">
+            <div formGroupName="data">
+                <div class="modal-body">
+                    <div class="form-group" style="padding:12px;">
+                        <h6>Title</h6>
+                        <textarea class="form-control" rows="1" maxlength="300" formControlName="title" placeholder="Question title(max 300Chars)"></textarea>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btnSuccess" [disabled]="editPostForm.invalid"
-                            (click)="saveEditPost()">Update</button>
+                    <div class="form-group" style="padding: 1px 12px 1px 12px;">
+                        <h6>Question</h6>
+                        <textarea class="form-control" formControlName="text" rows="4" placeholder="What is your question?"></textarea>
+                    </div>
+                    <div class="form-group" style="padding:12px;" *ngIf="editPostForm.controls['context'].get('type').value != 'CAREERS'
+                         && editPostForm.controls['context'].get('type').value != 'EVENTS'">
+                        <h6>Answer</h6>
+                        <textarea class="form-control" rows="2" formControlName="answer" placeholder="Answer"></textarea>
                     </div>
                 </div>
-            </form>
-        </ng-template>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btnSuccess" [disabled]="editPostForm.invalid" (click)="saveEditPost()">Update</button>
+                </div>
+            </div>
+        </form>
+    </ng-template>
 
-    </section>
-    <section>
-        <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="23%" #cd>
-            <p-footer>
-                <button type="button" class="btnDanger" pButton icon="fa-times" label="No" (click)="cd.reject()"></button>
-                <button type="button" class="btnSuccess" pButton icon="fa-check" label="Yes" (click)="cd.accept()"></button>
-            </p-footer>
-        </p-confirmDialog>
-    </section>
+</section>
+<section>
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="23%" #cd>
+        <p-footer>
+            <button type="button" class="btnDanger" pButton icon="fa-times" label="No" (click)="cd.reject()"></button>
+            <button type="button" class="btnSuccess" pButton icon="fa-check" label="Yes" (click)="cd.accept()"></button>
+        </p-footer>
+    </p-confirmDialog>
+</section>

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LinkifyPipe } from '../../shared/pipes/linkify.pipe';
 import { NoticerMainRoutingModule } from './noticer-main-routing.module';
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import { NoticerMainRoutingModule } from './noticer-main-routing.module';
     ReactiveFormsModule,
     CommonModule,
     NoticerMainRoutingModule,
+    ClipboardModule,
     NgbModule.forRoot()
   ],
   declarations: [

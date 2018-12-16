@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { Observable } from "rxjs/Observable";
 
 @Injectable()
-export class SettingsService {
+export class NotificationsService {
     constructor(private httpClient: HttpClient) { }
 
 
@@ -22,23 +22,17 @@ export class SettingsService {
         }
         return JSON.parse(JSON.stringify(data, replacer));
     }
-
-
-    updatePassword(body: any) {
-        let headers = new HttpHeaders().set("Content-Type", "application/json");
-        let url = "/profile/updatepassword";
-        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
-    }
-    updateBoardReq(body: any) {
-        let headers = new HttpHeaders().set("Content-Type", "application/json");
-        let url = "/closedboards/updateboardrequest";
-        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
-    }
-
-    getAllRequests(){
-        let headers = new HttpHeaders().set("Content-Type", "application/json");
-        let url = "/closedboards/getalladminboardrequests";
-        return this.httpClient.get(url, { headers: headers }).catch(this.handleError);
-    }
     
+    getAllMessages(body:any){
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/v2/messages/get";
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
+    updateNotificationStatus(body:any){
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/v2/messages/update";
+        body = {"data" : body}
+        return this.httpClient.post(url, this.ignoreProperties(body), { headers: headers }).catch(this.handleError);
+    }
+
 }

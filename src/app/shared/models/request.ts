@@ -13,6 +13,8 @@ export class Data {
     category: string;
     model: string;
     boardId:number;
+    maxId:number;
+    minId:number;
 }
 
 export class Context {

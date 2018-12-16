@@ -22,31 +22,21 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" (click)="openTab()">
+            <a class="nav-link" href="javascript:void(0);" (click)="addPost()">
                 <b>
                     <i class="fas fa-edit header-icon-size"></i>
                 </b>
             </a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item">
 
-                <a class="nav-link dropdown-toggle" href="#" id="notificationMenu" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-                    <b>
-                        <i class="fas fa-bell header-icon-size"><span *ngIf="showNotifications" style="font-size: 12px;"
-                                class="badge badge-danger">{{notificationsCount}}</span></i>
-                    </b>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="notificationMenu">
-                    <div class="dropdown-item" *ngIf="showNotifications">
-                        <span>You have {{notificationsCount}} <br>board join request <a href="javascript:void();"
-                                routerLink="/settings">Go</a></span>
-                    </div>
-                    <div class="dropdown-item" *ngIf="!showNotifications">
-                        <span>No Notifications</span>
-                    </div>
-                </div>
-            </li>
+            <a class="nav-link" (click)="op.toggle($event)" href="javascript:void(0);" id="notificationMenu">
+                <b>
+                    <i class="fas fa-bell header-icon-size"><span *ngIf="showNotifications" style="font-size: 12px;"
+                            class="badge badge-danger">{{notificationsCount}}</span></i>
+                </b>
+            </a>
+        </li>
 
 
         <li class="nav-item dropdown">
@@ -73,8 +63,8 @@
                     <i class="fas fa-sign-in-alt"></i>&nbsp; Log In </a>
                 <a class="dropdown-item" href="#" routerLink="/help">
                     <i class="fab fa-hire-a-helper"></i>&nbsp; Help </a>
-                <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
-                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a>
+                <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a> -->
             </div>
         </li>
     </ul>
@@ -94,10 +84,12 @@
         <section>
             <ul class="nav nav-tabs justify-content-center nav-justified" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="topics-tab" data-toggle="tab" href="#topics" role="tab" aria-controls="topics" aria-selected="true">Topics</a>
+                    <a class="nav-link active" id="topics-tab" data-toggle="tab" href="#topics" role="tab"
+                        aria-controls="topics" aria-selected="true">Topics</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="rightnav-tab" data-toggle="tab" href="#rightnav" role="tab" aria-controls="rightnav" aria-selected="false">RightMenu</a>
+                    <a class="nav-link" id="rightnav-tab" data-toggle="tab" href="#rightnav" role="tab" aria-controls="rightnav"
+                        aria-selected="false">RightMenu</a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
@@ -113,5 +105,14 @@
 </section>
 
 <section>
-        <create-post [isHeader]="headerValue"></create-post>
+    <create-post [isHeader]="headerValue"></create-post>
 </section>
+
+
+<!-- Start Notifications  Overlay-->
+<p-overlayPanel #op>
+    <div style="width:315px;">
+        <notifications [from]="headerValue" [totalNotificationsCount]="notificationsCount"></notifications>
+    </div>
+</p-overlayPanel>
+<!-- End Notifications  Overlay-->
