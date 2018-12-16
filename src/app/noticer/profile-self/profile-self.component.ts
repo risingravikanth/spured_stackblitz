@@ -67,7 +67,7 @@ export class SelfProfileComponent implements OnInit {
             this.currentuserId = this.currentUser.userId;
             this.loadProfileDetails(this.currentuserId);
             if (this.currentUser && this.currentUser.imageUrl) {
-                this.profileImage = this.imageFromAws(this.currentUser.imageUrl) ? '' : (constant.REST_API_URL + "/") + this.currentUser.imageUrl;
+                this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (constant.REST_API_URL + "/")) + this.currentUser.imageUrl;
             } else {
                 this.profileImage = "assets/images/noticer_default_user_img.png"
             }
@@ -145,7 +145,7 @@ export class SelfProfileComponent implements OnInit {
                             this.userDetails.profileImageUrl = resData.url;
                             this.currentUser.imageUrl = resData.url;
                             localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-                            this.profileImage = this.imageFromAws(resData.url) ? '' : (constant.REST_API_URL + "/") + resData.url;
+                            this.profileImage = (this.imageFromAws(resData.url) ? '' : (constant.REST_API_URL + "/")) + resData.url;
                             this.saveEditProfile("imageUpdate");
                         }
                         this.showSpinner = false;

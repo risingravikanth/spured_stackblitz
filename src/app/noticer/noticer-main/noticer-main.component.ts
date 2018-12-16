@@ -639,7 +639,7 @@ export class NoticerMainComponent implements OnInit {
   setProfilePic() {
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser && this.currentUser.imageUrl) {
-      this.profileImage = this.serverUrl + this.currentUser.imageUrl;
+      this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (constant.REST_API_URL + "/")) + + this.currentUser.imageUrl;
     } else {
       this.profileImage = "assets/images/noticer_default_user_img.png"
     }

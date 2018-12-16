@@ -48,7 +48,7 @@ export class HeaderMobileComponent implements OnInit {
             this.validUser = true;
         }
         if (this.currentUser && this.currentUser.imageUrl) {
-            this.profileImage = constant.REST_API_URL + "/" + this.currentUser.imageUrl;
+            this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (constant.REST_API_URL + "/")) + this.currentUser.imageUrl;
         } else {
             this.profileImage = "assets/images/noticer_default_user_img.png"
         }
@@ -60,7 +60,7 @@ export class HeaderMobileComponent implements OnInit {
             if (item == "updateProfilePic") {
                 this.currentUser = this.userService.getCurrentUser();
                 if (this.currentUser && this.currentUser.imageUrl) {
-                    this.profileImage = constant.REST_API_URL + "/" + this.currentUser.imageUrl;
+                    this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (constant.REST_API_URL + "/")) + this.currentUser.imageUrl;
                 }
             } else if (item == "sideMenuOpen") {
                 this.showSideMenuDialog = true;
@@ -114,4 +114,8 @@ export class HeaderMobileComponent implements OnInit {
             }
         })
     }
+
+    imageFromAws(url){
+        return url.indexOf("https://") != -1 ? true : false;
+      }
 }

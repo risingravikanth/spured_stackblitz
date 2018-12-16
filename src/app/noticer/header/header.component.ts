@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit {
             this.validUser = true;
         }
         if (this.currentUser && this.currentUser.imageUrl) {
-            this.profileImage = constant.REST_API_URL + "/" + this.currentUser.imageUrl;
+            this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (constant.REST_API_URL + "/")) + this.currentUser.imageUrl;
         } else {
             this.profileImage = "assets/images/noticer_default_user_img.png"
         }
@@ -57,7 +57,7 @@ export class HeaderComponent implements OnInit {
             if (resData == "updateProfilePic") {
                 this.currentUser = this.userService.getCurrentUser();
                 if (this.currentUser && this.currentUser.imageUrl) {
-                    this.profileImage = constant.REST_API_URL + "/" + this.currentUser.imageUrl;
+                    this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (constant.REST_API_URL + "/")) + this.currentUser.imageUrl;
                 }
             } else if (resData && resData.type == "updateNoficiationCount"){
                 if (resData.count > 0) {
@@ -89,5 +89,7 @@ export class HeaderComponent implements OnInit {
 
 
 
-    
+    imageFromAws(url){
+        return url.indexOf("https://") != -1 ? true : false;
+      }
 }
