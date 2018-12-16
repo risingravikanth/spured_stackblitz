@@ -34,6 +34,10 @@ li>a{
 .bd-callout-open {
     border-left-color: #f0ad4e;
 }
+.bd-callout-danger {
+    border-left-color: #c82333 !important;
+}
+
 .bd-callout {
     padding: 1.25rem;
     margin-top: 1.25rem;
@@ -185,4 +189,15 @@ li>a{
 
 .btnSuccess{
   background-color: #155a24 !important;
+}
+
+.bg { 
+ 
+  background-image: url("assets/images/bg-img3.jpg");
+ 
+  height: 100%; 
+ 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

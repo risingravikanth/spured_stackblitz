@@ -46,9 +46,10 @@
     left:0;
     width:50%;
     height:100%;
-    background-color: #1da1f2;
+    background-color: #155a24;
 }
 
+/* blue color #1da1f2 */
 .div-1b {
     position:absolute;
     top:0;
@@ -67,7 +68,7 @@
     vertical-align:middle;
     height:100%;
     display:table-cell;
-    padding-left: 25%;
+    padding-left: 1px;
 }
 
 .div_b {
@@ -79,4 +80,49 @@
 
 .mobilePadding{
     padding: 42px;
+}
+
+.preload * {
+  transition: none !important;
+}
+
+.login--container {
+  width: 600px;
+  background-color: #F15A5C;
+  margin: 0 auto;
+  position: relative;
+  top: 25%;
+}
+
+.login--toggle-container {
+  position: absolute;
+  background-color: transparent;
+  color:white;
+  right: 0;
+  line-height: 2.5em;
+  width: 50%;
+  height: 120px;
+  text-align: right;
+  cursor: pointer;
+  transform: perspective(1000px) translateZ(1px);
+  transform-origin: 0% 0%;
+  transition: all 1s cubic-bezier(0.06, 0.63, 0, 1);
+  backface-visibility: hidden;
+}
+.login--toggle-container .js-toggle-login {
+  font-size: 6em;
+  text-decoration: underline;
+}
+.login--active .login--toggle-container {
+  transform: perspective(1000px) rotateY(180deg);
+  background-color: #bc1012;
+}
+
+.topsmall{
+    line-height: 4rem;
+    font-size: 100%;
+}
+.bottomsmall{
+    line-height: 6rem;
+    font-size: 100%;
 }

@@ -143,3 +143,16 @@ ul li{cursor:pointer;}
     padding: 6px;
     border-radius: 15px;
   }
+
+  .boards .selected{
+    background-color: transparent !important;
+    border-radius: 10px;
+    color: black;
+    font-weight: 700;
+
+  }
+
+  .overflowText a{
+    padding: 5px;
+  }
+  
