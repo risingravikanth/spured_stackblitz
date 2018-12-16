@@ -18,3 +18,4 @@ export const commentsPerCall = 10;
 export const onHeaderNotificationsPerPage = 5;
 export const onComponentNotificationsPerPage = 10;
 
+export const domainName = "http://noticer.herokuapp.com";

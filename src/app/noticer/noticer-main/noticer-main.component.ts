@@ -231,7 +231,7 @@ export class NoticerMainComponent implements OnInit {
       if (data.section) {
         this.getPostsRequestBody.context.type = data.section.toUpperCase();
       }
-      if(data.model){
+      if (data.model) {
         this.getPostsRequestBody.data.model = data.model;
       }
       if (this.paramId) {
@@ -264,18 +264,18 @@ export class NoticerMainComponent implements OnInit {
   }
 
   loadMorePosts() {
-    if(this.paramId){
+    if (this.paramId) {
       return;
     }
     this.getPostsRequestBody.pagination.offset = 0;//this.getPostsRequestBody.pagination.offset + constant.postsPerCall;
-    if(this.postsList[this.postsList.length - 1]){
+    if (this.postsList[this.postsList.length - 1]) {
       if (this.router.url.indexOf('feed') !== -1) {
-        if(this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].upid){
+        if (this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].upid) {
           return;
         }
         this.getPostsRequestBody.data.maxId = this.postsList[this.postsList.length - 1].upid;
-      } else{
-        if(this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].postId){
+      } else {
+        if (this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].postId) {
           return;
         }
         this.getPostsRequestBody.data.maxId = this.postsList[this.postsList.length - 1].postId;
@@ -289,7 +289,7 @@ export class NoticerMainComponent implements OnInit {
         if (obj.error && obj.error.code && obj.error.code.id) {
           this.toastr.error("Failed", obj.error.code.message);
         } else {
-          if (obj.posts.length  == 0) {
+          if (obj.posts.length == 0) {
             this.showMoreLink = false;
           }
           obj.posts.forEach(element => {
@@ -541,16 +541,16 @@ export class NoticerMainComponent implements OnInit {
         this.toastr.error("Failed", obj.error.code.message);
       } else {
         this.postsList = resData.posts;
-        if(this.postsList.length > 0){
+        if (this.postsList.length > 0) {
 
           this.seo.generateTags({
             title: this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title",
             description: this.postsList[0].postText,
             slug: 'post details page'
           })
-  
+
           this.userService.setTitle("Noticer | " + (this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title"));
-  
+
           // Chaning postDeatail url
           let arrUrl = this.router.url.split("/");
           let newUrl = "";
@@ -569,8 +569,8 @@ export class NoticerMainComponent implements OnInit {
             this.location.replaceState(newUrl + this.postsList[0].postTitle.replace(/[^a-zA-Z0-9]/g, '-'));
           }
           this.preparePostsList();
-        } else{
-          this.toastr.error("Failed", "The post your looking is deleted");    
+        } else {
+          this.toastr.error("Failed", "The post your looking is deleted");
         }
       }
     }, error => {
@@ -626,16 +626,16 @@ export class NoticerMainComponent implements OnInit {
     return model;
   }
 
-  goToCategoriesPage(_type: any, category: any, model:any) {
+  goToCategoriesPage(_type: any, category: any, model: any) {
     let section = this.getTypeFrom_Type(_type);
     let url = 'categories/' + section.toLowerCase();
     if (category != null) {
-      url = url + "/"+category;
-    } 
-    if(model != null){
-      url = url + "/"+model;
+      url = url + "/" + category;
     }
-      this.router.navigate([url])
+    if (model != null) {
+      url = url + "/" + model;
+    }
+    this.router.navigate([url])
   }
 
   setProfilePic() {
@@ -660,7 +660,46 @@ export class NoticerMainComponent implements OnInit {
   }
 
 
-  imageFromAws(url){
+  imageFromAws(url) {
     return url.indexOf("https://") != -1 ? true : false;
+  }
+
+  public shareUrl = "";
+  copyMethod(postObj: any) {
+
+    let t = this.sectionsTypesMappings.filter(item => item._type == postObj._type)[0].section;
+    let c = postObj.category;
+    let id = postObj.postId;
+    let title = postObj.postTitle;
+    if (isPlatformBrowser(this.platformId)) {
+      if (t == "BOARD") {
+        let postUrl = "/posts/closed/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
+        this.shareUrl = postUrl;
+      } else {
+        if (c) {
+          if (title != undefined) {
+            this.shareUrl = "/posts/" + t.toLowerCase() + "/" + c + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-');
+          } else {
+            this.shareUrl = "/posts/" + t.toLowerCase() + "/" + c + "/" + id
+          }
+        } else {
+          if (title != undefined) {
+            this.shareUrl = "/posts/" + t + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-');
+          } else {
+            this.shareUrl = "/posts/" + t + "/" + id;
+          }
+        }
+      }
+    }
+
+    var textToCopy = document.createElement('textarea');
+    textToCopy.value = constant.domainName + this.shareUrl;
+    if (textToCopy) {
+      document.body.appendChild(textToCopy);
+      textToCopy.select();
+      document.execCommand('copy');
+      document.body.removeChild(textToCopy);
+      this.toastr.info("Link copied successfully");
+    }
   }
 }

@@ -36,6 +36,7 @@
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
                                     (click)="deletePost(post.postId, post._type)">Delete</button>
                                 <button class="dropdown-item" type="button">Report</button>
+                                <button class="dropdown-item" type="button" (click)="copyMethod(post)">Copy Link</button>
                             </div>
                         </div>
                     </div>
@@ -108,12 +109,6 @@
                                 </span>
                             </p>
                         </div>
-                        <div class="post-text" *ngIf="post.postAnswer && post.viewAnswer">
-                            <span class="fntBlack">
-                                <h6 class="fntGreen">Answer</h6>
-                                <label class="multiLineText">{{post.postAnswer}}</label>
-                            </span>
-                        </div>
                     </div>
                     <div>
                         <div *ngIf="post.images.length == 1">
@@ -151,6 +146,12 @@
                                 </mat-grid-tile>
                             </mat-grid-list>
                         </div>
+                    </div>
+                    <div class="post-text" *ngIf="post.postAnswer && post.viewAnswer">
+                        <span class="fntBlack">
+                            <h6 class="fntGreen">Answer</h6>
+                            <label class="multiLineText">{{post.postAnswer}}</label>
+                        </span>
                     </div>
                     <hr>
                     <div style="margin-top: -8px;margin-bottom: -10px;">
