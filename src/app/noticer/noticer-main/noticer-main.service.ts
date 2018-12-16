@@ -156,4 +156,10 @@ export class NoticerMainService {
 
         return this.httpClient.post(url, body).catch(this.handleError);
     }
+
+    reportIssue(body:any){
+        let url = "/request/reportissue";
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
 }

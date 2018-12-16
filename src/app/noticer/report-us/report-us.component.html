@@ -1,76 +1,54 @@
 <section class="container marTop50">
     <div class="col-md-12">
-        <!--<div class="form-group row clearfix col-sm-12">
-            <label for="inputname" class="col-sm-2 control-label">Report Type : </label>
-            <div class="col-sm-3">
-                <select name="resulttype" class="form-control" ng-required="">
-                    <option value="">Please Select </option>
-                    <option value="technical">Technical</option>
-                    <option value="ui">UI</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group clearfix">
-            <label class="col-sm-2 control-label">Report Message: </label>
-
-            <div class="col-sm-10">
-                <textarea type="text" name="maxgrade" class="form-control" placeholder="Write your Issue...."></textarea>
-            </div>
-        </div>
-
-        <div class="form-group clearfix">
-            <label class="col-sm-2 control-label">Report Screenshot: </label>
-
-            <div class="col-sm-10">
-                <div class="image-upload" ng-clock>
-                    <input type="file" id="fileId">
-                </div>
-            </div>
-        </div>
-        <div class="pull-right">
-
-            <button type="button" class="btn btn-primary btnSuccess" (click)="reportIssue()">
-                <i class="fa fa-check"></i>&nbsp; Report
-            </button>
-        </div>-->
 
         <div class="card">
-          <div class="card-header">
-            Report Us
-          </div>
-          <div class="card-body">
-            <div class="form-group row clearfix col-sm-12">
-                    <label for="inputname" class="col-sm-2 control-label">Report Type : </label>
-                    <div class="col-sm-3">
-                        <select name="resulttype" class="form-control" ng-required="">
-                            <option value="">Please Select </option>
-                            <option value="technical">Technical</option>
-                            <option value="ui">UI</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group clearfix">
-                    <label class="col-sm-2 control-label">Report Message: </label>
-
-                    <div class="col-sm-10">
-                        <textarea type="text" name="maxgrade" class="form-control" placeholder="Write your Issue...."></textarea>
-                    </div>
-                </div>
-
-                <div class="form-group clearfix">
-                    <label class="col-sm-2 control-label">Report Screenshot: </label>
-
-                    <div class="col-sm-10">
-                        <div class="image-upload" ng-clock>
-                            <input type="file" id="fileId">
+            <div class="card-header">
+                Report Us
+            </div>
+            <div class="card-body">
+                <form [formGroup]="reportIssueForm">
+                    <div class="form-group row clearfix col-sm-12">
+                        <label for="inputname" class="col-sm-2 control-label">Report Type : </label>
+                        <div class="col-sm-3">
+                            <select #type name="type" formControlName="type" class="form-control">
+                                <option value=null>Please Select </option>
+                                <option value="technical">Technical</option>
+                                <option value="ui">UI</option>
+                            </select>
                         </div>
                     </div>
+
+                    <div class="form-group clearfix">
+                        <label class="col-sm-2 control-label">Report Message: </label>
+
+                        <div class="col-sm-10">
+                            <textarea type="text" formControlName="issue" class="form-control" placeholder="Write your Issue...."
+                                #issue></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <label class="col-sm-2 control-label">Report Screenshot: </label>
+
+                        <div class="col-sm-10">
+                            <div class="image-upload" ng-clock>
+                                <input type="file" accept="image/gif, image/jpeg, image/jpg, image/png" formControlName="img"
+                                    (change)="detectFiles($event)" id="fileId">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div style="float:right;">
+                            <fieldset [disabled]="btnTxt == 'Reporting...'">
+                                <button type="submit" [disabled]="reportIssueForm.invalid" (click)="reportIssue()"
+                                    class="btn btn-primary btnSuccess">
+                                    <i class="fa fa-check"></i>&nbsp; {{btnTxt}}
+                                </button>
+                            </fieldset>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <a href="#" class="btn btn-primary" (click)="reportIssue()">
-                <i class="fa fa-check"></i>&nbsp; Report</a>
-          </div>
         </div>
 
     </div>
