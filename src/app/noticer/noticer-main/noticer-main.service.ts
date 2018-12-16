@@ -13,14 +13,14 @@ export class NoticerMainService {
         return Observable.throw(error);
     }
 
-    ignoreNullValue(x:any){
+    ignoreNullValue(x: any) {
         let res = JSON.stringify(x, (key, value) => {
             if (value !== null) return value
-          })
-          return JSON.parse(res);
+        })
+        return JSON.parse(res);
     }
 
-    ignoreProperties(data:any){
+    ignoreProperties(data: any) {
         let ignoreList = ['_type1', 'postText'];
         function replacer(key, value) {
             if (ignoreList.indexOf(key) > -1) return undefined;
@@ -28,7 +28,7 @@ export class NoticerMainService {
         }
         return JSON.parse(JSON.stringify(data, replacer));
     }
-    
+
 
     saveVehicleOffRoad(data: any) {
 
@@ -142,23 +142,29 @@ export class NoticerMainService {
     }
 
 
-    getPostDetailsById(postId, type){
+    getPostDetailsById(postId, type) {
         let url = "/v2/post/get";
 
         let body = {
-            "context" : {
-                "type" : type
+            "context": {
+                "type": type
             },
             "data": {
-                "postId" : postId
+                "postId": postId
             }
         }
 
         return this.httpClient.post(url, body).catch(this.handleError);
     }
 
-    reportIssue(body:any){
+    reportIssue(body: any) {
         let url = "/request/reportissue";
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
+
+    deleteComment(body: any) {
+        let url = "/v2/comment/delete";
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
     }

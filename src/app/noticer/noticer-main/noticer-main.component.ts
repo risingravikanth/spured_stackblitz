@@ -380,7 +380,8 @@ export class NoticerMainComponent implements OnInit {
   }
 
   showMoreCommentsChecker(comments, commentsCount) {
-    if (comments.length < 3 || comments.length == commentsCount) {
+    // comments.length < 3 || 
+    if (commentsCount < 3 || comments.length == commentsCount) {
       return false;
     }
     return true;
@@ -391,9 +392,10 @@ export class NoticerMainComponent implements OnInit {
     let getCommentsRequest = new GetCommentRequest();
     let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
     getCommentsRequest.context = new CommentContext();
-    getCommentsRequest.context.postId = postId;
     getCommentsRequest.context.type = arrTypes[0].section;
-    getCommentsRequest.data = {};
+    getCommentsRequest.data = new CreateCommentData();
+    getCommentsRequest.data.postId = postId;
+    getCommentsRequest.data._type = "Comment";
     getCommentsRequest.pagination = new Pagination();
     getCommentsRequest.pagination.offset = 0;
     getCommentsRequest.pagination.limit = constant.commentsPerCall;
@@ -406,9 +408,9 @@ export class NoticerMainComponent implements OnInit {
     let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
     createCommentRequest.context = new CommentContext();
     createCommentRequest.context.type = arrTypes[0].section;
-    createCommentRequest.context.postId = postObj.postId;
 
     createCommentRequest.data = new CreateCommentData();
+    createCommentRequest.data.postId = postObj.postId;
     createCommentRequest.data.text = commentText;
     createCommentRequest.data._type = "Comment";
 
@@ -701,5 +703,41 @@ export class NoticerMainComponent implements OnInit {
       document.body.removeChild(textToCopy);
       this.toastr.info("Link copied successfully");
     }
+  }
+
+  deleteComment(postId, postType, commentId) {
+
+    let postIndex = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
+    let postObj = this.postsList[postIndex];
+    let getCommentsRequest = new GetCommentRequest();
+    let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
+
+    let commentIndex = postObj.comments.findIndex(item => item.commentId == commentId);
+
+    getCommentsRequest.context = new CommentContext();
+    getCommentsRequest.context.type = arrTypes[0].section;
+    getCommentsRequest.data = new CreateCommentData();
+    getCommentsRequest.data._type = "Comment";
+    getCommentsRequest.data.commentId = commentId;
+
+
+
+    this.confirmService.confirm({
+      message: 'Are you sure you want to delete?',
+      accept: () => {
+        this.service.deleteComment(getCommentsRequest).subscribe(resData => {
+          let obj: any = resData;
+          if (obj.error && obj.error.code && obj.error.code.id) {
+            this.toastr.error("Failed", obj.error.code.message);
+          } else {
+            this.postsList[postIndex].comments.splice(commentIndex, 1);
+            this.postsList[postIndex].commentsCount = this.postsList[postIndex].commentsCount - 1;
+            this.toastr.success("Success", "Comment deleted successfully");
+          }
+        }, error => {
+          this.toastr.error("Failed", "Something went wrong!");
+        })
+      }
+    });
   }
 }

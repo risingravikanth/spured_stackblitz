@@ -12,9 +12,9 @@ export class Pagination {
 export class Data {
     category: string;
     model: string;
-    boardId:number;
-    maxId:number;
-    minId:number;
+    boardId: number;
+    maxId: number;
+    minId: number;
 }
 
 export class Context {
@@ -37,7 +37,7 @@ export class PostData {
 
 export class GetCommentRequest {
     context: CommentContext;
-    data: {};
+    data: CreateCommentData;
     pagination: Pagination;
 }
 
@@ -54,4 +54,6 @@ export class CommentContext {
 export class CreateCommentData {
     _type: "Comment";
     text: null;
+    postId:number;
+    commentId:number;
 }

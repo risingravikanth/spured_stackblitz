@@ -1,14 +1,13 @@
 <div class="container marTop45">
     <br class="d-block d-sm-none">
     <br>
-    <div class="row" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300"
-    (scrolled)="loadMorePosts()">
+    <div class="row" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300" (scrolled)="loadMorePosts()">
         <div class="col-md-3 col-sm-3 d-none d-sm-block" *ngIf="!isMobile">
             <side-menu></side-menu>
         </div>
         <div [class]="!isMobile ? 'col-md-6' : 'col-md-10'">
             <div *ngIf="validUser && !paramId">
-                <create-post ></create-post>
+                <create-post></create-post>
             </div>
             <br>
             <div *ngFor="let post of postsList;index as i;">
@@ -22,14 +21,12 @@
                                 <span *ngIf="post.category"> / <a style="color: gray" href="javascript:void(0);"
                                         (click)="goToCategoriesPage(post._type, post.category, null)">{{
                                         getModelFromTypeCategory(post._type, post.category)}}</a></span>
-                                <span *ngIf="post.model"> / <a style="color: gray" href="javascript:void(0);"
-                                    (click)="goToCategoriesPage(post._type, post.category, post.model)">{{
-                                    post.model}}</a></span></span>
+                                <span *ngIf="post.model"> / <a style="color: gray" href="javascript:void(0);" (click)="goToCategoriesPage(post._type, post.category, post.model)">{{
+                                        post.model}}</a></span></span>
                         </div>
                         <div style="padding: 3px 7px 0px 0px;">
                             <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
-                                placement="top" ngbTooltip="Actions" aria-expanded="false"
-                                style="font-size: 20px;"></i>
+                                placement="top" ngbTooltip="Actions" aria-expanded="false" style="font-size: 20px;"></i>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
                                     (click)="editPost(post.postId, post._type, editPostDialog)">Edit</button>
@@ -199,11 +196,22 @@
                                 </div>
                                 <div class="commentBody">
                                     <ul>
-                                        <li>
-                                            <a style="font-size: 11px;color: black;font-weight: 500;" (click)="redirectToOtherProfile(comment.userProfile.userId)"
-                                                href="javascript:void(0);">
-                                                {{comment.userProfile.userName}}
-                                            </a>
+                                        <li class="d-flex justify-content-between">
+                                            <div>
+                                                <a style="font-size: 11px;color: black;font-weight: 500;" (click)="redirectToOtherProfile(comment.userProfile.userId)"
+                                                    href="javascript:void(0);">
+                                                    {{comment.userProfile.userName}}
+                                                </a>
+                                            </div>
+                                            <div style="padding: 3px 7px 0px 0px;float: right;" *ngIf="comment.userProfile && currentuserId == comment.userProfile.userId">
+                                                <i class="fas fa-ellipsis-h" id="dropdownMenu3" data-toggle="dropdown"
+                                                    aria-haspopup="true" placement="top" ngbTooltip="Actions"
+                                                    aria-expanded="false" style="font-size: 20px;"></i>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                                                    <button class="dropdown-item" type="button"
+                                                        (click)="deleteComment(post.postId, post._type, comment.commentId)">Delete</button>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li style="font-size: 10px;">{{comment.createTime | date: 'MMM d, y, h:mm
                                             a'}}</li>

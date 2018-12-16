@@ -13,7 +13,7 @@ export const REST_API_URL_NODE = 'http://localhost:4000';
 export const showSeeMorePostTextLenth = 300;
 export const showSeeMoreCommentTextLenth = 100;
 export const postsPerCall = 10;
-export const commentsPerCall = 10;
+export const commentsPerCall = 3;
 
 export const onHeaderNotificationsPerPage = 5;
 export const onComponentNotificationsPerPage = 10;
