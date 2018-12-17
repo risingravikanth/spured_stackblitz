@@ -5,7 +5,7 @@ import { MatFormFieldModule, MatGridListModule, MatListModule } from '@angular/m
 import { MatDialogModule } from "@angular/material/dialog";
 import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule, ConfirmDialogModule, DropdownModule, MultiSelectModule, SidebarModule } from 'primeng/primeng';
-import { FooterComponent, SidebarComponent, OopsErrorComponent } from '../shared';
+import { FooterComponent, SidebarComponent, OopsErrorComponent, ClockComponent} from '../shared';
 import { AboutComponent } from './about/about.component';
 import { HeaderMobileComponent } from './header-mobile/header-mobile.component';
 import { HeaderMobileModule } from './header-mobile/header-mobile.module';
@@ -51,6 +51,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
         SidebarComponent,
         FooterComponent,
         OopsErrorComponent,
+        ClockComponent,
         AboutComponent,
         SideMenuComponent,
         NoticerMainComponent,

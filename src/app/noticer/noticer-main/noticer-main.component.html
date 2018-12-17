@@ -25,15 +25,16 @@
                                         post.model}}</a></span></span>
                         </div>
                         <div style="padding: 3px 7px 0px 0px;">
-                            <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
-                                placement="top" ngbTooltip="Actions" aria-expanded="false" style="font-size: 20px;"></i>
+                            <a id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+                                placement="top" ngbTooltip="Actions" aria-expanded="false" style="font-size: 20px;">
+                            <i class="fas fa-ellipsis-h" ></i></a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
-                                    (click)="editPost(post.postId, post._type, editPostDialog)">Edit</button>
+                                    (click)="editPost(post.postId, post._type, editPostDialog)"><i class="fas fa-edit"></i> Edit</button>
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
-                                    (click)="deletePost(post.postId, post._type)">Delete</button>
-                                <button class="dropdown-item" type="button">Report</button>
-                                <button class="dropdown-item" type="button" (click)="copyMethod(post)">Copy Link</button>
+                                    (click)="deletePost(post.postId, post._type)"><i class="fas fa-trash-alt"></i> Delete</button>
+                                <button class="dropdown-item" type="button"><i class="fas fa-flag"></i> Report</button>
+                                <button class="dropdown-item" type="button" (click)="copyMethod(post)"><i class="fas fa-copy"></i> Copy Link</button>
                             </div>
                         </div>
                     </div>
@@ -74,7 +75,9 @@
                                     {{post.fromdate}} to {{post.todate}}
                                 </div>
                                 <div *ngIf="post.website" class="col-md-6">
-                                    <a href="javascript:void(0);" (click)="onNavigate(post.website)">{{post.website}}</a>
+                                    
+                                    <a href="javascript:void(0);" (click)="onNavigate(post.website)"><i class="fa fa-globe website-link" aria-hidden="true"></i> 
+                                    {{post.website}}</a>
                                 </div>
                             </div>
                             <div class="row">
@@ -82,6 +85,7 @@
                                     <i class="fas fa-phone-square"></i> {{post.contacts}}
                                 </div>
                                 <div class="col-md-6" *ngIf="post.location">
+                                     <i class="fas fa-map-marker-alt"></i>
                                     {{post.location}}
                                 </div>
                             </div>
@@ -204,12 +208,12 @@
                                                 </a>
                                             </div>
                                             <div style="padding: 3px 7px 0px 0px;float: right;" *ngIf="comment.userProfile && currentuserId == comment.userProfile.userId">
-                                                <i class="fas fa-ellipsis-h" id="dropdownMenu3" data-toggle="dropdown"
+                                                <a id="dropdownMenu3" data-toggle="dropdown"
                                                     aria-haspopup="true" placement="top" ngbTooltip="Actions"
-                                                    aria-expanded="false" style="font-size: 20px;"></i>
+                                                    aria-expanded="false" style="font-size: 20px;"><i class="fas fa-ellipsis-h"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
                                                     <button class="dropdown-item" type="button"
-                                                        (click)="deleteComment(post.postId, post._type, comment.commentId)">Delete</button>
+                                                        (click)="deleteComment(post.postId, post._type, comment.commentId)"><i class="fas fa-trash-alt"></i> Delete</button>
                                                 </div>
                                             </div>
                                         </li>
