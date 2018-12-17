@@ -202,3 +202,8 @@ li>a{
   background-size: cover;
 }
 
+.modalHeight{
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

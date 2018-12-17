@@ -129,7 +129,7 @@
                     aria-selected="false">Pending Requests</a>
             </li>
         </ul>
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content modalHeight" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="modal-body">
                     <form [formGroup]="addBoardForm">
@@ -217,7 +217,7 @@
                         Request</button>
                 </div>
             </div>
-            <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+            <div class="tab-pane fade modalHeight" id="pending" role="tabpanel" aria-labelledby="pending-tab">
                 <div style="padding: 10px 0px 0px 35px;" *ngFor="let request of pendingBoardsInfo">
                     <div class="row">
                         <div class="col-md-8">

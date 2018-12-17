@@ -37,7 +37,7 @@ export class AccountActivateComponent implements OnInit {
           if (resData && resData.info) {
             this.message = resData.info;
           } else if (resData && resData.userId) {
-            this.message = "Your account is successfully activate";
+            this.message = "Your account is successfully activated";
             this.isValiUser = true;
             this.tokenDetails = resData;
           } else{

@@ -330,24 +330,27 @@ export class NoticerMainComponent implements OnInit {
     this.postsList[index].commentOffset = 0;
     if (!this.postsList[index].selectComments) {
       this.postsList[index].selectComments = !this.postsList[index].selectComments;
-      if (this.postsList[index].commentsCount > 0) {
-        this.postsList[index].commentsSpinner = true;
-        this.service.getCommentsByPostId(reqBody).subscribe(resData => {
-          this.postsList[index].commentsSpinner = false;
-          let comments: any = resData;
-          if (comments && comments.code && comments.code.id) {
-            this.toastr.error("Failed", comments.code.longMessage);
-          } else if (comments && comments.comments) {
-            if (comments.comments.length > 0) {
-              this.postsList[index].comments = comments.comments;
-              this.postsList[index].comments.forEach(element => {
-                element.maxLength = constant.showSeeMorePostTextLenth;
-              });
+
+      if(this.postsList[index].comments.length == 0){
+        if (this.postsList[index].commentsCount > 0) {
+          this.postsList[index].commentsSpinner = true;
+          this.service.getCommentsByPostId(reqBody).subscribe(resData => {
+            this.postsList[index].commentsSpinner = false;
+            let comments: any = resData;
+            if (comments && comments.code && comments.code.id) {
+              this.toastr.error("Failed", comments.code.longMessage);
+            } else if (comments && comments.comments) {
+              if (comments.comments.length > 0) {
+                this.postsList[index].comments = comments.comments;
+                this.postsList[index].comments.forEach(element => {
+                  element.maxLength = constant.showSeeMorePostTextLenth;
+                });
+              }
             }
-          }
-        }, error => {
-          this.toastr.error("Failed", "Something went wrong!");
-        })
+          }, error => {
+            this.toastr.error("Failed", "Something went wrong!");
+          })
+        }
       }
     } else {
       this.postsList[index].selectComments = !this.postsList[index].selectComments;
@@ -572,7 +575,8 @@ export class NoticerMainComponent implements OnInit {
           }
           this.preparePostsList();
         } else {
-          this.toastr.error("Failed", "The post your looking is deleted");
+          // this.toastr.error("Failed", "The post your looking is deleted");
+          this.router.navigate(['/not-found'])
         }
       }
     }, error => {
