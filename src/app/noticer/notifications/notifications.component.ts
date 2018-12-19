@@ -6,6 +6,8 @@ import { CurrentUserService } from '../../shared/services/currentUser.service';
 import * as constant from '../../shared/others/constants'
 import { CommonService } from '../../shared';
 
+import {TimeAgoPipe} from 'time-ago-pipe';
+
 @Component({
   selector: 'notifications',
   templateUrl: './notifications.component.html',

@@ -5,7 +5,7 @@
                 <img width="80" height="80" style=" padding: 5px;border-radius: 50px;" alt="ProfilePic" [src]="profileImage">
             </div>
             <hr>
-            <div style="width: 80%;">
+            <div [ngStyle]="{'width': mobileFlag === true ? '75%' : '80%' }">
                 <h3 class="question-text">
                     <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
                         *ngIf="questionName?.length == 0">Click here to add your question</a>

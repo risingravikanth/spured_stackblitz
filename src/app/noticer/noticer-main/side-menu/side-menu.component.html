@@ -1,10 +1,12 @@
 <!-- [class.posFix]="!isMobile" -->
 <!-- [class.scrollY]="!isMobile" -->
+
+ 
 <section>
     <div [class.scrollMobile]="isMobile">
         <!-- BOARDS -->
         <div *ngIf="validUser">
-            <ul style="margin-left: 25px;padding-top: 10px;font-size: 15px; line-height: 1.7;">
+            <ul style="margin-left: 1px;padding-top: 10px;font-size: 15px; line-height: 1.7;padding-inline-start: 1px;">
                 <!--<li style="padding-right: 60px;">
                 V1.0
                 commented for make + icon visible in clear
@@ -21,7 +23,7 @@
                     <span class="float-right">
                         <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add new board"  (click)="showAddBoardDialog(addBoardDialog)">
                             <i class="fas fa-plus"></i>
-                        </a>
+                         </a>
                         <!-- <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showConfig = false">
                         <i class="fas fa-times"></i>
                     </a> -->
@@ -31,7 +33,7 @@
                     <div class="loader"></div>
                 </div>
                 <div *ngIf="noBoards && !showPostSpinner" style="margin-left: 16px;">No boards</div>
-                <div style="width: 82%;" class="boards">
+                <div style="width: 100%;" class="boards">
                     <li *ngFor="let board of boardsList" class="overflowText1">
                         <a title={{board.boardName}} href="javascript:void(0);" style="color: black;" (click)="selectedBoard(board.boardId,board.boardName)"
                             [class.selected]="'BOARD_'+board.boardId === selectedItem">
@@ -51,7 +53,7 @@
 
         <!-- TOPICS -->
         <div>
-            <ul *ngFor="let menu of menuList" style="margin-left: 25px;padding-top: 10px;font-size: 15px; line-height: 1.7;">
+            <ul *ngFor="let menu of menuList" style="margin-left: 1px;padding-top: 10px;font-size: 15px; line-height: 1.7;padding-inline-start: 1px;">
                 <li>
                     <label>
                         <b>{{menu.title}}</b>
@@ -73,7 +75,7 @@
                         </a>
                     </span>
                 </li>
-                <li *ngFor="let section of menu.sections" [ngClass]="{active: isActive(section.code)}" style="padding-bottom: 5px;width: 226px;">
+                <li *ngFor="let section of menu.sections" [ngClass]="{active: isActive(section.code)}" style="padding-bottom: 5px;width: 255px;">
                     <span>
                         <span (click)="select(section.code);">
                             <i class="fas fa-chevron-right" *ngIf="!isActive(section.code)"></i>

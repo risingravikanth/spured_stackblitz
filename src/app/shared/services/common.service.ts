@@ -8,6 +8,8 @@ import { Section } from '../models/section.model';
 export class CommonService {
 	
     toggleTopics = new BehaviorSubject<boolean>(false);
+
+    isMobileFlag = new BehaviorSubject<boolean>(false);
     
     sectionChanges = new BehaviorSubject<Section>(null);
 
@@ -32,5 +34,7 @@ export class CommonService {
     addPostInListofPosts(value){
         this.addPostInList.next(value);
     }
+
+
     
 }

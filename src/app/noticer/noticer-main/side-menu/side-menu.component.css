@@ -137,6 +137,8 @@ ul li{cursor:pointer;}
     overflow-y: auto;
     overflow-x: hidden;
     /* border: 1px solid; */
+    margin-left: 5px;
+    width: 90%;
   }
 
   .boardsPendingInfo{
