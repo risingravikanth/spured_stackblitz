@@ -1,96 +1,83 @@
 <section>
-    <ul class="nav nav-pills fixed-top justify-content-center navBackColor">
-        <!-- <li class="nav-item header_logo">
-            <img src="assets/images/sample_logo.png" alt="Smiley face" height="42" width="42">
-        </li> -->
-        <li class="nav-item d-none d-sm-block">
-            <a href="javascript:void(0);" routerLink="/feed" class="navbar-brand mr-0">
-                <!--<font style="font-family: cursive;color: #ffffff;font-size: 24px;">
-                    V1.0
-                    commented to remvoe font-family 
-                -->
-                <font style="color: #ffffff;font-size: 24px;">
-                    <b>Noticer</b>
-                </font>
-            </a>
-        </li>
-        <li class="siteNameGap d-none d-sm-block"></li>
-        <!-- <form class="form-inline pad-search d-none d-sm-block">
-            <div class="input-group">
-                <input type="text" class="form-control searchbar" placeholder="Search in noticer.." aria-label="search">
-                <div class="input-group-prepend">
-                    <a href="javascript:void(0);" routerLink="/feed" class="input-group-text">
-                        <i class="fas fa-search"></i>
+
+    <div class="navbar navbar-dark navBackColor shadow-sm fixed-top">
+        <div class="container d-flex justify-content-between">
+          <a  href="javascript:void(0);" routerLink="/feed"  class="navbar-brand d-flex align-items-center">
+            <!--<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>-->
+            <strong>Noticer</strong>
+          </a>
+          <ul class="nav nav-pills justify-content-end">
+                 <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
+
+                        <i class="fas fa-home header-icon-size"><label class="headerIconLabel">Home</label></i>
+
                     </a>
-                </div>
-            </div>
-        </form> -->
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" routerLink="/feed">
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0);" (click)="addPost()">
 
-                <i class="fas fa-home header-icon-size"><label class="headerIconLabel">Home</label></i>
+                        <i class="fas fa-edit header-icon-size"><label class="headerIconLabel">Add Post</label></i>
 
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);" (click)="addPost()">
+                    </a>
+                </li>
+                <li class="nav-item dropdown dropdown-notifications" *ngIf="validUser">
 
-                <i class="fas fa-edit header-icon-size"><label class="headerIconLabel">Add Post</label></i>
+                    <a class="nav-link dropdown-toggle" href="#" id="notificationMenu" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <b>
+                            <i class="fas fa-bell header-icon-size" [class.mar12]="!showNotifications"><span *ngIf="showNotifications" style="font-size: 12px;"
+                                    class="badge badge-danger notification-count">{{notificationsCount}}</span></i>
+                            <label class="headerIconLabel" [ngClass]="{' notification-label': (notificationsCount && notificationsCount > 0)}">Notifications</label>
+                        </b>
+                    </a>
+                    <!--
+                    V1.0 commented to provide new notificaiton bar -->
 
-            </a>
-        </li>
-        <li class="nav-item dropdown dropdown-notifications" *ngIf="validUser">
+                    <div class="dropdown-menu notificationDropDownMenu" aria-labelledby="notificationMenu">
+                        
+                        <notifications [from]="headerValue" ></notifications>
+                    </div>
 
-            <a class="nav-link dropdown-toggle" href="#" id="notificationMenu" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                <b>
-                    <i class="fas fa-bell header-icon-size" [class.mar12]="!showNotifications"><span *ngIf="showNotifications" style="font-size: 12px;"
-                            class="badge badge-danger notification-count">{{notificationsCount}}</span></i>
-                    <label class="headerIconLabel" [ngClass]="{' notification-label': (notificationsCount && notificationsCount > 0)}">Notifications</label>
-                </b>
-            </a>
-            <!--
-            V1.0 commented to provide new notificaiton bar -->
-
-            <div class="dropdown-menu notificationDropDownMenu" aria-labelledby="notificationMenu">
-                
-                <notifications [from]="headerValue" ></notifications>
-            </div>
-
-        </li>
+                </li>
 
 
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <img [src]="profileImage" class="img-circle profileAvatar">
-                <!-- <b>Durgarao</b>-->
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="validUser">
-                <a class="dropdown-item" href="javascript:void(0);" routerLink="/settings">
-                    <i class="fas fa-cog"></i>&nbsp; Settings</a>
-                <a class="dropdown-item" href="javascript:void(0);" (click)="goToUserProfile()">
-                    <i class="far fa-user-circle"></i>&nbsp; Profile</a>
-                <a class="dropdown-item" href="javascript:void(0);" routerLink="/reportus">
-                    <i class="fa fa-question-circle"></i>&nbsp; Report Us </a>
-                <a class="dropdown-item" href="#" routerLink="/help">
-                    <i class="fab fa-hire-a-helper"></i>&nbsp; Help </a>
-                <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
-                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a> -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <img [src]="profileImage" class="img-circle profileAvatar">
+                        <!-- <b>Durgarao</b>-->
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="validUser">
+                        <a class="dropdown-item" href="javascript:void(0);" routerLink="/settings">
+                            <i class="fas fa-cog"></i>&nbsp; Settings</a>
+                        <a class="dropdown-item" href="javascript:void(0);" (click)="goToUserProfile()">
+                            <i class="far fa-user-circle"></i>&nbsp; Profile</a>
+                        <a class="dropdown-item" href="javascript:void(0);" routerLink="/reportus">
+                            <i class="fa fa-question-circle"></i>&nbsp; Report Us </a>
+                        <a class="dropdown-item" href="#" routerLink="/help">
+                            <i class="fab fa-hire-a-helper"></i>&nbsp; Help </a>
+                        <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a> -->
 
-                <a class="dropdown-item" href="javascript:void(0);" (click)="onLoggedout()">
-                    <i class="fa fa-fw fa-power-off"></i>&nbsp; Log Out </a>
-            </div>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="!validUser">
-                <a class="dropdown-item" href="javascript:void(0);" routerLink="/login">
-                    <i class="fas fa-sign-in-alt"></i>&nbsp; Log In </a>
-                <a class="dropdown-item" href="#" routerLink="/help">
-                    <i class="fab fa-hire-a-helper"></i>&nbsp; Help </a>
-                <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
-                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a> -->
-            </div>
-        </li>
-    </ul>
+                        <a class="dropdown-item" href="javascript:void(0);" (click)="onLoggedout()">
+                            <i class="fa fa-fw fa-power-off"></i>&nbsp; Log Out </a>
+                    </div>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="!validUser">
+                        <a class="dropdown-item" href="javascript:void(0);" routerLink="/login">
+                            <i class="fas fa-sign-in-alt"></i>&nbsp; Log In </a>
+                        <a class="dropdown-item" href="#" routerLink="/help">
+                            <i class="fab fa-hire-a-helper"></i>&nbsp; Help </a>
+                        <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a> -->
+                    </div>
+                </li>
+          </ul>
+          
+        </div>
+    </div>
+    
 </section>
 <section>
     <create-post [isHeader]="headerValue"></create-post>

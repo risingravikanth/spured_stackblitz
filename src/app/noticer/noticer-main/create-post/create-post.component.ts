@@ -92,6 +92,7 @@ export class CreatePostComponent implements OnInit {
   public currentuserId: any;
   public dateMin: Date = new Date();
   public postBtnTxt = "Post";
+  public mobileFlag : boolean = false;
   ngOnInit() {
     this.seo.generateTags({
       title: 'Noticer feed | Posts and comments',
@@ -105,7 +106,11 @@ export class CreatePostComponent implements OnInit {
       } else if (type == "openAddPostDialog") {
         // this.postQuestionDialog(this.postDialog);
       }
-    })
+    });
+
+    this.commonService.isMobileFlag.subscribe(mobileFlag => {
+        this.mobileFlag = mobileFlag;
+    });
 
     this.userService.setTitle("Noticer | Posts and comments");
 

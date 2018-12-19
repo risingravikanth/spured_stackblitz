@@ -70,21 +70,21 @@
                     <div>
                         <div style="padding-left: 18px;padding-bottom: 10px;" *ngIf="post._type == 'EventsPost'">
                             <div class="row">
-                                <div *ngIf="post.fromdate && post.todate" class="col-md-6">
+                                <div *ngIf="post.fromdate && post.todate" class="col-md-6 displayFlowRoot">
                                     <i class="fas fa-calendar-alt"></i>
                                     {{post.fromdate}} to {{post.todate}}
                                 </div>
-                                <div *ngIf="post.website" class="col-md-6">
-                                    
-                                    <a href="javascript:void(0);" (click)="onNavigate(post.website)"><i class="fa fa-globe website-link" aria-hidden="true"></i> 
+                                <div *ngIf="post.website" class="col-md-6 displayFlowRoot">
+                                    <i class="fa fa-globe website-link" aria-hidden="true"></i> 
+                                    <a href="javascript:void(0);" (click)="onNavigate(post.website)">
                                     {{post.website}}</a>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6" *ngIf="post.contacts">
+                                <div class="col-md-6 displayFlowRoot" *ngIf="post.contacts">
                                     <i class="fas fa-phone-square"></i> {{post.contacts}}
                                 </div>
-                                <div class="col-md-6" *ngIf="post.location">
+                                <div class="col-md-6 displayFlowRoot" *ngIf="post.location">
                                      <i class="fas fa-map-marker-alt"></i>
                                     {{post.location}}
                                 </div>

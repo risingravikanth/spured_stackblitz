@@ -6,6 +6,8 @@ import { LinkifyPipe } from '../../shared/pipes/linkify.pipe';
 import { NoticerMainRoutingModule } from './noticer-main-routing.module';
 import { ClipboardModule } from 'ngx-clipboard';
 
+
+
 @NgModule({
   imports: [
     FormsModule,
@@ -16,7 +18,8 @@ import { ClipboardModule } from 'ngx-clipboard';
     NgbModule.forRoot()
   ],
   declarations: [
-    LinkifyPipe
+    LinkifyPipe,
+    TimeAgoPipe
   ],
   entryComponents: [],
 })

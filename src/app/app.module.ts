@@ -28,11 +28,14 @@ import { MobileDetectionService } from './shared/services/mobiledetection.servic
 import { UserSetupModule } from './user-setup/user-setup.module';
 import { AccountActivateComponent } from "./account-activate/account-activate.component";
 
+import {TimeAgoPipe} from 'time-ago-pipe';
+
 
 @NgModule({
     declarations: [
         AppComponent,
-        AccountActivateComponent
+        AccountActivateComponent,
+        TimeAgoPipe
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'noticer' }),

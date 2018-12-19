@@ -191,3 +191,8 @@ figcaption {
     right: 2px;
     position: relative;
  }
+
+ .displayFlowRoot{
+    display: flow-root;
+ }
+ 

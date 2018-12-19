@@ -62,6 +62,7 @@ export class SideMenuComponent implements OnInit {
   public pendingBoardsInfo: any = [];
   ngOnInit() {
     this.isMobile = this.mobileService.isMobile();
+    this.commonService.isMobileFlag.next(this.isMobile);
     this.initForm();
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser) {
