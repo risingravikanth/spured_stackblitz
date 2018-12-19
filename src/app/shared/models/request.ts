@@ -52,8 +52,10 @@ export class CommentContext {
 }
 
 export class CreateCommentData {
-    _type: "Comment";
+    _type: any;
     text: null;
     postId:number;
     commentId:number;
+    maxId:number;
+    minId:number;
 }

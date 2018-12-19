@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LinkifyPipe } from '../../shared/pipes/linkify.pipe';
 import { NoticerMainRoutingModule } from './noticer-main-routing.module';
 import { ClipboardModule } from 'ngx-clipboard';
-
+// import {TimeAgoPipe} from 'time-ago-pipe';
 
 
 @NgModule({
@@ -19,7 +19,7 @@ import { ClipboardModule } from 'ngx-clipboard';
   ],
   declarations: [
     LinkifyPipe,
-    TimeAgoPipe
+    // TimeAgoPipe
   ],
   entryComponents: [],
 })

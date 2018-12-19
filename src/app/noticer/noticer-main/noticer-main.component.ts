@@ -358,7 +358,7 @@ export class NoticerMainComponent implements OnInit {
   }
 
   loadMoreComments(postId, index) {
-    this.postsList[index].commentOffset = this.postsList[index].commentOffset + 3;
+    this.postsList[index].commentOffset = this.postsList[index].commentOffset;// + 3;
     this.postsList[index].commentsSpinner = true;
     let reqBody = this.prepareGetComentsRequestBody(postId, index);
     reqBody.pagination.offset = this.postsList[index].commentOffset;
@@ -398,7 +398,10 @@ export class NoticerMainComponent implements OnInit {
     getCommentsRequest.context.type = arrTypes[0].section;
     getCommentsRequest.data = new CreateCommentData();
     getCommentsRequest.data.postId = postId;
-    getCommentsRequest.data._type = "Comment";
+    getCommentsRequest.data._type = "GetComment";
+    if(postObj.comments.length > 0){
+      getCommentsRequest.data.maxId = postObj.comments[postObj.comments.length - 1].commentId;
+    }
     getCommentsRequest.pagination = new Pagination();
     getCommentsRequest.pagination.offset = 0;
     getCommentsRequest.pagination.limit = constant.commentsPerCall;
