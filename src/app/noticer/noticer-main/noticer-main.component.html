@@ -11,7 +11,7 @@
             </div>
             <br>
             <div *ngFor="let post of postsList;index as i;">
-                <div class="card div_hover" *ngIf="post && post.postId">
+                <div class="card div_hover rounded shadow-sm" *ngIf="post && post.postId">
                     <div class="d-flex justify-content-between">
                         <div>
                             <span style="font-size: 12px;padding-left: 10px;margin-top: 8px;">
@@ -68,11 +68,11 @@
                         </div>
                     </div>
                     <div>
-                        <div style="padding-left: 18px;padding-bottom: 10px;" *ngIf="post._type == 'EventsPost'">
+                        <div class="events" style="padding-left: 18px;padding-bottom: 10px;" *ngIf="post._type == 'EventsPost'">
                             <div class="row">
                                 <div *ngIf="post.fromdate && post.todate" class="col-md-6 displayFlowRoot">
                                     <i class="fas fa-calendar-alt"></i>
-                                    {{post.fromdate}} to {{post.todate}}
+                                    <span>{{post.fromdate}} to {{post.todate}}</span>
                                 </div>
                                 <div *ngIf="post.website" class="col-md-6 displayFlowRoot">
                                     <i class="fa fa-globe website-link" aria-hidden="true"></i> 
@@ -82,11 +82,11 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 displayFlowRoot" *ngIf="post.contacts">
-                                    <i class="fas fa-phone-square"></i> {{post.contacts}}
+                                    <i class="fas fa-phone-square"></i> <span>{{post.contacts}}</span>
                                 </div>
                                 <div class="col-md-6 displayFlowRoot" *ngIf="post.location">
                                      <i class="fas fa-map-marker-alt"></i>
-                                    {{post.location}}
+                                    <span>{{post.location}}</span>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                             <!-- [innerHTML] -->
                             <p>
                                 <span *ngIf="!paramId" style="color: black;">
-                                    <label class="multiLineText">{{post.postText | slice:0:post.maxLength}}</label>
+                                    <p class="multiLineText">{{post.postText | slice:0:post.maxLength}}</p>
                                     <label *ngIf="post.postText.length > post.maxLength">...</label>
                                 </span>
                                 <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="!paramId && post.postText.length > post.maxLength"

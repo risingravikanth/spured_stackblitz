@@ -3,19 +3,25 @@
     <hr class="hrMargin">
     
     <!-- [class.active]="data.status == 'NEW'" [class.inactive]="data.status == 'READ'" -->
-    <div class="list-group">
-      <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start" 
+    <div class="list-group chat">
+      <a href="javascript:void(0);" class="list-group-item list-group-item-action list-group-notification-item flex-column align-items-start" 
          
          (click)="openNotificationModel(data, notificationDetailsDialog)"
          *ngFor="let data of notificationsList">
-        <div class="d-flex w-100 justify-content-between">
-           <p class="mb-1" *ngIf="data?.title">{{data?.title}} <span *ngIf="data.status == 'NEW'" class="badge badge-warning">New</span></p>
-           <p class="mb-1" *ngIf="data.title == undefined" >{{data?.text}}</p>
-          <small *ngIf="data?.createTime">{{ data?.createTime  | date : 'medium'}}</small>
-        </div>
-        <small *ngIf="data.title != undefined">{{data?.text}}</small>
+          <span class="chat-img pull-left" style="display: none;">
+                <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="rounded-circle">
+          </span>
+          <div class="chat-body clearfix">
+            <div class="d-flex w-80 justify-content-between">
+               <p class="mb-0" *ngIf="data?.title">{{data?.title}} <span *ngIf="data.status == 'NEW'" class="badge badge-warning">New</span></p>
+               <p class="mb-0" *ngIf="data.title == undefined" >{{data?.text}}</p>
+              <small *ngIf="data?.createTime"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ data?.createTime  | date : 'medium'}}</small>
+            </div>
+            <small *ngIf="data.title != undefined">{{data?.text}}</small>
+          </div>
        </a>
     </div>
+    
     <div style="margin-left: 50%;" *ngIf="showPostSpinner">
         <div class="loader"></div>
     </div>
