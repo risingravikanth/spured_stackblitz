@@ -93,7 +93,7 @@
                     </span>
                     <!-- [queryParams]="{'type':section.code,'category':category.name } -->
                     <ul style="display:none; margin-left: -10px;">
-                        <li *ngFor="let category of section.categories" class="overflowText">
+                        <li *ngFor="let category of section.categories" class="overflowText text-truncate">
                             <a style="width: 82%;" href="javascript:void(0);" style="color: black;" [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
                                 title={{category.name}}
 								(click)="selectedCategory(section.code, category.code)" [class.selected]="section.code+category.code === selectedItem">
