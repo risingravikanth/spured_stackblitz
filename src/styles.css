@@ -1,5 +1,9 @@
 /* body https://www.w3schools.com/howto/howto_css_contact_chips.asp*/
  
+ 
+
+
+
 /* left side boards links css */
 .selected{
       border-radius: 5px !important;
@@ -208,3 +212,48 @@ li>a{
     overflow-x: hidden;
 }
  
+
+@media (min-width: 1200px){
+
+.container {
+    max-width: 1300px !important;
+}
+}
+
+@media (min-width: 992px){
+
+ 
+.container {
+    max-width: 960px;
+}
+}
+@media (min-width: 768px){
+
+.container {
+    max-width: 720px;
+}
+}
+
+@media (min-width: 576px){
+
+.container {
+    max-width: 540px;
+}
+}
+
+.card-font{
+    white-space: pre-wrap;
+    --x-height-multiplier: 0.375;
+    --baseline-multiplier: 0.17;
+    font-family: medium-content-serif-font,Georgia,Cambria,"Times New Roman",Times,serif;
+     
+ }
+
+ .card-font-post-content{
+    white-space: pre-wrap;
+    --x-height-multiplier: 0.375;
+    --baseline-multiplier: 0.17;
+     
+    color: rgba(0,0,0,.80);
+    line-height: 1.68;
+ }
