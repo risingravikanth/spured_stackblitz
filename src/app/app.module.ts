@@ -59,7 +59,7 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
         ReportUsModule,
         HeaderMobileModule,
         BrowserAnimationsModule,
-        // BrowserTransferStateModule,
+        BrowserTransferStateModule,
         TransferHttpCacheModule
     ],
     providers: [
