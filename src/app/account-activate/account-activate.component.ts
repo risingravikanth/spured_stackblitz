@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { ToastrService } from '../shared/services/Toastr.service';
+import { isPlatformServer } from '@angular/common';
 
 @Component({
   selector: 'account-activate',

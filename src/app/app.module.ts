@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule, MatStepperModule } from '@angular/material';
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +29,7 @@ import { UserSetupModule } from './user-setup/user-setup.module';
 import { AccountActivateComponent } from "./account-activate/account-activate.component";
 
 import {TimeAgoPipe} from 'time-ago-pipe';
+import { TransferHttpCacheModule } from '@nguniversal/common';
 
 
 @NgModule({
@@ -57,7 +58,9 @@ import {TimeAgoPipe} from 'time-ago-pipe';
         SettingsModule,
         ReportUsModule,
         HeaderMobileModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        // BrowserTransferStateModule,
+        TransferHttpCacheModule
     ],
     providers: [
         AuthGuard,

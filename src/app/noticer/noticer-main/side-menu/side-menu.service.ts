@@ -2,10 +2,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from "rxjs/Observable";
+import { makeStateKey, TransferState } from '@angular/platform-browser';
+const GET_BOARDS_KEY = makeStateKey('closed_boards');
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+  })
 export class SideMenuService {
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient,private state: TransferState) { }
+     
 
     handleError(error: Response) {
         return Observable.throw(error);
@@ -18,9 +23,15 @@ export class SideMenuService {
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.get("/boards/getclosedboardinfo/institute/" + instId + "/department/" + deptId, { headers: headers });
     }
-    getUserClosedBoards() {
+    getUserClosedBoards(): Observable<any> {
+        const store = this.state.get(GET_BOARDS_KEY, null);
+        if (store) {
+            return store;
+        }
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        return this.httpClient.get("/closedboards/getalluserclosedboards", { headers: headers });
+        const myData = this.httpClient.get("/closedboards/getalluserclosedboards", { headers: headers });
+        this.state.set(GET_BOARDS_KEY, myData);
+        return myData;
     }
     getAllStates() {
         return this.httpClient.get("/institutes/getallstates");

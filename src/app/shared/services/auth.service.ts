@@ -7,16 +7,18 @@ import { Router } from '@angular/router';
 import { CurrentUserService } from './currentUser.service';
 // import { NgxPermissionsService } from 'ngx-permissions';
 import * as constants from '../others/constants';
+import { makeStateKey, TransferState } from '@angular/platform-browser';
 
+const MY_DATA = makeStateKey('my_data');
 @Injectable()
-
 export class AuthService {
     loggedUser: any;
     constructor(
         public router: Router,
         private http: HttpClient,
         private jwtService: JwtService,
-        private currentUserService: CurrentUserService
+        private currentUserService: CurrentUserService,
+        private state: TransferState
     ) { }
 
     setAuth(user: User) {
@@ -54,8 +56,14 @@ export class AuthService {
         return this.http.post(url, null);
     }
 
-    activateUserThroughUrl(code:any){
+    activateUserThroughUrl(code: any) {
+        const store = this.state.get(MY_DATA, null);
+        if (store) {
+            return store;
+        }
         let url = "/profile/activate/" + code;
-        return this.http.get(url);
+        const myData = this.http.get(url);
+        this.state.set(MY_DATA, myData);
+        return myData;
     }
 }
