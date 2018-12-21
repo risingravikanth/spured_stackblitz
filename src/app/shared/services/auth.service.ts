@@ -57,13 +57,13 @@ export class AuthService {
     }
 
     activateUserThroughUrl(code: any) {
-        const store = this.state.get(MY_DATA, null);
-        if (store) {
-            return store;
-        }
+        // const store = this.state.get(MY_DATA, null);
+        // if (store) {
+        //     return store;
+        // }
         let url = "/profile/activate/" + code;
         const myData = this.http.get(url);
-        this.state.set(MY_DATA, myData);
+        // this.state.set(MY_DATA, myData);
         return myData;
     }
 }
