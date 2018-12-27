@@ -1,8 +1,9 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { TransferState, makeStateKey } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { ToastrService } from '../shared/services/Toastr.service';
-import { isPlatformServer } from '@angular/common';
+const MY_DATA = makeStateKey('ACCOUNT_ACTIVATION');
 
 @Component({
   selector: 'account-activate',
@@ -15,11 +16,12 @@ export class AccountActivateComponent implements OnInit {
   public code: any;
   message: any;
   public tokenDetails: any;
-  public isValiUser:boolean = false
+  public isValiUser: boolean = false
   constructor(private route: ActivatedRoute,
     private authService: AuthService,
     private toastr: ToastrService,
-    private router: Router) {
+    private router: Router,
+    private state:TransferState) {
 
   }
 
@@ -31,17 +33,25 @@ export class AccountActivateComponent implements OnInit {
 
     this.code = params['code']
 
+    const store = this.state.get(MY_DATA, null);
+    if (store) {
+      this.message = "Your account is successfully activated";
+      this.isValiUser = true;
+      this.tokenDetails = store;
+      return;
+    }
     if (this.code) {
       this.message = "Validating... Please wait..."
       this.authService.activateUserThroughUrl(this.code).subscribe(
         (resData: any) => {
+          this.state.set(MY_DATA, resData);
           if (resData && resData.info) {
             this.message = resData.info;
           } else if (resData && resData.userId) {
             this.message = "Your account is successfully activated";
             this.isValiUser = true;
             this.tokenDetails = resData;
-          } else{
+          } else {
             this.message = "";
           }
         }

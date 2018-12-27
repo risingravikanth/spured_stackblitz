@@ -6,11 +6,13 @@ import 'rxjs/add/operator/do';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import * as constants from '../others/constants';
+import { CustomCookieService } from '../services/cookie.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
     constructor(
-        private router: Router, private injector: Injector, private jwtService: JwtService
+        private router: Router, private injector: Injector, private jwtService: JwtService,
+        private customCookieService:CustomCookieService
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -23,12 +25,17 @@ export class TokenInterceptor implements HttpInterceptor {
         req = req.clone({
             url: `${restUrl + req.url}`,
             setHeaders: {
-                Authorization: `${this.jwtService.getToken()}`
+                'Authorization': `${this.jwtService.getToken()}`,
+                'tracking-id': `${this.customCookieService.getTrackId()}`
             }
         })
         return next.handle(req).do((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
                 // do stuff with response if you want
+                if(!this.customCookieService.isTrackIdAvailable()){
+                    console.log("TrackingId in interceptor: " + event.headers.get("tracking-id"));
+                    this.customCookieService.saveTrackId(event.headers.get("tracking-id"));
+                }
             }
         }, (err: any) => {
             if (err instanceof HttpErrorResponse) {

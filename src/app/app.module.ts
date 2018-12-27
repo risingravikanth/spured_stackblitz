@@ -30,7 +30,9 @@ import { AccountActivateComponent } from "./account-activate/account-activate.co
 
 import {TimeAgoPipe} from 'time-ago-pipe';
 import { TransferHttpCacheModule } from '@nguniversal/common';
-
+import { CookieService } from 'ngx-cookie-service';
+import { CustomCookieService } from "./shared/services/cookie.service";
+import { NoticerMainComponent } from "./noticer/noticer-main/noticer-main.component";
 
 @NgModule({
     declarations: [
@@ -60,7 +62,7 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
         HeaderMobileModule,
         BrowserAnimationsModule,
         BrowserTransferStateModule,
-        TransferHttpCacheModule
+        // TransferHttpCacheModule
     ],
     providers: [
         AuthGuard,
@@ -77,7 +79,9 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
             provide: HTTP_INTERCEPTORS,
             useClass: TokenInterceptor,
             multi: true
-        }
+        },
+        CookieService,
+        CustomCookieService
     ],
     bootstrap: [AppComponent]
 })

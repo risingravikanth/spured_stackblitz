@@ -3,13 +3,12 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from "rxjs/Observable";
 import { makeStateKey, TransferState } from '@angular/platform-browser';
-const GET_BOARDS_KEY = makeStateKey('closed_boards');
 
 @Injectable({
     providedIn: 'root'
   })
 export class SideMenuService {
-    constructor(private httpClient: HttpClient,private state: TransferState) { }
+    constructor(private httpClient: HttpClient) { }
      
 
     handleError(error: Response) {
@@ -24,14 +23,8 @@ export class SideMenuService {
         return this.httpClient.get("/boards/getclosedboardinfo/institute/" + instId + "/department/" + deptId, { headers: headers });
     }
     getUserClosedBoards(): Observable<any> {
-        const store = this.state.get(GET_BOARDS_KEY, null);
-        if (store) {
-            return store;
-        }
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        const myData = this.httpClient.get("/closedboards/getalluserclosedboards", { headers: headers });
-        this.state.set(GET_BOARDS_KEY, myData);
-        return myData;
+        return this.httpClient.get("/closedboards/getalluserclosedboards", { headers: headers });
     }
     getAllStates() {
         return this.httpClient.get("/institutes/getallstates");

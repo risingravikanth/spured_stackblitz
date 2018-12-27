@@ -1,6 +1,7 @@
 /* ---------------     Java server ------------ */
 // export const REST_API_URL = 'http://localhost:8080/SpringMvcJdbcTemplate';
 export const REST_API_URL = 'http://139.59.6.52:8080/SpringMvcJdbcTemplate';
+// export const REST_API_URL = 'http://24.130.144.137:8080/SpringMvcJdbcTemplate';
 
 /* ---------------     Node server ------------ */
 

@@ -9,6 +9,7 @@ import { MobileDetectionService, SeoService } from '../shared/services';
 import { AuthService } from '../shared/services/auth.service';
 import { CurrentUserService } from '../shared/services/currentUser.service';
 import { ToastrService } from '../shared/services/Toastr.service';
+import { CustomCookieService } from '../shared/services/cookie.service';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -35,7 +36,8 @@ export class LoginComponent implements OnInit {
         private seo: SeoService,
         private mobile: MobileDetectionService,
         @Inject(PLATFORM_ID) private platformId: Object,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private customCookieService:CustomCookieService
     ) { }
     ngOnInit() {
         this.isMobile = this.mobile.isMobile();
@@ -82,6 +84,7 @@ export class LoginComponent implements OnInit {
                     } else if (this.responseVo.token) {
                         this.loggedUser = this.responseVo;
                         this.authService.setAuth(this.loggedUser);
+                        this.customCookieService.saveTrackId(this.responseVo.token);
                         this.toastr.success("Success", "Login sucessfull!");
                         this.router.navigate(['/feed']);
                     }

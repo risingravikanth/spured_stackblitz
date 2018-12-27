@@ -4,7 +4,6 @@ import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Observable } from "rxjs/Observable";
 import * as constants from '../../shared/others/constants';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
-const getPostsKey = makeStateKey('getPosts');
 
 @Injectable()
 export class NoticerMainService {
@@ -53,10 +52,6 @@ export class NoticerMainService {
     }
 
     getPostsList(body: any) {
-        const store = this.state.get(getPostsKey, null);
-        if (store) {
-            return store;
-        }
         let url: string;
         let reqBody: any = { type: null, category: null, model: null, page: null };
         if (constants.isLive) {
@@ -71,7 +66,6 @@ export class NoticerMainService {
         }
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         const myData =  this.httpClient.post(url, this.ignoreNullValue(reqBody), { headers: headers }).catch(this.handleError);
-        this.state.set(getPostsKey, myData);
         return myData;
     }
 

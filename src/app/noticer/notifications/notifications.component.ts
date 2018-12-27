@@ -68,7 +68,7 @@ export class NotificationsComponent implements OnInit {
       if (resData && resData.code == "ERROR") {
         alert(resData.info);
         this.showNotifications = false;
-      } else if (resData && resData.messages.length > 0) {
+      } else if (resData && resData.messages && resData.messages.length > 0) {
         if (resData.unreadCount) {
           this.notificationsCount = resData.unreadCount;
         }
