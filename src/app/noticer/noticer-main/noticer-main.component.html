@@ -12,7 +12,7 @@
             <br>
             <div *ngFor="let post of postsList;index as i;">
                 <div class="card div_hover rounded shadow-sm" *ngIf="post && post.postId">
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between postBbreadcrumbMargin">
                         <div>
                             <!--<span style="font-size: 12px;padding-left: 10px;margin-top: 8px;">
                                 <a *ngIf="post._type != 'BoardPost'" style="color: gray" href="javascript:void(0);"
@@ -26,7 +26,7 @@
                             </span>-->
 
                             
-                              <ol class="breadcrumb bg-white pb-0">
+                              <ol class="breadcrumb pb-0">
                                 <li *ngIf="post._type != 'BoardPost'"  class="breadcrumb-item">
                                     <a *ngIf="post._type != 'BoardPost'"  href="javascript:void(0);"
                                     (click)="goToCategoriesPage(post._type, null, null)">{{getSectionFromType(post._type)}}</a>
@@ -62,7 +62,7 @@
                     <div class="row" style="padding-left: 9px;margin-top: -15px;">
                         <div>
                             <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="user"
-                                [src]="(post.userProfile && post.userProfile.profileImageUrl  && post.userProfile.profileImageUrl?.length>0 ) ? (imageFromAws(post.userProfile.profileImageUrl) ? '' : serverUrl) + post.userProfile.profileImageUrl : assets/images/noticer_default_user_img.png">
+                                [src]="(post.userProfile && post.userProfile.profileImageUrl  && post.userProfile.profileImageUrl?.length>0 ) ? ((imageFromAws(post.userProfile.profileImageUrl) ? '' : serverUrl) + post.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">
                         </div>
                         <div style="margin-left: -48px;margin-top: 12px;">
                             <ul>
@@ -231,7 +231,7 @@
                             <div class="wrap" style="margin-top: -6px;">
                                 <div class="commentProfile">
                                     <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ProfilePic"
-                                        [src]="(comment.userProfile && comment.userProfile.profileImageUrl && comment.userProfile.profileImageUrl?.length>0) ? ((imageFromAws(comment.userProfile.profileImageUrl) ? '' : serverUrl) + comment.userProfile.profileImageUrl) : assets/images/noticer_default_user_img.png">
+                                        [src]="(comment.userProfile && comment.userProfile.profileImageUrl && comment.userProfile.profileImageUrl?.length>0) ? ((imageFromAws(comment.userProfile.profileImageUrl) ? '' : serverUrl) + comment.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">
                                 </div>
                                 <div class="commentBody">
                                     <ul>

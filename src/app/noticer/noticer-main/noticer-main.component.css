@@ -195,4 +195,9 @@ figcaption {
  .displayFlowRoot{
     display: flow-root;
  }
+
+ .postBbreadcrumbMargin{
+    margin-bottom: -12px;
+    margin-top: -8px;
+ }
  

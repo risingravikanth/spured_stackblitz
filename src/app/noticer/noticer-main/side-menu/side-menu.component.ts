@@ -67,6 +67,7 @@ export class SideMenuComponent implements OnInit {
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser) {
       this.validUser = true;
+      this.getBoardsList();
     }
 
     this.menuList = SECTIONS;
@@ -91,9 +92,6 @@ export class SideMenuComponent implements OnInit {
         comments: [null]
       }
     )
-    if(this.validUser){
-      this.getBoardsList();
-    }
   }
 
 

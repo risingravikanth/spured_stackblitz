@@ -216,7 +216,7 @@ li>a{
 @media (min-width: 1200px){
 
 .container {
-    max-width: 1300px !important;
+    max-width: 1100px !important;
 }
 }
 
@@ -256,4 +256,8 @@ li>a{
      
     color: rgba(0,0,0,.80);
     line-height: 1.68;
+ }
+
+ .breadcrumb{
+     background-color: transparent !important;
  }

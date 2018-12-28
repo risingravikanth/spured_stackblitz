@@ -449,7 +449,8 @@ export class CreatePostComponent implements OnInit {
           this.toastr.error("Failed", resData.error.code.longMessage);
           this.postBtnTxt = "Post"
         } else if (resData && resData.post) {
-          if (this.router.url.indexOf('categories') !== -1 || this.router.url.indexOf('feed') !== -1 ) {
+          if (this.router.url.indexOf('categories') !== -1 || this.router.url.indexOf('feed') !== -1 
+          || this.router.url.indexOf('boards/closed') !== -1) {
 
           } else{
             let _t:string = this.addPostForm.controls['context'].get("type").value

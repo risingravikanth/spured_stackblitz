@@ -87,7 +87,7 @@ const routes: Routes = [
       {
         path: 'self',
         component: SelfProfileComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'users/:id',
