@@ -1,7 +1,7 @@
 <!-- [class.posFix]="!isMobile" -->
 <!-- [class.scrollY]="!isMobile" -->
 
- 
+
 <section>
     <div [class.scrollMobile]="isMobile">
         <!-- BOARDS -->
@@ -11,7 +11,7 @@
                 V1.0
                 commented for make + icon visible in clear
             -->
-            	<li >
+                <li>
                     <label>
                         <b>Boards</b>
                     </label>
@@ -21,9 +21,10 @@
                     </a>
                 </span> -->
                     <span class="float-right">
-                        <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add new board"  (click)="showAddBoardDialog(addBoardDialog)">
+                        <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add new board"
+                            (click)="showAddBoardDialog(addBoardDialog)">
                             <i class="fas fa-plus"></i>
-                         </a>
+                        </a>
                         <!-- <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showConfig = false">
                         <i class="fas fa-times"></i>
                     </a> -->
@@ -38,9 +39,9 @@
                         <a title={{board.boardName}} href="javascript:void(0);" style="color: black;" (click)="selectedBoard(board.boardId,board.boardName)"
                             [class.selected]="'BOARD_'+board.boardId === selectedItem">
                             {{board.boardName}}</a>
-                            <ng-template #tipComment>
-                                    {{board.boardName}}
-                               </ng-template>
+                        <ng-template #tipComment>
+                            {{board.boardName}}
+                        </ng-template>
                         <span class="float-right" *ngIf="showConfig">
                             <a href="javascript:void(0);" class="sectionOptIconsColor">
                                 <i class="fas fa-trash"></i>
@@ -95,8 +96,8 @@
                     <ul style="display:none; margin-left: -10px;">
                         <li *ngFor="let category of section.categories" class="overflowText text-truncate">
                             <a style="width: 82%;" href="javascript:void(0);" style="color: black;" [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
-                                title={{category.name}}
-								(click)="selectedCategory(section.code, category.code)" [class.selected]="section.code+category.code === selectedItem">
+                                title={{category.name}} (click)="selectedCategory(section.code, category.code)"
+                                [class.selected]="section.code+category.code === selectedItem">
                                 {{category.name}}</a>
                             <span class="float-right" *ngIf="menu.select">
                                 <a href="javascript:void(0);" class="sectionOptIconsColor" *ngIf="category.name != 'HOME'">
@@ -148,6 +149,11 @@
                         </div>
                         <div class="form-group">
                             <label>Institute: </label>
+                            <div class="float-right">
+                                <input [disabled]="!showInst" type="checkbox" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="noInstCheck" data-md-icheck (change)="requestCheckBox($event,'INSTITUTE')" />
+                                No Institute
+                            </div>
                             <p-dropdown *ngIf="!noInstCheck" placeholder="Institute" formControlName="instId" [options]="listOfInstitutes"
                                 [style]="{'width':'100%'}" filter="true" (onChange)="getDepartmentsByInstId(inst.value)"
                                 #inst>
@@ -166,12 +172,14 @@
                                         type="text">
                                 </div>
                             </div>
-                            <input [disabled]="!showInst" type="checkbox" [ngModelOptions]="{standalone: true}"
-                                [(ngModel)]="noInstCheck" data-md-icheck (change)="requestCheckBox($event,'INSTITUTE')" />
-                            No Institute
                         </div>
                         <div class="form-group">
                             <label>Department: </label>
+                            <div class="float-right">
+                                <input [disabled]="!showDept" type="checkbox" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="noDeptCheck" data-md-icheck (change)="requestCheckBox($event, 'DEPARTMENT')" />
+                                No Department
+                            </div>
                             <p-dropdown *ngIf="!noDeptCheck" placeholder="Department" formControlName="deptId"
                                 [options]="listOfDepartments" [style]="{'width':'100%'}" filter="true" (onChange)="getBoardsByDepartment(dept.value)"
                                 #dept>
@@ -183,12 +191,15 @@
                             </p-dropdown>
                             <input class="form-control" *ngIf="noDeptCheck" formControlName="deptName" placeholder="department"
                                 type="text">
-                            <input [disabled]="!showDept" type="checkbox" [ngModelOptions]="{standalone: true}"
-                                [(ngModel)]="noDeptCheck" data-md-icheck (change)="requestCheckBox($event, 'DEPARTMENT')" />
-                            No Department
+
                         </div>
                         <div class="form-group">
                             <label>Boards: </label>
+                            <div class="float-right">
+                                <input [disabled]="!showBoard" type="checkbox" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="noBordCheck" data-md-icheck (change)="requestCheckBox($event, 'BOARD')" />
+                                No Board
+                            </div>
                             <p-dropdown *ngIf="!noBordCheck" placeholder="Board" formControlName="boardId" [options]="listOfBoards"
                                 [style]="{'width':'100%'}" filter="true" #board>
                                 <ng-template let-board pTemplate="item">
@@ -206,9 +217,6 @@
                                     <input class="form-control" formControlName="endYear" placeholder="end year" type="number">
                                 </div>
                             </div>
-                            <input [disabled]="!showBoard" type="checkbox" [ngModelOptions]="{standalone: true}"
-                                [(ngModel)]="noBordCheck" data-md-icheck (change)="requestCheckBox($event, 'BOARD')" />
-                            No Board
                         </div>
                         <textarea class="form-control" *ngIf="noDeptCheck || noBordCheck || noInstCheck"
                             formControlName="comments" placeholder="comments" type="text"></textarea>
