@@ -1,40 +1,38 @@
-<div class="container marTop50" [class.marTop50]="from != 'header'">
+<div class="container marTop50" [class.marTop50]="from != 'header'" [class.notfication-pad]="from != 'header'">
     <small class="fntGreen"><b>Notifications</b></small>
     <hr class="hrMargin">
-    
+
     <!-- [class.active]="data.status == 'NEW'" [class.inactive]="data.status == 'READ'" -->
     <div class="list-group chat">
-      <a href="javascript:void(0);" class="list-group-item list-group-item-action list-group-notification-item flex-column align-items-start" 
-         
-         (click)="openNotificationModel(data, notificationDetailsDialog)"
-         *ngFor="let data of notificationsList">
-          <span class="chat-img pull-left" style="display: none;">
+        <a href="javascript:void(0);" class="list-group-item list-group-item-action list-group-notification-item flex-column align-items-start"
+            (click)="openNotificationModel(data, notificationDetailsDialog)" *ngFor="let data of notificationsList">
+            <span class="chat-img pull-left" style="display: none;">
                 <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="rounded-circle">
-          </span>
-          <div class="chat-body clearfix">
-            <div class="d-flex w-80 justify-content-between">
-               <p class="mb-0" *ngIf="data?.title">{{data?.title}} <span *ngIf="data.status == 'NEW'" class="badge badge-warning">New</span></p>
-               <p class="mb-0" *ngIf="data.title == undefined" >{{data?.text}}</p>
-              <small *ngIf="data?.createTime"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ data?.createTime  | date : 'medium'}}</small>
+            </span>
+            <div class="chat-body clearfix">
+                <div class="d-flex w-80 justify-content-between">
+                    <p class="mb-0" *ngIf="data?.title"><b>{{data?.title}}</b> <span *ngIf="data.status == 'NEW'" class="badge badge-warning">New</span></p>
+                    <p class="mb-0" *ngIf="data.title == undefined">{{data?.text}}</p>
+                    <small *ngIf="data?.createTime"><i class="fa fa-clock-o" aria-hidden="true"></i> {{
+                        data?.createTime | date: 'MMM d, y, h:mm a'}}</small>
+                </div>
+                <small *ngIf="data.title != undefined">{{data?.text}}</small>
             </div>
-            <small *ngIf="data.title != undefined">{{data?.text}}</small>
-          </div>
-       </a>
+        </a>
     </div>
-    
+
     <div style="margin-left: 50%;" *ngIf="showPostSpinner">
         <div class="loader"></div>
     </div>
-    <div class="dropdown-item text-center" *ngIf="from == 'header' && !showPostSpinner && showNotifications"><a class="fntGreen" href="javascript:void(0);"
-            routerLink="/notifications">See
+    <div class="dropdown-item text-center" *ngIf="from == 'header' && !showPostSpinner && showNotifications"><a class="fntGreen"
+            href="javascript:void(0);" routerLink="/notifications">See
             all
             notifications</a></div>
     <div class="dropdown-item text-center" *ngIf="!showNotifications && offset > 0">
         <span>No Notifications</span>
     </div>
     <div class="dropdown-item text-center" *ngIf="from != 'header' && !showPostSpinner && showMore">
-        <a class="fntGreen" href="javascript:void(0);"
-        (click)="loadMoreMessages()">Show More</a></div>
+        <a class="fntGreen" href="javascript:void(0);" (click)="loadMoreMessages()">Show More</a></div>
 
 </div>
 
@@ -49,13 +47,14 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-content" style="padding: 15px;">
-            <div><b>Title</b></div>
-            <div>{{notificationDetails.title}}</div>
-            <div><b>Message</b></div>
+        <div class="modal-content" style="padding: 15px;font-size: 17px;">
+            <div class="d-flex w-80 justify-content-between"> <b>{{notificationDetails.title}}</b>
+                <span class="pull-right"><small>
+                        <div>{{notificationDetails.createTime | date: 'MMM d, y, h:mm a'}}</div>
+                    </small></span>
+            </div>
+
             <div *ngIf="notificationDetails.text?.length>0">{{notificationDetails.text}}</div>
-            <div><b>Notification Time:</b> {{notificationDetails.createTime | date: 'MMM d, y,
-                h:mm a'}}</div>
         </div>
     </ng-template>
 

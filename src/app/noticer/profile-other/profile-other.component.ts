@@ -6,17 +6,19 @@ import { CustomValidator } from "../../shared/others/custom.validator";
 import { SeoService } from '../../shared/services';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { OthersProfileService } from './profile-other.service';
+import { ToastrService } from '../../shared/services/Toastr.service';
 
 @Component({
   selector: 'profile-other',
   templateUrl: './profile-other.component.html',
   styleUrls: ['./profile-other.component.css'],
-  providers: [OthersProfileService, CustomValidator, MessageService, SeoService, CurrentUserService],
+  providers: [OthersProfileService, CustomValidator, MessageService, SeoService, CurrentUserService, ToastrService],
   // animations: [routerTransition()]
 })
 export class OthersProfileComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private service: OthersProfileService, private seo:SeoService, private userService:CurrentUserService) { }
+  constructor(private route: ActivatedRoute, private service: OthersProfileService, private seo:SeoService, private userService:CurrentUserService,
+    private toastr:ToastrService) { }
 
   public profileLoader = false;
   public urls: any = [];
@@ -40,6 +42,10 @@ export class OthersProfileComponent implements OnInit {
   loadProfileDetails(userId) {
     console.log("get profile details");
     this.service.getUserInfo(userId).subscribe(resData => {
+      if(resData == null){
+        this.toastr.error("Profile", "This user account has been deleted")
+        return;
+      }
       this.userDetails = resData;
       this.userService.setTitle("Noticer | "+this.userDetails.userName);
       if (this.userDetails && this.userDetails.profileImageUrl) {

@@ -60,6 +60,7 @@ export class SideMenuComponent implements OnInit {
   currentUser: User;
   public validUser: boolean = false;
   public pendingBoardsInfo: any = [];
+  public boardRequestBtnTxt = "Join Request"
   ngOnInit() {
     this.isMobile = this.mobileService.isMobile();
     this.commonService.isMobileFlag.next(this.isMobile);
@@ -103,10 +104,10 @@ export class SideMenuComponent implements OnInit {
       this.paramType = params['type'];
       this.paramCategory = params['category'];
       this.selected = this.paramType;
-      if(this.paramType && (this.paramCategory == undefined || this.paramCategory == "HOME")){
-        this.selectedItem = this.paramType+"HOME"
-      } else{
-        this.selectedItem = this.paramType+this.paramCategory;
+      if (this.paramType && (this.paramCategory == undefined || this.paramCategory == "HOME")) {
+        this.selectedItem = this.paramType + "HOME"
+      } else {
+        this.selectedItem = this.paramType + this.paramCategory;
       }
     }
   }
@@ -254,14 +255,14 @@ export class SideMenuComponent implements OnInit {
     this.service.getUserClosedBoards().subscribe((resData: any) => {
       this.showPostSpinner = false;
       if (resData.boards) {
-        if(resData.boards){
+        if (resData.boards) {
           this.boardsList = resData.boards;
           if (this.boardsList && this.boardsList.length > 0) {
             this.noBoards = false;
           } else {
             this.noBoards = true;
           }
-        } else{
+        } else {
           this.noBoards = true;
         }
       }
@@ -335,12 +336,14 @@ export class SideMenuComponent implements OnInit {
           this.addBoardForm.controls['instAddr'].setValidators(Validators.required);
           this.addBoardForm.controls['instId'].clearValidators()
           this.addBoardForm.controls['instId'].patchValue(null);
+          this.boardRequestBtnTxt = "New Board Request"
         } else {
           this.addBoardForm.controls['instName'].clearValidators();
           this.addBoardForm.controls['instAddr'].clearValidators();
           this.addBoardForm.controls['instName'].patchValue(null);
           this.addBoardForm.controls['instAddr'].patchValue(null);
           this.addBoardForm.controls['instId'].setValidators(Validators.required);
+          this.boardRequestBtnTxt = "Join Request"
         }
       case 'DEPARTMENT':
         if (typeCheck) {
@@ -348,10 +351,12 @@ export class SideMenuComponent implements OnInit {
           this.addBoardForm.controls['deptId'].clearValidators()
           this.addBoardForm.controls['deptId'].patchValue(null);
           this.addBoardForm.controls['deptName'].setValidators(Validators.required);
+          this.boardRequestBtnTxt = "New Board Request"
         } else {
           this.addBoardForm.controls['deptId'].setValidators(Validators.required);
           this.addBoardForm.controls['deptName'].clearValidators();
           this.addBoardForm.controls['deptName'].patchValue(null);
+          this.boardRequestBtnTxt = "Join Request"
         }
       case 'BOARD':
 
@@ -361,6 +366,7 @@ export class SideMenuComponent implements OnInit {
           this.addBoardForm.controls['boardId'].patchValue(null);
           this.addBoardForm.controls['startYear'].setValidators(Validators.required);
           this.addBoardForm.controls['endYear'].setValidators(Validators.required);
+          this.boardRequestBtnTxt = "New Board Request"
         }
         else {
           this.addBoardForm.controls['startYear'].clearValidators();
@@ -368,7 +374,7 @@ export class SideMenuComponent implements OnInit {
           this.addBoardForm.controls['startYear'].patchValue(null)
           this.addBoardForm.controls['endYear'].patchValue(null);
           this.addBoardForm.controls['boardId'].setValidators(Validators.required);
-
+          this.boardRequestBtnTxt = "Join Request"
         }
     }
     this.addBoardForm.updateValueAndValidity();

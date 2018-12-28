@@ -417,7 +417,7 @@ export class NoticerMainComponent implements OnInit {
 
     createCommentRequest.data = new CreateCommentData();
     createCommentRequest.data.postId = postObj.postId;
-    createCommentRequest.data.text = commentText;
+    createCommentRequest.data.text = commentText.trim();
     createCommentRequest.data._type = "Comment";
 
     this.service.createComment(createCommentRequest).subscribe((resData: any) => {
@@ -664,7 +664,11 @@ export class NoticerMainComponent implements OnInit {
 
   onNavigate(link: any) {
     if (isPlatformBrowser(this.platformId)) {
-      window.open("http://" + link)
+      if(link.indexOf("http") != -1){
+        window.open(link)
+      } else{
+        window.open("http://" + link)
+      }
     }
   }
 

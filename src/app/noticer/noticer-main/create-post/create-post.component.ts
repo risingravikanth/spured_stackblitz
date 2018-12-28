@@ -410,8 +410,10 @@ export class CreatePostComponent implements OnInit {
     let postTitle = this.addPostForm.controls['data'].get('title').value.trim()
     this.addPostForm.controls['data'].get('title').patchValue(postTitle);
 
-    let postAns = this.addPostForm.controls['data'].get('answer').value.trim()
-    this.addPostForm.controls['data'].get('answer').patchValue(postAns);
+    if(this.addPostForm.controls['data'].get('answer').value){
+      let postAns = this.addPostForm.controls['data'].get('answer').value.trim()
+      this.addPostForm.controls['data'].get('answer').patchValue(postAns);
+    }
 
     let imageUrls = [];
     if (this.postImages.length > 0) {

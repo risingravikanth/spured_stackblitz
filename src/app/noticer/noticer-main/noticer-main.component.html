@@ -12,52 +12,32 @@
             <br>
             <div *ngFor="let post of postsList;index as i;">
                 <div class="card div_hover rounded shadow-sm" *ngIf="post && post.postId">
-                    <div class="d-flex justify-content-between postBbreadcrumbMargin">
+                    <div class="d-flex justify-content-between" style="padding: 5px 0px 5px 0px;">
                         <div>
-                            <!--<span style="font-size: 12px;padding-left: 10px;margin-top: 8px;">
-                                <a *ngIf="post._type != 'BoardPost'" style="color: gray" href="javascript:void(0);"
+                            <span style="font-size: 12px;padding-left: 10px;">
+                                <a *ngIf="post._type != 'BoardPost'" href="javascript:void(0);"
                                     (click)="goToCategoriesPage(post._type, null, null)">{{getSectionFromType(post._type)}}
                                 </a>
-                                <span *ngIf="post.category"> / <a style="color: gray" href="javascript:void(0);"
+                                <span *ngIf="post.category"> / <a href="javascript:void(0);"
                                         (click)="goToCategoriesPage(post._type, post.category, null)">{{
                                         getModelFromTypeCategory(post._type, post.category)}}</a></span>
-                                <span *ngIf="post.model"> / <a style="color: gray" href="javascript:void(0);" (click)="goToCategoriesPage(post._type, post.category, post.model)">{{
-                                        post.model}}</a></span>
-                            </span>-->
-
-                            
-                              <ol class="breadcrumb pb-0">
-                                <li *ngIf="post._type != 'BoardPost'"  class="breadcrumb-item">
-                                    <a *ngIf="post._type != 'BoardPost'"  href="javascript:void(0);"
-                                    (click)="goToCategoriesPage(post._type, null, null)">{{getSectionFromType(post._type)}}</a>
-                                </li>
-                                <li *ngIf="post.category" class="breadcrumb-item">
-                                        <a  href="javascript:void(0);"
-                                        (click)="goToCategoriesPage(post._type, post.category, null)">{{
-                                        getModelFromTypeCategory(post._type, post.category)}}</a>
-                                </li>
-                                <li *ngIf="post.model" class="breadcrumb-item" aria-current="page">
-                                        <a href="javascript:void(0);" (click)="goToCategoriesPage(post._type, post.category, post.model)">{{post.model}}</a>
-                                </li>
-                              </ol>
-                             
-
+                                <span *ngIf="post.model"> / <a href="javascript:void(0);" (click)="goToCategoriesPage(post._type, post.category, post.model)">{{
+                                        post.model}}</a></span></span>
                         </div>
-                        <div>
-                            <a id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
-                                placement="top" ngbTooltip="Actions" aria-expanded="false" >
-                                 <button type="button" class="btn btn-link m-2"> <i class="fas fa-ellipsis-h"></i></button>
-                            </a>
+                        <div style="padding: 3px 7px 0px 0px;">
+                            <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+                                placement="top" ngbTooltip="Actions" aria-expanded="false" style="font-size: 20px;"></i>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
-                                    (click)="editPost(post.postId, post._type, editPostDialog)"><i class="fas fa-edit"></i> Edit</button>
+                                    (click)="editPost(post.postId, post._type, editPostDialog)">Edit</button>
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
-                                    (click)="deletePost(post.postId, post._type)"><i class="fas fa-trash-alt"></i> Delete</button>
-                                <button class="dropdown-item" type="button"><i class="fas fa-flag"></i> Report</button>
-                                <button class="dropdown-item" type="button" (click)="copyMethod(post)"><i class="fas fa-copy"></i> Copy Link</button>
+                                    (click)="deletePost(post.postId, post._type)">Delete</button>
+                                <button class="dropdown-item" type="button">Report</button>
+                                <button class="dropdown-item" type="button" (click)="copyMethod(post)">Copy Link</button>
                             </div>
                         </div>
                     </div>
+
                     <hr style="margin-top: -3px;">
                     <div class="row" style="padding-left: 9px;margin-top: -15px;">
                         <div>
@@ -89,41 +69,42 @@
                     </div>
                     <div>
                         <div class="events" style="padding-left: 18px;padding-bottom: 10px;" *ngIf="post._type == 'EventsPost'">
-                            
- 
+
+
 
                             <div class="row">
                                 <div *ngIf="post.fromdate && post.todate" class="col-md-6">
                                     <div class="d-flex w-100">
-                                      <div class="p-1"><i class="fas fa-calendar-alt"></i></div>
-                                      <div class="p-1 w-100 flex-shrink-1">{{post.fromdate}} to {{post.todate}}</div>
+                                        <div class="p-1"><i class="fas fa-calendar-alt"></i></div>
+                                        <div class="p-1 w-100 flex-shrink-1">{{post.fromdate}} to {{post.todate}}</div>
                                     </div>
                                 </div>
-                                <div *ngIf="post.website" class="col-md-6" >
-                                     <div class="d-flex w-100">
-                                          <div class="p-1"><i class="fa fa-globe" aria-hidden="true"></i> </div>
-                                          <div class="p-1 w-100 flex-shrink-1" style="width:90% !important;"> <a class="p-35" href="javascript:void(0);" (click)="onNavigate(post.website)">
+                                <div *ngIf="post.website" class="col-md-6">
+                                    <div class="d-flex w-100">
+                                        <div class="p-1"><i class="fa fa-globe" aria-hidden="true"></i> </div>
+                                        <div class="p-1 w-100 flex-shrink-1" style="width:90% !important;"> <a class="p-35"
+                                                href="javascript:void(0);" (click)="onNavigate(post.website)">
                                                 {{post.website}}</a></div>
-                                     </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div *ngIf="post.contacts" class="col-md-6">
                                     <div class="d-flex w-100">
-                                      <div class="p-1"><i class="fas fa-phone-square"></i></div>  
-                                      <div class="p-1 w-100 flex-shrink-1">{{post.contacts}}</div>
+                                        <div class="p-1"><i class="fas fa-phone-square"></i></div>
+                                        <div class="p-1 w-100 flex-shrink-1">{{post.contacts}}</div>
                                     </div>
                                 </div>
                                 <div *ngIf="post.location" class="col-md-6">
-                                     <div class="d-flex w-100">
-                                          <div class="p-1"> <i class="fas fa-map-marker-alt"></i> </div>
-                                          <div class="p-1 w-100 flex-shrink-1"> {{post.location}}</div>
-                                     </div>
+                                    <div class="d-flex w-100">
+                                        <div class="p-1"> <i class="fas fa-map-marker-alt"></i> </div>
+                                        <div class="p-1 w-100 flex-shrink-1"> {{post.location}}</div>
+                                    </div>
                                 </div>
                             </div>
 
- 
+
                         </div>
                         <div class="post-text">
                             <h6><b><a *ngIf="!paramId" (click)="navigateToPostDetails(post)" style="color:black" href="javascript:void(0);">
@@ -134,7 +115,8 @@
                             <!-- [innerHTML] -->
                             <p>
                                 <span *ngIf="!paramId" style="color: black;">
-                                    <p class="multiLineText card-font-post-content">{{post.postText | slice:0:post.maxLength}}</p>
+                                    <p class="multiLineText card-font-post-content">{{post.postText |
+                                        slice:0:post.maxLength}}</p>
                                     <label *ngIf="post.postText.length > post.maxLength">...</label>
                                 </span>
                                 <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="!paramId && post.postText.length > post.maxLength"
@@ -148,7 +130,7 @@
                     </div>
                     <div>
                         <div *ngIf="post.images.length == 1">
-                            <a [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{imageFromAws(post.images[0]) ? '' : serverUrl}}{{imageFromAws(post.images[0]) ? '' : '/'}}{{post.images[0]}}">
+                            <a disableScrolling="true" [attr.data-lightbox]="post._type+post.postId" data-title="Post Images" href="{{imageFromAws(post.images[0]) ? '' : serverUrl}}{{imageFromAws(post.images[0]) ? '' : '/'}}{{post.images[0]}}">
                                 <img src="{{imageFromAws(post.images[0]) ? '' : serverUrl}}{{imageFromAws(post.images[0]) ? '' : '/'}}{{post.images[0]}}"
                                     style="max-width: 100%; max-height: 100%;padding: 7px;">
                             </a>
@@ -242,17 +224,18 @@
                                                     {{comment.userProfile.userName}}
                                                 </a>
                                             </div>
-                                            <div style="padding: 3px 7px 0px 0px;float: right;" *ngIf="comment.userProfile && currentuserId == comment.userProfile.userId">
-                                                <a id="dropdownMenu3" data-toggle="dropdown"
-                                                    aria-haspopup="true" placement="top" ngbTooltip="Actions"
-                                                    aria-expanded="false" style="font-size: 20px;"><i class="fas fa-ellipsis-h"></i></a>
+                                            <div style="padding: 0px 13px 0px 0px;float: right;" *ngIf="comment.userProfile && currentuserId == comment.userProfile.userId">
+                                                <a id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true"
+                                                    placement="top" ngbTooltip="Actions" aria-expanded="false" style="font-size: 20px;"><i
+                                                        class="fas fa-ellipsis-h"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
-                                                    <button class="dropdown-item" type="button"
-                                                        (click)="deleteComment(post.postId, post._type, comment.commentId)"><i class="fas fa-trash-alt"></i> Delete</button>
+                                                    <button class="dropdown-item" type="button" (click)="deleteComment(post.postId, post._type, comment.commentId)"><i
+                                                            class="fas fa-trash-alt"></i> Delete</button>
                                                 </div>
                                             </div>
                                         </li>
-                                        <li style="font-size: 10px;">{{comment.createTime | date: 'MMM d, y, h:mm
+                                        <li style="font-size: 10px;margin-top: -10px;">{{comment.createTime | date:
+                                            'MMM d, y, h:mm
                                             a'}}</li>
                                         <li style="font-size: 13px;">
                                             <!-- <p>{{comment.commentText}}</p> -->

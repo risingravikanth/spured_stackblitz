@@ -42,3 +42,7 @@
 .list-group-notification-item{
 	padding :10px !important;
 }
+
+.notfication-pad{
+    padding: 0px 160px 0px 160px;
+}

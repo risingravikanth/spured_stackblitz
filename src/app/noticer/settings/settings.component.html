@@ -1,7 +1,38 @@
 <div class="container marTop50">
-    <div class="col-md-12">
-             
+    <div class="container" *ngIf="showReq" style="margin-top: 25px;">
+        <h5><b>Join Board Requests</b></h5>
+        <hr>
+    
+        <div class="row">
+          <div class="col-sm-4" *ngFor="let req of getAllRequestsList">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title2">{{ req.boardInfo.boardName}}</h5>
+                <div class="card-text">
+                        <div class="chip">
+                          <img [src]="(req.userProfile && req.userProfile.profileImageUrl) ? serverUrl + req.userProfile.profileImageUrl : defaultImage" 
+                                alt="user" width="96" height="96">
+                                {{req.userProfile ? req.userProfile.userName : '-NA-'}} <br> {{req.userProfile ? req.userProfile.email : '-NA-'}}
+                        </div>
+    
+    
+                </div>
+                <a href="#" class="btn btn-success btn-sm" (click)="updateStatus(req.reqId,1)">
+                                <i class="fas fa-check"></i> Accept
+                </a> &nbsp;&nbsp;
+                 <a href="#" class="btn btn-danger btn-sm" (click)="updateStatus(req.reqId,2)">
+                                <i class="fas fa-times"></i> Decline
+                </a>
+    
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+    
     </div>
+    <br>
     <h5><b>Change password</b></h5>
     <hr>
     <form [formGroup]="changePassword">
@@ -50,39 +81,6 @@
     </div>
 
 </div>
-<div class="container" *ngIf="showReq" style="margin-top: 25px;">
-    <h5><b>Join Board Requests</b></h5>
-    <hr>
-
-    <div class="row">
-      <div class="col-sm-4" *ngFor="let req of getAllRequestsList">
-        <div class="card text-right">
-          <div class="card-body">
-            <h5 class="card-title2">{{ req.boardInfo.boardName}}</h5>
-            <div class="card-text">
-                    <div class="chip">
-                      <img [src]="(req.userProfile && req.userProfile.profileImageUrl) ? serverUrl + req.userProfile.profileImageUrl : defaultImage" 
-                            alt="user" width="96" height="96">
-                            {{req.userProfile ? req.userProfile.userName : '-NA-'}} <br> {{req.userProfile ? req.userProfile.email : '-NA-'}}
-                    </div>
-
-
-            </div>
-            <a href="#" class="btn btn-success btn-sm" (click)="updateStatus(req.reqId,1)">
-                            <i class="fas fa-check"></i> Accept
-            </a> &nbsp;&nbsp;
-             <a href="#" class="btn btn-danger btn-sm" (click)="updateStatus(req.reqId,2)">
-                            <i class="fas fa-times"></i> Decline
-            </a>
-
-            
-          </div>
-        </div>
-      </div>
-      
-    </div>
-
-
     <!-- <div *ngFor="let req of getAllRequestsList">
 
         <div style="padding: 2px 0px 5px 35px;">

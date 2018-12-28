@@ -200,4 +200,15 @@ figcaption {
     margin-bottom: -12px;
     margin-top: -8px;
  }
+
+ .postHeaderFont{
+    font-size: 0.8rem;
+ }
+
+ .postHead{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden !important;
+    display: inline-block;
+ }
  

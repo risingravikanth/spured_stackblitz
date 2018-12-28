@@ -2,7 +2,11 @@
     <div class="row">
         <div class="card bg-light text-center col-md-2">
             <div style="padding-top: 20%;padding-bottom: 20%;">
-                <img class="card-img-top image avatar" [src]="profileImage" alt="Card image">
+                    <a data-lightbox="img" data-title="Post Images" href="{{profileImage}}">
+                        <img [src]="profileImage"
+                        class="card-img-top image avatar">
+                    </a>
+                <!-- <img class="card-img-top image avatar" [src]="profileImage" alt="Card image"> -->
             </div>
         </div>
         <div class="col-md-10 contentPad profileBorder">

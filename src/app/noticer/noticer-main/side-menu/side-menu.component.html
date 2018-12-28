@@ -116,7 +116,7 @@
 <section>
     <ng-template #addBoardDialog let-c="close" let-d="dismiss">
         <div class="modal-header">
-            <h4 class="modal-title fntGreen" id="modal-basic-title">Add Board</h4>
+            <h4 class="modal-title fntGreen" id="modal-basic-title"><b>Join a Board</b></h4>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -215,8 +215,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" (click)="joinRequest()" [disabled]="addBoardForm.invalid">Join
-                        Request</button>
+                    <button type="button" class="btn btn-success" (click)="joinRequest()" [disabled]="addBoardForm.invalid">{{boardRequestBtnTxt}}</button>
                 </div>
             </div>
             <div class="tab-pane fade modalHeight" id="pending" role="tabpanel" aria-labelledby="pending-tab">
