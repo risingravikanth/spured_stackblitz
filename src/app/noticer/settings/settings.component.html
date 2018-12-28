@@ -2,42 +2,43 @@
     <div class="container" *ngIf="showReq" style="margin-top: 25px;">
         <h5><b>Join Board Requests</b></h5>
         <hr>
-    
+
         <div class="row">
-          <div class="col-sm-4" *ngFor="let req of getAllRequestsList">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title2">{{ req.boardInfo.boardName}}</h5>
-                <div class="card-text">
-                        <div class="chip">
-                          <img [src]="(req.userProfile && req.userProfile.profileImageUrl) ? serverUrl + req.userProfile.profileImageUrl : defaultImage" 
-                                alt="user" width="96" height="96">
-                                {{req.userProfile ? req.userProfile.userName : '-NA-'}} <br> {{req.userProfile ? req.userProfile.email : '-NA-'}}
+            <div class="col-sm-4" *ngFor="let req of getAllRequestsList">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title2">{{ req.boardInfo.boardName}}</h5>
+                        <div class="card-text">
+                            <div class="chip">
+                                <img [src]="(req.userProfile && req.userProfile.profileImageUrl  && req.userProfile.profileImageUrl?.length>0 ) ? ((imageFromAws(req.userProfile.profileImageUrl) ? '' : serverUrl) + req.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'"
+                                    alt="user" width="96" height="96">
+                                {{req.userProfile ? req.userProfile.userName : '-NA-'}} <br> {{req.userProfile ?
+                                req.userProfile.email : '-NA-'}}
+                            </div>
+
+
                         </div>
-    
-    
+                        <a href="#" class="btn btn-success btn-sm" (click)="updateStatus(req.reqId,1)">
+                            <i class="fas fa-check"></i> Accept
+                        </a> &nbsp;&nbsp;
+                        <a href="#" class="btn btn-danger btn-sm" (click)="updateStatus(req.reqId,2)">
+                            <i class="fas fa-times"></i> Decline
+                        </a>
+
+
+                    </div>
                 </div>
-                <a href="#" class="btn btn-success btn-sm" (click)="updateStatus(req.reqId,1)">
-                                <i class="fas fa-check"></i> Accept
-                </a> &nbsp;&nbsp;
-                 <a href="#" class="btn btn-danger btn-sm" (click)="updateStatus(req.reqId,2)">
-                                <i class="fas fa-times"></i> Decline
-                </a>
-    
-                
-              </div>
             </div>
-          </div>
-          
+
         </div>
-    
+
     </div>
     <br>
     <h5><b>Change password</b></h5>
     <hr>
     <form [formGroup]="changePassword">
         <div class="row">
-            
+
             <div class="col-md-6">
                 <div>
                     <div class="form-group modalFormPad">
@@ -48,23 +49,24 @@
                         <label>New Password</label>
                         <input class="form-control" type="password" formControlName="password" placeholder="New Password">
                     </div>
-                   
+
                 </div>
 
                 <div>
-                    <button type="button" class="btn btn-primary btnSuccess" [disabled]="changePassword.invalid" (click)="savePassword()">Update</button>
+                    <button type="button" class="btn btn-primary btnSuccess" [disabled]="changePassword.invalid"
+                        (click)="savePassword()">Update</button>
                 </div>
             </div>
             <div class="col-md-6">
-                     <div class="bd-callout bd-callout-info">
-                        <h4 id="dealing-with-specificity">Please follow below rules to change password</h4>
-                           <p>the use of both upper-case and lower-case letters (case sensitivity)<br>
-                            inclusion of one or more numerical digits<br>
-                            inclusion of special characters, such as @, #, $<br>
-                            prohibition of words found in the user's personal information<br>
-                            prohibition of use of company name or an abbreviation<br>
-                           </p>
-                    </div>
+                <div class="bd-callout bd-callout-info">
+                    <h4 id="dealing-with-specificity">Please follow below rules to change password</h4>
+                    <p>the use of both upper-case and lower-case letters (case sensitivity)<br>
+                        inclusion of one or more numerical digits<br>
+                        inclusion of special characters, such as @, #, $<br>
+                        prohibition of words found in the user's personal information<br>
+                        prohibition of use of company name or an abbreviation<br>
+                    </p>
+                </div>
 
             </div>
         </div>
@@ -75,66 +77,32 @@
     <hr>
 
     <div class="bd-callout bd-callout-danger">
-             <h4 id="dealing-with-specificity"></h4>
-                 <p>If you want to delete your account please click below to delete your account<button style="float:right;" class="btn btn-danger btn-sm">Delete my account</button>
-                 </p>
+        <h4 id="dealing-with-specificity"></h4>
+        <p>If you want to delete your account please click below to delete your account<button (click)="showDialog()"
+                style="float:right;" class="btn btn-danger btn-sm">Delete my account</button>
+        </p>
     </div>
 
 </div>
-    <!-- <div *ngFor="let req of getAllRequestsList">
 
-        <div style="padding: 2px 0px 5px 35px;">
-            <div>
-                <span><b>{{ req.boardInfo.boardName}}</b></span>
+<p-dialog header="Delete confirmation" [(visible)]="display" [modal]="true" [responsive]="true" [contentStyle]="{'max-width':'500px'}">
+
+    <div>
+        <form (ngSubmit)="onLoggedin()" [formGroup]="authForm" class="container-login">
+            <div class="form-row">
+                <label for="inputEmail4">Email</label>
+                <input type="email" class="form-control  form-control-sm" id="inputEmail4" placeholder="abc@noticer.com"
+                    formControlName="email">
             </div>
-            <div>
-                <div class="row" style="margin-top: -15px;">
-                    <div class="col-md-5 row">
-
-                        <div>
-                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="UserProfilePic"
-                                [src]="(req.userProfile && req.userProfile.profileImageUrl) ? serverUrl + req.userProfile.profileImageUrl : defaultImage">
-                        </div>
-                        <div style="margin-left: -48px;margin-top: 16px;">
-                            <ul>
-                                <li>
-                                    <a href="javascript:void(0);" *ngIf="req.userProfile" (click)="redirectToOtherProfile(req.userProfile.userId)"
-                                        style="color: black;font-weight: 400;">
-                                        <div *ngIf="!isMobile">
-                                            {{req.userProfile ? req.userProfile.userName : '-NA-'}} | {{req.userProfile
-                                            ? req.userProfile.email : '-NA-'}}
-                                        </div>
-                                        <div *ngIf="isMobile">
-                                            <div>{{req.userProfile ? req.userProfile.userName : '-NA-'}}</div>
-                                            <div>{{req.userProfile ? req.userProfile.email : '-NA-'}}</div>
-                                        </div>
-
-                                    </a>
-                                    <a href="javascript:void(0);" *ngIf="!req.userProfile" style="color: black;font-weight: 400;">
-                                        <div *ngIf="!isMobile">
-                                            {{req.userProfile ? req.userProfile.userName : '-NA-'}} | {{req.userProfile
-                                            ? req.userProfile.email : '-NA-'}}
-                                        </div>
-                                        <div *ngIf="isMobile">
-                                            <div>{{req.userProfile ? req.userProfile.userName : '-NA-'}}</div>
-                                            <div>{{req.userProfile ? req.userProfile.email : '-NA-'}}</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="text-muted" style="font-size: 12px;">{{req.create_time | date: 'MMM d, y,
-                                    h:mm:ss a'}}</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-success btn-sm" (click)="updateStatus(req.reqId,1)">
-                            <i class="fas fa-check"></i> Accept
-                        </button>&nbsp;&nbsp;
-                        <button type="button" class="btn btn-danger btn-sm" (click)="updateStatus(req.reqId,2)">
-                            <i class="fas fa-times"></i> Decline
-                        </button>
-                    </div>
-                </div>
+            <div class="form-row marT12">
+                <label for="inputPassword4">Password</label>
+                <input type="password" class="form-control  form-control-sm" id="inputPassword4" placeholder="Password"
+                    formControlName="password">
             </div>
-        </div>
-    </div> -->
+        </form>
+    </div>
+    <p-footer>
+        <button type="button" [disabled]="authForm.invalid" (click)="display=false;delteProfile()" class="btn btn-sm btn-primary">Submit</button>
+        <button type="button" (click)="display=false;initDeleteForm()" class="btn btn-sm btn-default">Cancel</button>
+    </p-footer>
+</p-dialog>

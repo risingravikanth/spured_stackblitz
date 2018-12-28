@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SettingsComponent } from './settings.component';
+import { SettingsComponent } from './settings.component';import { DialogModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -11,6 +11,7 @@ import { SettingsComponent } from './settings.component';
     ReactiveFormsModule,
     MatExpansionModule,
     CommonModule,
+    DialogModule,
     NgbModule.forRoot()
   ],
   declarations: [

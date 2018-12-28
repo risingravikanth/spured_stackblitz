@@ -40,5 +40,11 @@ export class SettingsService {
         let url = "/closedboards/getalladminboardrequests";
         return this.httpClient.get(url, { headers: headers }).catch(this.handleError);
     }
+
+    deleteProfile(body:any){
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "}/profile/deleteprofile";
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
     
 }

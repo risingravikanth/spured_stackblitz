@@ -8,12 +8,13 @@ import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { ToastrService } from '../../shared/services/Toastr.service';
 import { SettingsService } from './settings.service';
 import { MobileDetectionService } from '../../shared';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css'],
-  providers: [SettingsService,ToastrService ]
+  providers: [SettingsService, ToastrService]
 })
 export class SettingsComponent implements OnInit {
 
@@ -25,10 +26,12 @@ export class SettingsComponent implements OnInit {
   public showReq = false;
   public defaultImage: any = "assets/images/noticer_default_user_img.png";
   public isMobile = false;
+  authForm: FormGroup;
 
   constructor(private router: Router, private formbuilder: FormBuilder, private service: SettingsService,
     private userService: CurrentUserService, @Inject(PLATFORM_ID) private platformId: Object,
-    private toastr: ToastrService, private mobileServie:MobileDetectionService) {
+    private toastr: ToastrService, private mobileServie: MobileDetectionService, private fb: FormBuilder,
+    private authService:AuthService) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
       this.serverUrl = constant.REST_API_URL + "/";
@@ -39,6 +42,18 @@ export class SettingsComponent implements OnInit {
     this.isMobile = this.mobileServie.isMobile();
     this.initForm();
     this.boardRequests();
+
+    this.initDeleteForm();
+  }
+
+  initDeleteForm() {
+    this.authForm = this.fb.group({
+      email: ['', [
+        Validators.required,
+        Validators.email,
+      ]],
+      password: ['', Validators.required]
+    });
   }
 
   initForm() {
@@ -64,11 +79,11 @@ export class SettingsComponent implements OnInit {
 
   boardRequests() {
     this.service.getAllRequests().subscribe(
-      (resData:any) => {
+      (resData: any) => {
         if (resData && resData.code == "ERROR") {
           alert(resData.info);
           this.showReq = false;
-        } else if (resData  && resData && resData.requests.length > 0) {
+        } else if (resData && resData && resData.requests.length > 0) {
           this.getAllRequestsList = resData.requests;
           this.showReq = true;
         } else {
@@ -78,13 +93,17 @@ export class SettingsComponent implements OnInit {
     )
   }
 
+  imageFromAws(url) {
+    return url.indexOf("https://") != -1 ? true : false;
+  }
+
   updateStatus(reqId: any, status: any) {
     let obj = {
-      "reqId" : reqId,
-      "status" : status
+      "reqId": reqId,
+      "status": status
     }
     let index = this.getAllRequestsList.findIndex(item => item.reqId == reqId);
-    this.service.updateBoardReq(obj).subscribe((resData:any) =>{
+    this.service.updateBoardReq(obj).subscribe((resData: any) => {
       if (resData && resData.statusCode == "ERROR") {
         this.toastr.success("Failed", resData.info);
       } else {
@@ -96,5 +115,21 @@ export class SettingsComponent implements OnInit {
 
   redirectToOtherProfile(userId: any) {
     this.router.navigate(['profile/users/' + userId]);
+  }
+
+  display: boolean = false;
+
+  showDialog() {
+    this.display = true;
+  }
+
+  delteProfile(){
+    this.service.deleteProfile(this.authForm.value).subscribe(
+      resData =>{
+        this.toastr.success("Success", "Your account deleted successfully!");
+        this.authService.purgeAuth();
+        this.router.navigate(["/login"])
+      }
+    )
   }
 }
