@@ -211,4 +211,8 @@ figcaption {
     overflow: hidden !important;
     display: inline-block;
  }
+
+ .padCommentDate{
+    margin-top: -10px;
+ }
  

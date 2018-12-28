@@ -219,7 +219,7 @@
                                     <ul>
                                         <li class="d-flex justify-content-between">
                                             <div>
-                                                <a style="font-size: 11px;color: black;font-weight: 500;" (click)="redirectToOtherProfile(comment.userProfile.userId)"
+                                                <a style="font-size: 12px;color: black;font-weight: 500;" (click)="redirectToOtherProfile(comment.userProfile.userId)"
                                                     href="javascript:void(0);">
                                                     {{comment.userProfile.userName}}
                                                 </a>
@@ -234,16 +234,16 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li style="font-size: 10px;margin-top: -10px;">{{comment.createTime | date:
+                                        <li style="font-size: 12px;" [class.padCommentDate]="comment.userProfile && currentuserId == comment.userProfile.userId">{{comment.createTime | date:
                                             'MMM d, y, h:mm
                                             a'}}</li>
-                                        <li style="font-size: 13px;">
+                                        <li>
                                             <!-- <p>{{comment.commentText}}</p> -->
                                             <!-- <label [innerHtml]="comment.commentText | slice:0:comment.maxLength"></label> -->
-                                            <label class="multiLineText">{{comment.commentText |
+                                            <label class="multiLineText" style="font-size: 13px;">{{comment.commentText |
                                                 slice:0:comment.maxLength}}</label>
                                             <label *ngIf="comment.commentText.length > comment.maxLength">...</label>
-                                            <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="comment.commentText.length > comment.maxLength"
+                                            <a style="font-size: 13px;padding: 2px;color:gray;" *ngIf="comment.commentText.length > comment.maxLength"
                                                 (click)="comment.maxLength = comment.commentText.length" href="javascript:void(0);">see
                                                 more</a>
                                         </li>
