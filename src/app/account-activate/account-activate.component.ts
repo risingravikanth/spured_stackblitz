@@ -35,9 +35,9 @@ export class AccountActivateComponent implements OnInit {
 
     const store = this.state.get(MY_DATA, null);
     if (store) {
-      this.message = "Your account is successfully activated";
-      this.isValiUser = true;
-      this.tokenDetails = store;
+      console.log("store");
+      console.log(store);
+      this.doWithResponse(store);
       return;
     }
     if (this.code) {
@@ -45,20 +45,25 @@ export class AccountActivateComponent implements OnInit {
       this.authService.activateUserThroughUrl(this.code).subscribe(
         (resData: any) => {
           this.state.set(MY_DATA, resData);
-          if (resData && resData.info) {
-            this.message = resData.info;
-          } else if (resData && resData.userId) {
-            this.message = "Your account is successfully activated";
-            this.isValiUser = true;
-            this.tokenDetails = resData;
-          } else {
-            this.message = "";
-          }
-        }
-      )
+          console.log("resData");
+          console.log(resData);
+          this.doWithResponse(resData);
+        })
     } else {
       alert("Wrong url");
       this.toastr.error("Failed", "Wrong url");
+    }
+  }
+
+  doWithResponse(resData){
+    if (resData && resData.info) {
+      this.message = resData.info;
+    } else if (resData && resData.userId) {
+      this.message = "Your account is successfully activated";
+      this.isValiUser = true;
+      this.tokenDetails = resData;
+    } else {
+      this.message = "";
     }
   }
 

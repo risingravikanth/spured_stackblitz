@@ -91,7 +91,9 @@ export class SideMenuComponent implements OnInit {
         comments: [null]
       }
     )
-    this.getBoardsList();
+    if(this.validUser){
+      this.getBoardsList();
+    }
   }
 
 

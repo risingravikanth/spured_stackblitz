@@ -62,7 +62,7 @@
                     <div class="row" style="padding-left: 9px;margin-top: -15px;">
                         <div>
                             <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="user"
-                                [src]="(post.userProfile && post.userProfile.profileImageUrl) ? (imageFromAws(post.userProfile.profileImageUrl) ? '' : serverUrl) + post.userProfile.profileImageUrl : assets/images/noticer_default_user_img.png">
+                                [src]="(post.userProfile && post.userProfile.profileImageUrl  && post.userProfile.profileImageUrl?.length>0 ) ? (imageFromAws(post.userProfile.profileImageUrl) ? '' : serverUrl) + post.userProfile.profileImageUrl : assets/images/noticer_default_user_img.png">
                         </div>
                         <div style="margin-left: -48px;margin-top: 12px;">
                             <ul>
@@ -231,7 +231,7 @@
                             <div class="wrap" style="margin-top: -6px;">
                                 <div class="commentProfile">
                                     <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ProfilePic"
-                                        [src]="(comment.userProfile && comment.userProfile.profileImageUrl) ? ((imageFromAws(comment.userProfile.profileImageUrl) ? '' : serverUrl) + comment.userProfile.profileImageUrl) : assets/images/noticer_default_user_img.png">
+                                        [src]="(comment.userProfile && comment.userProfile.profileImageUrl && comment.userProfile.profileImageUrl?.length>0) ? ((imageFromAws(comment.userProfile.profileImageUrl) ? '' : serverUrl) + comment.userProfile.profileImageUrl) : assets/images/noticer_default_user_img.png">
                                 </div>
                                 <div class="commentBody">
                                     <ul>
