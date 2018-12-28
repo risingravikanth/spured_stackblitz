@@ -470,7 +470,7 @@ export class NoticerMainComponent implements OnInit {
   editPost(postId: any, type: any, content: any) {
     this.postsList.forEach(element => {
       if (element && element.postId == postId && element._type == type) {
-        this.editPostForm.controls['data'].get('text').patchValue(element.postText);
+        this.editPostForm.controls['data'].get('text').patchValue(element.postText.trim());
         this.editPostForm.controls['data'].get('title').patchValue(element.postTitle);
         this.editPostForm.controls['data'].get('postId').patchValue(element.postId);
         let type = this.sectionsTypesMappings.filter(item => item._type == element._type)[0].section;

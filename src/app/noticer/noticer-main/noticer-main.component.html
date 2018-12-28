@@ -217,7 +217,7 @@
                                 <div class="input-group">
                                     <div class="input-group-btn">
                                         <button class="btn btn-default" style="border-radius: 17px;" (click)="createComment(post.commentText, i)"
-                                            [disabled]="post.commentText == null || post.commentText?.length == 0">
+                                            [disabled]="post.commentText == null || post.commentText.trim()?.length == 0">
                                             <i class="fas fa-share-square"></i>
                                         </button>
                                     </div>
