@@ -43,7 +43,7 @@ export class SettingsService {
 
     deleteProfile(body:any){
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        let url = "}/profile/deleteprofile";
+        let url = "/profile/deleteprofile";
         return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
     }
     

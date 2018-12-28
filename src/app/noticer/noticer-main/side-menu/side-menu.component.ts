@@ -61,6 +61,7 @@ export class SideMenuComponent implements OnInit {
   public validUser: boolean = false;
   public pendingBoardsInfo: any = [];
   public boardRequestBtnTxt = "Join Request"
+  public tabTitle = "Join a Board";
   ngOnInit() {
     this.isMobile = this.mobileService.isMobile();
     this.commonService.isMobileFlag.next(this.isMobile);
@@ -337,6 +338,7 @@ export class SideMenuComponent implements OnInit {
           this.addBoardForm.controls['instId'].clearValidators()
           this.addBoardForm.controls['instId'].patchValue(null);
           this.boardRequestBtnTxt = "New Board Request"
+          this.tabTitle = "Request New Board";
         } else {
           this.addBoardForm.controls['instName'].clearValidators();
           this.addBoardForm.controls['instAddr'].clearValidators();
@@ -344,6 +346,7 @@ export class SideMenuComponent implements OnInit {
           this.addBoardForm.controls['instAddr'].patchValue(null);
           this.addBoardForm.controls['instId'].setValidators(Validators.required);
           this.boardRequestBtnTxt = "Join Request"
+          this.tabTitle = "Join a Board";
         }
       case 'DEPARTMENT':
         if (typeCheck) {
@@ -352,11 +355,13 @@ export class SideMenuComponent implements OnInit {
           this.addBoardForm.controls['deptId'].patchValue(null);
           this.addBoardForm.controls['deptName'].setValidators(Validators.required);
           this.boardRequestBtnTxt = "New Board Request"
+          this.tabTitle = "Request New Board";
         } else {
           this.addBoardForm.controls['deptId'].setValidators(Validators.required);
           this.addBoardForm.controls['deptName'].clearValidators();
           this.addBoardForm.controls['deptName'].patchValue(null);
           this.boardRequestBtnTxt = "Join Request"
+          this.tabTitle = "Join a Board";
         }
       case 'BOARD':
 
@@ -367,6 +372,7 @@ export class SideMenuComponent implements OnInit {
           this.addBoardForm.controls['startYear'].setValidators(Validators.required);
           this.addBoardForm.controls['endYear'].setValidators(Validators.required);
           this.boardRequestBtnTxt = "New Board Request"
+          this.tabTitle = "Request New Board";
         }
         else {
           this.addBoardForm.controls['startYear'].clearValidators();
@@ -375,6 +381,7 @@ export class SideMenuComponent implements OnInit {
           this.addBoardForm.controls['endYear'].patchValue(null);
           this.addBoardForm.controls['boardId'].setValidators(Validators.required);
           this.boardRequestBtnTxt = "Join Request"
+          this.tabTitle = "Join a Board";
         }
     }
     this.addBoardForm.updateValueAndValidity();

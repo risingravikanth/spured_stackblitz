@@ -117,7 +117,7 @@
 <section>
     <ng-template #addBoardDialog let-c="close" let-d="dismiss">
         <div class="modal-header">
-            <h4 class="modal-title fntGreen" id="modal-basic-title"><b>Join a Board</b></h4>
+            <h4 class="modal-title fntGreen" id="modal-basic-title"><b>Boards Request</b></h4>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -125,7 +125,7 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                    aria-selected="true">Join/Reuest New board</a>
+                    aria-selected="true">{{tabTitle}}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending"
@@ -150,9 +150,9 @@
                         <div class="form-group">
                             <label>Institute: </label>
                             <div class="float-right">
+                                No Institute
                                 <input [disabled]="!showInst" type="checkbox" [ngModelOptions]="{standalone: true}"
                                     [(ngModel)]="noInstCheck" data-md-icheck (change)="requestCheckBox($event,'INSTITUTE')" />
-                                No Institute
                             </div>
                             <p-dropdown *ngIf="!noInstCheck" placeholder="Institute" formControlName="instId" [options]="listOfInstitutes"
                                 [style]="{'width':'100%'}" filter="true" (onChange)="getDepartmentsByInstId(inst.value)"
@@ -176,9 +176,9 @@
                         <div class="form-group">
                             <label>Department: </label>
                             <div class="float-right">
+                                No Department
                                 <input [disabled]="!showDept" type="checkbox" [ngModelOptions]="{standalone: true}"
                                     [(ngModel)]="noDeptCheck" data-md-icheck (change)="requestCheckBox($event, 'DEPARTMENT')" />
-                                No Department
                             </div>
                             <p-dropdown *ngIf="!noDeptCheck" placeholder="Department" formControlName="deptId"
                                 [options]="listOfDepartments" [style]="{'width':'100%'}" filter="true" (onChange)="getBoardsByDepartment(dept.value)"
@@ -196,9 +196,9 @@
                         <div class="form-group">
                             <label>Boards: </label>
                             <div class="float-right">
+                                No Board
                                 <input [disabled]="!showBoard" type="checkbox" [ngModelOptions]="{standalone: true}"
                                     [(ngModel)]="noBordCheck" data-md-icheck (change)="requestCheckBox($event, 'BOARD')" />
-                                No Board
                             </div>
                             <p-dropdown *ngIf="!noBordCheck" placeholder="Board" formControlName="boardId" [options]="listOfBoards"
                                 [style]="{'width':'100%'}" filter="true" #board>
