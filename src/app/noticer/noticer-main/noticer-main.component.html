@@ -5,7 +5,7 @@
         <div class="col-md-3 col-sm-3 d-none d-sm-block" *ngIf="!isMobile">
             <side-menu></side-menu>
         </div>
-        <div [class]="!isMobile ? 'col-md-6' : 'col-md-10'">
+        <div [class]="!isMobile ? 'col-md-6' : 'col-md-12'">
             <div *ngIf="validUser && !paramId">
                 <create-post></create-post>
             </div>
@@ -14,7 +14,7 @@
                 <div class="card div_hover rounded shadow-sm" *ngIf="post && post.postId">
                     <div class="d-flex justify-content-between" style="padding: 5px 0px 5px 0px;">
                         <div>
-                            <span style="font-size: 12px;padding-left: 10px;">
+                            <span style="padding-left: 10px;">
                                 <a *ngIf="post._type != 'BoardPost'" href="javascript:void(0);" (click)="goToCategoriesPage(post._type, null, null)">{{getSectionFromType(post._type)}}
                                 </a>
                                 <span *ngIf="post.category"> / <a href="javascript:void(0);" (click)="goToCategoriesPage(post._type, post.category, null)">{{
@@ -121,7 +121,7 @@
                                         slice:0:post.maxLength}}</p>
                                     <label *ngIf="post.postText.length > post.maxLength">...</label>
                                 </span>
-                                <a style="font-size: 12px;padding: 2px;color:gray;" *ngIf="!paramId && post.postText.length > post.maxLength"
+                                <a style="padding: 2px;color:gray;" *ngIf="!paramId && post.postText.length > post.maxLength"
                                     (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see
                                     more</a>
                                 <span *ngIf="paramId" style="color: black;">
