@@ -85,6 +85,7 @@ export class SelfProfileComponent implements OnInit {
     initForm() {
         this.editProfileForm = this.formbuilder.group(
             {
+                userId: [null],
                 userName: [null],
                 email: [null],
                 phoneNum: [null],
@@ -175,6 +176,7 @@ export class SelfProfileComponent implements OnInit {
     }
 
     setValuesToForm() {
+        this.editProfileForm.controls['userId'].patchValue(this.userDetails.userId)
         this.editProfileForm.controls['userName'].patchValue(this.userDetails.userName)
         this.editProfileForm.controls['phoneNum'].patchValue(this.userDetails.phoneNum)
         this.editProfileForm.controls['gender'].patchValue(this.userDetails.gender)
@@ -217,7 +219,9 @@ export class SelfProfileComponent implements OnInit {
                     this.toastr.success("Update Success", resData.info);
                 }
                 this.categoryModalReference.close();
+                this.initForm();
             } else {
+                this.initForm();
                 this.toastr.success("Success", "Profile picture updated successfully!");
                 this.commonService.updateHeaderMenu("updateProfilePic");
             }

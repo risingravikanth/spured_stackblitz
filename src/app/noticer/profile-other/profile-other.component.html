@@ -1,5 +1,5 @@
 <div class="container marTop50">
-    <div class="row">
+    <div class="row" *ngIf="profileAvailable">
         <div class="card bg-light text-center col-md-2">
             <div style="padding-top: 20%;padding-bottom: 20%;">
                     <a data-lightbox="img" data-title="Post Images" href="{{profileImage}}">
@@ -31,5 +31,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div *ngIf="!profileAvailable">
+        <div class="fntRed"><h3 class="text-center">This user account has been deleted</h3></div>
     </div>
 </div>

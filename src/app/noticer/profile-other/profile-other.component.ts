@@ -12,8 +12,7 @@ import { ToastrService } from '../../shared/services/Toastr.service';
   selector: 'profile-other',
   templateUrl: './profile-other.component.html',
   styleUrls: ['./profile-other.component.css'],
-  providers: [OthersProfileService, CustomValidator, MessageService, SeoService, CurrentUserService, ToastrService],
-  // animations: [routerTransition()]
+  providers: [OthersProfileService, CustomValidator, MessageService, SeoService, CurrentUserService, ToastrService]
 })
 export class OthersProfileComponent implements OnInit {
 
@@ -24,6 +23,7 @@ export class OthersProfileComponent implements OnInit {
   public urls: any = [];
   public userDetails: any;
   public profileImage: any = "assets/images/noticer_default_user_img.png";
+  public profileAvailable = true;
   ngOnInit() {
     this.seo.generateTags({
       title: 'Other Profile',
@@ -43,7 +43,7 @@ export class OthersProfileComponent implements OnInit {
     console.log("get profile details");
     this.service.getUserInfo(userId).subscribe(resData => {
       if(resData == null){
-        this.toastr.error("Profile", "This user account has been deleted")
+        this.profileAvailable = false;
         return;
       }
       this.userDetails = resData;
