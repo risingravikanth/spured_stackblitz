@@ -13,8 +13,8 @@ export class CustomCookieService {
 
   saveTrackId(trackid: string) {
     let expiredDate = new Date();
-    expiredDate.setDate(expiredDate.getDate() + 7);
-    trackid = '939';
+    expiredDate.setDate(expiredDate.getDate() + 1000);
+    // trackid = '939';
     this.cookieService.set('tracking-id', trackid, expiredDate);
   }
 

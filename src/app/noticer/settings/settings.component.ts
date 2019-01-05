@@ -83,7 +83,7 @@ export class SettingsComponent implements OnInit {
         if (resData && resData.code == "ERROR") {
           alert(resData.info);
           this.showReq = false;
-        } else if (resData && resData && resData.requests.length > 0) {
+        } else if (resData && resData.requests && resData.requests.length > 0) {
           this.getAllRequestsList = resData.requests;
           this.showReq = true;
         } else {
@@ -125,10 +125,16 @@ export class SettingsComponent implements OnInit {
 
   delteProfile(){
     this.service.deleteProfile(this.authForm.value).subscribe(
-      resData =>{
-        this.toastr.success("Success", "Your account deleted successfully!");
-        this.authService.purgeAuth();
-        this.router.navigate(["/login"])
+      (resData:any) =>{
+        if(resData && resData.info == "Incorrect Email or Password"){
+          this.toastr.error("Failed", resData.info);
+        } else if(resData && resData.info == "Deleted Successfully"){
+          this.toastr.success("Success", "Your account deleted successfully!");
+          this.authService.purgeAuth();
+          this.router.navigate(["/login"])
+        } else{
+          this.toastr.error("Failed", "Something went wrong");
+        }
       }
     )
   }

@@ -148,7 +148,7 @@ export class SideMenuComponent implements OnInit {
   }
 
   showAddSectionDialog(content: any) {
-    this.sectionModalReference = this.modalService.open(content);
+    this.sectionModalReference = this.modalService.open(content, { size: 'lg' });
     this.sectionModalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
