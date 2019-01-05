@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit {
                     } else if (this.responseVo.token) {
                         this.loggedUser = this.responseVo;
                         this.authService.setAuth(this.loggedUser);
-                        this.customCookieService.saveTrackId(this.responseVo.token);
+                        // this.customCookieService.saveTrackId(this.responseVo.token);
                         this.toastr.success("Success", "Login sucessfull!");
                         this.router.navigate(['/feed']);
                     }
