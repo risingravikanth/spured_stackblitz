@@ -126,6 +126,7 @@ export class SettingsComponent implements OnInit {
   delteProfile(){
     this.service.deleteProfile(this.authForm.value).subscribe(
       (resData:any) =>{
+        this.initDeleteForm();
         if(resData && resData.info == "Incorrect Email or Password"){
           this.toastr.error("Failed", resData.info);
         } else if(resData && resData.info == "Deleted Successfully"){
