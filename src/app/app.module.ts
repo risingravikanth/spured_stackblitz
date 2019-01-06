@@ -33,6 +33,8 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
 import { CookieService } from 'ngx-cookie-service';
 import { CustomCookieService } from "./shared/services/cookie.service";
 import { NoticerMainComponent } from "./noticer/noticer-main/noticer-main.component";
+import { PasswordResetLinkComponent } from "./password-reset-link/password-reset-link.component";
+import { PasswordResetLinkModule } from "./password-reset-link/password-reset-link.module";
 
 @NgModule({
     declarations: [
@@ -62,7 +64,8 @@ import { NoticerMainComponent } from "./noticer/noticer-main/noticer-main.compon
         HeaderMobileModule,
         BrowserAnimationsModule,
         BrowserTransferStateModule,
-        // TransferHttpCacheModule
+        // TransferHttpCacheModule,
+        PasswordResetLinkModule
     ],
     providers: [
         AuthGuard,

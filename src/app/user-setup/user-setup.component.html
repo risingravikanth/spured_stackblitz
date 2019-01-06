@@ -16,7 +16,7 @@
     <div [class.div-1b]="!isMobile" [class.mobilePadding]="isMobile">
         <div [class.table-container]="!isMobile">
             <div [class.div_b]="!isMobile">
-                <form (ngSubmit)="saveUserSetUp()" [formGroup]="UserSetUpForm">
+                <form (ngSubmit)="saveUserSetUp()" [formGroup]="UserSetUpForm" *ngIf="!signUpDone">
                     <div class="form-row">
                         <label for="inputEmail4">Name</label>
                         <input type="text" class="form-control  form-control-sm" placeholder="Name" formControlName="userName">
@@ -62,6 +62,15 @@
                         routerLink="/feed">Continue
                         as guest</button>
                 </form>
+                <div *ngIf="signUpDone">
+                        <p class="fontGreen">An email has been sent to {{mailId}}. If an account exists with that email address, it should arrive within minutes.</p>
+                        <p class="fontGreen">(Hint: Don't forget to check your SPAM folder)</p>
+                        <fieldset [disabled]="resendBtnTxt == 'Sending..'">
+                            <button (click)="resendActivationMail()" style="background: #155a24;" type="button" class="btn btn-default btn-sm btnShape  btn-block">
+                                {{resendBtnTxt}}
+                            </button>
+                        </fieldset>
+                </div>
             </div>
         </div>
     </div>

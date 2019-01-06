@@ -36,6 +36,9 @@ export class UserSetupComponent implements OnInit {
   public isMobile:boolean = false;
   public btnText:any = "Submit";
   public isValidUser = false;
+  public signUpDone:boolean = false;
+  public mailId:any;
+  resendBtnTxt = "Resend";
   constructor(
     private router: Router,
     private formbuilder: FormBuilder,
@@ -91,7 +94,9 @@ export class UserSetupComponent implements OnInit {
           if (this.responseData.info || this.responseData.statusCode == "ERROR") {
             this.toastr.error("Failed", this.responseData.info)
           } else if (this.responseData.email) {
-            this.toastr.success("Signup Success", 'Soon you will get confirmation mail!')
+            // this.toastr.success("Signup Success", 'Soon you will get confirmation mail!')
+            this.signUpDone = true;
+            this.mailId = this.responseData.email;
             this.userSetUpForm();
           } else {
             console.log(this.responseData);
@@ -105,6 +110,21 @@ export class UserSetupComponent implements OnInit {
 
   redirectLogin() {
     this.router.navigate(['/login']);
+  }
+
+  resendActivationMail(){
+    this.resendBtnTxt = "Sending..";
+    this.userSetUpService.resendMail(this.mailId).subscribe((resData:any) =>
+    {
+      this.resendBtnTxt = "Resend";
+      if(resData && resData.info == "Successfully sent activation again"){
+        this.toastr.success("Success", resData.info);
+      } else if(resData && resData.info){
+        this.toastr.error("Failed", resData.info);
+      } else{
+        this.toastr.error("Failed", "Something went wrong");
+      }
+    })
   }
 
 }
