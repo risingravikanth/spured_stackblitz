@@ -177,6 +177,22 @@
                     <hr>
                     <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
+                            <li *ngIf="validUser" class="list-inline-item paddingIcons" style="cursor: pointer;">
+                                <a>
+                                    <i class="far fa-heart" style="font-size: 18px;"></i> &nbsp;
+                                    <i class="fas fa-heart" style="font-size: 18px;;color:blue"></i>
+                                </a>
+                            </li>
+                            <li *ngIf="validUser" class="list-inline-item paddingIcons" style="cursor: pointer;">
+                                <a>
+                                    <i class="far fa-thumbs-up"  style="font-size: 18px;"></i>
+                                </a>
+                            </li>
+                            <li *ngIf="validUser"  class="list-inline-item" style="cursor: pointer;">
+                                <a>
+                                    &nbsp;<i class="far fa-thumbs-down" style="font-size: 18px;"></i>
+                                </a>
+                            </li>
                             <li [ngbTooltip]="tipComment" class="list-inline-item paddingIcons" style="cursor: pointer;"
                                 (click)="getCommentsForPost(post.postId,i);">
                                 <i class="fas fa-comments iconSize" placement="top"></i>&nbsp;

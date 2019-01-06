@@ -5,13 +5,14 @@ import { AuthService } from '../shared/services/auth.service';
 import { ToastrService } from '../shared/services/Toastr.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PasswordResetService } from '../password-reset/password-reset.service';
+import { MobileDetectionService } from '../shared';
 const MY_DATA = makeStateKey('ACCOUNT_ACTIVATION');
 
 @Component({
   selector: 'password-reset-link',
   templateUrl: './password-reset-link.component.html',
   styleUrls: ['./password-reset-link.component.css'],
-  providers: [AuthService, ToastrService, PasswordResetService]
+  providers: [AuthService, ToastrService, PasswordResetService, MobileDetectionService]
 })
 export class PasswordResetLinkComponent implements OnInit {
 
@@ -21,18 +22,21 @@ export class PasswordResetLinkComponent implements OnInit {
   public isValiUser: boolean = false
   authForm:FormGroup
   public btnTxt = "Update";
+  public isMobile:any;
   constructor(private route: ActivatedRoute,
     private authService: AuthService,
     private toastr: ToastrService,
     private router: Router,
     private state:TransferState,
     private fb:FormBuilder,
-    private service:PasswordResetService) {
+    private service:PasswordResetService,
+    private mobile:MobileDetectionService) {
 
   }
 
 
   ngOnInit() {
+    this.isMobile = this.mobile.isMobile();
     this.route.params.subscribe(this.handleParams.bind(this));
     this.initForm();
   }
