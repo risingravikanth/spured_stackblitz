@@ -26,6 +26,7 @@ export class SideMenuComponent implements OnInit {
   boardId: any;
   paramType: any;
   paramCategory: any;
+  windowStyle: any;
 
   constructor(private router: Router, private formbuilder: FormBuilder,
     private commonService: CommonService,
@@ -64,6 +65,11 @@ export class SideMenuComponent implements OnInit {
   public tabTitle = "Join a Board";
   ngOnInit() {
     this.isMobile = this.mobileService.isMobile();
+    if(this.isMobile){
+      this.windowStyle =  { size : "lg"}
+    } else{
+      this.windowStyle =  { windowClass : "myCustomModalClass"}
+    }
     this.commonService.isMobileFlag.next(this.isMobile);
     this.initForm();
     this.currentUser = this.userService.getCurrentUser();
@@ -139,7 +145,7 @@ export class SideMenuComponent implements OnInit {
     this.commonService.updateHeaderMenu("sideMenuClose");
     this.getAllSates();
     this.getUserPendingOrRejectedRequests();
-    this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
+    this.categoryModalReference = this.modalService.open(content, this.windowStyle);
     this.categoryModalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -148,7 +154,7 @@ export class SideMenuComponent implements OnInit {
   }
 
   showAddSectionDialog(content: any) {
-    this.sectionModalReference = this.modalService.open(content, { size: 'lg' });
+    this.sectionModalReference = this.modalService.open(content, this.windowStyle);
     this.sectionModalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

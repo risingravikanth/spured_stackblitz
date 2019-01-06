@@ -32,7 +32,7 @@ export class TokenInterceptor implements HttpInterceptor {
         return next.handle(req).do((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
                 // do stuff with response if you want
-                if(!this.customCookieService.isTrackIdAvailable()){
+                if(!this.customCookieService.isTrackIdAvailable() || this.customCookieService.getTrackId() == null){
                     console.log("TrackingId in interceptor: " + event.headers.get("tracking-id"));
                     this.customCookieService.saveTrackId(event.headers.get("tracking-id"));
                 }

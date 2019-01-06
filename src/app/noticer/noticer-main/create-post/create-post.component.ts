@@ -30,6 +30,8 @@ export class CreatePostComponent implements OnInit {
 
   @Input() isHeader: any;
 
+  public windowStyle:any;
+
   public isMobile: boolean;
   public profileImage: any;
   public currentUser: User;
@@ -118,6 +120,11 @@ export class CreatePostComponent implements OnInit {
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;
 
     this.isMobile = this.mobileService.isMobile();
+    if(this.isMobile){
+      this.windowStyle =  { size : "lg"}
+    } else{
+      this.windowStyle =  { windowClass : "myCustomModalClass"}
+    }
     this.questionName = "";
     this.initAddPostForm();
 
@@ -217,7 +224,7 @@ export class CreatePostComponent implements OnInit {
         this.addPostForm.controls['data'].get('category').patchValue(this.paramCategory);
         this.addPostForm.controls['data'].get('category').disable();
       }
-      this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
+      this.categoryModalReference = this.modalService.open(content, this.windowStyle);
       this.categoryModalReference.result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
       }, (reason) => {

@@ -35,6 +35,7 @@ export class NoticerMainComponent implements OnInit {
   public noData: boolean = false;
   public boardId: any;
   public reqestType: string;
+  public windowStyle:any;
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
     private userService: CurrentUserService,
@@ -107,6 +108,11 @@ export class NoticerMainComponent implements OnInit {
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;
 
     this.isMobile = this.mobileService.isMobile();
+    if(this.isMobile){
+      this.windowStyle =  { size : "lg"}
+    } else{
+      this.windowStyle =  { windowClass : "myCustomModalClass"}
+    }
     this.initEditForm();
 
     this.models = categories_types_models.MODELS;
@@ -481,7 +487,7 @@ export class NoticerMainComponent implements OnInit {
       }
     });
 
-    this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
+    this.categoryModalReference = this.modalService.open(content, this.windowStyle);
     this.categoryModalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
