@@ -1,5 +1,8 @@
 import { isPlatformBrowser, Location } from '@angular/common';
 import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { TransferState, makeStateKey } from '@angular/platform-browser';
+import { isPlatformServer } from '@angular/common';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +19,7 @@ import { MobileDetectionService } from '../../shared/services/mobiledetection.se
 import { ToastrService } from '../../shared/services/Toastr.service';
 import { NoticerMainService } from './noticer-main.service';
 
+const RESULT_KEY = makeStateKey<string>('result');
 
 @Component({
   selector: 'noticer-main',
@@ -29,6 +33,7 @@ export class NoticerMainComponent implements OnInit {
   @ViewChild('postDialog') postDialog: ElementRef;
 
   public isMobile: boolean;
+  private isServer: boolean;
   public profileImage: any;
   public currentUser: User;
   public validUser: boolean = false;
@@ -46,8 +51,12 @@ export class NoticerMainComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private seo: SeoService, private location: Location,
     private commonService: CommonService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private tstate: TransferState,
   ) {
+
+    this.isServer = isPlatformServer(platformId);
+
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
       this.serverUrl = constant.REST_API_URL + "/";
@@ -57,6 +66,7 @@ export class NoticerMainComponent implements OnInit {
       }
       this.setProfilePic();
     }
+
   }
 
   public paramType: any;
@@ -72,6 +82,7 @@ export class NoticerMainComponent implements OnInit {
   public categoryModalReference: NgbModalRef;
   closeResult: string;
 
+ 
 
   editPostForm: FormGroup;
 
@@ -84,6 +95,19 @@ export class NoticerMainComponent implements OnInit {
   public types: any = [];
   public currentuserId: any;
   ngOnInit() {
+
+    if (this.tstate.hasKey(RESULT_KEY)) {
+        // We are in the browser
+        //console.log("// We are in the browser");
+    } else if (this.isServer) {
+        // We are on the server
+        //console.log("// We are on the server");
+     } else {
+        // No result received 
+        //console.log("// No result received ");
+     }
+
+  
     this.seo.generateTags({
       title: 'Noticer feed | Posts and comments',
       description: 'Noticer posts and comments',
@@ -254,7 +278,58 @@ export class NoticerMainComponent implements OnInit {
     this.postsList = [];
     this.goToTop();
 
-    this.service.getPostsList(this.getPostsRequestBody).subscribe(
+
+    /* server side rendring */
+    if (this.tstate.hasKey(RESULT_KEY)) {
+        console.log("browser : getting RESULT_KEY for posts");
+        
+        this.postsList = this.tstate.get(RESULT_KEY, '');
+        console.log(this.postsList);
+        this.tstate.remove(RESULT_KEY);
+        this.preparePostsList();
+        this.showPostSpinner = false;
+         
+    } else if (this.isServer) {
+        console.log("server : making service call & setting RESULT_KEY");
+ 
+        this.service.getPostsList(this.getPostsRequestBody).subscribe(
+            resData => {
+              this.showPostSpinner = false;
+              let obj: any = resData;
+              if (obj.error && obj.error.code && obj.error.code.id) {
+                this.toastr.error("Failed", obj.error.code.message);
+              } else {
+                console.log("setting RESULT_KEY");
+                this.postsList = obj.posts;
+                this.tstate.set(RESULT_KEY,this.postsList);
+                this.preparePostsList();
+              }
+            }, error => {
+              this.toastr.error("Failed", "Something went wrong!");
+            });
+
+
+    } else {
+        console.log("no result received : making service call");
+
+        this.service.getPostsList(this.getPostsRequestBody).subscribe(
+            resData => {
+              this.showPostSpinner = false;
+              let obj: any = resData;
+              if (obj.error && obj.error.code && obj.error.code.id) {
+                this.toastr.error("Failed", obj.error.code.message);
+              } else {
+                this.postsList = obj.posts;
+                this.preparePostsList();
+              }
+            }, error => {
+              this.toastr.error("Failed", "Something went wrong!");
+            });
+    }
+
+
+
+    /*this.service.getPostsList(this.getPostsRequestBody).subscribe(
       resData => {
         this.showPostSpinner = false;
         let obj: any = resData;
@@ -266,7 +341,7 @@ export class NoticerMainComponent implements OnInit {
         }
       }, error => {
         this.toastr.error("Failed", "Something went wrong!");
-      })
+      })*/
   }
 
   loadMorePosts() {

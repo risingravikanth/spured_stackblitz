@@ -1,18 +1,38 @@
 import { Injectable } from "@angular/core";
 declare var toastr:any;
+var toastr;
 @Injectable()
 export class ToastrService{
 
+    private toastr :any;
+
     success(message:string, title:string){
-        toastr.success(title, message)
+        /*if(toastr){
+             toastr.success(title, message);
+        }else{
+             console.log(title+" : "+message);
+        }*/
     }
     error(message:string, title:string){
-        toastr.error(title, message)
+        /*if(toastr){
+              toastr.error(title, message)
+        }else{
+             console.log(title+" : "+message);
+        }*/
     }
     warning(message:string, title:string){
-        toastr.warning(title, message)
+        /*if(toastr){
+              toastr.warning(title, message);
+        }else{
+             console.log(title+" : "+message);
+        }*/
     }
     info(message:string){
-        toastr.info(message)
+       
+       /* if(toastr){
+              toastr.info(message);
+        }else{
+             console.log(message);
+        } */
     }
 }
