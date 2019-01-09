@@ -170,4 +170,34 @@ export class NoticerMainService {
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
     }
+
+    createLike(body:any){
+        let url = "/v2/action/vote/create";
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
+
+    cancelLike(body:any){
+        let url = "/v2/action/vote/delete";
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
+
+    createFavorite(body:any){
+        let url = "/v2/action/favorite/create";
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
+
+    cancelFavorite(body:any){
+        let url = "/v2/action/favorite/delete";
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
+
+    createReport(body:any){
+        let url = "/v2/action/report/create";
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
 }

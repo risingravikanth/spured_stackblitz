@@ -261,3 +261,22 @@ li>a{
  .breadcrumb{
      background-color: transparent !important;
  }
+
+ .likeFont{
+    color:#5CACEE;
+    font-size: 18px;
+ }
+
+ .normalLikeFont{
+    color:gray;
+    font-size: 18px;
+ }
+
+ .favoriteFont{
+    color:#FFDF00;
+    font-size: 18px;
+ }
+ .normalFavoriteFont{
+    color:gray;
+    font-size: 18px;
+ }

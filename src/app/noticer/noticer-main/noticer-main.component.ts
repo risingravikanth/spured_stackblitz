@@ -40,7 +40,7 @@ export class NoticerMainComponent implements OnInit {
   public noData: boolean = false;
   public boardId: any;
   public reqestType: string;
-  public windowStyle:any;
+  public windowStyle: any;
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
     private userService: CurrentUserService,
@@ -82,7 +82,7 @@ export class NoticerMainComponent implements OnInit {
   public categoryModalReference: NgbModalRef;
   closeResult: string;
 
- 
+
 
   editPostForm: FormGroup;
 
@@ -97,17 +97,17 @@ export class NoticerMainComponent implements OnInit {
   ngOnInit() {
 
     if (this.tstate.hasKey(RESULT_KEY)) {
-        // We are in the browser
-        //console.log("// We are in the browser");
+      // We are in the browser
+      //console.log("// We are in the browser");
     } else if (this.isServer) {
-        // We are on the server
-        //console.log("// We are on the server");
-     } else {
-        // No result received 
-        //console.log("// No result received ");
-     }
+      // We are on the server
+      //console.log("// We are on the server");
+    } else {
+      // No result received 
+      //console.log("// No result received ");
+    }
 
-  
+
     this.seo.generateTags({
       title: 'Noticer feed | Posts and comments',
       description: 'Noticer posts and comments',
@@ -132,10 +132,10 @@ export class NoticerMainComponent implements OnInit {
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;
 
     this.isMobile = this.mobileService.isMobile();
-    if(this.isMobile){
-      this.windowStyle =  { size : "lg"}
-    } else{
-      this.windowStyle =  { windowClass : "myCustomModalClass"}
+    if (this.isMobile) {
+      this.windowStyle = { size: "lg" }
+    } else {
+      this.windowStyle = { windowClass: "myCustomModalClass" }
     }
     this.initEditForm();
 
@@ -281,50 +281,50 @@ export class NoticerMainComponent implements OnInit {
 
     /* server side rendring */
     if (this.tstate.hasKey(RESULT_KEY)) {
-        console.log("browser : getting RESULT_KEY for posts");
-        
-        this.postsList = this.tstate.get(RESULT_KEY, '');
-        console.log(this.postsList);
-        this.tstate.remove(RESULT_KEY);
-        this.preparePostsList();
-        this.showPostSpinner = false;
-         
+      console.log("browser : getting RESULT_KEY for posts");
+
+      this.postsList = this.tstate.get(RESULT_KEY, '');
+      console.log(this.postsList);
+      this.tstate.remove(RESULT_KEY);
+      this.preparePostsList();
+      this.showPostSpinner = false;
+
     } else if (this.isServer) {
-        console.log("server : making service call & setting RESULT_KEY");
- 
-        this.service.getPostsList(this.getPostsRequestBody).subscribe(
-            resData => {
-              this.showPostSpinner = false;
-              let obj: any = resData;
-              if (obj.error && obj.error.code && obj.error.code.id) {
-                this.toastr.error("Failed", obj.error.code.message);
-              } else {
-                console.log("setting RESULT_KEY");
-                this.postsList = obj.posts;
-                this.tstate.set(RESULT_KEY,this.postsList);
-                this.preparePostsList();
-              }
-            }, error => {
-              this.toastr.error("Failed", "Something went wrong!");
-            });
+      console.log("server : making service call & setting RESULT_KEY");
+
+      this.service.getPostsList(this.getPostsRequestBody).subscribe(
+        resData => {
+          this.showPostSpinner = false;
+          let obj: any = resData;
+          if (obj.error && obj.error.code && obj.error.code.id) {
+            this.toastr.error("Failed", obj.error.code.message);
+          } else {
+            console.log("setting RESULT_KEY");
+            this.postsList = obj.posts;
+            this.tstate.set(RESULT_KEY, this.postsList);
+            this.preparePostsList();
+          }
+        }, error => {
+          this.toastr.error("Failed", "Something went wrong!");
+        });
 
 
     } else {
-        console.log("no result received : making service call");
+      console.log("no result received : making service call");
 
-        this.service.getPostsList(this.getPostsRequestBody).subscribe(
-            resData => {
-              this.showPostSpinner = false;
-              let obj: any = resData;
-              if (obj.error && obj.error.code && obj.error.code.id) {
-                this.toastr.error("Failed", obj.error.code.message);
-              } else {
-                this.postsList = obj.posts;
-                this.preparePostsList();
-              }
-            }, error => {
-              this.toastr.error("Failed", "Something went wrong!");
-            });
+      this.service.getPostsList(this.getPostsRequestBody).subscribe(
+        resData => {
+          this.showPostSpinner = false;
+          let obj: any = resData;
+          if (obj.error && obj.error.code && obj.error.code.id) {
+            this.toastr.error("Failed", obj.error.code.message);
+          } else {
+            this.postsList = obj.posts;
+            this.preparePostsList();
+          }
+        }, error => {
+          this.toastr.error("Failed", "Something went wrong!");
+        });
     }
 
 
@@ -412,7 +412,7 @@ export class NoticerMainComponent implements OnInit {
     if (!this.postsList[index].selectComments) {
       this.postsList[index].selectComments = !this.postsList[index].selectComments;
 
-      if(this.postsList[index].comments.length == 0){
+      if (this.postsList[index].comments.length == 0) {
         if (this.postsList[index].commentsCount > 0) {
           this.postsList[index].commentsSpinner = true;
           this.service.getCommentsByPostId(reqBody).subscribe(resData => {
@@ -480,7 +480,7 @@ export class NoticerMainComponent implements OnInit {
     getCommentsRequest.data = new CreateCommentData();
     getCommentsRequest.data.postId = postId;
     getCommentsRequest.data._type = "GetComment";
-    if(postObj.comments.length > 0){
+    if (postObj.comments.length > 0) {
       getCommentsRequest.data.maxId = postObj.comments[postObj.comments.length - 1].commentId;
     }
     getCommentsRequest.pagination = new Pagination();
@@ -745,9 +745,9 @@ export class NoticerMainComponent implements OnInit {
 
   onNavigate(link: any) {
     if (isPlatformBrowser(this.platformId)) {
-      if(link.indexOf("http") != -1){
+      if (link.indexOf("http") != -1) {
         window.open(link)
-      } else{
+      } else {
         window.open("http://" + link)
       }
     }
@@ -832,4 +832,156 @@ export class NoticerMainComponent implements OnInit {
       }
     });
   }
+
+
+
+  upVote(postId: any, postType: any) {
+    let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
+    let postObj = this.postsList[index];
+    if (postObj.postId != postId) {
+      alert("Something went wrong!");
+      return;
+    }
+    let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
+    let body: any = {
+      "record": {
+        "_type": "ActionRecord",
+        "entityType": "POST",
+        "entitySection": arrTypes[0].section,
+        "actionValue": "UP",
+        "targetId": postId
+      }
+    };
+
+    this.postsList[index].actionAttributes.upVoteCount += 1;
+    this.postsList[index].actionAttributes.upVoted = true;
+
+    this.service.createLike(body).subscribe((resData: any) => {
+      if (resData && resData.error && resData.error.code && resData.error.code.id) {
+        alert(resData.error.code.longMessage);
+        this.postsList[index].actionAttributes.upVoteCount -= 1;
+        this.postsList[index].actionAttributes.upVoted = false;
+      } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
+        console.log(resData);
+        alert("Post liked successfully");
+      }
+    })
+  }
+
+  downVote(postId: any, postType: any) {
+    let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
+    let postObj = this.postsList[index];
+    if (postObj.postId != postId) {
+      alert("Something went wrong!");
+      return;
+    }
+    let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
+    let body: any = {
+      "record": {
+        "_type": "ActionRecord",
+        "entityType": "POST",
+        "entitySection": arrTypes[0].section,
+        "actionValue": "UP",
+        "id": postId
+      }
+    };
+
+
+    this.service.cancelLike(body).subscribe((resData: any) => {
+      if (resData && resData.error && resData.error.code && resData.error.code.id) {
+        alert(resData.error.code.longMessage);
+      } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
+        this.postsList[index].actionAttributes.upVoteCount -= 1;
+        this.postsList[index].actionAttributes.upVoted = false;
+      }
+    })
+  }
+
+  createFavorite(postId: any, postType: any) {
+    let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
+    let postObj = this.postsList[index];
+    if (postObj.postId != postId) {
+      alert("Something went wrong!");
+      return;
+    }
+    let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
+    let body: any = {
+      "record": {
+        "_type": "ActionRecord",
+        "entityType": "POST",
+        "entitySection": arrTypes[0].section,
+        "targetId": postId
+      }
+    };
+
+    this.postsList[index].actionAttributes.favoriteCount += 1;
+    this.postsList[index].actionAttributes.favorited = true;
+
+    this.service.createFavorite(body).subscribe((resData: any) => {
+      if (resData && resData.error && resData.error.code && resData.error.code.id) {
+        alert(resData.error.code.longMessage);
+        this.postsList[index].actionAttributes.favoriteCount -= 1;
+        this.postsList[index].actionAttributes.favorited = false;
+      } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
+        console.log(resData);
+        alert("Post favorited successfully");
+      }
+    })
+  }
+
+  cancelFavorite(postId: any, postType: any) {
+    let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
+    let postObj = this.postsList[index];
+    if (postObj.postId != postId) {
+      alert("Something went wrong!");
+      return;
+    }
+    let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
+    let body: any = {
+      "record": {
+        "_type": "ActionRecord",
+        "entityType": "POST",
+        "entitySection": arrTypes[0].section,
+        "id": postId
+      }
+    };
+
+
+    this.service.cancelFavorite(body).subscribe((resData: any) => {
+      if (resData && resData.error && resData.error.code && resData.error.code.id) {
+        alert(resData.error.code.longMessage);
+      } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
+        this.postsList[index].actionAttributes.favoriteCount -= 1;
+        this.postsList[index].actionAttributes.favorited = false;
+        console.log(resData);
+      }
+    })
+  }
+
+
+  createReport(postId: any, postType: any) {
+    let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
+    let postObj = this.postsList[index];
+    if (postObj.postId != postId) {
+      alert("Something went wrong!");
+      return;
+    }
+    let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
+    let body: any = {
+      "record": {
+        "_type": "ActionRecord",
+        "entityType": "POST",
+        "entitySection": arrTypes[0].section,
+        "targetId": postId
+      }
+    };
+    this.service.createReport(body).subscribe((resData: any) => {
+      if (resData && resData.error && resData.error.code && resData.error.code.id) {
+        alert(resData.error.code.longMessage);
+      } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
+        alert("Reported successfully");
+      }
+    })
+  }
+
 }
