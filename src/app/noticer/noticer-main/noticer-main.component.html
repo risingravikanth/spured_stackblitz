@@ -32,7 +32,7 @@
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
                                     (click)="deletePost(post.postId, post._type)"><i class="fas fa-trash-alt"></i>
                                     Delete</button>
-                                <button class="dropdown-item" type="button" (click)="createReport(post.postId, post._type)"><i class="fas fa-flag"></i> Report</button>
+                                <button class="dropdown-item" type="button" *ngIf="validUser" (click)="createReport(post.postId, post._type)"><i class="fas fa-flag"></i> Report</button>
                                 <button class="dropdown-item" type="button" (click)="copyMethod(post)"><i class="fas fa-copy"></i>
                                     Copy Link</button>
                             </div>
