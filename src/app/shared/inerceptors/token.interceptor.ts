@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, PLATFORM_ID ,Inject } from '@angular/core';
 import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { JwtService } from '../services/jwt.service';
@@ -8,12 +8,24 @@ import { AuthService } from '../services/auth.service';
 import * as constants from '../others/constants';
 import { CustomCookieService } from '../services/cookie.service';
 
+
+import { isPlatformServer } from '@angular/common';
+
+
+
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
+
+    private isServer: boolean;
+
     constructor(
         private router: Router, private injector: Injector, private jwtService: JwtService,
-        private customCookieService:CustomCookieService
-    ) { }
+        private customCookieService:CustomCookieService,
+        @Inject(PLATFORM_ID) private platformId: Object,
+    ) { 
+
+         this.isServer = isPlatformServer(platformId);
+    }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let restUrl:string;
@@ -22,13 +34,42 @@ export class TokenInterceptor implements HttpInterceptor {
         } else {
             restUrl = constants.REST_API_URL;
         }
-        req = req.clone({
+
+
+         req = req.clone({
             url: `${restUrl + req.url}`,
             setHeaders: {
                 'Authorization': `${this.jwtService.getToken()}`,
                 'tracking-id': `${this.customCookieService.getTrackId()}`
             }
         })
+
+      
+        /*if(this.isServer){
+            let token =  "";//this.cookies.get('auth_token');
+            //console.log("in Token interceptor ", token);
+           
+            req = req.clone({
+                url: `${restUrl + req.url}`,
+                setHeaders: {
+                    'Authorization': `${token}`,
+                    'tracking-id': `${this.customCookieService.getTrackId()}`
+                }
+            })
+
+        }else{
+            req = req.clone({
+                url: `${restUrl + req.url}`,
+                setHeaders: {
+                    'Authorization': `${this.jwtService.getToken()}`,
+                    'tracking-id': `${this.customCookieService.getTrackId()}`
+                }
+            })
+        }*/
+       
+
+        
+
         return next.handle(req).do((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
                 // do stuff with response if you want

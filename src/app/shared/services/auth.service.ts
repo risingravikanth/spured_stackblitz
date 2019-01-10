@@ -9,6 +9,8 @@ import { CurrentUserService } from './currentUser.service';
 import * as constants from '../others/constants';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
 
+import { CookiesService } from '@ngx-utils/cookies';
+
 @Injectable()
 export class AuthService {
     loggedUser: any;
@@ -17,13 +19,38 @@ export class AuthService {
         private http: HttpClient,
         private jwtService: JwtService,
         private currentUserService: CurrentUserService,
-        private state:TransferState
+        private state:TransferState,
+        private cookies: CookiesService
     ) { }
 
     setAuth(user: User) {
         this.jwtService.saveToken(user.token);
+        
+        /*this.setCookie('ravi_kanth','ravikanth');
+        this.setCookie("ravi_kanth1",user.token);
+        console.log(user.token);
+        console.log(JSON.stringify(user.token))
+        this.setCookie("ravi_kanth5",JSON.stringify(user.token));
+        console.log(user.token.toString());*/
+
+        this.setCookie("Authorization",user.token.toString());
+
         this.currentUserService.setCurrentUser(user);
     }
+
+    setCookie(key :string, value : string){
+         this.cookies.put(key, value);
+    }
+
+    removeAll(){
+        this.cookies.removeAll();
+        this.cookies.remove('http_only_cookie', {httpOnly : true });
+    }
+
+    getAuth(key :any){
+         return this.cookies.get(key)
+    }
+
     purgeAuth() {
         this.jwtService.destroyToken();
         this.currentUserService.deleteCurrentUser();

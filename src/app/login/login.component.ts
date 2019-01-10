@@ -10,6 +10,7 @@ import { AuthService } from '../shared/services/auth.service';
 import { CurrentUserService } from '../shared/services/currentUser.service';
 import { ToastrService } from '../shared/services/Toastr.service';
 import { CustomCookieService } from '../shared/services/cookie.service';
+ 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -38,6 +39,7 @@ export class LoginComponent implements OnInit {
         @Inject(PLATFORM_ID) private platformId: Object,
         private toastr: ToastrService,
         private customCookieService:CustomCookieService
+
     ) { }
     ngOnInit() {
         this.isMobile = this.mobile.isMobile();
@@ -65,7 +67,21 @@ export class LoginComponent implements OnInit {
             ]],
             password: ['', Validators.required]
         });
-    }
+                
+
+        /*this.cookies.put('some_cookie', 'some_cookie');
+        this.cookies.put('http_only_cookie', 'http_only_cookie', {
+                httpOnly: true
+        });
+        console.log("In side of login component NGONINIT");
+        console.log(this.cookies.getAll());
+
+
+        this.authService.setCookie('some_cookie', 'some_cookie');
+        console.log(this.authService.getAuth('some_cookie'), ' => some_cookie ');*/
+
+   
+    }   
     onLoggedin() {
         this.errorTextMessage = '';
         if (this.authForm.valid) {
@@ -84,7 +100,10 @@ export class LoginComponent implements OnInit {
                     } else if (this.responseVo.token) {
                         this.loggedUser = this.responseVo;
                         this.authService.setAuth(this.loggedUser);
+
                         // this.customCookieService.saveTrackId(this.responseVo.token);
+                        //this.cookies.put('some_cookie1', 'some_cookie1');
+
                         this.toastr.success("Success", "Login sucessfull!");
                         this.router.navigate(['/feed']);
                     }
