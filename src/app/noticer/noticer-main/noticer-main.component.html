@@ -32,7 +32,7 @@
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
                                     (click)="deletePost(post.postId, post._type)"><i class="fas fa-trash-alt"></i>
                                     Delete</button>
-                                <button class="dropdown-item" type="button"><i class="fas fa-flag"></i> Report</button>
+                                <button class="dropdown-item" type="button" *ngIf="validUser" (click)="createReport(post.postId, post._type)"><i class="fas fa-flag"></i> Report</button>
                                 <button class="dropdown-item" type="button" (click)="copyMethod(post)"><i class="fas fa-copy"></i>
                                     Copy Link</button>
                             </div>
@@ -177,22 +177,22 @@
                     <hr>
                     <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
-                            <li *ngIf="validUser" class="list-inline-item paddingIcons" style="cursor: pointer;">
-                                <a>
-                                    <i class="far fa-heart" style="font-size: 18px;"></i> &nbsp;
-                                    <i class="fas fa-heart" style="font-size: 18px;;color:blue"></i>
-                                </a>
-                            </li>
-                            <li *ngIf="validUser" class="list-inline-item paddingIcons" style="cursor: pointer;">
-                                <a>
-                                    <i class="far fa-thumbs-up"  style="font-size: 18px;"></i>
-                                </a>
-                            </li>
-                            <li *ngIf="validUser"  class="list-inline-item" style="cursor: pointer;">
-                                <a>
-                                    &nbsp;<i class="far fa-thumbs-down" style="font-size: 18px;"></i>
-                                </a>
-                            </li>
+                            <span *ngIf="validUser">
+                                <li class="list-inline-item paddingIcons" style="cursor: pointer;">
+                                    <!-- <a> -->
+                                        <i class="fas fa-thumbs-up  likeFont" (click)="cancelVote(post.postId, post._type)" *ngIf="post.actionAttributes.upVoted"></i>
+                                        <i class="far fa-thumbs-up normalLikeFont" (click)="upVote(post.postId, post._type)"  *ngIf="!post.actionAttributes.upVoted"></i>
+                                        &nbsp;{{post.actionAttributes.upVoteCount}}
+                                    <!-- </a> -->
+                                </li>
+                                <li class="list-inline-item paddingIcons" style="cursor: pointer;">
+                                    <!-- <a> -->
+                                        <i class="fas fa-star favoriteFont" (click)="cancelFavorite(post.postId, post._type)"  *ngIf="post.actionAttributes.favorited"></i>
+                                        <i class="far fa-star normalFavoriteFont" (click)="createFavorite(post.postId, post._type)"  *ngIf="!post.actionAttributes.favorited"></i>
+                                        &nbsp;{{post.actionAttributes.favoriteCount}}
+                                    <!-- </a> -->
+                                </li>
+                            </span>
                             <li [ngbTooltip]="tipComment" class="list-inline-item paddingIcons" style="cursor: pointer;"
                                 (click)="getCommentsForPost(post.postId,i);">
                                 <i class="fas fa-comments iconSize" placement="top"></i>&nbsp;
