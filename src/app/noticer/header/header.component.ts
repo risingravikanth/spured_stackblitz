@@ -83,6 +83,7 @@ export class HeaderComponent implements OnInit {
     onLoggedout() {
         console.log("logged out successfully");
         this.authService.purgeAuth();
+        this.authService.removeAll();
         this.router.navigate(["/login"])
 
     }

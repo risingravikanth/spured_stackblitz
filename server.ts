@@ -23,6 +23,8 @@ const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/mai
 import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 import { renderModuleFactory } from '@angular/platform-server';
 import { readFileSync } from 'fs';
+import * as cookieParser from 'cookie-parser';
+
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 
 var request = require("request");
@@ -39,7 +41,7 @@ const templateA = fs
   .toString();
 const win = domino.createWindow(templateA);
 global["document"] = win.document;
-
+/*
 app.engine('html', (_, options, callback) => {
   renderModuleFactory(AppServerModuleNgFactory, {
     // Our index.html
@@ -52,7 +54,7 @@ app.engine('html', (_, options, callback) => {
   }).then(html => {
     callback(null, html);
   });
-});
+});*/
 
 app.use(express.json());
 app.set('view engine', 'html');
@@ -268,3 +270,28 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Node server listening on http://localhost:${PORT}`);
 });
+
+
+
+app.use(cookieParser());
+ 
+app.engine('html', (_, options, callback) => {
+  renderModuleFactory(AppServerModuleNgFactory, {
+    document: template,
+    url: options.req.url,
+    extraProviders: [
+      provideModuleMap(LAZY_MODULE_MAP),
+      {
+        provide: 'REQUEST',
+        useValue: options.req
+      },
+      {
+        provide: 'RESPONSE',
+        useValue: options.req.res
+      }
+    ]
+  }).then(html => {
+    callback(null, html);
+  });
+});
+ 

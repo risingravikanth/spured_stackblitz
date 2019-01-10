@@ -5,6 +5,8 @@ import { MatFormFieldModule, MatInputModule, MatStepperModule } from '@angular/m
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
+import { BrowserCookiesModule } from '@ngx-utils/cookies/browser';
+import { CookiesService } from '@ngx-utils/cookies';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,6 +46,7 @@ import { PasswordResetLinkModule } from "./password-reset-link/password-reset-li
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'noticer' }),
+        BrowserCookiesModule.forRoot(),
         FormsModule,
         HttpClientModule,
         AppRoutingModule,
@@ -83,6 +86,7 @@ import { PasswordResetLinkModule } from "./password-reset-link/password-reset-li
             useClass: TokenInterceptor,
             multi: true
         },
+
         CookieService,
         CustomCookieService
     ],
