@@ -44,8 +44,7 @@ export class AuthService {
 
     removeAll(){
         this.cookies.removeAll();
-        this.cookies.remove('http_only_cookie', {httpOnly : true });
-    }
+     }
 
     getAuth(key :any){
          return this.cookies.get(key)
