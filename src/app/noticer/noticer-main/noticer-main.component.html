@@ -180,7 +180,7 @@
                             <span *ngIf="validUser">
                                 <li class="list-inline-item paddingIcons" style="cursor: pointer;">
                                     <!-- <a> -->
-                                        <i class="fas fa-thumbs-up  likeFont" (click)="downVote(post.postId, post._type)" *ngIf="post.actionAttributes.upVoted"></i>
+                                        <i class="fas fa-thumbs-up  likeFont" (click)="cancelVote(post.postId, post._type)" *ngIf="post.actionAttributes.upVoted"></i>
                                         <i class="far fa-thumbs-up normalLikeFont" (click)="upVote(post.postId, post._type)"  *ngIf="!post.actionAttributes.upVoted"></i>
                                         &nbsp;{{post.actionAttributes.upVoteCount}}
                                     <!-- </a> -->

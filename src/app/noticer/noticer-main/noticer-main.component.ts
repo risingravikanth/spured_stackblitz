@@ -868,7 +868,7 @@ export class NoticerMainComponent implements OnInit {
     })
   }
 
-  downVote(postId: any, postType: any) {
+  cancelVote(postId: any, postType: any) {
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
     if (postObj.postId != postId) {
@@ -882,7 +882,7 @@ export class NoticerMainComponent implements OnInit {
         "entityType": "POST",
         "entitySection": arrTypes[0].section,
         "actionValue": "UP",
-        "id": postId
+        "id": postObj.actionAttributes.voteId
       }
     };
 
@@ -942,7 +942,7 @@ export class NoticerMainComponent implements OnInit {
         "_type": "ActionRecord",
         "entityType": "POST",
         "entitySection": arrTypes[0].section,
-        "id": postId
+        "id": postObj.actionAttributes.favoriteId
       }
     };
 
