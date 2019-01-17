@@ -22,6 +22,7 @@ export class TokenInterceptor implements HttpInterceptor {
         private router: Router, private injector: Injector, private jwtService: JwtService,
         private customCookieService:CustomCookieService,
         @Inject(PLATFORM_ID) private platformId: Object,
+
     ) { 
 
          this.isServer = isPlatformServer(platformId);
@@ -29,33 +30,43 @@ export class TokenInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let restUrl:string;
+        let auth_token : any = "";
+        let rawCookiesAry :any = [];
+
         if(constants.isLive){
             restUrl = constants.REST_API_URL_NODE;
         } else {
             restUrl = constants.REST_API_URL;
         }
 
+        if(this.isServer){
+            const reqObj: any = this.injector.get('REQUEST');
+            const rawCookies = !!reqObj.headers['cookie'] ? reqObj.headers['cookie'] : '';
 
-         req = req.clone({
-            url: `${restUrl + req.url}`,
-            setHeaders: {
-                'Authorization': `${this.jwtService.getToken()}`,
-                'tracking-id': `${this.customCookieService.getTrackId()}`
+            rawCookiesAry = rawCookies.split(';');
+            
+            if(rawCookiesAry.length >0){
+                if(rawCookiesAry[0] != undefined && rawCookiesAry[0].indexOf("tracking-id=") != -1){
+                    // tracking id from cookies
+                }
+
+                if(rawCookiesAry[1] != undefined && rawCookiesAry[1].indexOf("Authorization=") != -1){
+                    // Authorization from cookies
+                   auth_token = rawCookiesAry[1];
+                   auth_token = auth_token.replace("Authorization=","");
+                   console.log(auth_token);
+                }
             }
-        })
-
-      
-        /*if(this.isServer){
-            let token =  "";//this.cookies.get('auth_token');
-            //console.log("in Token interceptor ", token);
            
-            req = req.clone({
+          
+             req = req.clone({
                 url: `${restUrl + req.url}`,
                 setHeaders: {
-                    'Authorization': `${token}`,
+                    'Authorization': `${auth_token}`,
                     'tracking-id': `${this.customCookieService.getTrackId()}`
                 }
             })
+
 
         }else{
             req = req.clone({
@@ -64,12 +75,10 @@ export class TokenInterceptor implements HttpInterceptor {
                     'Authorization': `${this.jwtService.getToken()}`,
                     'tracking-id': `${this.customCookieService.getTrackId()}`
                 }
-            })
-        }*/
-       
-
+            });
+        }
         
-
+ 
         return next.handle(req).do((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
                 // do stuff with response if you want
