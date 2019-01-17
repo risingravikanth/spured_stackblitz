@@ -863,6 +863,7 @@ export class NoticerMainComponent implements OnInit {
         this.postsList[index].actionAttributes.upVoted = false;
       } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
         console.log(resData);
+        this.postsList[index].actionAttributes.voteId = resData.actionRecords[0].id;
         alert("Post liked successfully");
       }
     })
@@ -924,6 +925,7 @@ export class NoticerMainComponent implements OnInit {
         this.postsList[index].actionAttributes.favorited = false;
       } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
         console.log(resData);
+        this.postsList[index].actionAttributes.favoriteId = resData.actionRecords[0].id;
         alert("Post favorited successfully");
       }
     })
