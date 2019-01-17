@@ -54,7 +54,7 @@ export class TokenInterceptor implements HttpInterceptor {
                     // Authorization from cookies
                    auth_token = rawCookiesAry[1];
                    auth_token = auth_token.replace("Authorization=","");
-                   console.log(auth_token)
+                   console.log(auth_token);
                 }
             }
            
