@@ -262,8 +262,30 @@ app.get('/api/*', (req, res) => {
 app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
 
 // All regular routes use the Universal engine
-app.get('*', (req, res) => {
+/*app.get('*', (req, res) => {
   res.render('index', { req });
+});*/
+
+app.get('*', (req, res) => {
+  console.time(`GET: ${req.originalUrl}`);
+  res.render(
+    'index', {
+      req: req,
+      res: res,
+      providers: [
+        {
+          provide: 'REQUEST', useValue: (req)
+        },
+        {
+          provide: 'RESPONSE', useValue: (res)
+        },
+      ]
+    },
+    (err, html) => {
+      if (!!err) throw err;
+      res.send(html);
+    }
+  );
 });
 
 // Start up the Node server
