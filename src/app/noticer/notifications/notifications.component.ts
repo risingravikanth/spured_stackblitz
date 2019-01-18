@@ -9,6 +9,7 @@ import { CommonService } from '../../shared';
 import {TimeAgoPipe} from 'time-ago-pipe';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
 
+
 @Component({
   selector: 'notifications',
   templateUrl: './notifications.component.html',
