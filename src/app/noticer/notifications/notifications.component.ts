@@ -7,6 +7,7 @@ import * as constant from '../../shared/others/constants'
 import { CommonService } from '../../shared';
 
 import {TimeAgoPipe} from 'time-ago-pipe';
+import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
 
 @Component({
   selector: 'notifications',
@@ -19,6 +20,7 @@ export class NotificationsComponent implements OnInit {
   @Output() childNotificationCount: EventEmitter<any> = new EventEmitter<any>();
 
   public categoryModalReference: NgbModalRef;
+  public isMobile :boolean;
   closeResult: string;
 
   notificationsList: any = [];
@@ -37,6 +39,7 @@ export class NotificationsComponent implements OnInit {
   public validUser: boolean = false;
   public showMore: boolean = false;
   ngOnInit() {
+    this.isMobile = this.mobileService.isMobile();
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser) {
       this.validUser = true;
@@ -57,6 +60,7 @@ export class NotificationsComponent implements OnInit {
   constructor(private modalService: NgbModal,
     private notifyService: NotificationsService,
     private userService: CurrentUserService,
+    public mobileService: MobileDetectionService,
     private commonService:CommonService ) {
 
   }
