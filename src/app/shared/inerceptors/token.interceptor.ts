@@ -9,6 +9,7 @@ import * as constants from '../others/constants';
 import { CustomCookieService } from '../services/cookie.service';
 
 
+
 import { isPlatformServer } from '@angular/common';
 
 
@@ -22,6 +23,7 @@ export class TokenInterceptor implements HttpInterceptor {
         private router: Router, private injector: Injector, private jwtService: JwtService,
         private customCookieService:CustomCookieService,
         @Inject(PLATFORM_ID) private platformId: Object,
+        private authService : AuthService
 
     ) { 
 
@@ -31,6 +33,7 @@ export class TokenInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let restUrl:string;
         let auth_token : any = "";
+        let tracking_id :any ="";
         let rawCookiesAry :any = [];
 
         if(constants.isLive){
@@ -46,15 +49,20 @@ export class TokenInterceptor implements HttpInterceptor {
             rawCookiesAry = rawCookies.split(';');
             
             if(rawCookiesAry.length >0){
-                if(rawCookiesAry[0] != undefined && rawCookiesAry[0].indexOf("tracking-id=") != -1){
-                    // tracking id from cookies
-                }
+                for(let i=0; i< rawCookiesAry.length; i++){
+                    let cookieObj = rawCookiesAry[i];
+                    
+                    if( cookieObj != undefined && cookieObj.indexOf("tracking_id=") != -1){
+                        // tracking id from cookies
+                       tracking_id = cookieObj;
+                       tracking_id = tracking_id.replace("tracking_id=","");
+                    }
 
-                if(rawCookiesAry[1] != undefined && rawCookiesAry[1].indexOf("Authorization=") != -1){
-                    // Authorization from cookies
-                   auth_token = rawCookiesAry[1];
-                   auth_token = auth_token.replace("Authorization=","");
-                   console.log(auth_token);
+                    if(cookieObj != undefined && cookieObj.indexOf("Authorization=") != -1){
+                        // Authorization from cookies
+                       auth_token = cookieObj;
+                       auth_token = auth_token.replace("Authorization=","");
+                     }
                 }
             }
            
@@ -63,7 +71,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 url: `${restUrl + req.url}`,
                 setHeaders: {
                     'Authorization': `${auth_token}`,
-                    'tracking-id': `${this.customCookieService.getTrackId()}`
+                    'tracking-id': `${tracking_id}`
                 }
             })
 
@@ -85,14 +93,17 @@ export class TokenInterceptor implements HttpInterceptor {
                 if(!this.customCookieService.isTrackIdAvailable() || this.customCookieService.getTrackId() == null){
                     console.log("TrackingId in interceptor: " + event.headers.get("tracking-id"));
                     this.customCookieService.saveTrackId(event.headers.get("tracking-id"));
+                    this.authService.setCookie("tracking_id",event.headers.get("tracking-id"));
                 }
+
+                
             }
         }, (err: any) => {
             if (err instanceof HttpErrorResponse) {
                 if (err.status === 401) {
-                    const auth = this.injector.get(AuthService);
+                    //const auth = this.injector.get(AuthService);
                     // auth.attemptLogout(auth.getCurrentUser());
-                    auth.purgeAuth();
+                    this.authService.purgeAuth();
                     this.router.navigate(['/login'], { queryParams: { 'status': 'access_denied' } });
                 }
             }

@@ -19,6 +19,7 @@ import { MobileDetectionService } from '../../shared/services/mobiledetection.se
 import { ToastrService } from '../../shared/services/Toastr.service';
 import { NoticerMainService } from './noticer-main.service';
 
+
 const RESULT_KEY = makeStateKey<string>('result');
 
 @Component({
@@ -96,7 +97,7 @@ export class NoticerMainComponent implements OnInit {
   public currentuserId: any;
   ngOnInit() {
 
-    if (this.tstate.hasKey(RESULT_KEY)) {
+    /*if (this.tstate.hasKey(RESULT_KEY)) {
       // We are in the browser
       //console.log("// We are in the browser");
     } else if (this.isServer) {
@@ -105,7 +106,7 @@ export class NoticerMainComponent implements OnInit {
     } else {
       // No result received 
       //console.log("// No result received ");
-    }
+    }*/
 
 
     this.seo.generateTags({
@@ -326,9 +327,7 @@ export class NoticerMainComponent implements OnInit {
           this.toastr.error("Failed", "Something went wrong!");
         });
     }
-
-
-
+ 
     /*this.service.getPostsList(this.getPostsRequestBody).subscribe(
       resData => {
         this.showPostSpinner = false;
