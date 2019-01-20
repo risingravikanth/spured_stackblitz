@@ -835,6 +835,10 @@ export class NoticerMainComponent implements OnInit {
 
 
   upVote(postId: any, postType: any) {
+    if(!this.validUser){
+      this.router.navigate(['/login'])
+      return;
+    }
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
     if (postObj.postId != postId) {
@@ -869,6 +873,10 @@ export class NoticerMainComponent implements OnInit {
   }
 
   cancelVote(postId: any, postType: any) {
+    if(!this.validUser){
+      this.router.navigate(['/login'])
+      return;
+    }
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
     if (postObj.postId != postId) {
@@ -898,6 +906,10 @@ export class NoticerMainComponent implements OnInit {
   }
 
   createFavorite(postId: any, postType: any) {
+    if(!this.validUser){
+      this.router.navigate(['/login'])
+      return;
+    }
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
     if (postObj.postId != postId) {
@@ -931,6 +943,10 @@ export class NoticerMainComponent implements OnInit {
   }
 
   cancelFavorite(postId: any, postType: any) {
+    if(!this.validUser){
+      this.router.navigate(['/login'])
+      return;
+    }
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
     if (postObj.postId != postId) {

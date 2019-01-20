@@ -177,7 +177,7 @@
                     <hr>
                     <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
-                            <span *ngIf="validUser">
+                            <span >
                                 <li class="list-inline-item paddingIcons" style="cursor: pointer;">
                                     <!-- <a> -->
                                         <i class="fas fa-thumbs-up  likeFont" (click)="cancelVote(post.postId, post._type)" *ngIf="post.actionAttributes.upVoted"></i>
@@ -206,10 +206,13 @@
                             </ng-template>
                             <li class="list-inline-item paddingIcons ml-auto" *ngIf="post.postAnswer" style="cursor: pointer;margin-bottom: -16px;">
                                 <a (click)="post.viewAnswer = !post.viewAnswer">
-                                    <p *ngIf="!post.viewAnswer"><i class="fas fa-book-open"></i>&nbsp;View Answer</p>
-                                    <p *ngIf="post.viewAnswer"><i class="fas fa-book-open"></i>&nbsp;Hide Answer</p>
+                                    <p [ngbTooltip]="viewAnswer" *ngIf="!post.viewAnswer"><i class="fas fa-eye"></i></p>
+                                    <p [ngbTooltip]="viewAnswer" *ngIf="post.viewAnswer"><i class="fas fa-eye-slash"></i></p>
                                 </a>
                             </li>
+                            <ng-template #viewAnswer>
+                                {{ (!post.viewAnswer) ? "View Answer" : "Hide Answer" }}
+                            </ng-template>
                         </ul>
                     </div>
                     <div *ngIf="post.selectComments">
