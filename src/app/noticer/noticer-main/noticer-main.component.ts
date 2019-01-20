@@ -680,7 +680,7 @@ export class NoticerMainComponent implements OnInit {
 
 
   getTypeFrom_Type(_type: any) {
-    let t = "NA";
+    let t = "Others";
     let mappings = this.sectionsTypesMappings;
     let _typeArr = mappings.filter(item => item._type.toUpperCase() == _type.toUpperCase());
     if (_typeArr.length > 0) {
@@ -692,7 +692,7 @@ export class NoticerMainComponent implements OnInit {
 
 
   getSectionFromType(_type: any) {
-    let t = "NA";
+    let t = "Others";
     let mappings = this.sectionsTypesMappings;
     let _typeArr = mappings.filter(item => item._type.toUpperCase() == _type.toUpperCase());
     if (_typeArr.length > 0) {
@@ -703,7 +703,7 @@ export class NoticerMainComponent implements OnInit {
 
   getModelFromTypeCategory(_type: any, category: any): string {
     let type = this.getSectionFromType(_type);
-    let model = "NA"
+    let model = "Others"
     categories_types_models.SECTIONS.forEach(sec => {
       if (sec.title == "Topics") {
         sec.sections.forEach(ty => {
@@ -722,7 +722,7 @@ export class NoticerMainComponent implements OnInit {
 
   getModelFromTypeModel(_type: any, modelValue: any): string {
     let type = this.getSectionFromType(_type);
-    let model = "NA"
+    let model = "Others"
     this.models.forEach(sec => {
       if(sec.type.toUpperCase() == type.toUpperCase()){
         sec.models.forEach(element => {
