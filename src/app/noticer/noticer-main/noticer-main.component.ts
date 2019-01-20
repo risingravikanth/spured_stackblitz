@@ -327,7 +327,7 @@ export class NoticerMainComponent implements OnInit {
           this.toastr.error("Failed", "Something went wrong!");
         });
     }
- 
+
     /*this.service.getPostsList(this.getPostsRequestBody).subscribe(
       resData => {
         this.showPostSpinner = false;
@@ -599,22 +599,27 @@ export class NoticerMainComponent implements OnInit {
     let c = postObj.category;
     let id = postObj.postId;
     let title = postObj.postTitle;
+    let postUrl;
     if (isPlatformBrowser(this.platformId)) {
       if (t == "BOARD") {
-        let postUrl = "/posts/closed/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
+        postUrl = "/posts/closed/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
         window.open(postUrl, "_blank")
       } else {
         if (c) {
           if (title != undefined) {
-            window.open("/posts/" + t.toLowerCase() + "/" + c + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-'), "_blank")
+            postUrl = "/posts/" + t.toLowerCase() + "/" + c + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-');
+            window.open(postUrl, "_blank")
           } else {
-            window.open("/posts/" + t.toLowerCase() + "/" + c + "/" + id, "_blank")
+            postUrl = "/posts/" + t.toLowerCase() + "/" + c + "/" + id;
+            window.open(postUrl, "_blank")
           }
         } else {
           if (title != undefined) {
-            window.open("/posts/" + t + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-'), "_blank")
+            postUrl = "/posts/" + t + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-');
+            window.open(postUrl, "_blank")
           } else {
-            window.open("/posts/" + t + "/" + id, "_blank")
+            postUrl = "/posts/" + t + "/" + id;
+            window.open(postUrl, "_blank")
           }
         }
       }
@@ -715,7 +720,27 @@ export class NoticerMainComponent implements OnInit {
     return model;
   }
 
+  getModelFromTypeModel(_type: any, modelValue: any): string {
+    let type = this.getSectionFromType(_type);
+    let model = "NA"
+    this.models.forEach(sec => {
+      if(sec.type.toUpperCase() == type.toUpperCase()){
+        sec.models.forEach(element => {
+          if(element.value == modelValue){
+            model = element.label
+          }
+        });
+      }
+    });
+    return model;
+  }
+
   goToCategoriesPage(_type: any, category: any, model: any) {
+    let url = this.getPageUrl(_type, category, model);
+    this.router.navigate([url])
+  }
+
+  getPageUrl(_type: any, category: any, model: any) {
     let section = this.getTypeFrom_Type(_type);
     let url = 'categories/' + section.toLowerCase();
     if (category != null) {
@@ -724,7 +749,7 @@ export class NoticerMainComponent implements OnInit {
     if (model != null) {
       url = url + "/" + model;
     }
-    this.router.navigate([url])
+    return url;
   }
 
   setProfilePic() {
@@ -835,7 +860,7 @@ export class NoticerMainComponent implements OnInit {
 
 
   upVote(postId: any, postType: any) {
-    if(!this.validUser){
+    if (!this.validUser) {
       this.router.navigate(['/login'])
       return;
     }
@@ -873,7 +898,7 @@ export class NoticerMainComponent implements OnInit {
   }
 
   cancelVote(postId: any, postType: any) {
-    if(!this.validUser){
+    if (!this.validUser) {
       this.router.navigate(['/login'])
       return;
     }
@@ -906,7 +931,7 @@ export class NoticerMainComponent implements OnInit {
   }
 
   createFavorite(postId: any, postType: any) {
-    if(!this.validUser){
+    if (!this.validUser) {
       this.router.navigate(['/login'])
       return;
     }
@@ -943,7 +968,7 @@ export class NoticerMainComponent implements OnInit {
   }
 
   cancelFavorite(postId: any, postType: any) {
-    if(!this.validUser){
+    if (!this.validUser) {
       this.router.navigate(['/login'])
       return;
     }
