@@ -7,16 +7,19 @@
         <a href="javascript:void(0);" class="list-group-item list-group-item-action list-group-notification-item flex-column align-items-start"
             (click)="openNotificationModel(data, notificationDetailsDialog)" *ngFor="let data of notificationsList">
             <span class="chat-img pull-left" style="display: none;">
-                <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="rounded-circle">
+                <!-- <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="rounded-circle"> -->
             </span>
             <div class="chat-body clearfix">
+                <small *ngIf="data?.createTime" class="float-right"><i class="fa fa-clock-o" aria-hidden="true"></i> {{
+                    data?.createTime | date: 'MMM d, y, h:mm a'}}</small>
+                    <br>
                 <div class="d-flex w-80 justify-content-between">
                     <p class="mb-0" *ngIf="data?.title"><b>{{data?.title}}</b> <span *ngIf="data.status == 'NEW'" class="badge badge-warning">New</span></p>
-                    <p class="mb-0" *ngIf="data.title == undefined">{{data?.text}}</p>
-                    <small *ngIf="data?.createTime"><i class="fa fa-clock-o" aria-hidden="true"></i> {{
-                        data?.createTime | date: 'MMM d, y, h:mm a'}}</small>
+                    <p class="mb-0" *ngIf="data.title == undefined">{{data?.text | slice:0:20 }}</p>
                 </div>
-                <small *ngIf="data.title != undefined">{{data?.text}}</small>
+                <small *ngIf="data.title != undefined">{{data?.text  | slice:0:100 }}
+                    <label *ngIf="data?.text.length > 100">...</label>
+                </small>
             </div>
         </a>
     </div>

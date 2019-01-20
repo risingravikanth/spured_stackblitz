@@ -13,7 +13,7 @@
             -->
                 <li>
                     <label>
-                        <b>Boards</b>
+                        <b>Boards&nbsp;<i class="fa fa-info-circle" (click)="showAddBoardDialog(boardsHelpDialog)"></i></b>
                     </label>
                     <!-- <span class="float-right" *ngIf="!showConfig">
                     <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showConfig = true">
@@ -253,6 +253,21 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </ng-template>
+
+    <ng-template #boardsHelpDialog let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title fntGreen" id="modal-basic-title"><b>About Boards</b></h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="container">
+            <p>Boards information
+                <br>
+                <a routerLink="/help" (click)="d('Cross click')">Click here to read more</a>
+            </p>
         </div>
     </ng-template>
 </section>

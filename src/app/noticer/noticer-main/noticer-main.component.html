@@ -9,18 +9,24 @@
             <div *ngIf="validUser && !paramId">
                 <create-post></create-post>
             </div>
+            <div *ngIf="!validUser">
+                <create-post></create-post>
+            </div>
             <br>
             <div *ngFor="let post of postsList;index as i;">
                 <div class="card div_hover rounded shadow-sm" *ngIf="post && post.postId">
                     <div class="d-flex justify-content-between" style="padding: 5px 0px 5px 0px;">
                         <div>
                             <span style="padding-left: 10px;">
-                                <a *ngIf="post._type != 'BoardPost'" [href]="getPageUrl(post._type, null, null)" (click)="!!goToCategoriesPage(post._type, null, null)">{{getSectionFromType(post._type)}}
+                                <a *ngIf="post._type != 'BoardPost'" [href]="getPageUrl(post._type, null, null)"
+                                    (click)="!!goToCategoriesPage(post._type, null, null)">{{getSectionFromType(post._type)}}
                                 </a>
-                                <span *ngIf="post.category"> / <a [href]="getPageUrl(post._type, post.category, null)" (click)="!!goToCategoriesPage(post._type, post.category, null)">{{
+                                <span *ngIf="post.category"> / <a [href]="getPageUrl(post._type, post.category, null)"
+                                        (click)="!!goToCategoriesPage(post._type, post.category, null)">{{
                                         getModelFromTypeCategory(post._type, post.category)}}</a></span>
-                                <span *ngIf="post.model"> / <a [href]="getPageUrl(post._type, post.category, post.model)" (click)="!!goToCategoriesPage(post._type, post.category, post.model)">{{
-                                    getModelFromTypeModel(post._type, post.model)}}</a></span></span>
+                                <span *ngIf="post.model"> / <a [href]="getPageUrl(post._type, post.category, post.model)"
+                                        (click)="!!goToCategoriesPage(post._type, post.category, post.model)">{{
+                                        getModelFromTypeModel(post._type, post.model)}}</a></span></span>
                         </div>
                         <div style="padding: 3px 7px 0px 0px;">
                             <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
@@ -32,7 +38,8 @@
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
                                     (click)="deletePost(post.postId, post._type)"><i class="fas fa-trash-alt"></i>
                                     Delete</button>
-                                <button class="dropdown-item" type="button" *ngIf="validUser" (click)="createReport(post.postId, post._type)"><i class="fas fa-flag"></i> Report</button>
+                                <button class="dropdown-item" type="button" *ngIf="validUser" (click)="createReport(post.postId, post._type)"><i
+                                        class="fas fa-flag"></i> Report</button>
                                 <button class="dropdown-item" type="button" (click)="copyMethod(post)"><i class="fas fa-copy"></i>
                                     Copy Link</button>
                             </div>
@@ -49,8 +56,8 @@
                         <div style="margin-left: -48px;margin-top: 12px;">
                             <ul>
                                 <li>
-                                    <a href="profile/users/{{post.userProfile.userId}}" *ngIf="post.userProfile" (click)="!!redirectToOtherProfile(post.userProfile.userId)"
-                                        style="color: black;font-weight: 400;">
+                                    <a href="profile/users/{{post.userProfile.userId}}" *ngIf="post.userProfile"
+                                        (click)="!!redirectToOtherProfile(post.userProfile.userId)" style="color: black;font-weight: 400;">
                                         {{post.userProfile ? post.userProfile.userName : '-NA-'}}
                                     </a>
                                     <a href="javascript:void(0);" *ngIf="!post.userProfile" style="color: black;font-weight: 400;">
@@ -177,19 +184,23 @@
                     <hr>
                     <div style="margin-top: -8px;margin-bottom: -10px;">
                         <ul class="list-inline">
-                            <span >
+                            <span>
                                 <li class="list-inline-item paddingIcons" style="cursor: pointer;">
                                     <!-- <a> -->
-                                        <i class="fas fa-thumbs-up  likeFont" (click)="cancelVote(post.postId, post._type)" *ngIf="post.actionAttributes.upVoted"></i>
-                                        <i class="far fa-thumbs-up normalLikeFont" (click)="upVote(post.postId, post._type)"  *ngIf="!post.actionAttributes.upVoted"></i>
-                                        &nbsp;{{post.actionAttributes.upVoteCount}}
+                                    <i class="fas fa-thumbs-up  likeFont" (click)="cancelVote(post.postId, post._type)"
+                                        *ngIf="post.actionAttributes.upVoted"></i>
+                                    <i class="far fa-thumbs-up normalLikeFont" (click)="upVote(post.postId, post._type)"
+                                        *ngIf="!post.actionAttributes.upVoted"></i>
+                                    &nbsp;{{post.actionAttributes.upVoteCount}}
                                     <!-- </a> -->
                                 </li>
                                 <li class="list-inline-item paddingIcons" style="cursor: pointer;">
                                     <!-- <a> -->
-                                        <i class="fas fa-star favoriteFont" (click)="cancelFavorite(post.postId, post._type)"  *ngIf="post.actionAttributes.favorited"></i>
-                                        <i class="far fa-star normalFavoriteFont" (click)="createFavorite(post.postId, post._type)"  *ngIf="!post.actionAttributes.favorited"></i>
-                                        &nbsp;{{post.actionAttributes.favoriteCount}}
+                                    <i class="fas fa-star favoriteFont" (click)="cancelFavorite(post.postId, post._type)"
+                                        *ngIf="post.actionAttributes.favorited"></i>
+                                    <i class="far fa-star normalFavoriteFont" (click)="createFavorite(post.postId, post._type)"
+                                        *ngIf="!post.actionAttributes.favorited"></i>
+                                    &nbsp;{{post.actionAttributes.favoriteCount}}
                                     <!-- </a> -->
                                 </li>
                             </span>
@@ -197,7 +208,7 @@
                                 (click)="getCommentsForPost(post.postId,i);">
                                 <i class="fas fa-comments iconSize" placement="top"></i>&nbsp;
                                 <a>
-                                    {{post.commentsCount}} 
+                                    {{post.commentsCount}}
                                     <!-- Comments -->
                                 </a>
                             </li>
@@ -231,6 +242,11 @@
                                         placeholder="Add a comment.."></textarea>
                                 </div>
                             </form>
+                        </div>
+                        <div style="padding-left: 7px;padding-right: 7px;padding-bottom: 7px;" class="text-center" *ngIf="!validUser">
+                            <h6><a class="addQuestion" href="javascript:void(0);" data-toggle="modal" routerLink="/login">Sign-in
+                                    to add comment
+                                </a></h6>
                         </div>
                         <div *ngFor="let comment of post.comments;index as in">
                             <div class="wrap" style="margin-top: -6px;">
