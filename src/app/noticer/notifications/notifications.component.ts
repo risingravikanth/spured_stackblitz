@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject, PLATFORM_ID } from '@angular/core';
 import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { TransferState, makeStateKey } from '@angular/platform-browser';
+import { isPlatformServer } from '@angular/common';
 import { NotificationsService } from './notifications.service';
 import { User } from '../../shared/models/user.model';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
@@ -8,6 +10,9 @@ import { CommonService } from '../../shared';
 
 import {TimeAgoPipe} from 'time-ago-pipe';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
+
+
+const MESSAGES_KEY = makeStateKey<string>('messages');
 
 
 @Component({
@@ -22,6 +27,7 @@ export class NotificationsComponent implements OnInit {
 
   public categoryModalReference: NgbModalRef;
   public isMobile :boolean;
+  public isServer :boolean;
   closeResult: string;
 
   notificationsList: any = [];
@@ -38,59 +44,136 @@ export class NotificationsComponent implements OnInit {
   public showPostSpinner = false;
   currentUser: User;
   public validUser: boolean = false;
+  isLoggedInUser : boolean ;
   public showMore: boolean = false;
+
   ngOnInit() {
     this.isMobile = this.mobileService.isMobile();
-    this.currentUser = this.userService.getCurrentUser();
-    if (this.currentUser) {
+    //this.currentUser = this.userService.getCurrentUser();
+    this.isLoggedInUser = this.userService.checkLoggedInUser();
+
+    console.log(this.isLoggedInUser,"this.isLoggedInUser")
+    if (this.isLoggedInUser) {
       this.validUser = true;
-    }
-    if (this.from == 'header') {
-      this.limit = this.totalNotificationsCount;
-    }
-    if (this.validUser) {
+      if (this.from == 'header') {
+        this.limit = this.totalNotificationsCount;
+      }
+      
       if (this.from == 'header') {
         this.limit = constant.onHeaderNotificationsPerPage;
       } else {
         this.limit = constant.onComponentNotificationsPerPage;
       }
       this.getAllNotifications(this.paepareGetRequest());
+      
     }
+    
   }
 
   constructor(private modalService: NgbModal,
     private notifyService: NotificationsService,
     private userService: CurrentUserService,
     public mobileService: MobileDetectionService,
-    private commonService:CommonService ) {
+    private commonService:CommonService,
+    private trasferState: TransferState,
+    @Inject(PLATFORM_ID) private platformId: Object ) {
+
+    this.isServer = isPlatformServer(this.platformId);
 
   }
 
   getAllNotifications(body: any) {
     this.showPostSpinner = true;
-    this.notifyService.getAllMessages(body).subscribe((resData: any) => {
-      this.showPostSpinner = false;
-      if (resData && resData.code == "ERROR") {
-        alert(resData.info);
-        this.showNotifications = false;
-      } else if (resData && resData.messages && resData.messages.length > 0) {
+
+    console.log(this.trasferState.hasKey(MESSAGES_KEY),"this.trasferState.hasKey(MESSAGES_KEY)")
+
+    /* server side rendring */
+
+ 
+    if (this.trasferState.hasKey(MESSAGES_KEY)) {
+      console.log("browser : getting MESSAGES_KEY for posts");
+      
+
+      let resData :any =  this.trasferState.get(MESSAGES_KEY, '');
+      this.trasferState.remove(MESSAGES_KEY);
+      if (resData && resData.messages && resData.messages.length > 0) {
         if (resData.unreadCount) {
-          this.notificationsCount = resData.unreadCount;
+           this.notificationsCount = resData.unreadCount;
         }
         resData.messages.forEach(element => {
-          this.notificationsList.push(element);
+           this.notificationsList.push(element);
         });
         this.showMore = true;
 
         if (this.from == 'header') {
-          this.commonService.updateHeaderMenu({type:"updateNoficiationCount", count: this.notificationsCount})
+           this.commonService.updateHeaderMenu({type:"updateNoficiationCount", count: this.notificationsCount})
         }
         this.showNotifications = true;
       } else {
         this.showMore = false;
         this.showNotifications = false;
       }
-    })
+      
+
+      this.showPostSpinner = false;
+    
+
+    } else if (this.isServer) {
+       
+      console.log("server : making service call & setting MESSAGES_KEY");
+      
+      this.notifyService.getAllMessages(body).subscribe((resData: any) => {
+          this.showPostSpinner = false;
+          if (resData && resData.code == "ERROR") {
+             this.showNotifications = false;
+          } else if (resData && resData.messages && resData.messages.length > 0) {
+              this.trasferState.set(MESSAGES_KEY, resData);
+              if (resData.unreadCount) {
+                this.notificationsCount = resData.unreadCount;
+              }
+              resData.messages.forEach(element => {
+                this.notificationsList.push(element);
+              });
+              this.showMore = true;
+
+              if (this.from == 'header') {
+                this.commonService.updateHeaderMenu({type:"updateNoficiationCount", count: this.notificationsCount})
+              }
+              this.showNotifications = true;
+            } else {
+              this.showMore = false;
+              this.showNotifications = false;
+            }
+      });
+ 
+     } else {
+      console.log("no result received : making service call MESSAGES_KEY");
+
+       this.notifyService.getAllMessages(body).subscribe((resData: any) => {
+          this.showPostSpinner = false;
+          if (resData && resData.code == "ERROR") {
+            alert(resData.info);
+            this.showNotifications = false;
+          } else if (resData && resData.messages && resData.messages.length > 0) {
+            if (resData.unreadCount) {
+              this.notificationsCount = resData.unreadCount;
+            }
+            resData.messages.forEach(element => {
+              this.notificationsList.push(element);
+            });
+            this.showMore = true;
+
+            if (this.from == 'header') {
+              this.commonService.updateHeaderMenu({type:"updateNoficiationCount", count: this.notificationsCount})
+            }
+            this.showNotifications = true;
+          } else {
+            this.showMore = false;
+            this.showNotifications = false;
+          }
+      });
+       
+    }
   }
 
   paepareGetRequest() {
