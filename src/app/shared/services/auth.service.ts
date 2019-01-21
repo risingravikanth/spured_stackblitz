@@ -34,12 +34,18 @@ export class AuthService {
         console.log(user.token.toString());*/
 
         this.setCookie("Authorization",user.token.toString());
+        this.setCookie("user_id",user.userId.toString());
+        this.setCookie("isLoggedInUser","true");
 
         this.currentUserService.setCurrentUser(user);
     }
 
     setCookie(key :string, value : string){
          this.cookies.put(key, value);
+    }
+
+    getCookie(key :any){
+         return this.cookies.get(key)
     }
 
     removeAll(){

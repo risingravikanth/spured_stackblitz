@@ -1,4 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Inject,  ViewChild, PLATFORM_ID } from '@angular/core';
+import { TransferState, makeStateKey } from '@angular/platform-browser';
+import { isPlatformServer } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +14,9 @@ import { CurrentUserService } from '../../../shared/services/currentUser.service
 import { SECTIONS } from './../../../shared/master-data/master-data';
 import { SideMenuService } from './side-menu.service';
 import { ToastrService } from '../../../shared/services/Toastr.service';
+
+
+const CLOSEDBOARDS_LIST = makeStateKey<string>('result');
 
 @Component({
   selector: 'side-menu',
@@ -28,6 +33,7 @@ export class SideMenuComponent implements OnInit {
   paramCategory: any;
   windowStyle: any;
 
+
   constructor(private router: Router, private formbuilder: FormBuilder,
     private commonService: CommonService,
     private modalService: NgbModal,
@@ -35,7 +41,13 @@ export class SideMenuComponent implements OnInit {
     private service: SideMenuService,
     private userService: CurrentUserService,
     private toastr: ToastrService,
-    private route: ActivatedRoute, ) { }
+    private route: ActivatedRoute,
+    private trasferState: TransferState,
+    @Inject(PLATFORM_ID) private platformId: Object ) {
+
+    this.isServer = isPlatformServer(this.platformId);
+
+   }
 
   @ViewChild('myTopnav') el: ElementRef;
 
@@ -53,6 +65,7 @@ export class SideMenuComponent implements OnInit {
   public sectionModalReference: NgbModalRef;
   public categoryModalReference: NgbModalRef;
   public isMobile: boolean;
+  public isServer: boolean;
   public listOfStates: any = [];
   public listOfInstitutes: any = [];
   public listOfDepartments: any = [];
@@ -63,8 +76,13 @@ export class SideMenuComponent implements OnInit {
   public pendingBoardsInfo: any = [];
   public boardRequestBtnTxt = "Join Request"
   public tabTitle = "Join a Board";
+
+
+
   ngOnInit() {
     this.isMobile = this.mobileService.isMobile();
+    
+
     if(this.isMobile){
       this.windowStyle =  { size : "lg"}
     } else{
@@ -259,21 +277,61 @@ export class SideMenuComponent implements OnInit {
 
   getBoardsList() {
     this.showPostSpinner = true;
-    this.service.getUserClosedBoards().subscribe((resData: any) => {
+   
+    /* server side rendring */
+    if (this.trasferState.hasKey(CLOSEDBOARDS_LIST)) {
+      console.log("browser : getting CLOSEDBOARDS_LIST for posts");
+ 
+      this.boardsList = this.trasferState.get(CLOSEDBOARDS_LIST, '');
+      this.trasferState.remove(CLOSEDBOARDS_LIST);
+      if (this.boardsList && this.boardsList.length > 0) {
+        this.noBoards = false;
+      } else {
+        this.noBoards = true;
+      }
+
       this.showPostSpinner = false;
-      if (resData.boards) {
-        if (resData.boards) {
-          this.boardsList = resData.boards;
-          if (this.boardsList && this.boardsList.length > 0) {
-            this.noBoards = false;
+    
+
+    } else if (this.isServer) {
+       
+      console.log("server : making service call & setting CLOSEDBOARDS_LIST");
+
+      this.service.getUserClosedBoards().subscribe((resData: any) => {
+        this.showPostSpinner = false;
+          if (resData.boards) {
+            this.boardsList = resData.boards;
+            this.trasferState.set(CLOSEDBOARDS_LIST, this.boardsList);
+            if (this.boardsList && this.boardsList.length > 0) {
+              this.noBoards = false;
+            } else {
+              this.noBoards = true;
+            }
           } else {
             this.noBoards = true;
           }
-        } else {
-          this.noBoards = true;
-        }
-      }
-    })
+       });
+ 
+     } else {
+      console.log("no result received : making service call CLOSEDBOARDS_LIST");
+
+      this.service.getUserClosedBoards().subscribe((resData: any) => {
+        this.showPostSpinner = false;
+          if (resData.boards) {
+            this.boardsList = resData.boards;
+            if (this.boardsList && this.boardsList.length > 0) {
+              this.noBoards = false;
+            } else {
+              this.noBoards = true;
+            }
+          } else {
+            this.noBoards = true;
+          }
+         
+      });
+       
+    }
+
   }
 
 
