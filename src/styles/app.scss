@@ -124,12 +124,14 @@
 
 body,.headerIconLabel{
   font-weight: 400 !important;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol" !important;
 }
 
 body,body,.headerIconLabel{
-  font-family: "charter_digits", Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif !important;
-  font-size: 15px !important;
+    font-family: "charter_digits", Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif !important;
+    font-size: 15px !important;
+}
+body{
+    background-color: #f5f5f5 !important;
 }
 
 @font-face {

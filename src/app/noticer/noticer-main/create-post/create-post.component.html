@@ -11,15 +11,31 @@
                         *ngIf="questionName?.length == 0">Click here to add your question</a>
                     <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
                         *ngIf="questionName?.length > 0">
-                            <i *ngIf="questionName && questionName.indexOf('Close') > 0" class="fa fa-link" aria-hidden="true"></i>
-                            <i *ngIf="questionName && questionName.indexOf('Close')  == -1" class="fa fa-unlink" aria-hidden="true"></i>
-                             {{questionName}}
+                        <i *ngIf="questionName && questionName.indexOf('Close') > 0" class="fa fa-link" aria-hidden="true"></i>
+                        <i *ngIf="questionName && questionName.indexOf('Close')  == -1" class="fa fa-unlink"
+                            aria-hidden="true"></i>
+                        {{questionName}}
                     </a>
                 </h3>
                 <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
-                        *ngIf="questionName?.length > 0">Click here to add your question
+                    *ngIf="questionName?.length > 0">Click here to add your question
                 </a>
-                
+
+            </div>
+        </div>
+    </div>
+    <div class="card question-back shadow rounded" *ngIf="!validUser && isHeader != 'header'">
+        <div class="row" style="padding-left: 28px;">
+            <div style="width: 20%;">
+                <img width="80" height="80" style=" padding: 5px;border-radius: 50px;" alt="ProfilePic" [src]="profileImage">
+            </div>
+            <hr>
+            <div [ngStyle]="{'width': mobileFlag === true ? '75%' : '80%' }">
+                <br>
+                <h5><a class="addQuestion" href="javascript:void(0);" data-toggle="modal" routerLink="/login">Sign-in
+                    to create post
+                </a></h5>
+
             </div>
         </div>
     </div>
@@ -126,11 +142,11 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="addPostForm.controls['data'].get('_type1').value == 'EVENTS'">
-                            <div class="form-group col-md-6">
-                                <input class="form-control form-control-sm" type="text" formControlName="location"
-                                    placeholder="Location">
-                            </div>
+                        <div class="form-group col-md-6">
+                            <input class="form-control form-control-sm" type="text" formControlName="location"
+                                placeholder="Location">
                         </div>
+                    </div>
                     <!-- events end -->
 
                     <!-- careers -->
