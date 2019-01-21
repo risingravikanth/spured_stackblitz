@@ -16,7 +16,7 @@ import { SideMenuService } from './side-menu.service';
 import { ToastrService } from '../../../shared/services/Toastr.service';
 
 
-const CLOSEDBOARDS_LIST = makeStateKey<string>('result');
+const CLOSEDBOARDS_KEY = makeStateKey<string>('closedboards');
 
 @Component({
   selector: 'side-menu',
@@ -72,6 +72,7 @@ export class SideMenuComponent implements OnInit {
   public listOfBoards: any = [];
   addBoardForm: FormGroup;
   currentUser: User;
+  isLoggedInUser : boolean ;
   public validUser: boolean = false;
   public pendingBoardsInfo: any = [];
   public boardRequestBtnTxt = "Join Request"
@@ -90,8 +91,9 @@ export class SideMenuComponent implements OnInit {
     }
     this.commonService.isMobileFlag.next(this.isMobile);
     this.initForm();
-    this.currentUser = this.userService.getCurrentUser();
-    if (this.currentUser) {
+    
+    this.isLoggedInUser = this.userService.checkLoggedInUser();
+    if (this.isLoggedInUser) {
       this.validUser = true;
       this.getBoardsList();
     }
@@ -279,11 +281,12 @@ export class SideMenuComponent implements OnInit {
     this.showPostSpinner = true;
    
     /* server side rendring */
-    if (this.trasferState.hasKey(CLOSEDBOARDS_LIST)) {
-      console.log("browser : getting CLOSEDBOARDS_LIST for posts");
+
  
-      this.boardsList = this.trasferState.get(CLOSEDBOARDS_LIST, '');
-      this.trasferState.remove(CLOSEDBOARDS_LIST);
+    if (this.trasferState.hasKey(CLOSEDBOARDS_KEY)) {
+      console.log("browser : getting CLOSEDBOARDS_KEY for posts");
+      this.boardsList = this.trasferState.get(CLOSEDBOARDS_KEY, '');
+      this.trasferState.remove(CLOSEDBOARDS_KEY);
       if (this.boardsList && this.boardsList.length > 0) {
         this.noBoards = false;
       } else {
@@ -295,13 +298,13 @@ export class SideMenuComponent implements OnInit {
 
     } else if (this.isServer) {
        
-      console.log("server : making service call & setting CLOSEDBOARDS_LIST");
+      console.log("server : making service call & setting CLOSEDBOARDS_KEY");
 
       this.service.getUserClosedBoards().subscribe((resData: any) => {
         this.showPostSpinner = false;
           if (resData.boards) {
             this.boardsList = resData.boards;
-            this.trasferState.set(CLOSEDBOARDS_LIST, this.boardsList);
+            this.trasferState.set(CLOSEDBOARDS_KEY, this.boardsList);
             if (this.boardsList && this.boardsList.length > 0) {
               this.noBoards = false;
             } else {
@@ -313,7 +316,7 @@ export class SideMenuComponent implements OnInit {
        });
  
      } else {
-      console.log("no result received : making service call CLOSEDBOARDS_LIST");
+      console.log("no result received : making service call CLOSEDBOARDS_KEY");
 
       this.service.getUserClosedBoards().subscribe((resData: any) => {
         this.showPostSpinner = false;

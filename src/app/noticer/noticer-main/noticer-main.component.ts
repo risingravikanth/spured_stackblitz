@@ -285,7 +285,7 @@ export class NoticerMainComponent implements OnInit {
       console.log("browser : getting RESULT_KEY for posts");
 
       this.postsList = this.tstate.get(RESULT_KEY, '');
-      console.log(this.postsList);
+      //console.log(this.postsList);
       this.tstate.remove(RESULT_KEY);
       this.preparePostsList();
       this.showPostSpinner = false;
@@ -300,7 +300,7 @@ export class NoticerMainComponent implements OnInit {
           if (obj.error && obj.error.code && obj.error.code.id) {
             this.toastr.error("Failed", obj.error.code.message);
           } else {
-            console.log("setting RESULT_KEY");
+            //console.log("setting RESULT_KEY");
             this.postsList = obj.posts;
             this.tstate.set(RESULT_KEY, this.postsList);
             this.preparePostsList();
@@ -311,7 +311,7 @@ export class NoticerMainComponent implements OnInit {
 
 
     } else {
-      console.log("no result received : making service call");
+      console.log("no result received : making service call RESULT_KEY");
 
       this.service.getPostsList(this.getPostsRequestBody).subscribe(
         resData => {
