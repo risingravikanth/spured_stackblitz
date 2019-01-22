@@ -8,9 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 export class OopsErrorComponent implements OnInit {
 
   @Input() displayObject : any;
-  private errorType : any = "danger";
-  private messageText : any = "Opps!";
-  private messageContent : any = "No Posts Available.";
+  public errorType : any = "danger";
+  public messageText : any = "Opps!";
+  public messageContent : any = "No Posts Available.";
 
   constructor() { }
 
