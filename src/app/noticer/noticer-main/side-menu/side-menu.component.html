@@ -54,7 +54,7 @@
 
         <!-- TOPICS -->
         <div>
-            <ul *ngFor="let menu of menuList" style="margin-left: 1px;padding-top: 10px;font-size: 0.9rem; line-height: 1.7;padding-inline-start: 1px;">
+            <ul *ngFor="let menu of menuList" [ngStyle]="{'padding-top': (validUser && underMaintenace) ? '10px' : '0px' }" style="margin-left: 1px;font-size: 0.9rem; line-height: 1.7;padding-inline-start: 1px;">
                 <li>
                     <label>
                         <b>{{menu.title}}</b>
