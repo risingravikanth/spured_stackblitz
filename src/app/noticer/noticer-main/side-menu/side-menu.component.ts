@@ -77,7 +77,7 @@ export class SideMenuComponent implements OnInit {
   public pendingBoardsInfo: any = [];
   public boardRequestBtnTxt = "Join Request"
   public tabTitle = "Join a Board";
-
+  public underMaintenace :boolean = true;
 
 
   ngOnInit() {
@@ -313,6 +313,12 @@ export class SideMenuComponent implements OnInit {
           } else {
             this.noBoards = true;
           }
+       },(err :any) => {
+        // Do stuff whith your error
+           if(err.status === 0){
+            this.showPostSpinner = false;
+            this.underMaintenace = false;
+          }
        });
  
      } else {
@@ -331,7 +337,13 @@ export class SideMenuComponent implements OnInit {
             this.noBoards = true;
           }
          
-      });
+      },(err :any) => {
+        // Do stuff whith your error
+          if(err.status === 0){
+            this.showPostSpinner = false;
+            this.underMaintenace = false;
+          }
+       });
        
     }
 

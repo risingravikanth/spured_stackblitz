@@ -42,6 +42,8 @@ export class NoticerMainComponent implements OnInit {
   public boardId: any;
   public reqestType: string;
   public windowStyle: any;
+  public underMaintenace :boolean = true;
+
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
     private userService: CurrentUserService,
@@ -298,15 +300,18 @@ export class NoticerMainComponent implements OnInit {
           this.showPostSpinner = false;
           let obj: any = resData;
           if (obj.error && obj.error.code && obj.error.code.id) {
-            this.toastr.error("Failed", obj.error.code.message);
+            console.log("Failed", obj.error.code.message);
           } else {
-            //console.log("setting RESULT_KEY");
             this.postsList = obj.posts;
             this.tstate.set(RESULT_KEY, this.postsList);
             this.preparePostsList();
           }
         }, error => {
-          this.toastr.error("Failed", "Something went wrong!");
+          console.log("Failed", "Something went wrong!");
+          if(error.status === 0){
+            this.showPostSpinner = false;
+            this.underMaintenace = false;
+          }
         });
 
 
@@ -325,22 +330,14 @@ export class NoticerMainComponent implements OnInit {
           }
         }, error => {
           this.toastr.error("Failed", "Something went wrong!");
+          if(error.status === 0){
+            this.showPostSpinner = false;
+            this.underMaintenace = false;
+          }
         });
     }
 
-    /*this.service.getPostsList(this.getPostsRequestBody).subscribe(
-      resData => {
-        this.showPostSpinner = false;
-        let obj: any = resData;
-        if (obj.error && obj.error.code && obj.error.code.id) {
-          this.toastr.error("Failed", obj.error.code.message);
-        } else {
-          this.postsList = obj.posts;
-          this.preparePostsList();
-        }
-      }, error => {
-        this.toastr.error("Failed", "Something went wrong!");
-      })*/
+  
   }
 
   loadMorePosts() {

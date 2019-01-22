@@ -5,7 +5,7 @@
 <section>
     <div [class.scrollMobile]="isMobile">
         <!-- BOARDS -->
-        <div *ngIf="validUser">
+        <div *ngIf="validUser && underMaintenace">
             <ul style="margin-left: 1px;padding-top: 10px;font-size: 15px; line-height: 1.7;padding-inline-start: 1px;">
                 <!--<li style="padding-right: 60px;">
                 V1.0
