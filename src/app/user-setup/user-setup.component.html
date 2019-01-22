@@ -51,6 +51,14 @@
                         <label for="inputPwd4">Password</label>
                         <input type="password" class="form-control  form-control-sm" id="inputPwd4" placeholder="Password"
                             formControlName="password">
+                            <div *ngIf="fControl.password.invalid && (fControl.password.dirty || fControl.password.touched)">
+                                <label class="fntRed" *ngIf="fControl.password.errors.required">
+                                    Password is <strong>required</strong>
+                                </label>
+                                <label class="fntRed" *ngIf="!fControl.password.errors.required && UserSetUpForm.controls['password'].value?.length<8">
+                                    Password should conatain at least 8 character
+                                </label>
+                            </div>  
                     </div>
                     <fieldset [disabled]="btnText == 'Creating new user..'">
                         <button type="submit" class="btn btn-default btn-sm btnShape  btn-block marT12" [disabled]="UserSetUpForm.invalid">{{btnText}}</button>

@@ -30,7 +30,7 @@
                         </div>
                         <div style="padding: 3px 7px 0px 0px;">
                             <i class="fas fa-ellipsis-h" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
-                                placement="top" ngbTooltip="Actions" aria-expanded="false" style="font-size: 20px;"></i>
+                                placement="top" [ngbTooltip]="isMobile ? '' : Actions" aria-expanded="false" style="font-size: 20px;"></i>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
                                     (click)="editPost(post.postId, post._type, editPostDialog)"><i class="fas fa-edit"></i>
@@ -212,7 +212,7 @@
                                     <!-- Comments -->
                                 </a>
                             </li>
-                            <ng-template #tipComment>
+                            <ng-template *ngIf="!isMobile" #tipComment>
                                 {{ (post.selectComments) ? "Click to hide comments" : "Click to view comments" }}
                             </ng-template>
                             <li class="list-inline-item paddingIcons ml-auto" *ngIf="post.postAnswer" style="cursor: pointer;margin-bottom: -16px;">
@@ -221,7 +221,7 @@
                                     <p [ngbTooltip]="viewAnswer" *ngIf="post.viewAnswer"><i class="fas fa-eye-slash"></i></p>
                                 </a>
                             </li>
-                            <ng-template #viewAnswer>
+                            <ng-template *ngIf="!isMobile" #viewAnswer>
                                 {{ (!post.viewAnswer) ? "View Answer" : "Hide Answer" }}
                             </ng-template>
                         </ul>
@@ -265,7 +265,7 @@
                                             </div>
                                             <div style="padding: 0px 13px 0px 0px;float: right;" *ngIf="comment.userProfile && currentuserId == comment.userProfile.userId">
                                                 <a id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true"
-                                                    placement="top" ngbTooltip="Actions" aria-expanded="false" style="font-size: 20px;"><i
+                                                    placement="top" [ngbTooltip]="isMobile ? '' : Actions" aria-expanded="false" style="font-size: 20px;"><i
                                                         class="fas fa-ellipsis-h"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
                                                     <button class="dropdown-item" type="button" (click)="deleteComment(post.postId, post._type, comment.commentId)"><i

@@ -68,7 +68,7 @@ export class UserSetupComponent implements OnInit {
   userSetUpForm() {
     this.UserSetUpForm = this.formbuilder.group({
       userName: ["", { validators: [Validators.required] }],
-      password: ["", { validators: [Validators.required] }],
+      password: ["", [Validators.required, Validators.minLength(8)] ],
       // matchingPassword: ['', { validators: [Validators.required] }],
       phoneNum: [null],
       email: ["", [
