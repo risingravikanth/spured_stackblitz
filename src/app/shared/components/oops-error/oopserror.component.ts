@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-oopserror',
@@ -7,9 +7,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OopsErrorComponent implements OnInit {
 
+  @Input() displayObject : any;
+  private errorType : any = "danger";
+  private messageText : any = "Opps!";
+  private messageContent : any = "No Posts Available.";
+
   constructor() { }
 
   ngOnInit() {
+  	if(this.displayObject != undefined && this.displayObject != null){
+ 		if(this.displayObject.type != undefined && this.displayObject.type != null){
+ 			this.errorType = this.displayObject.type;
+ 		}
+ 		if(this.displayObject.message != undefined && this.displayObject.message != null){
+ 			if(this.displayObject.message == "underMaintenance"){
+ 				this.messageText = "Sorry!"
+ 				this.messageContent = "Curreclty this page under maintence so please try after some time."
+ 			}
+ 			
+ 		}
+ 	}
   }
 
 }

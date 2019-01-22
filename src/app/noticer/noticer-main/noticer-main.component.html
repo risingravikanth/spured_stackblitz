@@ -5,7 +5,10 @@
         <div class="col-md-3 col-sm-3 d-none d-sm-block" *ngIf="!isMobile">
             <side-menu></side-menu>
         </div>
-        <div [class]="!isMobile ? 'col-md-6' : 'col-md-12'">
+        <div *ngIf="!underMaintenace">
+                <app-oopserror [displayObject]="{type:'warning',message:'underMaintenance'}"></app-oopserror>
+        </div>
+        <div [class]="!isMobile ? 'col-md-6' : 'col-md-12'" *ngIf="underMaintenace">
             <div *ngIf="validUser && !paramId">
                 <create-post></create-post>
             </div>
