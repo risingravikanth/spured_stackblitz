@@ -83,6 +83,10 @@ export class HeaderMobileComponent implements OnInit {
         this.router.navigate(['profile/self']);
     }
 
+    goToNotifications(){
+         this.router.navigate(['notifications']);
+    }
+
     addPost() {
         this.myChild.open();
     }
