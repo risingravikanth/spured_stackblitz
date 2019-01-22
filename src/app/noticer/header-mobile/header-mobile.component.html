@@ -30,7 +30,7 @@
         </li>
         <li class="nav-item" *ngIf="validUser">
 
-            <a class="nav-link" (click)="op.toggle($event)" href="javascript:void(0);" id="notificationMenu">
+            <a class="nav-link" (click)="goToNotifications()" href="javascript:void(0);" id="notificationMenu">
                 <b>
                     <i class="fas fa-bell header-icon-size"><span *ngIf="showNotifications" style="font-size: 12px;"
                             class="badge badge-danger">{{notificationsCount}}</span></i>
