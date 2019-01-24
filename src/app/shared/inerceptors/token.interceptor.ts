@@ -28,13 +28,14 @@ export class TokenInterceptor implements HttpInterceptor {
     ) { 
 
          this.isServer = isPlatformServer(platformId);
-    }
+     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let restUrl:string;
         let auth_token : any = "";
-        let tracking_id :any ="";
+        let tracking_id : any ="";
         let rawCookiesAry :any = [];
+        let rawCookiesStr :any = "";
 
         if(constants.isLive){
             restUrl = constants.REST_API_URL_NODE;
@@ -46,7 +47,9 @@ export class TokenInterceptor implements HttpInterceptor {
             const reqObj: any = this.injector.get('REQUEST');
             const rawCookies = !!reqObj.headers['cookie'] ? reqObj.headers['cookie'] : '';
 
-            rawCookiesAry = rawCookies.split(';');
+            rawCookiesStr = rawCookies;
+            if(rawCookiesStr != null && rawCookiesStr != undefined)
+                rawCookiesAry = rawCookies.split(';');
             
             if(rawCookiesAry.length >0){
                 for(let i=0; i< rawCookiesAry.length; i++){
@@ -66,6 +69,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 }
             }
            
+            console.log("getting is Server tracking_id",tracking_id);
           
              req = req.clone({
                 url: `${restUrl + req.url}`,
@@ -89,12 +93,33 @@ export class TokenInterceptor implements HttpInterceptor {
  
         return next.handle(req).do((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
+
                 // do stuff with response if you want
-                if(!this.customCookieService.isTrackIdAvailable() || this.customCookieService.getTrackId() == null){
-                    console.log("TrackingId in interceptor: " + event.headers.get("tracking-id"));
-                    this.customCookieService.saveTrackId(event.headers.get("tracking-id"));
+                 if(rawCookiesAry.length >0){
+                    for(let i=0; i< rawCookiesAry.length; i++){
+                        let cookieObj = rawCookiesAry[i];
+                        
+                        if( cookieObj != undefined && cookieObj.indexOf("tracking_id=") == -1){
+                            // Need to set tracking id from headers
+                            this.authService.setCookie("tracking_id",event.headers.get("tracking-id"));
+                            this.customCookieService.saveTrackId(event.headers.get("tracking-id"));
+
+                            console.log("setting in handle event.headers.get('tracking-id')",event.headers.get("tracking-id"));
+                        }
+                    }
+                }else if((rawCookiesStr == null || rawCookiesStr == "") && event.headers.get("tracking-id") != null){
                     this.authService.setCookie("tracking_id",event.headers.get("tracking-id"));
+                    this.customCookieService.saveTrackId(event.headers.get("tracking-id"));
+
+                    console.log("setting in handle event.headers.get('tracking-id')",event.headers.get("tracking-id"));
                 }
+
+                
+
+
+                /*if(!this.customCookieService.isTrackIdAvailable() || this.customCookieService.getTrackId() == null){
+                    console.log("TrackingId in interceptor: " + event.headers.get("tracking-id"));
+                }*/
 
                 
             }

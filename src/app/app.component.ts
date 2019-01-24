@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit(): void {
         this.isMobile = this.mobileService.isMobile();
-        this.isTokenValid();
+        //this.isTokenValid();
         this.lightboxOptions();
     }
 
