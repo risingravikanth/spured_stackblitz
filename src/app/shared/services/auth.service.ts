@@ -48,9 +48,13 @@ export class AuthService {
          return this.cookies.get(key)
     }
 
+    removeCookie(Key :any){
+        this.cookies.remove(Key);
+    }
+
     removeAll(){
         this.cookies.removeAll();
-     }
+    }
 
     getAuth(key :any){
          return this.cookies.get(key)
@@ -59,7 +63,11 @@ export class AuthService {
     purgeAuth() {
         this.jwtService.destroyToken();
         this.currentUserService.deleteCurrentUser();
+        this.removeCookie("Authorization");
+        this.removeCookie("user_id");
+        this.removeCookie("isLoggedInUser");
     }
+
     getCurrentUser(): User {
         return this.currentUserService.getCurrentUser();
     }

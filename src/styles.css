@@ -280,3 +280,11 @@ li>a{
     color:gray;
     font-size: 18px;
  }
+
+.noticer-card-header  {
+    padding: .5rem 0.50rem !important;
+}
+
+#postActions.dropdown-toggle::after {
+    display: none;
+}
