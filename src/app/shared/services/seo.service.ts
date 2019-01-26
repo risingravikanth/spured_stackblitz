@@ -11,8 +11,7 @@ export class SeoService {
     config = { 
       title: 'Spured', 
       description: 'All about the students communication and competitive examinations. &copy; 2018 Spured', 
-      image: 'http://139.59.6.52:8080/SpringMvcJdbcTemplate/resources/postimages/C-1-474155270410480.jpg',
-      slug: '',
+      image: 'https://s3.ap-south-1.amazonaws.com/imgposts/files/84-227380096141796-21508154-back-to-school-global-icons-education-text-over-paper-sheet-background-.jpg',
       ...config
     }
 
