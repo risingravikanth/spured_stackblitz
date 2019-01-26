@@ -112,8 +112,8 @@ export class NoticerMainComponent implements OnInit {
 
 
     this.seo.generateTags({
-      title: 'Noticer feed | Posts and comments',
-      description: 'Noticer posts and comments',
+      title: 'Spured feed | Posts and comments',
+      description: 'Spured posts and comments',
       slug: 'feed-page'
     })
 
@@ -130,7 +130,7 @@ export class NoticerMainComponent implements OnInit {
       }
     )
 
-    this.userService.setTitle("Noticer | Posts and comments");
+    this.userService.setTitle("Spured | Posts and comments");
 
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;
 
@@ -185,7 +185,7 @@ export class NoticerMainComponent implements OnInit {
         description: 'All about closed board posts',
         slug: 'boards-page'
       })
-      this.userService.setTitle("Noticer | Closed board posts and comments");
+      this.userService.setTitle("Spured | Closed board posts and comments");
     } else {
       this.paramType = params['type'];
       this.paramCategory = params['category'];
@@ -225,7 +225,7 @@ export class NoticerMainComponent implements OnInit {
           description: this.paramType + " posts and comments",
           slug: this.paramType + '-page'
         })
-        this.userService.setTitle("Noticer | " + this.paramType + " posts and comments");
+        this.userService.setTitle("Spured | " + this.paramType + " posts and comments");
         this.selectedCategory(sec);
       }
     }
@@ -639,7 +639,7 @@ export class NoticerMainComponent implements OnInit {
             slug: 'post details page'
           })
 
-          this.userService.setTitle("Noticer | " + (this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title"));
+          this.userService.setTitle("Spured | " + (this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title"));
 
           // Chaning postDeatail url
           let arrUrl = this.router.url.split("/");

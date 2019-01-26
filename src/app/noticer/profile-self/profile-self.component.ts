@@ -60,7 +60,7 @@ export class SelfProfileComponent implements OnInit {
             slug: 'selfprofile-page'
         })
 
-        this.userService.setTitle("Self Profile - Noticer");
+        this.userService.setTitle("Self Profile - Spured");
 
         this.currentUser = this.userService.getCurrentUser();
         if (this.currentUser) {
@@ -107,7 +107,7 @@ export class SelfProfileComponent implements OnInit {
         this.service.getUserInfo(userId).subscribe(resData => {
             this.showSpinner = false;
             this.userDetails = resData;
-            this.userService.setTitle("Noticer - "+this.userDetails.userName);
+            this.userService.setTitle("Spured - "+this.userDetails.userName);
         }, error => {
             this.showSpinner = false;
             this.toastr.error("Failed", "Something went wrong!");

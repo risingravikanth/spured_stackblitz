@@ -9,8 +9,8 @@ export class SeoService {
   generateTags(config) {
     // default values
     config = { 
-      title: 'Noticer', 
-      description: 'All about the students communication and competitive examinations. &copy; 2018 Noticer', 
+      title: 'Spured', 
+      description: 'All about the students communication and competitive examinations. &copy; 2018 Spured', 
       image: 'http://139.59.6.52:8080/SpringMvcJdbcTemplate/resources/postimages/C-1-474155270410480.jpg',
       slug: '',
       ...config
@@ -24,7 +24,7 @@ export class SeoService {
     this.meta.updateTag({ name: 'twitter:image', content: config.image });
 
     this.meta.updateTag({ property: 'og:type', content: 'artical' });
-    this.meta.updateTag({ property: 'og:site', content: 'Noticer' });
+    this.meta.updateTag({ property: 'og:site', content: 'Spured' });
     this.meta.updateTag({ property: 'og:title', content: config.title });
     this.meta.updateTag({ property: 'og:description', content: config.description });
     // this.meta.updateTag({ property: 'og:image', content: config.image });

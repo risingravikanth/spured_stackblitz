@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
             description: 'login through this awesome site',
             slug: 'signin-page'
         })
-        this.currentUser.setTitle("Sign in - Noticer")
+        this.currentUser.setTitle("Sign in - Spured")
         if (this.currentUser.checkValidUser()) {
             this.isValiUser = true;
             if (isPlatformBrowser(this.platformId)) {

@@ -97,8 +97,8 @@ export class CreatePostComponent implements OnInit {
   public mobileFlag : boolean = false;
   ngOnInit() {
     this.seo.generateTags({
-      title: 'Noticer feed | Posts and comments',
-      description: 'Noticer posts and comments',
+      title: 'Spured feed | Posts and comments',
+      description: 'Spured posts and comments',
       slug: 'feed-page'
     })
 
@@ -114,7 +114,7 @@ export class CreatePostComponent implements OnInit {
         this.mobileFlag = mobileFlag;
     });
 
-    this.userService.setTitle("Noticer | Posts and comments");
+    this.userService.setTitle("Spured | Posts and comments");
 
     this.audienceList = categories_types_models.AUDIENCE;
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;

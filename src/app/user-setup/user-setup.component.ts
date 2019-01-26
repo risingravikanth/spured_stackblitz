@@ -59,7 +59,7 @@ export class UserSetupComponent implements OnInit {
       description: 'signup through this awesome site',
       slug: 'signup-page'
     })
-    this.userService.setTitle("Signup - Noticer");
+    this.userService.setTitle("Signup - Spured");
     if(this.userService.getCurrentUser()){
       this.isValidUser = true;
     }

@@ -30,7 +30,7 @@ export class OthersProfileComponent implements OnInit {
       description: 'Others profile page', 
       slug: 'others profile'
   })
-  this.userService.setTitle("Noticer | Others profile");
+  this.userService.setTitle("Spured | Others profile");
     this.route.params.subscribe(this.handleParams.bind(this));
   }
 
@@ -47,7 +47,7 @@ export class OthersProfileComponent implements OnInit {
         return;
       }
       this.userDetails = resData;
-      this.userService.setTitle("Noticer | "+this.userDetails.userName);
+      this.userService.setTitle("Spured | "+this.userDetails.userName);
       if (this.userDetails && this.userDetails.profileImageUrl) {
         this.profileImage = (this.imageFromAws(this.userDetails.profileImageUrl) ? '' : (constant.REST_API_URL + "/")) +  this.userDetails.profileImageUrl;
       } else{
