@@ -161,10 +161,12 @@ export class SideMenuComponent implements OnInit {
   }
 
 
-  showAddBoardDialog(content: any) {
+  showAddBoardDialog(content: any, type:string) {
     this.commonService.updateHeaderMenu("sideMenuClose");
-    this.getAllSates();
-    this.getUserPendingOrRejectedRequests();
+    if(type == "addBoard"){
+      this.getAllSates();
+      this.getUserPendingOrRejectedRequests();
+    }
     this.categoryModalReference = this.modalService.open(content, this.windowStyle);
     this.categoryModalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;

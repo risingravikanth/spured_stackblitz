@@ -86,7 +86,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Production
 
 Now that everything is setup, you should be good to go! Build the app and start the server.
-`npm run build:ssr && npm run serve:ssr`
+`npm run build:ssr && npm run serve:ssr > stdout.txt &`
 
 ## Live demo:
 

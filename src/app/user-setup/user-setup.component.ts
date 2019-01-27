@@ -39,14 +39,15 @@ export class UserSetupComponent implements OnInit {
   public signUpDone:boolean = false;
   public mailId:any;
   resendBtnTxt = "Resend";
+  errorTextMessage: string = '';
   constructor(
     private router: Router,
     private formbuilder: FormBuilder,
     private userSetUpService: UserSetUpService,
     private route: ActivatedRoute,
     private seo: SeoService,
-    private mobile:MobileDetectionService,
     private userService:CurrentUserService,
+    private mobile:MobileDetectionService,
     private toastr:ToastrService
   ) { }
 
@@ -54,11 +55,11 @@ export class UserSetupComponent implements OnInit {
     this.isMobile = this.mobile.isMobile();
     this.userSetUpForm();
     this.seo.generateTags({
-      title: 'SignUp',
-      description: 'signup through this awesome site',
+      title: 'Sign up - SpurEd',
+      description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
       slug: 'signup-page'
-    })
-    this.userService.setTitle("Signup - Noticer");
+  })
+  this.userService.setTitle("Sign up - SpurEd")
     if(this.userService.getCurrentUser()){
       this.isValidUser = true;
     }
@@ -83,7 +84,8 @@ export class UserSetupComponent implements OnInit {
 
   saveUserSetUp() {
     if (this.UserSetUpForm.invalid) {
-      this.toastr.error("Failed", 'Please fill all the fields!')
+      // this.toastr.error("Failed", 'Please fill all the fields!')
+      this.errorTextMessage  = 'Please fill all the fields!';
     }
     else {
       this.btnText = "Creating new user.."
@@ -92,7 +94,8 @@ export class UserSetupComponent implements OnInit {
           this.responseData = resData;
           this.btnText = "Submit";
           if (this.responseData.info || this.responseData.statusCode == "ERROR") {
-            this.toastr.error("Failed", this.responseData.info)
+            // this.toastr.error("Failed", this.responseData.info)
+            this.errorTextMessage  = this.responseData.info;
           } else if (this.responseData.email) {
             // this.toastr.success("Signup Success", 'Soon you will get confirmation mail!')
             this.signUpDone = true;
@@ -102,7 +105,8 @@ export class UserSetupComponent implements OnInit {
             console.log(this.responseData);
           }
         }, error => {
-          this.toastr.error("Failed", "Something went wrong!")
+          this.errorTextMessage  = "Something went wrong!";
+          // this.toastr.error("Failed", "Something went wrong!")
         }
       );
     }
@@ -120,9 +124,12 @@ export class UserSetupComponent implements OnInit {
       if(resData && resData.info == "Successfully sent activation again"){
         this.toastr.success("Success", resData.info);
       } else if(resData && resData.info){
-        this.toastr.error("Failed", resData.info);
+        // this.toastr.error("Failed", resData.info);
+        this.errorTextMessage  = resData.info;
+        
       } else{
-        this.toastr.error("Failed", "Something went wrong");
+        this.errorTextMessage  = "Something went wrong!";
+        // this.toastr.error("Failed", "Something went wrong");
       }
     })
   }

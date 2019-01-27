@@ -5,9 +5,11 @@ import { MatFormFieldModule, MatInputModule, MatStepperModule } from '@angular/m
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
-import { BrowserCookiesModule } from '@ngx-utils/cookies/browser';
-import { CookiesService } from '@ngx-utils/cookies';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserCookiesModule } from '@ngx-utils/cookies/browser';
+import { CookieService } from 'ngx-cookie-service';
+import { TimeAgoPipe } from 'time-ago-pipe';
+import { AccountActivateComponent } from "./account-activate/account-activate.component";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotFoundModule } from './not-found/not-found.module';
@@ -18,25 +20,20 @@ import { OthersProfileModule } from './noticer/profile-other/profile-other.modul
 import { SelfProfileModule } from './noticer/profile-self/profile-self.module';
 import { ReportUsModule } from './noticer/report-us/report-us.module';
 import { SettingsModule } from './noticer/settings/settings.module';
+import { PasswordResetLinkModule } from "./password-reset-link/password-reset-link.module";
 import { PasswordResetModule } from './password-reset/password-reset.module';
 import { AuthCanLoadGuard, AuthGuard, CommonService } from './shared/index';
 import { TokenInterceptor } from './shared/inerceptors/token.interceptor';
 import { DatePickerFormat } from './shared/others/datepickerFormat';
 import { TimePickerFormat } from "./shared/others/timepickerFormat";
 import { AuthService } from './shared/services/auth.service';
+import { CustomCookieService } from "./shared/services/cookie.service";
 import { CurrentUserService } from './shared/services/currentUser.service';
 import { JwtService } from './shared/services/jwt.service';
 import { MobileDetectionService } from './shared/services/mobiledetection.service';
 import { UserSetupModule } from './user-setup/user-setup.module';
-import { AccountActivateComponent } from "./account-activate/account-activate.component";
+import { ToastrModule } from 'ng6-toastr-notifications';
 
-import {TimeAgoPipe} from 'time-ago-pipe';
-import { TransferHttpCacheModule } from '@nguniversal/common';
-import { CookieService } from 'ngx-cookie-service';
-import { CustomCookieService } from "./shared/services/cookie.service";
-import { NoticerMainComponent } from "./noticer/noticer-main/noticer-main.component";
-import { PasswordResetLinkComponent } from "./password-reset-link/password-reset-link.component";
-import { PasswordResetLinkModule } from "./password-reset-link/password-reset-link.module";
 
 @NgModule({
     declarations: [
@@ -68,7 +65,8 @@ import { PasswordResetLinkModule } from "./password-reset-link/password-reset-li
         BrowserAnimationsModule,
         BrowserTransferStateModule,
         // TransferHttpCacheModule,
-        PasswordResetLinkModule
+        PasswordResetLinkModule,
+        ToastrModule.forRoot()
     ],
     providers: [
         AuthGuard,
@@ -92,4 +90,4 @@ import { PasswordResetLinkModule } from "./password-reset-link/password-reset-li
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

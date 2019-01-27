@@ -34,7 +34,7 @@
                                     getModelFromTypeModel(post._type, post.model)}}</a></span> 
                         </div>
                         <div class="btn-group">
-                              <button type="button" title="Actions" id="postActions" class="btn btn-sm btn-light bg-white border-0 dropdown-toggle text-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <button type="button" title="Actions" id="postActions" class="btn btn-sm btn-light bg-white border-0 dropdown-toggle"  style="font-size: 20px;margin-top: -4px;height: 10px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-h"></i>
                               </button>
                               <div class="dropdown-menu dropdown-menu-right">
@@ -89,7 +89,7 @@
                     <hr style="margin-top: -3px;">-->
                     <div class="row" style="padding-left: 9px;margin-top: 0px;">
                         <div>
-                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="user"
+                            <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="Avatar"
                                 [src]="(post.userProfile && post.userProfile.profileImageUrl  && post.userProfile.profileImageUrl?.length>0 ) ? ((imageFromAws(post.userProfile.profileImageUrl) ? '' : serverUrl) + post.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">
                         </div>
                         <div style="margin-left: -48px;margin-top: 12px;">
@@ -290,7 +290,7 @@
                         <div *ngFor="let comment of post.comments;index as in">
                             <div class="wrap" style="margin-top: -6px;">
                                 <div class="commentProfile">
-                                    <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="ProfilePic"
+                                    <img width="80" height="80" style="padding: 18px;border-radius: 50px;" alt="Avatar"
                                         [src]="(comment.userProfile && comment.userProfile.profileImageUrl && comment.userProfile.profileImageUrl?.length>0) ? ((imageFromAws(comment.userProfile.profileImageUrl) ? '' : serverUrl) + comment.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">
                                 </div>
                                 <div class="commentBody">
@@ -316,7 +316,7 @@
                                             | date:
                                             'MMM d, y, h:mm
                                             a'}}</li>
-                                        <li>
+                                        <li style="    margin-top: 8px;">
                                             <!-- <p>{{comment.commentText}}</p> -->
                                             <!-- <label [innerHtml]="comment.commentText | slice:0:comment.maxLength"></label> -->
                                             <label class="multiLineText" style="font-size: 13px;">{{comment.commentText

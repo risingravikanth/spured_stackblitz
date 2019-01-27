@@ -44,11 +44,11 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         this.isMobile = this.mobile.isMobile();
         this.seo.generateTags({
-            title: 'Sign In',
-            description: 'login through this awesome site',
+            title: 'Sign in - SpurEd',
+            description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
             slug: 'signin-page'
         })
-        this.currentUser.setTitle("Sign in - Noticer")
+        this.currentUser.setTitle("Sign in - SpurEd")
         if (this.currentUser.checkValidUser()) {
             this.isValiUser = true;
             if (isPlatformBrowser(this.platformId)) {
@@ -92,7 +92,8 @@ export class LoginComponent implements OnInit {
                     this.responseVo = JSON.parse(resData.body);
                     if (this.responseVo && this.responseVo.error && this.responseVo.error.code) {
                         this.status = 'Log in';
-                        this.toastr.error("Failed", this.responseVo.error.code.longMessage);
+                        this.errorTextMessage = this.responseVo.error.code.longMessage;
+                        // this.toastr.error("Failed", this.responseVo.error.code.longMessage);
                     }
                     else if (this.responseVo.statusCode == "ERROR") {
                         this.errorTextMessage = this.responseVo.info;
@@ -109,10 +110,12 @@ export class LoginComponent implements OnInit {
                     }
                     else {
                         this.status = 'Log in';
-                        this.toastr.error("Failed", 'Something went wrong')
+                        this.errorTextMessage = 'Something went wrong';
+                        // this.toastr.error("Failed", 'Something went wrong')
                     }
                 }, (err: HttpErrorResponse) => {
-                    this.toastr.error("Failed", 'Something went wrong')
+                    // this.toastr.error("Failed", 'Something went wrong')
+                    this.errorTextMessage = 'Something went wrong';
                     this.status = 'Login';
                     this.disableLoginButton = false;
                 }

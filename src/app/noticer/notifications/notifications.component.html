@@ -31,7 +31,7 @@
             href="javascript:void(0);" routerLink="/notifications">See
             all
             notifications</a></div>
-    <div class="dropdown-item text-center" *ngIf="!showNotifications && offset > 0">
+    <div class="dropdown-item text-center" *ngIf="(!showNotifications && offset > 0) || (notificationsCount == 0 || from == 'header')">
         <span>No Notifications</span>
     </div>
     <div class="dropdown-item text-center" *ngIf="from != 'header' && !showPostSpinner && showMore">

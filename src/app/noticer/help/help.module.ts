@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HelpComponent } from './help.component';
+import { PanelModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import { HelpComponent } from './help.component';
     ReactiveFormsModule,
     MatExpansionModule,
     CommonModule,
+    PanelModule,
     NgbModule.forRoot()
   ],
   declarations: [

@@ -26,11 +26,11 @@ export class OthersProfileComponent implements OnInit {
   public profileAvailable = true;
   ngOnInit() {
     this.seo.generateTags({
-      title: 'Other Profile',
-      description: 'Others profile page', 
-      slug: 'others profile'
-  })
-  this.userService.setTitle("Noticer | Others profile");
+      title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+      description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+      slug: 'feed-page'
+    })
+    this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
     this.route.params.subscribe(this.handleParams.bind(this));
   }
 
@@ -47,7 +47,7 @@ export class OthersProfileComponent implements OnInit {
         return;
       }
       this.userDetails = resData;
-      this.userService.setTitle("Noticer | "+this.userDetails.userName);
+      this.userService.setTitle(this.userDetails.userName + " - SpurEd");
       if (this.userDetails && this.userDetails.profileImageUrl) {
         this.profileImage = (this.imageFromAws(this.userDetails.profileImageUrl) ? '' : (constant.REST_API_URL + "/")) +  this.userDetails.profileImageUrl;
       } else{

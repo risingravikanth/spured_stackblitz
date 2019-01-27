@@ -121,7 +121,12 @@ export class TokenInterceptor implements HttpInterceptor {
                     console.log("TrackingId in interceptor: " + event.headers.get("tracking-id"));
                 }*/
 
-                
+                console.log("resBody in interceptor:");
+                if(event && event.body && event.body.info && event.body.info == "Expired token"){
+                    console.log(event.body.info)
+                    this.authService.purgeAuth();
+                    this.router.navigate(['/login'], { queryParams: { 'status': 'access_denied' } })
+                }
             }
         }, (err: any) => {
             if (err instanceof HttpErrorResponse) {

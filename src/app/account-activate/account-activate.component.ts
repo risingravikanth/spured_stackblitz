@@ -3,13 +3,16 @@ import { TransferState, makeStateKey } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { ToastrService } from '../shared/services/Toastr.service';
+import { SeoService } from '../shared';
+import { CurrentUserService } from '../shared/services/currentUser.service';
 const MY_DATA = makeStateKey('ACCOUNT_ACTIVATION');
 
 @Component({
   selector: 'account-activate',
   templateUrl: './account-activate.component.html',
   styleUrls: ['./account-activate.component.css'],
-  providers: [AuthService, ToastrService]
+  providers: [AuthService, ToastrService,
+    CurrentUserService, SeoService]
 })
 export class AccountActivateComponent implements OnInit {
 
@@ -21,11 +24,19 @@ export class AccountActivateComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private router: Router,
-    private state:TransferState) {
+    private state: TransferState,
+    private seo: SeoService,
+    private userService: CurrentUserService) {
 
   }
 
   ngOnInit() {
+    this.seo.generateTags({
+      title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+      description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+      slug: 'feed-page'
+    })
+    this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
     this.route.params.subscribe(this.handleParams.bind(this));
   }
 
@@ -55,7 +66,7 @@ export class AccountActivateComponent implements OnInit {
     }
   }
 
-  doWithResponse(resData){
+  doWithResponse(resData) {
     if (resData && resData.info) {
       this.message = resData.info;
     } else if (resData && resData.userId) {

@@ -4,7 +4,7 @@
             <div id="div_a" class="center">
                 <font color="white">
                     <b>
-                        <p><i class="fas fa-hand-point-right"></i>&nbsp; Welcome To Noticer</p>
+                        <p><i class="fas fa-hand-point-right"></i>&nbsp; Welcome To Spured</p>
                         <p><i class="fas fa-hand-point-right"></i>&nbsp; Join the conversation</p>
                         <p><i class="fas fa-hand-point-right"></i>&nbsp; Learn to enjoy every minute of your life.</p>
                     </b>
@@ -12,7 +12,7 @@
                  <!-- <div class='preload login--container'>
                     <div class='login--toggle-container'>
                         <small class="topsmall">Hey you,Welcome to</small>
-                        <div class='js-toggle-login'>Noticer</div>
+                        <div class='js-toggle-login'>Spured</div>
                         <small class="bottomsmall">It's a Knowledge Networking</small>
                     </div>
                 </div> -->
@@ -35,7 +35,7 @@
                 <form (ngSubmit)="onLoggedin()" [formGroup]="authForm" class="container-login">
                     <div class="form-row">
                         <label for="inputEmail4">Email</label>
-                        <input type="email" class="form-control  form-control-sm" id="inputEmail4" placeholder="abc@noticer.com"
+                        <input type="email" class="form-control  form-control-sm" id="inputEmail4" placeholder="name@email.com"
                             formControlName="email">
                     </div>
                     <div class="form-row marT12">
@@ -45,7 +45,7 @@
                     </div>
                     <p><a href="javascript:void(0);" class="linkGray" routerLink="/password_reset">Forgot password?</a></p>
                     <button type="submit" class="btn btn-primary btn-sm loginButton btn-block" [disabled]="status == 'Logging in, please wait...'">{{status}}</button>
-                    <p class="signUpBtnMar text-center"><b>Join Noticer Today</b></p>
+                    <p class="signUpBtnMar text-center"><b>Join Spured Today</b></p>
                     <button type="button" class="btn btn-default btn-sm btnShape btn-block" routerLink="/signup">Sign
                         Up</button>
                     <button *ngIf="!isValiUser" style="background: #155a24;" type="button" class="btn btn-default btn-sm btnShape  btn-block"

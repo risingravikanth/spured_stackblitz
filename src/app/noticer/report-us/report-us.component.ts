@@ -3,12 +3,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from '../../shared/services/Toastr.service';
 import { NoticerMainService } from '../noticer-main/noticer-main.service';
+import { SeoService } from '../../shared';
+import { CurrentUserService } from '../../shared/services/currentUser.service';
 
 @Component({
   selector: 'report-us',
   templateUrl: './report-us.component.html',
   styleUrls: ['./report-us.component.css'],
-  providers: [ToastrService, NoticerMainService]
+  providers: [ToastrService, NoticerMainService, SeoService, CurrentUserService]
 })
 export class ReportUsComponent implements OnInit {
 
@@ -20,10 +22,18 @@ export class ReportUsComponent implements OnInit {
   public btnTxt = "Report"
 
   constructor(private formbuilder: FormBuilder, private toastr: ToastrService,
-    private service: NoticerMainService) { }
+    private service: NoticerMainService,
+    private seo:SeoService,
+    private userService:CurrentUserService) { }
 
   ngOnInit() {
     this.initForm();
+    this.seo.generateTags({
+      title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+      description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+      slug: 'feed-page'
+    })
+    this.userService.setTitle("Report us - SpurEd")
   }
 
   initForm() {

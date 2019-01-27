@@ -42,7 +42,7 @@ export class NoticerMainComponent implements OnInit {
   public boardId: any;
   public reqestType: string;
   public windowStyle: any;
-  public underMaintenace :boolean = true;
+  public underMaintenace: boolean = true;
 
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
@@ -110,12 +110,12 @@ export class NoticerMainComponent implements OnInit {
       //console.log("// No result received ");
     }*/
 
-
     this.seo.generateTags({
-      title: 'Noticer feed | Posts and comments',
-      description: 'Noticer posts and comments',
+      title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+      description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
       slug: 'feed-page'
     })
+    this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
 
     this.commonService.menuChanges.subscribe(type => {
       if (type == "updateProfilePic") {
@@ -129,8 +129,6 @@ export class NoticerMainComponent implements OnInit {
         this.noData = false;
       }
     )
-
-    this.userService.setTitle("Noticer | Posts and comments");
 
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;
 
@@ -181,11 +179,11 @@ export class NoticerMainComponent implements OnInit {
       this.boardId = params['boardId'];
       this.prepareBoardPostReq(params['title']);
       this.seo.generateTags({
-        title: 'Closed board posts',
-        description: 'All about closed board posts',
-        slug: 'boards-page'
+        title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+        description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+        slug: 'feed-page'
       })
-      this.userService.setTitle("Noticer | Closed board posts and comments");
+      this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
     } else {
       this.paramType = params['type'];
       this.paramCategory = params['category'];
@@ -221,11 +219,11 @@ export class NoticerMainComponent implements OnInit {
         }
       } else {
         this.seo.generateTags({
-          title: this.paramType,
-          description: this.paramType + " posts and comments",
-          slug: this.paramType + '-page'
+          title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+          description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+          slug: 'feed-page'
         })
-        this.userService.setTitle("Noticer | " + this.paramType + " posts and comments");
+        this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
         this.selectedCategory(sec);
       }
     }
@@ -308,7 +306,7 @@ export class NoticerMainComponent implements OnInit {
           }
         }, error => {
           console.log("Failed", "Something went wrong!");
-          if(error.status === 0){
+          if (error.status === 0) {
             this.showPostSpinner = false;
             this.underMaintenace = false;
           }
@@ -330,14 +328,14 @@ export class NoticerMainComponent implements OnInit {
           }
         }, error => {
           this.toastr.error("Failed", "Something went wrong!");
-          if(error.status === 0){
+          if (error.status === 0) {
             this.showPostSpinner = false;
             this.underMaintenace = false;
           }
         });
     }
 
-  
+
   }
 
   loadMorePosts() {
@@ -632,14 +630,12 @@ export class NoticerMainComponent implements OnInit {
       } else {
         this.postsList = resData.posts;
         if (this.postsList.length > 0) {
-
           this.seo.generateTags({
-            title: this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title",
-            description: this.postsList[0].postText,
-            slug: 'post details page'
+            title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+            description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+            slug: 'feed-page'
           })
-
-          this.userService.setTitle("Noticer | " + (this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title"));
+          this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
 
           // Chaning postDeatail url
           let arrUrl = this.router.url.split("/");
@@ -720,10 +716,14 @@ export class NoticerMainComponent implements OnInit {
   getModelFromTypeModel(_type: any, modelValue: any): string {
     let type = this.getSectionFromType(_type);
     let model = "Others"
+    //Below condition is for: same verbal and quants have same models
+    if (type == "Quants") {
+      type = "Verbal";
+    }
     this.models.forEach(sec => {
-      if(sec.type.toUpperCase() == type.toUpperCase()){
+      if (sec.type.toUpperCase() == type.toUpperCase()) {
         sec.models.forEach(element => {
-          if(element.value == modelValue){
+          if (element.value == modelValue) {
             model = element.label
           }
         });
@@ -864,7 +864,7 @@ export class NoticerMainComponent implements OnInit {
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
     if (postObj.postId != postId) {
-      alert("Something went wrong!");
+      this.toastr.error("Failed", "Something went wrong!");
       return;
     }
     let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
@@ -883,13 +883,13 @@ export class NoticerMainComponent implements OnInit {
 
     this.service.createLike(body).subscribe((resData: any) => {
       if (resData && resData.error && resData.error.code && resData.error.code.id) {
-        alert(resData.error.code.longMessage);
+        this.toastr.error("Failed", resData.error.code.longMessage);
         this.postsList[index].actionAttributes.upVoteCount -= 1;
         this.postsList[index].actionAttributes.upVoted = false;
       } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
         console.log(resData);
         this.postsList[index].actionAttributes.voteId = resData.actionRecords[0].id;
-        alert("Post liked successfully");
+        this.toastr.success("Success", "Post liked successfully");
       }
     })
   }
@@ -902,7 +902,7 @@ export class NoticerMainComponent implements OnInit {
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
     if (postObj.postId != postId) {
-      alert("Something went wrong!");
+      this.toastr.error("Failed", "Something went wrong!");
       return;
     }
     let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
@@ -919,7 +919,7 @@ export class NoticerMainComponent implements OnInit {
 
     this.service.cancelLike(body).subscribe((resData: any) => {
       if (resData && resData.error && resData.error.code && resData.error.code.id) {
-        alert(resData.error.code.longMessage);
+        this.toastr.error("Failed", resData.error.code.longMessage);
       } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
         this.postsList[index].actionAttributes.upVoteCount -= 1;
         this.postsList[index].actionAttributes.upVoted = false;
@@ -935,7 +935,7 @@ export class NoticerMainComponent implements OnInit {
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
     if (postObj.postId != postId) {
-      alert("Something went wrong!");
+      this.toastr.error("Failed", "Something went wrong!");
       return;
     }
     let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
@@ -953,13 +953,13 @@ export class NoticerMainComponent implements OnInit {
 
     this.service.createFavorite(body).subscribe((resData: any) => {
       if (resData && resData.error && resData.error.code && resData.error.code.id) {
-        alert(resData.error.code.longMessage);
+        this.toastr.error("Failed", resData.error.code.longMessage);
         this.postsList[index].actionAttributes.favoriteCount -= 1;
         this.postsList[index].actionAttributes.favorited = false;
       } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
         console.log(resData);
         this.postsList[index].actionAttributes.favoriteId = resData.actionRecords[0].id;
-        alert("Post favorited successfully");
+        this.toastr.success("Success", "Post favorited successfully");
       }
     })
   }
@@ -972,7 +972,7 @@ export class NoticerMainComponent implements OnInit {
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
     if (postObj.postId != postId) {
-      alert("Something went wrong!");
+      this.toastr.error("Failed", "Something went wrong!");
       return;
     }
     let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
@@ -988,7 +988,7 @@ export class NoticerMainComponent implements OnInit {
 
     this.service.cancelFavorite(body).subscribe((resData: any) => {
       if (resData && resData.error && resData.error.code && resData.error.code.id) {
-        alert(resData.error.code.longMessage);
+        this.toastr.error("Failed", resData.error.code.longMessage);
       } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
         this.postsList[index].actionAttributes.favoriteCount -= 1;
         this.postsList[index].actionAttributes.favorited = false;
@@ -1002,7 +1002,7 @@ export class NoticerMainComponent implements OnInit {
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
     if (postObj.postId != postId) {
-      alert("Something went wrong!");
+      this.toastr.error("Failed", "Something went wrong!");
       return;
     }
     let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
@@ -1016,9 +1016,9 @@ export class NoticerMainComponent implements OnInit {
     };
     this.service.createReport(body).subscribe((resData: any) => {
       if (resData && resData.error && resData.error.code && resData.error.code.id) {
-        alert(resData.error.code.longMessage);
+        this.toastr.error("Failed", resData.error.code.longMessage);
       } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
-        alert("Reported successfully");
+        this.toastr.success("Success", "Reported successfully");
       }
     })
   }

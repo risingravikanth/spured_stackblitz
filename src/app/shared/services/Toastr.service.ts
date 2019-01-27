@@ -1,38 +1,23 @@
-import { Injectable } from "@angular/core";
+import { Injectable, ViewContainerRef } from "@angular/core";
+import { ToastrManager } from 'ng6-toastr-notifications';
 declare var toastr:any;
 var toastr;
 @Injectable()
 export class ToastrService{
 
-    private toastr :any;
+    constructor(public toastr: ToastrManager) {
+     }
 
     success(message:string, title:string){
-        /*if(toastr){
-             toastr.success(title, message);
-        }else{
-             console.log(title+" : "+message);
-        }*/
+        this.toastr.successToastr(title, message);
     }
     error(message:string, title:string){
-        /*if(toastr){
-              toastr.error(title, message)
-        }else{
-             console.log(title+" : "+message);
-        }*/
+        this.toastr.errorToastr(title, message);
     }
     warning(message:string, title:string){
-        /*if(toastr){
-              toastr.warning(title, message);
-        }else{
-             console.log(title+" : "+message);
-        }*/
+        this.toastr.warningToastr(title, message);
     }
     info(message:string){
-       
-       /* if(toastr){
-              toastr.info(message);
-        }else{
-             console.log(message);
-        } */
+        this.toastr.infoToastr(message);
     }
 }

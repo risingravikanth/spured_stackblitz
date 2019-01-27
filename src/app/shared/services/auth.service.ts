@@ -9,7 +9,7 @@ import { CurrentUserService } from './currentUser.service';
 import * as constants from '../others/constants';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
 
-import { CookiesService } from '@ngx-utils/cookies';
+import { CookiesService, CookiesOptions } from '@ngx-utils/cookies';
 
 @Injectable()
 export class AuthService {
@@ -19,13 +19,13 @@ export class AuthService {
         private http: HttpClient,
         private jwtService: JwtService,
         private currentUserService: CurrentUserService,
-        private state:TransferState,
+        private state: TransferState,
         private cookies: CookiesService
     ) { }
 
     setAuth(user: User) {
         this.jwtService.saveToken(user.token);
-        
+
         /*this.setCookie('ravi_kanth','ravikanth');
         this.setCookie("ravi_kanth1",user.token);
         console.log(user.token);
@@ -33,31 +33,32 @@ export class AuthService {
         this.setCookie("ravi_kanth5",JSON.stringify(user.token));
         console.log(user.token.toString());*/
 
-        this.setCookie("Authorization",user.token.toString());
-        this.setCookie("user_id",user.userId.toString());
-        this.setCookie("isLoggedInUser","true");
+        this.setCookie("Authorization", user.token.toString());
+        this.setCookie("user_id", user.userId.toString());
+        this.setCookie("isLoggedInUser", "true");
 
         this.currentUserService.setCurrentUser(user);
     }
 
-    setCookie(key :string, value : string){
-         this.cookies.put(key, value);
+    setCookie(key: string, value: string) {
+        let cookieOptions: CookiesOptions = {domain:"spured.com"};
+        this.cookies.put(key, value, cookieOptions);
     }
 
-    getCookie(key :any){
-         return this.cookies.get(key)
+    getCookie(key: any) {
+        return this.cookies.get(key)
     }
 
-    removeCookie(Key :any){
+    removeCookie(Key: any) {
         this.cookies.remove(Key);
     }
 
-    removeAll(){
+    removeAll() {
         this.cookies.removeAll();
     }
 
-    getAuth(key :any){
-         return this.cookies.get(key)
+    getAuth(key: any) {
+        return this.cookies.get(key)
     }
 
     purgeAuth() {

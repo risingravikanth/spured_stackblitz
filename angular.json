@@ -35,15 +35,13 @@
               "node_modules/primeng/resources/themes/omega/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/lightbox2/dist/css/lightbox.min.css",
-              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "node_modules/toastr/build/toastr.min.css"
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
             ],
             "scripts": [
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-              "node_modules/lightbox2/dist/js/lightbox.js",
-              "node_modules/toastr/build/toastr.min.js"
+              "node_modules/lightbox2/dist/js/lightbox.js"
             ]
           },
           "configurations": {

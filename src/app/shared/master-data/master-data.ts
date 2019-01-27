@@ -369,47 +369,47 @@ export const SECTIONS = [
                     },
                     {
                         "name": "2019 January",
-                        "code": "2019_january"
+                        "code": "january_2019"
                     },
                     {
                         "name": "2018 December",
-                        "code": "2018_december"
+                        "code": "december_2018"
                     },
                     {
                         "name": "2018 November",
-                        "code": "2018_november"
+                        "code": "november_2018"
                     },
                     {
                         "name": "2018 October",
-                        "code": "2018_october"
+                        "code": "october_2018"
                     },
                     {
                         "name": "2018",
-                        "code": "2018"
+                        "code": "year_2018"
                     },
                     {
                         "name": "2017",
-                        "code": "2017"
+                        "code": "year_2017"
                     },
                     {
                         "name": "2016",
-                        "code": "2016"
+                        "code": "year_2016"
                     },
                     {
                         "name": "2015",
-                        "code": "2015"
+                        "code": "year_2015"
                     },
                     {
                         "name": "2011-15",
-                        "code": "2011_15"
+                        "code": "between_2011_15"
                     },
                     {
                         "name": "2001-10",
-                        "code": "2001_10"
+                        "code": "between_2001_10"
                     },
                     {
                         "name": "<2001",
-                        "code": "<2001"
+                        "code": "before_2001"
                     },
                     {
                         "name": "Others",
@@ -682,8 +682,8 @@ export const MODELS = [
     {
         type:"CAREERS",
         models: [
-            { label: 'Government', value: 'government' },
-            { label: 'Private', value: 'private' },
+            { label: 'Government', value: 'government_sector' },
+            { label: 'Private', value: 'private_sector' },
         ]
     },
     {
