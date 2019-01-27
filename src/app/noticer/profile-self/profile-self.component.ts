@@ -55,12 +55,11 @@ export class SelfProfileComponent implements OnInit {
 
     ngOnInit() {
         this.seo.generateTags({
-            title: 'Self Profile',
-            description: 'Self profile page',
-            slug: 'selfprofile-page'
-        })
-
-        this.userService.setTitle("Self Profile - Spured");
+            title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+            description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+            slug: 'feed-page'
+          })
+          this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
 
         this.currentUser = this.userService.getCurrentUser();
         if (this.currentUser) {
@@ -107,7 +106,7 @@ export class SelfProfileComponent implements OnInit {
         this.service.getUserInfo(userId).subscribe(resData => {
             this.showSpinner = false;
             this.userDetails = resData;
-            this.userService.setTitle("Spured - "+this.userDetails.userName);
+            this.userService.setTitle(this.userDetails.userName + " - SpurEd");
         }, error => {
             this.showSpinner = false;
             this.toastr.error("Failed", "Something went wrong!");

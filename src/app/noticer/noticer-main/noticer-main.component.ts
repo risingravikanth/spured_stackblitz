@@ -110,12 +110,12 @@ export class NoticerMainComponent implements OnInit {
       //console.log("// No result received ");
     }*/
 
-
     this.seo.generateTags({
-      title: 'Spured feed | Posts and comments',
-      description: 'Spured posts and comments',
+      title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+      description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
       slug: 'feed-page'
     })
+    this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
 
     this.commonService.menuChanges.subscribe(type => {
       if (type == "updateProfilePic") {
@@ -129,8 +129,6 @@ export class NoticerMainComponent implements OnInit {
         this.noData = false;
       }
     )
-
-    this.userService.setTitle("Spured | Posts and comments");
 
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;
 
@@ -181,11 +179,11 @@ export class NoticerMainComponent implements OnInit {
       this.boardId = params['boardId'];
       this.prepareBoardPostReq(params['title']);
       this.seo.generateTags({
-        title: 'Closed board posts',
-        description: 'All about closed board posts',
-        slug: 'boards-page'
+        title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+        description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+        slug: 'feed-page'
       })
-      this.userService.setTitle("Spured | Closed board posts and comments");
+      this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
     } else {
       this.paramType = params['type'];
       this.paramCategory = params['category'];
@@ -221,11 +219,11 @@ export class NoticerMainComponent implements OnInit {
         }
       } else {
         this.seo.generateTags({
-          title: this.paramType,
-          description: this.paramType + " posts and comments",
-          slug: this.paramType + '-page'
+          title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+          description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+          slug: 'feed-page'
         })
-        this.userService.setTitle("Spured | " + this.paramType + " posts and comments");
+        this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
         this.selectedCategory(sec);
       }
     }
@@ -632,14 +630,12 @@ export class NoticerMainComponent implements OnInit {
       } else {
         this.postsList = resData.posts;
         if (this.postsList.length > 0) {
-
           this.seo.generateTags({
-            title: this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title",
-            description: this.postsList[0].postText,
-            slug: 'post details page'
+            title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+            description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+            slug: 'feed-page'
           })
-
-          this.userService.setTitle("Spured | " + (this.postsList[0].postTitle ? this.postsList[0].postTitle : "No post title"));
+          this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
 
           // Chaning postDeatail url
           let arrUrl = this.router.url.split("/");

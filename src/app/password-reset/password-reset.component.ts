@@ -6,17 +6,20 @@ import { CustomValidator } from '../shared/others/custom.validator';
 import { ToastrService } from '../shared/services/Toastr.service';
 import { PasswordResetService } from './password-reset.service';
 import { MobileDetectionService } from '../shared/services/mobiledetection.service';
+import { SeoService } from '../shared';
+import { CurrentUserService } from '../shared/services/currentUser.service';
 
 @Component({
   selector: 'password-reset',
   templateUrl: './password-reset.component.html',
   styleUrls: ['./password-reset.component.css'],
-  providers: [PasswordResetService, CustomValidator, MessageService, ToastrService, MobileDetectionService]
+  providers: [PasswordResetService, CustomValidator, MessageService, ToastrService, MobileDetectionService, CurrentUserService, SeoService]
 })
 export class PasswordResetComponent implements OnInit {
 
   constructor(private router: Router, private formbuilder: FormBuilder, private service: PasswordResetService, private tostr: ToastrService,
-    private mobile: MobileDetectionService) { }
+    private mobile: MobileDetectionService, 
+    private seo:SeoService, private userService:CurrentUserService) { }
 
   PasswordResetForm: FormGroup;
 
@@ -27,6 +30,12 @@ export class PasswordResetComponent implements OnInit {
   ngOnInit() {
     this.isMobile = this.mobile.isMobile();
     this.formInit();
+    this.seo.generateTags({
+      title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+      description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+      slug: 'feed-page'
+    })
+    this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
   }
 
 

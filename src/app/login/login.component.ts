@@ -44,11 +44,11 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         this.isMobile = this.mobile.isMobile();
         this.seo.generateTags({
-            title: 'Sign In',
-            description: 'login through this awesome site',
+            title: 'Sign in - SpurEd',
+            description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
             slug: 'signin-page'
         })
-        this.currentUser.setTitle("Sign in - Spured")
+        this.currentUser.setTitle("Sign in - SpurEd")
         if (this.currentUser.checkValidUser()) {
             this.isValiUser = true;
             if (isPlatformBrowser(this.platformId)) {

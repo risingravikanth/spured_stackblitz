@@ -13,7 +13,7 @@
             -->
                 <li>
                     <label>
-                        <b>Boards&nbsp;<i class="fa fa-info-circle" (click)="showAddBoardDialog(boardsHelpDialog)"></i></b>
+                        <b>Boards&nbsp;<i class="fa fa-info-circle" (click)="showAddBoardDialog(boardsHelpDialog, 'help')"></i></b>
                     </label>
                     <!-- <span class="float-right" *ngIf="!showConfig">
                     <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showConfig = true">
@@ -22,7 +22,7 @@
                 </span> -->
                     <span class="float-right">
                         <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add new board"
-                            (click)="showAddBoardDialog(addBoardDialog)">
+                            (click)="showAddBoardDialog(addBoardDialog, 'addBoard')">
                             <i class="fas fa-plus"></i>
                         </a>
                         <!-- <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showConfig = false">
@@ -265,10 +265,14 @@
         </div>
         <div class="container">
             <p>Boards are kind of pages for educational institutes. Access to boards are controlled by admins of respective boards. Once you request to join a your class board and approved by admin,you will be automatically be part of boards of various levels such as class, batch, department, college.
-
+                <br>
+                <br>
                 You just need to and can send request to class level boards only. Once its approved by board respective board admin, you will be automatically part of class, batch, department, college.
-                
+                <br>
+                <br>
                 You can send a request to create your institute, department, batch if they are missing in the dropdowns by selecting the checkbox and providing the necessary details. We will review the request and notify you with action.
+                <br>
+                <br>
                 Please visit help page (<a routerLink="/help" (click)="d('Cross click')">http://spured.com/help</a>) to find more details.
             </p>
         </div>

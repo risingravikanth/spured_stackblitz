@@ -6,7 +6,7 @@ import { NotificationsService } from './notifications.service';
 import { User } from '../../shared/models/user.model';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import * as constant from '../../shared/others/constants'
-import { CommonService } from '../../shared';
+import { CommonService, SeoService } from '../../shared';
 
 import {TimeAgoPipe} from 'time-ago-pipe';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
@@ -19,7 +19,7 @@ const MESSAGES_KEY = makeStateKey<string>('messages');
   selector: 'notifications',
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.css'],
-  providers: [NotificationsService, CurrentUserService]
+  providers: [NotificationsService, CurrentUserService, SeoService]
 })
 export class NotificationsComponent implements OnInit {
 
@@ -48,6 +48,14 @@ export class NotificationsComponent implements OnInit {
   public showMore: boolean = false;
 
   ngOnInit() {
+
+    this.seo.generateTags({
+      title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+      description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+      slug: 'feed-page'
+    })
+    this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
+
     this.isMobile = this.mobileService.isMobile();
     //this.currentUser = this.userService.getCurrentUser();
     this.isLoggedInUser = this.userService.checkLoggedInUser();
@@ -76,7 +84,8 @@ export class NotificationsComponent implements OnInit {
     public mobileService: MobileDetectionService,
     private commonService:CommonService,
     private trasferState: TransferState,
-    @Inject(PLATFORM_ID) private platformId: Object ) {
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private seo:SeoService ) {
 
     this.isServer = isPlatformServer(this.platformId);
 

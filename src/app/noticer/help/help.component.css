@@ -82,3 +82,9 @@
   .help-pad{
     padding: 0px 160px 0px 160px !important;
 }
+
+.fontType{
+  font-family: "charter_digits", Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif !important;
+    font-size: 15px !important;
+    margin-bottom: 0px;
+}

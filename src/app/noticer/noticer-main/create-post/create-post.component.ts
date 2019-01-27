@@ -97,10 +97,11 @@ export class CreatePostComponent implements OnInit {
   public mobileFlag : boolean = false;
   ngOnInit() {
     this.seo.generateTags({
-      title: 'Spured feed | Posts and comments',
-      description: 'Spured posts and comments',
+      title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+      description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
       slug: 'feed-page'
     })
+    this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
 
     this.commonService.menuChanges.subscribe(type => {
       if (type == "updateProfilePic") {
@@ -113,8 +114,6 @@ export class CreatePostComponent implements OnInit {
     this.commonService.isMobileFlag.subscribe(mobileFlag => {
         this.mobileFlag = mobileFlag;
     });
-
-    this.userService.setTitle("Spured | Posts and comments");
 
     this.audienceList = categories_types_models.AUDIENCE;
     this.sectionsTypesMappings = categories_types_models.SECTION_MAPPINGS;

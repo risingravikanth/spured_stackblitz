@@ -46,8 +46,8 @@ export class UserSetupComponent implements OnInit {
     private userSetUpService: UserSetUpService,
     private route: ActivatedRoute,
     private seo: SeoService,
-    private mobile:MobileDetectionService,
     private userService:CurrentUserService,
+    private mobile:MobileDetectionService,
     private toastr:ToastrService
   ) { }
 
@@ -55,11 +55,11 @@ export class UserSetupComponent implements OnInit {
     this.isMobile = this.mobile.isMobile();
     this.userSetUpForm();
     this.seo.generateTags({
-      title: 'SignUp',
-      description: 'signup through this awesome site',
+      title: 'Sign up - SpurEd',
+      description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
       slug: 'signup-page'
-    })
-    this.userService.setTitle("Signup - Spured");
+  })
+  this.userService.setTitle("Sign up - SpurEd")
     if(this.userService.getCurrentUser()){
       this.isValidUser = true;
     }

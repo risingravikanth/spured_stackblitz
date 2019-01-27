@@ -9,8 +9,8 @@ export class SeoService {
   generateTags(config) {
     // default values
     config = { 
-      title: 'Spured', 
-      description: 'All about the students communication and competitive examinations. &copy; 2018 Spured', 
+      title: 'SpurEd - Spur: Give encouragement to Ed: Education', 
+      description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.', 
       image: 'https://s3.ap-south-1.amazonaws.com/imgposts/files/84-227380096141796-21508154-back-to-school-global-icons-education-text-over-paper-sheet-background-.jpg',
       ...config
     }

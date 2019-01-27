@@ -7,14 +7,14 @@ import * as constant from '../../shared/others/constants';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { ToastrService } from '../../shared/services/Toastr.service';
 import { SettingsService } from './settings.service';
-import { MobileDetectionService } from '../../shared';
+import { MobileDetectionService, SeoService } from '../../shared';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css'],
-  providers: [SettingsService, ToastrService]
+  providers: [SettingsService, ToastrService, SeoService, CurrentUserService]
 })
 export class SettingsComponent implements OnInit {
 
@@ -31,7 +31,8 @@ export class SettingsComponent implements OnInit {
   constructor(private router: Router, private formbuilder: FormBuilder, private service: SettingsService,
     private userService: CurrentUserService, @Inject(PLATFORM_ID) private platformId: Object,
     private toastr: ToastrService, private mobileServie: MobileDetectionService, private fb: FormBuilder,
-    private authService:AuthService) {
+    private authService:AuthService,
+    private seo:SeoService) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
       this.serverUrl = constant.REST_API_URL + "/";
@@ -44,6 +45,13 @@ export class SettingsComponent implements OnInit {
     this.boardRequests();
 
     this.initDeleteForm();
+
+    this.seo.generateTags({
+      title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+      description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+      slug: 'feed-page'
+    })
+    this.userService.setTitle("Settings - SpurEd")
   }
 
   initDeleteForm() {
