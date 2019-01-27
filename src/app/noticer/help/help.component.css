@@ -78,3 +78,7 @@
   .button:hover {
     background-color: #555;
   }
+
+  .help-pad{
+    padding: 0px 160px 0px 160px !important;
+}
