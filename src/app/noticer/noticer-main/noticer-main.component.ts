@@ -21,6 +21,7 @@ import { NoticerMainService } from './noticer-main.service';
 
 
 const RESULT_KEY = makeStateKey<string>('result');
+const RESULTBYID_KEY = makeStateKey<string>('resultbyid');
 
 @Component({
   selector: 'noticer-main',
@@ -279,8 +280,7 @@ export class NoticerMainComponent implements OnInit {
     this.postsList = [];
     this.goToTop();
 
-
-    /* server side rendring */
+     /* server side rendring */
     if (this.tstate.hasKey(RESULT_KEY)) {
       console.log("browser : getting RESULT_KEY for posts");
 
@@ -621,48 +621,83 @@ export class NoticerMainComponent implements OnInit {
     }
   }
 
+  generatePostById(){
+       if (this.postsList.length > 0) {
+            this.seo.generateTags({
+              title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+              description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+              slug: 'feed-page'
+            })
+            this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
+
+            // Chaning postDeatail url
+            let arrUrl = this.router.url.split("/");
+            let newUrl = "";
+            for (let i = 0; i < arrUrl.length - 1; i++) {
+              if (arrUrl[i] != undefined) {
+                newUrl = newUrl + arrUrl[i] + "/"
+              } else {
+                newUrl = "/" + newUrl
+              }
+            }
+            let num: any = arrUrl[arrUrl.length - 1];
+            if (!isNaN(num)) {
+              newUrl = newUrl + arrUrl[arrUrl.length - 1] + "/";
+            }
+            if (this.postsList[0].postTitle) {
+              this.location.replaceState(newUrl + this.postsList[0].postTitle.replace(/[^a-zA-Z0-9]/g, '-'));
+            }
+            this.preparePostsList();
+          } else {
+            // this.toastr.error("Failed", "The post your looking is deleted");
+            this.router.navigate(['/not-found'])
+          }
+  }
+
   getPostDetails() {
     let paramTypeD = this.paramType.toUpperCase();
-    this.service.getPostDetailsById(this.paramId, paramTypeD).subscribe((resData: any) => {
-      let obj: any = resData;
-      if (obj.error && obj.error.code && obj.error.code.id) {
-        this.toastr.error("Failed", obj.error.code.message);
-      } else {
-        this.postsList = resData.posts;
-        if (this.postsList.length > 0) {
-          this.seo.generateTags({
-            title: 'SpurEd - Spur: Give encouragement to Ed: Education',
-            description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
-            slug: 'feed-page'
-          })
-          this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
 
-          // Chaning postDeatail url
-          let arrUrl = this.router.url.split("/");
-          let newUrl = "";
-          for (let i = 0; i < arrUrl.length - 1; i++) {
-            if (arrUrl[i] != undefined) {
-              newUrl = newUrl + arrUrl[i] + "/"
-            } else {
-              newUrl = "/" + newUrl
-            }
-          }
-          let num: any = arrUrl[arrUrl.length - 1];
-          if (!isNaN(num)) {
-            newUrl = newUrl + arrUrl[arrUrl.length - 1] + "/";
-          }
-          if (this.postsList[0].postTitle) {
-            this.location.replaceState(newUrl + this.postsList[0].postTitle.replace(/[^a-zA-Z0-9]/g, '-'));
-          }
-          this.preparePostsList();
+     /* server side rendring */
+    if (this.tstate.hasKey(RESULTBYID_KEY)) {
+      console.log("browser : getting RESULTBYID_KEY for posts");
+
+      this.postsList = this.tstate.get(RESULTBYID_KEY, '');
+      this.tstate.remove(RESULTBYID_KEY);
+      this.generatePostById();
+ 
+    } else if (this.isServer) {
+      console.log("server : making service call & setting RESULTBYID_KEY");
+      
+      this.service.getPostDetailsById(this.paramId, paramTypeD).subscribe((resData: any) => {
+        let obj: any = resData;
+        if (obj.error && obj.error.code && obj.error.code.id) {
+          this.toastr.error("Failed", obj.error.code.message);
         } else {
-          // this.toastr.error("Failed", "The post your looking is deleted");
-          this.router.navigate(['/not-found'])
+          this.postsList = resData.posts;
+          this.tstate.set(RESULTBYID_KEY, this.postsList );
+          this.generatePostById();
         }
-      }
-    }, error => {
-      this.toastr.error("Failed", "Something went wrong!");
-    })
+      }, error => {
+        this.toastr.error("Failed", "Something went wrong!");
+      });
+
+
+    } else {
+      console.log("no result received : making service call RESULTBYID_KEY");
+
+      this.service.getPostDetailsById(this.paramId, paramTypeD).subscribe((resData: any) => {
+        let obj: any = resData;
+        if (obj.error && obj.error.code && obj.error.code.id) {
+          this.toastr.error("Failed", obj.error.code.message);
+        } else {
+          this.postsList = resData.posts;
+          this.generatePostById();
+        }
+      }, error => {
+        this.toastr.error("Failed", "Something went wrong!");
+      });
+ 
+    }
   }
 
 

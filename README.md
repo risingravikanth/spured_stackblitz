@@ -96,3 +96,13 @@ http://139.59.6.52:8080/
 Ref : 
 #https://malcoded.com/posts/angular-fundamentals-universal-server-side-rendering
 #https://malcoded.com/posts/server-rendering-pitfalls
+
+#For V2
+#https://www.creative-tim.com/bootstrap-themes?direction=asc&page=4&sort=price
+
+#for New card design 
+#https://codepen.io/IMarty/pen/zrdYGe -- good one
+#https://freefrontend.com/css-cards/ 
+
+#for landing page 
+#https://demos.creative-tim.com/awesome-landing-page/web_app.html
