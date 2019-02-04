@@ -103,3 +103,6 @@ Ref :
 #for New card design 
 #https://codepen.io/IMarty/pen/zrdYGe -- good one
 #https://freefrontend.com/css-cards/ 
+
+#for landing page 
+#https://demos.creative-tim.com/awesome-landing-page/web_app.html
