@@ -12,7 +12,7 @@ import {TimeAgoPipe} from 'time-ago-pipe';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
 
 
-const MESSAGES_KEY = makeStateKey<string>('messages');
+const NOTIFICATIONS_KEY = makeStateKey<string>('notifications');
 
 
 @Component({
@@ -47,6 +47,22 @@ export class NotificationsComponent implements OnInit {
   isLoggedInUser : boolean ;
   public showMore: boolean = false;
 
+  
+
+  constructor(private modalService: NgbModal,
+    private notifyService: NotificationsService,
+    private userService: CurrentUserService,
+    public mobileService: MobileDetectionService,
+    private commonService:CommonService,
+    private tstate: TransferState,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private seo:SeoService ) {
+
+    this.isServer = isPlatformServer(this.platformId);
+
+  }
+
+
   ngOnInit() {
 
     this.seo.generateTags({
@@ -72,39 +88,27 @@ export class NotificationsComponent implements OnInit {
       } else {
         this.limit = constant.onComponentNotificationsPerPage;
       }
-      this.getAllNotifications(this.paepareGetRequest());
+      let request = this.prepareGetRequest();
+      this.getAllNotifications(request);
       
     }
     
   }
 
-  constructor(private modalService: NgbModal,
-    private notifyService: NotificationsService,
-    private userService: CurrentUserService,
-    public mobileService: MobileDetectionService,
-    private commonService:CommonService,
-    private trasferState: TransferState,
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private seo:SeoService ) {
-
-    this.isServer = isPlatformServer(this.platformId);
-
-  }
-
   getAllNotifications(body: any) {
     this.showPostSpinner = true;
 
-    console.log(this.trasferState.hasKey(MESSAGES_KEY),"this.trasferState.hasKey(MESSAGES_KEY)")
+    //console.log(this.tstate.hasKey(NOTIFICATIONS_KEY),"this.tstate.hasKey(NOTIFICATIONS_KEY)")
 
     /* server side rendring */
 
  
-    if (this.trasferState.hasKey(MESSAGES_KEY)) {
-      console.log("browser : getting MESSAGES_KEY for posts");
+    if (this.tstate.hasKey(NOTIFICATIONS_KEY)) {
+      console.log("browser : getting NOTIFICATIONS_KEY for posts");
       
 
-      let resData :any =  this.trasferState.get(MESSAGES_KEY, '');
-      this.trasferState.remove(MESSAGES_KEY);
+      let resData :any =  this.tstate.get(NOTIFICATIONS_KEY, '');
+      this.tstate.remove(NOTIFICATIONS_KEY);
       if (resData && resData.messages && resData.messages.length > 0) {
         if (resData.unreadCount) {
            this.notificationsCount = resData.unreadCount;
@@ -129,14 +133,16 @@ export class NotificationsComponent implements OnInit {
 
     } else if (this.isServer) {
        
-      console.log("server : making service call & setting MESSAGES_KEY");
+      console.log("server : making service call & setting NOTIFICATIONS_KEY");
       
       this.notifyService.getAllMessages(body).subscribe((resData: any) => {
           this.showPostSpinner = false;
+          console.log("server : making service call &",resData)
           if (resData && resData.code == "ERROR") {
              this.showNotifications = false;
           } else if (resData && resData.messages && resData.messages.length > 0) {
-              this.trasferState.set(MESSAGES_KEY, resData);
+              let messagesResponse :any = resData;
+              this.tstate.set(NOTIFICATIONS_KEY, messagesResponse);
               if (resData.unreadCount) {
                 this.notificationsCount = resData.unreadCount;
               }
@@ -149,10 +155,11 @@ export class NotificationsComponent implements OnInit {
                 this.commonService.updateHeaderMenu({type:"updateNoficiationCount", count: this.notificationsCount})
               }
               this.showNotifications = true;
-            } else {
-              this.showMore = false;
-              this.showNotifications = false;
-            }
+          } else {
+            this.showMore = false;
+            this.showNotifications = false;
+            this.tstate.set(NOTIFICATIONS_KEY, []);
+          }
       });
  
      } else {
@@ -185,7 +192,7 @@ export class NotificationsComponent implements OnInit {
     }
   }
 
-  paepareGetRequest() {
+  prepareGetRequest() {
     let body = {
       "data": {
         "_type": "Message",
@@ -201,7 +208,7 @@ export class NotificationsComponent implements OnInit {
 
   loadMoreMessages() {
     this.offset = this.offset + constant.onComponentNotificationsPerPage;
-    let body = this.paepareGetRequest();
+    let body = this.prepareGetRequest();
     this.getAllNotifications(body);
   }
 

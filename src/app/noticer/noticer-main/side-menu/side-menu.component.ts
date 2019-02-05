@@ -314,7 +314,7 @@ export class SideMenuComponent implements OnInit {
             }
           } else {
             this.noBoards = true;
-            this.trasferState.set(CLOSEDBOARDS_KEY, this.boardsList);
+            this.trasferState.set(CLOSEDBOARDS_KEY, []);
           }
        },(err :any) => {
         // Do stuff whith your error

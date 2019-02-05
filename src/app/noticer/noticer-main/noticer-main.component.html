@@ -1,7 +1,7 @@
 <div class="container marTop45">
     <br class="d-block d-sm-none">
     <br>
-    <div class="row" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300" (scrolled)="loadMorePosts()">
+    <div class="row" infinite-scroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="300" (scrolled)="loadMorePosts()">
         <div class="col-md-3 col-sm-3 d-none d-sm-block" *ngIf="!isMobile">
             <side-menu></side-menu>
         </div>
@@ -16,7 +16,7 @@
                 <create-post></create-post>
             </div>
             <br>
-            <div *ngFor="let post of postsList;index as i;">
+            <div *ngFor="let post of postsList;index as i;trackBy : post?.postId;">
 
 
                 <div class="card div_hover rounded shadow-sm" *ngIf="post && post.postId">
