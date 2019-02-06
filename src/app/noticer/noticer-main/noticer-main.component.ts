@@ -367,6 +367,10 @@ export class NoticerMainComponent implements OnInit {
           if (obj.posts.length == 0) {
             this.showMoreLink = false;
           }
+          /* NEED TO CHANGE HERE :: every time it was checking this.postsList for duplicate
+             HINT : array is in sorter order so we can check based on postId also
+
+           */
           obj.posts.forEach(element => {
             let existedArr = this.postsList.filter(item => item.postId == element.postId);
             if (existedArr.length == 0) {
@@ -384,14 +388,23 @@ export class NoticerMainComponent implements OnInit {
     if (this.postsList.length > 0) {
       this.postsList = this.postsList.filter(item => item != null);
       this.postsList.forEach(element => {
+        /* CHANGED :: added if condition to verify existing one or new one 
+                      if existing one then no need to add any attributes */
         if (element) {
-          element.maxLength = constant.showSeeMorePostTextLenth;
-          element.selectComments = false;
-          element.commentOffset = 0;
-          element.comments = [];
-          element.commentsSpinner = false;
-          element.commentText = null;
-          element.viewAnswer = false;
+            if(element.maxLength === undefined)
+              element.maxLength = constant.showSeeMorePostTextLenth;
+            if(element.selectComments === undefined)
+              element.selectComments = false;
+            if(element.commentOffset === undefined)
+              element.commentOffset = 0;
+            if(element.comments === undefined)
+              element.comments = [];
+            if(element.commentsSpinner === undefined)
+              element.commentsSpinner = false;
+            if(element.commentText === undefined)
+              element.commentText = null;
+            if(element.viewAnswer === undefined)
+              element.viewAnswer = false;
         }
       });
       this.noData = false;
