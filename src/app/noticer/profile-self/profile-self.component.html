@@ -36,7 +36,8 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Gender: </label>
                     <div class="col-sm-10">
-                        <p>{{userDetails && userDetails.gender ? ((userDetails.gender == "m" || userDetails.gender == "M") ? 'Male' : 'Female') :
+                        <p>{{userDetails && userDetails.gender ? ((userDetails.gender == "m" || userDetails.gender ==
+                            "M") ? 'Male' : 'Female') :
                             '-NA-'}}</p>
                     </div>
                 </div>
@@ -70,11 +71,22 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Member since: </label>
                     <div class="col-sm-10">
-                        <p>{{userDetails && userDetails.registrationTimeStamp ? (userDetails.registrationTimeStamp | date: 'MMM d, y')  : '-NA-'}}</p>
+                        <p>{{userDetails && userDetails.registrationTimeStamp ? (userDetails.registrationTimeStamp |
+                            date: 'MMM d, y') : '-NA-'}}</p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <br>
+    <div>
+        <h4>Activity</h4>
+        <mat-tab-group>
+            <mat-tab label="Topics">
+                <noticer-main></noticer-main>
+            </mat-tab>
+            <mat-tab label="Boards"> Content 2 </mat-tab>
+        </mat-tab-group>
     </div>
 </div>
 

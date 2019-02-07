@@ -200,4 +200,9 @@ export class NoticerMainService {
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
     }
+ 
+    getSelfActivity(body:any) {
+        let url = "/v2/activity/get";
+        return this.httpClient.post(url, body).catch(this.handleError);
+    }
 }

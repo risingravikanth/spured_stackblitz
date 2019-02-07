@@ -98,18 +98,12 @@ export class NoticerMainComponent implements OnInit {
   public models: any = [];
   public types: any = [];
   public currentuserId: any;
+  public isActivity: boolean = false;
   ngOnInit() {
 
-    /*if (this.tstate.hasKey(RESULT_KEY)) {
-      // We are in the browser
-      //console.log("// We are in the browser");
-    } else if (this.isServer) {
-      // We are on the server
-      //console.log("// We are on the server");
-    } else {
-      // No result received 
-      //console.log("// No result received ");
-    }*/
+    if (this.router.url.indexOf('/profile/self') !== -1) {
+      this.isActivity = true;
+    }
 
     this.seo.generateTags({
       title: 'SpurEd - Spur: Give encouragement to Ed: Education',
@@ -216,7 +210,12 @@ export class NoticerMainComponent implements OnInit {
           }
           this.getPostDetails();
         } else {
-          this.getPosts();
+          if (this.isActivity && this.currentuserId) {
+            // alert("Activity")
+            this.getActivity(this.currentuserId);
+          } else {
+            this.getPosts();
+          }
         }
       } else {
         this.seo.generateTags({
@@ -269,7 +268,12 @@ export class NoticerMainComponent implements OnInit {
       if (this.paramId) {
         this.getPostDetails();
       } else {
-        this.getPosts();
+        if (this.isActivity && this.currentuserId) {
+          // alert("Activity")
+          this.getActivity(this.currentuserId);
+        } else {
+          this.getPosts();
+        }
       }
     }
   }
@@ -280,7 +284,7 @@ export class NoticerMainComponent implements OnInit {
     this.postsList = [];
     this.goToTop();
 
-     /* server side rendring */
+    /* server side rendring */
     if (this.tstate.hasKey(RESULT_KEY)) {
       console.log("browser : getting RESULT_KEY for posts");
 
@@ -391,20 +395,20 @@ export class NoticerMainComponent implements OnInit {
         /* CHANGED :: added if condition to verify existing one or new one 
                       if existing one then no need to add any attributes */
         if (element) {
-            if(element.maxLength === undefined)
-              element.maxLength = constant.showSeeMorePostTextLenth;
-            if(element.selectComments === undefined)
-              element.selectComments = false;
-            if(element.commentOffset === undefined)
-              element.commentOffset = 0;
-            if(element.comments === undefined)
-              element.comments = [];
-            if(element.commentsSpinner === undefined)
-              element.commentsSpinner = false;
-            if(element.commentText === undefined)
-              element.commentText = null;
-            if(element.viewAnswer === undefined)
-              element.viewAnswer = false;
+          if (element.maxLength === undefined)
+            element.maxLength = constant.showSeeMorePostTextLenth;
+          if (element.selectComments === undefined)
+            element.selectComments = false;
+          if (element.commentOffset === undefined)
+            element.commentOffset = 0;
+          if (element.comments === undefined)
+            element.comments = [];
+          if (element.commentsSpinner === undefined)
+            element.commentsSpinner = false;
+          if (element.commentText === undefined)
+            element.commentText = null;
+          if (element.viewAnswer === undefined)
+            element.viewAnswer = false;
         }
       });
       this.noData = false;
@@ -634,60 +638,60 @@ export class NoticerMainComponent implements OnInit {
     }
   }
 
-  generatePostById(){
-       if (this.postsList.length > 0) {
-            this.seo.generateTags({
-              title: 'SpurEd - Spur: Give encouragement to Ed: Education',
-              description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
-              slug: 'feed-page'
-            })
-            this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
+  generatePostById() {
+    if (this.postsList.length > 0) {
+      this.seo.generateTags({
+        title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+        description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+        slug: 'feed-page'
+      })
+      this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
 
-            // Chaning postDeatail url
-            let arrUrl = this.router.url.split("/");
-            let newUrl = "";
-            for (let i = 0; i < arrUrl.length - 1; i++) {
-              if (arrUrl[i] != undefined) {
-                newUrl = newUrl + arrUrl[i] + "/"
-              } else {
-                newUrl = "/" + newUrl
-              }
-            }
-            let num: any = arrUrl[arrUrl.length - 1];
-            if (!isNaN(num)) {
-              newUrl = newUrl + arrUrl[arrUrl.length - 1] + "/";
-            }
-            if (this.postsList[0].postTitle) {
-              this.location.replaceState(newUrl + this.postsList[0].postTitle.replace(/[^a-zA-Z0-9]/g, '-'));
-            }
-            this.preparePostsList();
-          } else {
-            // this.toastr.error("Failed", "The post your looking is deleted");
-            this.router.navigate(['/not-found'])
-          }
+      // Chaning postDeatail url
+      let arrUrl = this.router.url.split("/");
+      let newUrl = "";
+      for (let i = 0; i < arrUrl.length - 1; i++) {
+        if (arrUrl[i] != undefined) {
+          newUrl = newUrl + arrUrl[i] + "/"
+        } else {
+          newUrl = "/" + newUrl
+        }
+      }
+      let num: any = arrUrl[arrUrl.length - 1];
+      if (!isNaN(num)) {
+        newUrl = newUrl + arrUrl[arrUrl.length - 1] + "/";
+      }
+      if (this.postsList[0].postTitle) {
+        this.location.replaceState(newUrl + this.postsList[0].postTitle.replace(/[^a-zA-Z0-9]/g, '-'));
+      }
+      this.preparePostsList();
+    } else {
+      // this.toastr.error("Failed", "The post your looking is deleted");
+      this.router.navigate(['/not-found'])
+    }
   }
 
   getPostDetails() {
     let paramTypeD = this.paramType.toUpperCase();
 
-     /* server side rendring */
+    /* server side rendring */
     if (this.tstate.hasKey(RESULTBYID_KEY)) {
       console.log("browser : getting RESULTBYID_KEY for posts");
 
       this.postsList = this.tstate.get(RESULTBYID_KEY, '');
       this.tstate.remove(RESULTBYID_KEY);
       this.generatePostById();
- 
+
     } else if (this.isServer) {
       console.log("server : making service call & setting RESULTBYID_KEY");
-      
+
       this.service.getPostDetailsById(this.paramId, paramTypeD).subscribe((resData: any) => {
         let obj: any = resData;
         if (obj.error && obj.error.code && obj.error.code.id) {
           this.toastr.error("Failed", obj.error.code.message);
         } else {
           this.postsList = resData.posts;
-          this.tstate.set(RESULTBYID_KEY, this.postsList );
+          this.tstate.set(RESULTBYID_KEY, this.postsList);
           this.generatePostById();
         }
       }, error => {
@@ -709,7 +713,7 @@ export class NoticerMainComponent implements OnInit {
       }, error => {
         this.toastr.error("Failed", "Something went wrong!");
       });
- 
+
     }
   }
 
@@ -1069,6 +1073,45 @@ export class NoticerMainComponent implements OnInit {
         this.toastr.success("Success", "Reported successfully");
       }
     })
+  }
+
+  getActivity(userId: any) {
+    let body: any = {
+      "record": {
+        "_type": "ActivityRecord",
+        "userId": userId
+      }
+    }
+    this.service.getSelfActivity(body).subscribe(resData => {
+      this.showPostSpinner = false;
+      let obj: any = resData;
+      if (obj.error && obj.error.code && obj.error.code.id) {
+        console.log("Failed", obj.error.code.message);
+      } else {
+        let records = this.prepareActivity(resData);
+        this.postsList = records;
+        this.preparePostsList();
+      }
+    }, error => {
+      console.log("Failed", "Something went wrong!");
+      if (error.status === 0) {
+        this.showPostSpinner = false;
+        this.underMaintenace = false;
+      }
+    });
+  }
+
+  prepareActivity(activityRecords: any) {
+    let records: any = [];
+    if (activityRecords && activityRecords.activityEntities) {
+      activityRecords.activityEntities.forEach(element => {
+        let post: any;
+        post = element.post;
+        post.activity = element.activity;
+        records.push(post);
+      });
+    }
+    return records;
   }
 
 }

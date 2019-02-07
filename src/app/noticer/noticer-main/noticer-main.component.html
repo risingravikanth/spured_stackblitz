@@ -1,18 +1,18 @@
-<div class="container marTop45">
-    <br class="d-block d-sm-none">
-    <br>
-    <div class="row" infinite-scroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="300" (scrolled)="loadMorePosts()">
-        <div class="col-md-3 col-sm-3 d-none d-sm-block" *ngIf="!isMobile">
+<div class="container !isActivity ? marTop45 : ''">
+    <br *ngIf="!isActivity" class="d-block d-sm-none">
+    <br *ngIf="!isActivity">
+    <div class="row" infinite-scroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="300" (scrolled)="!isActivity ? loadMorePosts() : ''">
+        <div class="col-md-3 col-sm-3 d-none d-sm-block" *ngIf="!isMobile && !isActivity">
             <side-menu></side-menu>
         </div>
         <div *ngIf="!underMaintenace">
                 <app-oopserror [displayObject]="{type:'warning',message:'underMaintenance'}"></app-oopserror>
         </div>
         <div [class]="!isMobile ? 'col-md-6' : 'col-md-12'" *ngIf="underMaintenace">
-            <div *ngIf="validUser && !paramId">
+            <div *ngIf="validUser && !paramId && !isActivity">
                 <create-post></create-post>
             </div>
-            <div *ngIf="!validUser">
+            <div *ngIf="!validUser && !isActivity">
                 <create-post></create-post>
             </div>
             <br>
@@ -20,6 +20,10 @@
 
 
                 <div class="card div_hover rounded shadow-sm" *ngIf="post && post.postId">
+                    <div style="padding:10px;" *ngIf="isActivity">
+                        You <span *ngFor="let act of post.activity">{{ (act.action | titlecase)}}d<span *ngIf="post.activity?.length > 1 && post.activity[post.activity?.length-1].id != act.id">, </span>  </span>
+                        <hr style="margin-top: 0px;margin-bottom: -10px;">
+                    </div>
                     <div class="card-header noticer-card-header bg-white d-flex justify-content-between">
                         <div>
                              
@@ -356,7 +360,7 @@
                 </b>
             </div>
         </div>
-        <div class="col-md-3 d-none d-sm-block" *ngIf="!isMobile">
+        <div class="col-md-3 d-none d-sm-block" *ngIf="!isMobile && !isActivity">
             <right-menu></right-menu>
         </div>
     </div>
