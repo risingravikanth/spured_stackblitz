@@ -21,7 +21,7 @@
 
                 <div class="card div_hover rounded shadow-sm" *ngIf="post && post.postId">
                     <div style="padding:10px;" *ngIf="isActivity">
-                        You <span *ngFor="let act of post.activity">{{ (act.action | titlecase)}}d<span *ngIf="post.activity?.length > 1 && post.activity[post.activity?.length-1].id != act.id">, </span>  </span>
+                        You <span *ngFor="let act of post.activity">{{ (getActivityName(act) | titlecase)}}<span *ngIf="post.activity?.length > 1 && post.activity[post.activity?.length-1].id != act.id">, </span>  </span>
                         <hr style="margin-top: 0px;margin-bottom: -10px;">
                     </div>
                     <div class="card-header noticer-card-header bg-white d-flex justify-content-between">
@@ -290,10 +290,10 @@
                                   <textarea rows="1" type="text" class="form-control rounded"
                                         [ngModelOptions]="{standalone: true}" [(ngModel)]="post.commentText"
                                         placeholder="Add a comment.."></textarea>
-                                  <div class="input-group-append">
-                                    <button class="btn btn-outline-info border-0 " type="button" (click)="createComment(post.commentText, i)"
+                                  <div class="input-group-append" style="margin-left: 5px;">
+                                    <button class="btn btn-outline-info border-0 btnSuccess" style="color:white;" type="button" (click)="createComment(post.commentText, i)"
                                             [disabled]="post.commentText == null || post.commentText.trim()?.length == 0">
-                                            <i class="fas fa-share-square"></i>
+                                            Send
                                         </button>
                                   </div>
                                 </div>

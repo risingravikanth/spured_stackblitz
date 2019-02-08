@@ -1116,4 +1116,20 @@ export class NoticerMainComponent implements OnInit {
     return records;
   }
 
+  getActivityName(activity:any){
+    if(activity){
+      if(activity.action == "CREATE" && activity.entityType == "POST"){
+        return "Posted";
+      } else if(activity.action == "CREATE" && activity.entityType == "COMMENT"){
+        return "Commented";
+      }  else if(activity.action == "VOTE"){
+        return "Voted";
+      } else if(activity.action == "FAVORITE"){
+        return "Favorited";
+      } else if(activity.action == "REPORT"){
+        return "Reported";
+      } 
+    }
+  }
+
 }
