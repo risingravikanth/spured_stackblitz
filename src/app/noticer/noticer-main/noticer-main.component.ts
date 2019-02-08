@@ -941,7 +941,8 @@ export class NoticerMainComponent implements OnInit {
       } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
         console.log(resData);
         this.postsList[index].actionAttributes.voteId = resData.actionRecords[0].id;
-        this.toastr.success("Success", "Post liked successfully");
+        /* CHAGNED :: Removed success toast message */
+        //this.toastr.success("Success", "Post liked successfully");
       }
     })
   }
@@ -1011,7 +1012,8 @@ export class NoticerMainComponent implements OnInit {
       } else if (resData && resData.actionRecords && resData.actionRecords.length > 0) {
         console.log(resData);
         this.postsList[index].actionAttributes.favoriteId = resData.actionRecords[0].id;
-        this.toastr.success("Success", "Post favorited successfully");
+        /* CHAGNED :: Removed success toast message */
+        //this.toastr.success("Success", "Post favorited successfully");
       }
     })
   }

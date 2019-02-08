@@ -106,3 +106,9 @@ Ref :
 
 #for landing page 
 #https://demos.creative-tim.com/awesome-landing-page/web_app.html
+
+#for perfomance 
+#https://medium.com/@spp020/44-quick-tips-to-fine-tune-angular-performance-9f5768f5d945
+
+#login
+#https://startbootstrap.com/snippets/sign-in-split/
