@@ -141,7 +141,6 @@ const routes: Routes = [
   {
     path: 'notifications',
     component: NoticerComponent,
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
