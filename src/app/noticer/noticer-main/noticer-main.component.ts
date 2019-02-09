@@ -1,5 +1,5 @@
 import { isPlatformBrowser, Location } from '@angular/common';
-import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild, Input } from '@angular/core';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
 import { isPlatformServer } from '@angular/common';
 
@@ -33,6 +33,7 @@ export class NoticerMainComponent implements OnInit {
 
   @ViewChild('sideMenuDialogDialog') sideMenuModalCotent: any;
   @ViewChild('postDialog') postDialog: ElementRef;
+  @Input("from") from:any;
 
   public isMobile: boolean;
   private isServer: boolean;
@@ -85,9 +86,6 @@ export class NoticerMainComponent implements OnInit {
 
   public categoryModalReference: NgbModalRef;
   closeResult: string;
-
-
-
   editPostForm: FormGroup;
 
   public postImages = [];
@@ -101,7 +99,7 @@ export class NoticerMainComponent implements OnInit {
   public isActivity: boolean = false;
   ngOnInit() {
 
-    if (this.router.url.indexOf('/profile/self') !== -1) {
+    if (this.router.url.indexOf('/profile/self') !== -1 || this.router.url.indexOf("/profile/users/") !== -1) {
       this.isActivity = true;
     }
 
@@ -196,7 +194,11 @@ export class NoticerMainComponent implements OnInit {
       if (this.paramType && this.paramCategory == undefined) {
         this.paramCategory = "home"
       }
-      this.paramId = params['id'];
+      if(this.router.url.indexOf("/profile/users/") !== -1){
+
+      } else{
+        this.paramId = params['id'];
+      }
 
       let sec = new Section();
       sec.section = this.paramType;
@@ -1078,10 +1080,21 @@ export class NoticerMainComponent implements OnInit {
   }
 
   getActivity(userId: any) {
-    let body: any = {
-      "record": {
-        "_type": "ActivityRecord",
-        "userId": userId
+    let body: any;
+    if(this.from == "topics"){
+      body =  {
+        "record": {
+          "_type": "ActivityRecord",
+          "userId": userId
+        }
+      }
+    } else{
+      body =  {
+        "record": {
+          "_type": "ActivityRecord",
+          "entitySection": "BOARD",
+          "userId": userId
+        }
       }
     }
     this.service.getSelfActivity(body).subscribe(resData => {

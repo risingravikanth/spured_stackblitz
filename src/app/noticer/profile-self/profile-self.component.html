@@ -83,9 +83,11 @@
         <h4>Activity</h4>
         <mat-tab-group>
             <mat-tab label="Topics">
-                <noticer-main></noticer-main>
+                <noticer-main [from]="'topics'"></noticer-main>
             </mat-tab>
-            <mat-tab label="Boards"> Content 2 </mat-tab>
+            <mat-tab label="Boards">
+                <noticer-main [from]="'boards'"></noticer-main>
+            </mat-tab>
         </mat-tab-group>
     </div>
 </div>

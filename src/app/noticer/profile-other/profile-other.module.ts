@@ -17,7 +17,7 @@ import { OthersProfileRoutingModule } from './profile-other-routing.module';
     NgbModule.forRoot()
   ],
   declarations: [
-    OthersProfileComponent
+    
   ],
   entryComponents: [],
 })

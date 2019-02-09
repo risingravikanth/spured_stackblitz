@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from "primeng/components/common/messageservice";
 import * as constant from "../../shared/others/constants";
@@ -7,6 +7,7 @@ import { SeoService } from '../../shared/services';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { OthersProfileService } from './profile-other.service';
 import { ToastrService } from '../../shared/services/Toastr.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'profile-other',
@@ -17,13 +18,15 @@ import { ToastrService } from '../../shared/services/Toastr.service';
 export class OthersProfileComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private service: OthersProfileService, private seo:SeoService, private userService:CurrentUserService,
-    private toastr:ToastrService) { }
+    private toastr:ToastrService, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   public profileLoader = false;
   public urls: any = [];
   public userDetails: any;
+  public currentUser:any;
   public profileImage: any = "assets/images/noticer_default_user_img.png";
   public profileAvailable = true;
+  public validUser: boolean = false;
   ngOnInit() {
     this.seo.generateTags({
       title: 'SpurEd - Spur: Give encouragement to Ed: Education',
@@ -32,6 +35,13 @@ export class OthersProfileComponent implements OnInit {
     })
     this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
     this.route.params.subscribe(this.handleParams.bind(this));
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.currentUser = this.userService.getCurrentUser();
+      if (this.currentUser) {
+        this.validUser = true;
+      }
+    }
   }
 
   handleParams(params: any) {

@@ -22,6 +22,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { SelfProfileComponent } from './profile-self/profile-self.component';
 import { SelfProfileModule } from './profile-self/profile-self.module';
 import { MyDatePickerModule } from 'mydatepicker';
+import { OthersProfileComponent } from './profile-other/profile-other.component';
+import { OthersProfileModule } from './profile-other/profile-other.module';
 
 
 @NgModule({
@@ -47,6 +49,7 @@ import { MyDatePickerModule } from 'mydatepicker';
         OverlayPanelModule,
         InfiniteScrollModule,
         SelfProfileModule,
+        OthersProfileModule,
         CalendarModule,
         MyDatePickerModule,
         MatProgressSpinnerModule,
@@ -66,7 +69,8 @@ import { MyDatePickerModule } from 'mydatepicker';
         RightMenuComponent,
         CreatePostComponent,
         NotificationsComponent,
-        SelfProfileComponent
+        SelfProfileComponent,
+        OthersProfileComponent
     ],
     exports: [SideMenuComponent, NoticerMainComponent]
 })
