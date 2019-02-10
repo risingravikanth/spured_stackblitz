@@ -1089,7 +1089,7 @@ export class NoticerMainComponent implements OnInit {
       body = {
         "record": {
           "_type": "ActivityRecord",
-          "userId": userId
+          "userId": this.profileParamId
         }
       }
     } else {
@@ -1132,7 +1132,7 @@ export class NoticerMainComponent implements OnInit {
       body = {
         "record": {
           "_type": "ActivityRecord",
-          "userId": this.currentuserId
+          "userId": this.profileParamId
         }
       }
     } else {
