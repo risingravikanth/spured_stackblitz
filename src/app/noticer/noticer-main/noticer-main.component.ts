@@ -33,7 +33,7 @@ export class NoticerMainComponent implements OnInit {
 
   @ViewChild('sideMenuDialogDialog') sideMenuModalCotent: any;
   @ViewChild('postDialog') postDialog: ElementRef;
-  @Input("from") from:any;
+  @Input("from") from: any;
 
   public isMobile: boolean;
   private isServer: boolean;
@@ -45,6 +45,8 @@ export class NoticerMainComponent implements OnInit {
   public reqestType: string;
   public windowStyle: any;
   public underMaintenace: boolean = true;
+  public showMoreActivity: boolean = true;
+  profileParamId: any;
 
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
@@ -194,9 +196,11 @@ export class NoticerMainComponent implements OnInit {
       if (this.paramType && this.paramCategory == undefined) {
         this.paramCategory = "home"
       }
-      if(this.router.url.indexOf("/profile/users/") !== -1){
-
-      } else{
+      if (this.router.url.indexOf("/profile/users/") !== -1) {
+        this.profileParamId = params['id'];
+      } else if(this.router.url.indexOf("/profile/self") !== -1){
+        this.profileParamId = this.currentuserId;
+      } else {
         this.paramId = params['id'];
       }
 
@@ -1081,22 +1085,25 @@ export class NoticerMainComponent implements OnInit {
 
   getActivity(userId: any) {
     let body: any;
-    if(this.from == "topics"){
-      body =  {
+    if (this.from == "topics") {
+      body = {
         "record": {
           "_type": "ActivityRecord",
           "userId": userId
         }
       }
-    } else{
-      body =  {
+    } else {
+      body = {
         "record": {
           "_type": "ActivityRecord",
           "entitySection": "BOARD",
-          "userId": userId
+          "userId": this.profileParamId
         }
       }
     }
+    body.pagination = new Pagination();
+    body.pagination.offset = 0
+    body.pagination.limit = 30
     this.service.getSelfActivity(body).subscribe(resData => {
       this.showPostSpinner = false;
       let obj: any = resData;
@@ -1105,6 +1112,9 @@ export class NoticerMainComponent implements OnInit {
       } else {
         let records = this.prepareActivity(resData);
         this.postsList = records;
+        if(this.postsList.length == 0){
+          this.showMoreActivity = false;
+        }
         this.preparePostsList();
       }
     }, error => {
@@ -1116,9 +1126,73 @@ export class NoticerMainComponent implements OnInit {
     });
   }
 
+  loadMoreActivities(type:any) {
+    let body: any;
+    if (type == "topics") {
+      body = {
+        "record": {
+          "_type": "ActivityRecord",
+          "userId": this.currentuserId
+        }
+      }
+    } else {
+      body = {
+        "record": {
+          "_type": "ActivityRecord",
+          "entitySection": "BOARD",
+          "userId": this.profileParamId
+        }
+      }
+    }
+    body.pagination = new Pagination();
+    body.pagination.offset = 0
+    body.pagination.limit = 30
+    if (this.postsList[this.postsList.length - 1]) {
+      let post = this.postsList[this.postsList.length - 1];
+      console.log("Activity");
+      console.log(post.activity);
+      console.log("sort");
+      post.activity.sort(function (a, b) {
+        return a.id - b.id;
+      });
+      console.log(post.activity);
+      if (body.pagination.maxId == post.activity[0].id) {
+        return;
+      }
+      body.pagination.maxId = post.activity[0].id;
+    }
+    this.showPostSpinner = true;
+    this.service.getSelfActivity(body).subscribe(
+      resData => {
+        this.showPostSpinner = false;
+        let obj: any = resData;
+        if (obj.error && obj.error.code && obj.error.code.id) {
+          this.toastr.error("Failed", obj.error.code.message);
+        } else {
+          let records = this.prepareActivity(resData);
+          if (records.length == 0) {
+            this.showMoreActivity = false;
+          }
+          /* NEED TO CHANGE HERE :: every time it was checking this.postsList for duplicate
+             HINT : array is in sorter order so we can check based on postId also
+
+           */
+          records.forEach(element => {
+            // let existedArr = this.postsList.filter(item => item.postId == element.postId);
+            // if (existedArr.length == 0) {
+              this.postsList.push(element);
+            // }
+          });
+          this.preparePostsList();
+        }
+      }, error => {
+        this.toastr.error("Failed", "Something went wrong!");
+      })
+  }
+
   prepareActivity(activityRecords: any) {
     let records: any = [];
-    if (activityRecords && activityRecords.activityEntities) {
+    if (activityRecords && activityRecords.activityEntities && activityRecords.activityEntities.length > 0) {
       activityRecords.activityEntities.forEach(element => {
         let post: any;
         post = element.post;
@@ -1129,20 +1203,25 @@ export class NoticerMainComponent implements OnInit {
     return records;
   }
 
-  getActivityName(activity:any){
-    if(activity){
-      if(activity.action == "CREATE" && activity.entityType == "POST"){
+  getActivityName(activity: any) {
+    if (activity) {
+      if (activity.action == "CREATE" && activity.entityType == "POST") {
         return "Posted";
-      } else if(activity.action == "CREATE" && activity.entityType == "COMMENT"){
+      } else if (activity.action == "CREATE" && activity.entityType == "COMMENT") {
         return "Commented";
-      }  else if(activity.action == "VOTE"){
+      } else if (activity.action == "VOTE") {
         return "Voted";
-      } else if(activity.action == "FAVORITE"){
+      } else if (activity.action == "FAVORITE") {
         return "Favorited";
-      } else if(activity.action == "REPORT"){
+      } else if (activity.action == "REPORT") {
         return "Reported";
-      } 
+      }
     }
+  }
+  
+  
+  load(type:any){
+    alert(type);
   }
 
 }
