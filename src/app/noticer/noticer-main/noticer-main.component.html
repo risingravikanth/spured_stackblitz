@@ -383,7 +383,7 @@
     <div style="padding-left:20%" *ngIf="isActivity && from == 'topics' && showMoreActivity">
         <a href="javascript:void(0);" (click)="loadMoreActivities('topics')">load more</a>
     </div>
-    <div  style="padding-left:20%"  class="text-center" *ngIf="isActivity && from == 'boards' && showMoreActivity">
+    <div  style="padding-left:20%"  *ngIf="isActivity && from == 'boards' && showMoreActivity">
         <a href="javascript:void(0);" (click)="loadMoreActivities('boards')">load more</a>
     </div>
     <div (click)="goToTop()" class="btt-btn"><i class="fas fa-chevron-up"></i></div>
