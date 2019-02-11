@@ -11,7 +11,7 @@
         <!-- CHANGED ::  DIV Strcture to alwasy make col-md12 
                          [class]="!isMobile ? 'col-md-6' : 'col-md-12'"
         -->
-        <div class="col-md-12 col-sm-12" *ngIf="underMaintenace">
+        <div class="col-sm-12" [class]="isActivity ? 'col-md-12' : 'col-md-6'" *ngIf="underMaintenace">
             <div *ngIf="validUser && !paramId && !isActivity">
                 <create-post></create-post>
             </div>
