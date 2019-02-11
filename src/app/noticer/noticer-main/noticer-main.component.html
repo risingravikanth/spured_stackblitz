@@ -8,7 +8,10 @@
         <div *ngIf="!underMaintenace">
             <app-oopserror [displayObject]="{type:'warning',message:'underMaintenance'}"></app-oopserror>
         </div>
-        <div [class]="!isMobile ? 'col-md-6' : 'col-md-12'" *ngIf="underMaintenace">
+        <!-- CHANGED ::  DIV Strcture to alwasy make col-md12 
+                         [class]="!isMobile ? 'col-md-6' : 'col-md-12'"
+        -->
+        <div class="col-md-12 col-sm-12" *ngIf="underMaintenace">
             <div *ngIf="validUser && !paramId && !isActivity">
                 <create-post></create-post>
             </div>
@@ -167,18 +170,20 @@
                                     <span *ngIf="paramId">{{post.postTitle ? post.postTitle : '-NA-'}}</span></b></h6>
                         </div>
                         <div class="post-text">
-                            <!-- [innerHTML] -->
+                            <!--
+                                    CHANGED :: to show links in comments section.
+                                    [innerHTML]   |
+                                    postText|    slice:0:post.maxLength -->
                             <p>
                                 <span *ngIf="!paramId" style="color: black;">
-                                    <p class="multiLineText card-font-post-content">{{post.postText |
-                                        slice:0:post.maxLength}}</p>
+                                    <p class="multiLineText card-font-post-content" [innerHTML]=" urlify(post)"></p>
                                     <label *ngIf="post.postText.length > post.maxLength">...</label>
                                 </span>
                                 <a style="padding: 2px;color:gray;" *ngIf="!paramId && post.postText.length > post.maxLength"
                                     (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see
                                     more</a>
                                 <span *ngIf="paramId" style="color: black;">
-                                    <label class="multiLineText card-font-post-content">{{post.postText}}</label>
+                                    <label class="multiLineText card-font-post-content" [innerHTML]=" urlify(post)"></label>
                                 </span>
                             </p>
                         </div>
@@ -293,7 +298,7 @@
                                     <textarea rows="1" type="text" class="form-control rounded" [ngModelOptions]="{standalone: true}"
                                         [(ngModel)]="post.commentText" placeholder="Add a comment.."></textarea>
                                     <div class="input-group-append" style="margin-left: 5px;">
-                                        <button class="btn btn-outline-info border-0 btnSuccess" style="color:white;"
+                                        <button class="btn btn-outline-info  btnSuccess rounded" style="color:white;"
                                             type="button" (click)="createComment(post.commentText, i)" [disabled]="post.commentText == null || post.commentText.trim()?.length == 0">
                                             Send
                                         </button>

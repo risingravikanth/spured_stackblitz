@@ -93,7 +93,7 @@ Now that everything is setup, you should be good to go! Build the app and start 
 http://139.59.6.52:8080/
 
 
-Ref : 
+#Ref  server side rendering: 
 #https://malcoded.com/posts/angular-fundamentals-universal-server-side-rendering
 #https://malcoded.com/posts/server-rendering-pitfalls
 
