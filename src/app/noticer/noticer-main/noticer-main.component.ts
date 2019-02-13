@@ -807,6 +807,16 @@ export class NoticerMainComponent implements OnInit {
     return url;
   }
 
+  getBoardPageUrl(boardId:any, boardName:any){
+    let url = "/boards/closed/"+boardId+"/"+boardName
+    return url;
+  }
+
+  goToBoardsPage(boardId:any, boardName:any) {
+    let url = this.getBoardPageUrl(boardId, boardName);
+    this.router.navigate([url])
+  }
+
   setProfilePic() {
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser && this.currentUser.imageUrl) {

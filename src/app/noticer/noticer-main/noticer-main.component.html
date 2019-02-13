@@ -34,6 +34,9 @@
                             <span class="align-middle"><a *ngIf="post._type != 'BoardPost'" [href]="getPageUrl(post._type, null, null)"
                                     (click)="!!goToCategoriesPage(post._type, null, null)">{{getSectionFromType(post._type)}}
                                 </a></span>
+                                <span class="align-middle"><a *ngIf="post._type == 'BoardPost'" [href]="getBoardPageUrl(post.boardId, post.boardName)"
+                                    (click)="!!goToBoardsPage(post.boardId, post.boardName)">{{post.boardName}}
+                                </a></span>
                             <span class="align-middle" *ngIf="post.category"> / <a [href]="getPageUrl(post._type, post.category, null)"
                                     (click)="!!goToCategoriesPage(post._type, post.category, null)">{{
                                     getModelFromTypeCategory(post._type, post.category)}}</a></span>
