@@ -1213,20 +1213,29 @@ export class NoticerMainComponent implements OnInit {
     return records;
   }
 
-  getActivityName(activity: any) {
-    if (activity) {
-      if (activity.action == "CREATE" && activity.entityType == "POST") {
-        return "Posted";
-      } else if (activity.action == "CREATE" && activity.entityType == "COMMENT") {
-        return "Commented";
-      } else if (activity.action == "VOTE") {
-        return "Voted";
-      } else if (activity.action == "FAVORITE") {
-        return "Favorited";
-      } else if (activity.action == "REPORT") {
-        return "Reported";
+  getActivityName(actList) {
+    let act = "";
+    actList.forEach(activity => {
+      if (activity) {
+        if (activity.action == "CREATE" && activity.entityType == "POST") {
+          act = act + "Posted";
+        } else if (activity.action == "CREATE" && activity.entityType == "COMMENT") {
+          act = act +  "Commented";
+        } else if (activity.action == "VOTE") {
+          act = act +  "Voted";
+        } else if (activity.action == "FAVORITE") {
+          act = act +  "Favorited";
+        } else if (activity.action == "REPORT") {
+          act = act +  "Reported";
+        }
       }
-    }
+
+      if(actList.length > 1 && actList[actList.length-1].id != activity.id){
+        act = act+", ";
+      }
+
+    });
+    return act;
   }
 
   urlify(post) {

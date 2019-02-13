@@ -24,8 +24,12 @@
 
                 <div class="card div_hover rounded shadow-sm" *ngIf="post && post.postId">
                     <div style="padding:10px;" *ngIf="isActivity">
-                        You <span *ngFor="let act of post.activity">{{ (getActivityName(act) | titlecase)}}<span *ngIf="post.activity?.length > 1 && post.activity[post.activity?.length-1].id != act.id">,
-                            </span> </span>
+                        <div class=" bg-white d-flex justify-content-between">
+                            <div>{{ getActivityName(post.activity)}}
+                            </div>
+                            <div class="">{{ post.activity[post.activity?.length-1].createTime | date: 'MMM d, y, h:mm a'}}</div>
+
+                        </div>
                         <hr style="margin-top: 0px;margin-bottom: -10px;">
                     </div>
                     <div class="card-header noticer-card-header bg-white d-flex justify-content-between">
@@ -34,7 +38,7 @@
                             <span class="align-middle"><a *ngIf="post._type != 'BoardPost'" [href]="getPageUrl(post._type, null, null)"
                                     (click)="!!goToCategoriesPage(post._type, null, null)">{{getSectionFromType(post._type)}}
                                 </a></span>
-                                <span class="align-middle"><a *ngIf="post._type == 'BoardPost'" [href]="getBoardPageUrl(post.boardId, post.boardName)"
+                            <span class="align-middle"><a *ngIf="post._type == 'BoardPost'" [href]="getBoardPageUrl(post.boardId, post.boardName)"
                                     (click)="!!goToBoardsPage(post.boardId, post.boardName)">{{post.boardName}}
                                 </a></span>
                             <span class="align-middle" *ngIf="post.category"> / <a [href]="getPageUrl(post._type, post.category, null)"
@@ -45,12 +49,11 @@
                                     getModelFromTypeModel(post._type, post.model)}}</a></span>
                         </div>
                         <div class="btn-group">
-                            <button type="button" title="Actions" id="postActions" 
-                                class="btn btn-sm btn-light bg-white border-0 dropdown-toggle"
+                            <button type="button" title="Actions" id="postActions" class="btn btn-sm btn-light bg-white border-0 dropdown-toggle"
                                 style="font-size: 20px;margin-top: -4px;height: 10px;" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-h"></i>
-                                
+
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
@@ -393,7 +396,7 @@
     <div class="text-center" *ngIf="isActivity && from == 'topics' && showMoreActivity">
         <a href="javascript:void(0);" (click)="loadMoreActivities('topics')">load more</a>
     </div>
-    <div class="text-center"  *ngIf="isActivity && from == 'boards' && showMoreActivity">
+    <div class="text-center" *ngIf="isActivity && from == 'boards' && showMoreActivity">
         <a href="javascript:void(0);" (click)="loadMoreActivities('boards')">load more</a>
     </div>
     <div (click)="goToTop()" class="btt-btn"><i class="fas fa-chevron-up"></i></div>
