@@ -1,4 +1,4 @@
-<div class="container" [ngClass]="(!isActivity) ? 'marTop45' : 'container'">
+<div class="container horizontalScroll" [ngClass]="(!isActivity) ? 'marTop45' : 'container'">
     <br *ngIf="!isActivity" class="d-block d-sm-none">
     <br *ngIf="!isActivity">
     <div class="row" infinite-scroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="300" (scrolled)="!isActivity ? loadMorePosts() : ''">

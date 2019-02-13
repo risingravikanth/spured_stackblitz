@@ -216,3 +216,6 @@ figcaption {
     margin-top: -10px;
  }
  
+ .horizontalScroll{
+     overflow-x: hidden !important;
+ }
