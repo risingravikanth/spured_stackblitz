@@ -1,4 +1,4 @@
-<div class="container !isActivity ? marTop45 : ''">
+<div class="container" [ngClass]="(!isActivity) ? 'marTop45' : 'container'">
     <br *ngIf="!isActivity" class="d-block d-sm-none">
     <br *ngIf="!isActivity">
     <div class="row" infinite-scroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="300" (scrolled)="!isActivity ? loadMorePosts() : ''">
@@ -11,7 +11,7 @@
         <!-- CHANGED ::  DIV Strcture to alwasy make col-md12 
                          [class]="!isMobile ? 'col-md-6' : 'col-md-12'"
         -->
-        <div class="col-sm-12" [class]="isActivity ? 'col-md-12' : 'col-md-6'" *ngIf="underMaintenace">
+        <div class="col-sm-12" [class]="isActivity ? 'col-md-12 p-0' : 'col-md-6'" *ngIf="underMaintenace">
             <div *ngIf="validUser && !paramId && !isActivity">
                 <create-post></create-post>
             </div>
@@ -42,10 +42,12 @@
                                     getModelFromTypeModel(post._type, post.model)}}</a></span>
                         </div>
                         <div class="btn-group">
-                            <button type="button" title="Actions" id="postActions" class="btn btn-sm btn-light bg-white border-0 dropdown-toggle"
+                            <button type="button" title="Actions" id="postActions" 
+                                class="btn btn-sm btn-light bg-white border-0 dropdown-toggle"
                                 style="font-size: 20px;margin-top: -4px;height: 10px;" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-h"></i>
+                                
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <button class="dropdown-item" type="button" *ngIf="post.userProfile && currentuserId == post.userProfile.userId"
@@ -385,10 +387,10 @@
             <right-menu></right-menu>
         </div>
     </div>
-    <div style="padding-left:20%" *ngIf="isActivity && from == 'topics' && showMoreActivity">
+    <div class="text-center" *ngIf="isActivity && from == 'topics' && showMoreActivity">
         <a href="javascript:void(0);" (click)="loadMoreActivities('topics')">load more</a>
     </div>
-    <div  style="padding-left:20%"  *ngIf="isActivity && from == 'boards' && showMoreActivity">
+    <div class="text-center"  *ngIf="isActivity && from == 'boards' && showMoreActivity">
         <a href="javascript:void(0);" (click)="loadMoreActivities('boards')">load more</a>
     </div>
     <div (click)="goToTop()" class="btt-btn"><i class="fas fa-chevron-up"></i></div>
