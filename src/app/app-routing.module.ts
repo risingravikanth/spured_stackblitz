@@ -15,6 +15,7 @@ import { UserSetupComponent } from './user-setup/user-setup.component';
 import { AccountActivateComponent } from './account-activate/account-activate.component';
 import { NotificationsComponent } from './noticer/notifications/notifications.component';
 import { PasswordResetLinkComponent } from './password-reset-link/password-reset-link.component';
+import { AdminComponent } from './noticer/admin/admincomponent';
 
 const routes: Routes = [
   {
@@ -145,6 +146,17 @@ const routes: Routes = [
       {
         path: '',
         component: NotificationsComponent,
+      }
+    ]
+  },
+  {
+    path: 'admin',
+    component: NoticerComponent,
+    children: [
+      {
+        path: '',
+        component: AdminComponent,
+        canActivate:[AuthGuard]
       }
     ]
   },

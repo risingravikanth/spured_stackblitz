@@ -6,7 +6,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { CalendarModule, ConfirmDialogModule, DropdownModule, MultiSelectModule, SidebarModule } from 'primeng/primeng';
+import { CalendarModule, ConfirmDialogModule, DropdownModule, MultiSelectModule, SidebarModule, ChipsModule } from 'primeng/primeng';
 import { ClockComponent, FooterComponent, OopsErrorComponent, SidebarComponent } from '../shared';
 import { AboutComponent } from './about/about.component';
 import { HeaderMobileComponent } from './header-mobile/header-mobile.component';
@@ -24,6 +24,7 @@ import { SelfProfileModule } from './profile-self/profile-self.module';
 import { MyDatePickerModule } from 'mydatepicker';
 import { OthersProfileComponent } from './profile-other/profile-other.component';
 import { OthersProfileModule } from './profile-other/profile-other.module';
+import { AdminComponent } from './admin/admincomponent';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { OthersProfileModule } from './profile-other/profile-other.module';
         CalendarModule,
         MyDatePickerModule,
         MatProgressSpinnerModule,
-        MatTabsModule
+        MatTabsModule,
+        ChipsModule
     ],
     declarations: [
         NoticerComponent,
@@ -70,7 +72,8 @@ import { OthersProfileModule } from './profile-other/profile-other.module';
         CreatePostComponent,
         NotificationsComponent,
         SelfProfileComponent,
-        OthersProfileComponent
+        OthersProfileComponent,
+        AdminComponent
     ],
     exports: [SideMenuComponent, NoticerMainComponent]
 })
