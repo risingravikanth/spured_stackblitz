@@ -9,15 +9,15 @@ export class ToastrService{
      }
 
     success(message:string, title:string){
-        this.toastr.successToastr(title, message);
+        this.toastr.successToastr(title, message, { newestOnTop: true, maxShown : 1 });
     }
     error(message:string, title:string){
-        this.toastr.errorToastr(title, message);
+        this.toastr.errorToastr(title, message, { newestOnTop: true ,  maxShown : 1});
     }
     warning(message:string, title:string){
-        this.toastr.warningToastr(title, message);
+        this.toastr.warningToastr(title, message, { newestOnTop: true,  maxShown : 1 });
     }
     info(message:string){
-        this.toastr.infoToastr(message);
+        this.toastr.infoToastr(message, { newestOnTop: true,  maxShown : 1 });
     }
 }

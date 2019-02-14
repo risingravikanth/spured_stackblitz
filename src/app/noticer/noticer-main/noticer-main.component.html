@@ -1,7 +1,7 @@
 <div class="container horizontalScroll" [ngClass]="(!isActivity) ? 'marTop45' : 'container'">
     <br *ngIf="!isActivity" class="d-block d-sm-none">
     <br *ngIf="!isActivity">
-    <div class="row" infinite-scroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="300" (scrolled)="!isActivity ? loadMorePosts() : ''">
+    <div class="row" infinite-scroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="1000" (scrolled)="loadMorePosts()">
         <div class="col-md-3 col-sm-3 d-none d-sm-block" *ngIf="!isMobile && !isActivity">
             <side-menu></side-menu>
         </div>
@@ -393,12 +393,12 @@
             <right-menu></right-menu>
         </div>
     </div>
-    <div class="text-center" *ngIf="isActivity && from == 'topics' && showMoreActivity">
+    <!--<div class="text-center" *ngIf="isActivity && from == 'topics' && showMoreActivity">
         <a href="javascript:void(0);" (click)="loadMoreActivities('topics')">load more</a>
     </div>
     <div class="text-center" *ngIf="isActivity && from == 'boards' && showMoreActivity">
         <a href="javascript:void(0);" (click)="loadMoreActivities('boards')">load more</a>
-    </div>
+    </div>-->
     <div (click)="goToTop()" class="btt-btn"><i class="fas fa-chevron-up"></i></div>
 </div>
 
