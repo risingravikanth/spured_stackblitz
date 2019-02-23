@@ -288,3 +288,7 @@ li>a{
 #postActions.dropdown-toggle::after {
     display: none;
 }
+
+.has-error {
+    border:1px solid #ff0000 !important; 
+}

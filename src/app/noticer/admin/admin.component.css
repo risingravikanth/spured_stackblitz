@@ -127,3 +127,7 @@ li {
   color: white;
   transform: rotateY(180deg);
 }
+
+.btnS{
+  color:white; margin-left: 5px; margin-bottom: 5px;
+}

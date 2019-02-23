@@ -1,9 +1,9 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Http, Response, RequestOptions, Headers } from '@angular/http';
+import { Response } from '@angular/http';
+import { TransferState } from '@angular/platform-browser';
 import { Observable } from "rxjs/Observable";
 import * as constants from '../../shared/others/constants';
-import { makeStateKey, TransferState } from '@angular/platform-browser';
 
 @Injectable()
 export class NoticerMainService {

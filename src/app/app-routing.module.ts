@@ -15,7 +15,7 @@ import { UserSetupComponent } from './user-setup/user-setup.component';
 import { AccountActivateComponent } from './account-activate/account-activate.component';
 import { NotificationsComponent } from './noticer/notifications/notifications.component';
 import { PasswordResetLinkComponent } from './password-reset-link/password-reset-link.component';
-import { AdminComponent } from './noticer/admin/admincomponent';
+import { AdminComponent } from './noticer/admin/admin.component';
 
 const routes: Routes = [
   {

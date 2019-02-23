@@ -5,10 +5,10 @@
         <div [class]="!isMobile ? 'col-md-6' : 'col-md-12'">
             <div class="form-group">
                 <label style="margin-top: 7px;">Boards: </label>
-                <button class="btn btn-sm btnSuccess float-right" (click)="createBoardDialog()" style="color:white;    margin-bottom: 7px;"><i
+                <button class="btn btn-sm btnSuccess float-right" (click)="createBoardDialog(addBoardDialog)" style="color:white;    margin-bottom: 7px;"><i
                         class="fa fa-plus" aria-hidden="true"></i> &nbsp;Create Board</button>
-                <p-dropdown placeholder="Board" [options]="listOfBoards" [style]="{'width':'100%'}" filter="true"
-                    #board>
+                <p-dropdown placeholder="Board" (onChange)="getUsersInClosedBoard(boardDOMId.value)" [(ngModel)]="boardId"
+                    [options]="listOfBoards" [style]="{'width':'100%'}" filter="true" #boardDOMId>
                     <ng-template let-board pTemplate="item">
                         <div class="ui-helper-clearfix">
                             <span style="vertical-align:middle">{{board.label}}</span>
@@ -16,44 +16,29 @@
                     </ng-template>
                 </p-dropdown>
             </div>
-            <div class="card text-center" style="padding-top: 4%;">
+            <div *ngIf="showPeople" class="card text-center" style="padding-top: 4%;">
                 <div class="form-group">
-                    <label><b>Department:</b> Computers</label>
+                    <label><b>Department:</b> {{deptName}}</label>
                 </div>
                 <div class="form-group">
-                    <label><b>Start Year:</b> 2011, &nbsp;&nbsp; <b>End Year:</b> 2017</label>
+                    <label><b>Start Year:</b> {{startYear}}, &nbsp;&nbsp; <b>End Year:</b> {{endYear}}</label>
                 </div>
             </div>
-            <div class="card">
+            <div class="card" *ngIf="showPeople">
                 <div class="card-header">
                     <i class="fas fa-users"></i>&nbsp;Members
                 </div>
                 <div class="card-body">
-                    <div class="row" style="padding-left: 9px;margin-top: 0px;">
+                    <div class="row" *ngFor="let user of peopleInBoards" style="padding-left: 9px;margin-top: 0px;">
                         <div>
-                            <img width="80" src="assets/images/noticer_default_user_img.png" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;"
+                            <img width="80" [src]="user.profileImageUrl" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;"
                                 alt="Avatar">
                         </div>
                         <div style="margin-left: -35px;margin-top: 15px;">
                             <ul>
                                 <li>
                                     <a style="color: black;font-weight: 400;">
-                                        a@gmail.com
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row" style="padding-left: 9px;margin-top: 0px;">
-                        <div>
-                            <img src="assets/images/noticer_default_user_img.png" width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;"
-                                alt="Avatar">
-                        </div>
-                        <div style="margin-left: -35px;margin-top: 15px;">
-                            <ul>
-                                <li>
-                                    <a style="color: black;font-weight: 400;">
-                                        b@gmail.com
+                                        {{user.email}}
                                     </a>
                                 </li>
                             </ul>
@@ -62,25 +47,23 @@
                 </div>
             </div>
             <br>
-            <div class="card border-light">
+            <div [formGroup]="usersForm" class="card border-light" *ngIf="showPeople">
                 <div class="card-header"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Add</div>
                 <div class="card-body">
-                    <p-chips [(ngModel)]="addPeopleList">
-                        <ng-template let-item pTemplate="item">
-                            {{item}} <i class="fa fa-user" style="margin-right:1em"></i>
-                        </ng-template>
-                    </p-chips>
+                    <textarea class="form-control" placeholder="list of members with comma seperated" formControlName="addPeopleList"></textarea>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-sm btnSuccess btnS" (click)="addUsersInBoard()" [disabled]="!validAddUsers">Add</button>
                 </div>
             </div>
             <br>
-            <div class="card border-light">
+            <div [formGroup]="usersForm" class="card border-light" *ngIf="showPeople">
                 <div class="card-header"><i class="fa fa-times" aria-hidden="true"></i> &nbsp;Remove</div>
                 <div class="card-body">
-                    <p-chips [(ngModel)]="removePeopleList">
-                        <ng-template let-item pTemplate="item">
-                            {{item}} <i class="fa fa-user" style="margin-right:1em"></i>
-                        </ng-template>
-                    </p-chips>
+                    <textarea class="form-control" placeholder="list of members with comma seperated" formControlName="removePeopleList"></textarea>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-sm btnSuccess btnS" (click)="removeUsersInBoard()" [disabled]="!validRemoveUsers">Remove</button>
                 </div>
             </div>
         </div>
@@ -88,3 +71,42 @@
         </div>
     </div>
 </div>
+
+
+<!-- Dialog box -->
+<section>
+    <ng-template #addBoardDialog let-c="close" let-d="dismiss">
+        <h4 style="padding: 12px;"><b>Create Board</b></h4>
+        <div class="modal-body">
+            <form [formGroup]="addBoardForm">
+                <div class="form-group">
+                    <label>Institute: Example</label>
+                </div>
+                <div class="form-group">
+                    <label>Department: </label>
+                    <p-dropdown [ngClass]="{'has-error':!addBoardForm.controls['deptId'].valid}" placeholder="Department" formControlName="deptId" [options]="listOfDepartments" [style]="{'width':'100%'}"
+                        filter="true" #dept>
+                        <ng-template let-dept pTemplate="item">
+                            <div class="ui-helper-clearfix">
+                                <span style="vertical-align:middle">{{dept.label}}</span>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <label>Year: </label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input [ngClass]="{'has-error':!addBoardForm.controls['startYear'].valid}" class="form-control" formControlName="startYear" placeholder="start year" type="number">
+                    </div>
+                    <div class="col-md-6">
+                        <input [ngClass]="{'has-error':!addBoardForm.controls['endYear'].valid}" class="form-control" formControlName="endYear" placeholder="end year" type="number">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button"  class="btn btn-sm btnSuccess" style="color:white;" (click)="saveCreateBoard()"
+                [disabled]="addBoardForm.invalid">Create</button>
+        </div>
+    </ng-template>
+</section>

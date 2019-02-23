@@ -5,7 +5,8 @@ export const domainName = "http://www.spured.com";
 
 /* ---------------     Java server ------------ */
 
-  export const REST_API_URL = 'http://api.spured.com/services';
+  export const REST_API_URL = 'https://api.spured.com/services';
+  // export const REST_API_URL = 'http://159.65.148.220:8080/services';
   // export const REST_API_URL = 'http://139.59.6.52:8080/SpringMvcJdbcTemplate';
 //export const REST_API_URL = 'http://24.130.144.137:8080/SpringMvcJdbcTemplate';
 //export const REST_API_URL = 'http://localhost:8080/SpringMvcJdbcTemplate';
