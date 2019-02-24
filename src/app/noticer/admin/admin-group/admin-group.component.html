@@ -2,8 +2,8 @@
     <div class="form-group" style="margin-top: 10px;">
         <button class="btn btn-sm btnSuccess float-right" (click)="createBoardDialog(addBoardDialog)" style="color:white;    margin-bottom: 7px;"><i
                 class="fa fa-plus" aria-hidden="true"></i> &nbsp;Create Group</button>
-        <p-dropdown placeholder="Groups" (onChange)="getUsersInClosedBoard(boardDOMId.value)" [(ngModel)]="boardId"
-            [options]="listOfBoards" [style]="{'width':'100%'}" filter="true" #boardDOMId>
+        <p-dropdown placeholder="Groups" (onChange)="getUsersInGroup(boardDOMId.value)" [(ngModel)]="groupId"
+            [options]="listOfGroups" [style]="{'width':'100%'}" filter="true" #boardDOMId>
             <ng-template let-board pTemplate="item">
                 <div class="ui-helper-clearfix">
                     <span style="vertical-align:middle">{{board.label}}</span>
