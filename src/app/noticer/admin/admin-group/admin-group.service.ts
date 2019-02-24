@@ -7,11 +7,6 @@ import { Observable } from "rxjs/Observable";
 export class AdminGroupService {
     constructor(private httpClient: HttpClient) { }
 
-    createGroup(body: any) {
-        let url = "/groups/create";
-        this.httpClient.post(url, body).catch(this.handleError);
-    }
-
     deleteGroup(body: any) {
         let url = "/groups/delete";
         return this.httpClient.post(url, body).catch(this.handleError);
@@ -29,7 +24,8 @@ export class AdminGroupService {
     
     getUsersInGroup(groupId: any) {
         let url = "/groups/getusersingroup/" + groupId;
-        return this.httpClient.get(url).catch(this.handleError);
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.get(url, { headers: headers }).catch(this.handleError);
     }
     
     getMyGroups() {
@@ -44,7 +40,7 @@ export class AdminGroupService {
     }
 
     createGroupInstAdmin(body: any) {
-        let url = "/boards/create";
+        let url = "/groups/create";
         return this.httpClient.post(url, body).catch(this.handleError);
     }
     

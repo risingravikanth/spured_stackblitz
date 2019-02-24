@@ -16,7 +16,7 @@ import { AdminBoardService } from './admin-board.service';
 })
 export class AdminBoardComponent implements OnInit {
 
-  public boardResponse: any = { nonExisting: [], nonMembers: [], removed: [], removedCount: null, requestedCount: null }
+  public boardResponse: any;
 
   public listOfBoards: any = [];
   public listOfDepartments: any = [];
@@ -40,16 +40,16 @@ export class AdminBoardComponent implements OnInit {
   addBoardBtnTxt: string = "Create";
   institute: any;
   @Input()
-  set fromChild(value:any){
-    if(value){
+  set fromChild(value: any) {
+    if (value) {
       this.institute = value
       this.addBoardForm.get("instId").patchValue(this.institute.instId);
     }
   }
 
   @Input()
-  set fromChildDepts(value:any){
-    if(value){
+  set fromChildDepts(value: any) {
+    if (value) {
       this.listOfDepartments = value
     }
   }
@@ -137,7 +137,10 @@ export class AdminBoardComponent implements OnInit {
         this.toastr.error("Failed", resData.info);
       } else if (resData && resData.code && resData.code.name == "Error") {
         this.toastr.error("Failed", "Something went wrong!");
+      } else if (resData && resData.error && resData.error.code) {
+        this.toastr.error("Failed", "Something went wrong!");
       } else {
+        this.validAddUsers = false;
         this.boardResponse = resData;
         this.getUsersInClosedBoard(this.boardId)
       }
@@ -155,7 +158,11 @@ export class AdminBoardComponent implements OnInit {
         this.toastr.error("Failed", resData.info);
       } else if (resData && resData.code && resData.code.name == "Error") {
         this.toastr.error("Failed", "Something went wrong!");
+      } else if (resData && resData.error && resData.error.code) {
+        this.toastr.error("Failed", "Something went wrong!");
       } else {
+        this.validRemoveUsers = false;
+        this.boardResponse = resData;
         this.getUsersInClosedBoard(this.boardId)
       }
     })
@@ -183,12 +190,14 @@ export class AdminBoardComponent implements OnInit {
 
   saveCreateBoard() {
     this.addBoardBtnTxt = "Creating..";
-    this.service.createBoardInstAdmin(this.addBoardForm.value).subscribe((resData:any) => {
+    this.service.createBoardInstAdmin(this.addBoardForm.value).subscribe((resData: any) => {
       this.addBoardBtnTxt = "Create";
-      if(resData && resData.error && resData.error.code){
+      if (resData && resData.error && resData.error.code) {
         this.toastr.error("Failed", "Something went wrong!");
-      } else{
-        this.getDismissReason("");
+      } else {
+        this.toastr.success("Success", "Board Created successfully")
+        this.boardModalReference.close();
+        this.getAdminClosedBoards();
       }
     });
   }
@@ -215,7 +224,7 @@ export class AdminBoardComponent implements OnInit {
           } else {
             this.validRemoveUsers = false;
           }
-          alert("invalid email: " + emailArray[i]);
+          // alert("invalid email: " + emailArray[i]);
         }
       }
     }

@@ -16,7 +16,7 @@ import { AdminGroupService } from './admin-group.service';
 })
 export class AdminGroupComponent implements OnInit {
 
-  public boardResponse: any = { nonExisting: [], nonMembers: [], removed: [], removedCount: null, requestedCount: null }
+  public boardResponse: any;
 
   public listOfGroups: any = [];
   public listOfDepartments: any = [];
@@ -96,8 +96,8 @@ export class AdminGroupComponent implements OnInit {
       if (resData.groups) {
         for (var i in resData.groups) {
           let item = resData.groups[i];
-          let id = item['groupId'];
-          let name = item['groupName'];
+          let id = item['id'];
+          let name = item['name'];
           var obj = {
             value: id,
             label: name
@@ -109,19 +109,19 @@ export class AdminGroupComponent implements OnInit {
   }
 
   getUsersInGroup(boardId: any) {
-    this.boardName = this.listOfGroups.filter(item => item.value == boardId)[0].label;
-    let ar = this.boardName.split(" ");
-    if (ar.length == 3) {
-      this.deptName = ar[1];
-      this.startYear = ar[2].split("-")[0];
-      this.endYear = ar[2].split("-")[1];
-    }
+    // this.boardName = this.listOfGroups.filter(item => item.value == boardId)[0].label;
+    // let ar = this.boardName.split(" ");
+    // if (ar.length == 3) {
+    //   this.deptName = ar[1];
+    //   this.startYear = ar[2].split("-")[0];
+    //   this.endYear = ar[2].split("-")[1];
+    // }
     this.service.getUsersInGroup(boardId).subscribe(
-      resData => {
-        this.peopleInBoards = resData;
+      (resData: any) => {
         this.usersForm.get("addPeopleList").patchValue("");
         this.usersForm.get("removePeopleList").patchValue("");
-        if (this.peopleInBoards && this.peopleInBoards.length > 0) {
+        if (resData && resData.userPfofiles.length > 0) {
+          this.peopleInBoards = resData.userPfofiles;
           this.showPeople = true;
         } else {
           this.showPeople = false;
@@ -141,9 +141,13 @@ export class AdminGroupComponent implements OnInit {
         this.toastr.error("Failed", resData.info);
       } else if (resData && resData.code && resData.code.name == "Error") {
         this.toastr.error("Failed", "Something went wrong!");
+      } else if (resData && resData.error && resData.error.code) {
+        this.toastr.error("Failed", "Something went wrong!");
       } else {
         this.boardResponse = resData;
+        console.log(this.boardResponse);
         this.getUsersInGroup(this.groupId)
+        this.validAddUsers = false;
       }
     })
   }
@@ -159,8 +163,13 @@ export class AdminGroupComponent implements OnInit {
         this.toastr.error("Failed", resData.info);
       } else if (resData && resData.code && resData.code.name == "Error") {
         this.toastr.error("Failed", "Something went wrong!");
+      } else if (resData && resData.error && resData.error.code) {
+        this.toastr.error("Failed", "Something went wrong!");
       } else {
-        this.getUsersInGroup(this.groupId)
+        this.boardResponse = resData;
+        console.log(this.boardResponse);
+        this.getUsersInGroup(this.groupId);
+        this.validRemoveUsers = false;
       }
     })
   }
@@ -193,7 +202,9 @@ export class AdminGroupComponent implements OnInit {
       if (resData && resData.error && resData.error.code) {
         this.toastr.error("Failed", "Something went wrong!");
       } else {
-        this.getDismissReason("");
+        this.toastr.success("Success", "Group Created successfully")
+        this.boardModalReference.close();
+        this.getAdminGroups();
       }
     });
   }
@@ -220,7 +231,7 @@ export class AdminGroupComponent implements OnInit {
           } else {
             this.validRemoveUsers = false;
           }
-          alert("invalid email: " + emailArray[i]);
+          // alert("invalid email: " + emailArray[i]);
         }
       }
     }

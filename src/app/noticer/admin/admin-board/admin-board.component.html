@@ -26,8 +26,8 @@
         <div class="card-body">
             <div class="row" *ngFor="let user of peopleInBoards" style="padding-left: 9px;margin-top: 0px;">
                 <div>
-                    <img width="80" [src]="user.profileImageUrl" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;"
-                        alt="Avatar">
+                    <img width="80" [src]="(user.profileImageUrl && user.profileImageUrl?.length>0) ? user.profileImageUrl : 'assets/images/noticer_default_user_img.png'"
+                        height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="Avatar">
                 </div>
                 <div style="margin-left: -35px;margin-top: 15px;">
                     <ul>
@@ -42,6 +42,46 @@
         </div>
     </div>
     <br>
+    <div *ngIf="boardResponse && boardResponse.alreadyMembers?.length > 0" class="alert alert-danger alert-dismissible fade show"
+        role="alert">
+        <strong>Already members:</strong>
+        <span *ngFor="let item of boardResponse.alreadyMembers">{{item}}</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div *ngIf="boardResponse && boardResponse.nonExisting?.length > 0" class="alert alert-danger alert-dismissible fade show"
+        role="alert">
+        <strong>Non Existing:</strong>
+        <span *ngFor="let item of boardResponse.nonExisting">{{item}}</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div *ngIf="boardResponse && boardResponse.nonMembers?.length > 0" class="alert alert-danger alert-dismissible fade show"
+        role="alert">
+        <strong>Non Members:</strong>
+        <span *ngFor="let item of boardResponse.nonMembers">{{item}}</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div *ngIf="(boardResponse && boardResponse.removedCount == boardResponse.requestedCount) && boardResponse.removed?.length > 0"
+        class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Successfully Removed:</strong>
+        <span *ngFor="let item of boardResponse.removed">{{item}}</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div *ngIf="(boardResponse && boardResponse.removedCount == boardResponse.requestedCount) && boardResponse.added?.length > 0"
+        class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Successfully Added:</strong>
+        <span *ngFor="let item of boardResponse.added">{{item}}</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <div [formGroup]="usersForm" class="card border-light" *ngIf="showPeople">
         <div class="card-header"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Add</div>
         <div class="card-body">
@@ -60,28 +100,6 @@
         <div class="col-md-12">
             <button class="btn btn-sm btnSuccess btnS float-right" (click)="removeUsersInBoard()" [disabled]="!validRemoveUsers">Remove</button>
         </div>
-    </div>
-    <div *ngIf="boardResponse.nonExisting?.length > 0" class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Non Existing:</strong>
-        <span *ngFor="let item of boardResponse.nonExisting">{{item}}</span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div *ngIf="boardResponse.nonMembers?.length > 0" class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Non Members:</strong>
-        <span *ngFor="let item of boardResponse.nonMembers">{{item}}</span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div *ngIf="(boardResponse.removedCount == boardResponse.requestedCount) && boardResponse.removed?.length > 0"
-        class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Successfully Removed:</strong>
-        <span *ngFor="let item of boardResponse.removed">{{item}}</span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
     </div>
 </div>
 

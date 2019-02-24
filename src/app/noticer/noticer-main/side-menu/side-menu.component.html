@@ -50,6 +50,31 @@
                     </li>
                 </div>
             </ul>
+            <ul style="margin-left: 1px;padding-top: 10px;font-size: 15px; line-height: 1.7;padding-inline-start: 1px;">
+                <!--<li style="padding-right: 60px;">
+                V1.0
+                commented for make + icon visible in clear
+            -->
+                <li>
+                    <label>
+                        <b>Groups&nbsp;</b>
+                    </label>
+                </li>
+                <div style="margin-left: 50%;" *ngIf="showPostSpinnerGroups">
+                    <div class="loader"></div>
+                </div>
+                <div *ngIf="noGroups && !showPostSpinnerGroups" style="margin-left: 16px;">No groups</div>
+                <div style="width: 100%;" class="boards">
+                    <li *ngFor="let group of groupsList" class="overflowText1">
+                        <a title={{group.name}} href="javascript:void(0);" style="color: black;" (click)="selectedGroup(group.id,group.name)"
+                            [class.selected]="'GROUP_'+group.id === selectedItem">
+                            {{group.name}}</a>
+                        <ng-template #tipComment>
+                            {{group.name}}
+                        </ng-template>
+                    </li>
+                </div>
+            </ul>
         </div>
 
         <!-- TOPICS -->

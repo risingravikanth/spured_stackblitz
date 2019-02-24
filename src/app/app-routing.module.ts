@@ -83,6 +83,20 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'groups',
+    component: NoticerComponent,
+    children: [
+      {
+        path: ':boardId',
+        component: NoticerMainComponent,
+      },
+      {
+        path: ':id/:title',
+        component: NoticerMainComponent,
+      }
+    ]
+  },
+  {
     path: 'profile',
     component: NoticerComponent,
     children: [
