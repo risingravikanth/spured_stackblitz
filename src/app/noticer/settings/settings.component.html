@@ -10,7 +10,7 @@
                         <h5 class="card-title2">{{ req.boardInfo.boardName}}</h5>
                         <div class="card-text">
                             <div class="chip">
-                                <img [src]="(req.userProfile && req.userProfile.profileImageUrl  && req.userProfile.profileImageUrl?.length>0 ) ? ((imageFromAws(req.userProfile.profileImageUrl) ? '' : serverUrl) + req.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'"
+                                <img [src]="(req.userProfile && req.userProfile.profileImageUrl  && req.userProfile.profileImageUrl?.length>0 ) ? req.userProfile.profileImageUrl : 'assets/images/noticer_default_user_img.png'"
                                     alt="user" width="96" height="96">
                                 {{req.userProfile ? req.userProfile.userName : '-NA-'}} <br> {{req.userProfile ?
                                 req.userProfile.email : '-NA-'}}

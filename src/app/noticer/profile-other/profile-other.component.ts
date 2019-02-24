@@ -59,7 +59,7 @@ export class OthersProfileComponent implements OnInit {
       this.userDetails = resData;
       this.userService.setTitle(this.userDetails.userName + " - SpurEd");
       if (this.userDetails && this.userDetails.profileImageUrl) {
-        this.profileImage = (this.imageFromAws(this.userDetails.profileImageUrl) ? '' : (constant.REST_API_URL + "/")) +  this.userDetails.profileImageUrl;
+        this.profileImage = this.userDetails.profileImageUrl;
       } else{
         this.profileImage = "assets/images/noticer_default_user_img.png";
       }
