@@ -24,7 +24,9 @@ import { SelfProfileModule } from './profile-self/profile-self.module';
 import { MyDatePickerModule } from 'mydatepicker';
 import { OthersProfileComponent } from './profile-other/profile-other.component';
 import { OthersProfileModule } from './profile-other/profile-other.module';
-import { AdminComponent } from './admin/admincomponent';
+import { AdminComponent } from './admin/admin.component';
+import { AdminBoardComponent } from './admin/admin-board/admin-board.component';
+import { AdminGroupComponent } from './admin/admin-group/admin-group.component';
 
 
 @NgModule({
@@ -73,7 +75,9 @@ import { AdminComponent } from './admin/admincomponent';
         NotificationsComponent,
         SelfProfileComponent,
         OthersProfileComponent,
-        AdminComponent
+        AdminComponent,
+        AdminBoardComponent,
+        AdminGroupComponent
     ],
     exports: [SideMenuComponent, NoticerMainComponent]
 })

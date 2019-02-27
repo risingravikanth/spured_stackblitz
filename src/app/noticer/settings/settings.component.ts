@@ -35,7 +35,6 @@ export class SettingsComponent implements OnInit {
     private seo:SeoService) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-      this.serverUrl = constant.REST_API_URL + "/";
     }
   }
 

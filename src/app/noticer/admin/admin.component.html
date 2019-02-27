@@ -1,90 +1,17 @@
-<div class="container marTop50">
+<section class="container marTop50">
     <div class="row">
         <div class="col-md-3 col-sm-3 d-none d-sm-block">
         </div>
         <div [class]="!isMobile ? 'col-md-6' : 'col-md-12'">
-            <div class="form-group">
-                <label style="margin-top: 7px;">Boards: </label>
-                <button class="btn btn-sm btnSuccess float-right" (click)="createBoardDialog()" style="color:white;    margin-bottom: 7px;"><i
-                        class="fa fa-plus" aria-hidden="true"></i> &nbsp;Create Board</button>
-                <p-dropdown placeholder="Board" [options]="listOfBoards" [style]="{'width':'100%'}" filter="true"
-                    #board>
-                    <ng-template let-board pTemplate="item">
-                        <div class="ui-helper-clearfix">
-                            <span style="vertical-align:middle">{{board.label}}</span>
-                        </div>
-                    </ng-template>
-                </p-dropdown>
-            </div>
-            <div class="card text-center" style="padding-top: 4%;">
-                <div class="form-group">
-                    <label><b>Department:</b> Computers</label>
-                </div>
-                <div class="form-group">
-                    <label><b>Start Year:</b> 2011, &nbsp;&nbsp; <b>End Year:</b> 2017</label>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-users"></i>&nbsp;Members
-                </div>
-                <div class="card-body">
-                    <div class="row" style="padding-left: 9px;margin-top: 0px;">
-                        <div>
-                            <img width="80" src="assets/images/noticer_default_user_img.png" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;"
-                                alt="Avatar">
-                        </div>
-                        <div style="margin-left: -35px;margin-top: 15px;">
-                            <ul>
-                                <li>
-                                    <a style="color: black;font-weight: 400;">
-                                        a@gmail.com
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row" style="padding-left: 9px;margin-top: 0px;">
-                        <div>
-                            <img src="assets/images/noticer_default_user_img.png" width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;"
-                                alt="Avatar">
-                        </div>
-                        <div style="margin-left: -35px;margin-top: 15px;">
-                            <ul>
-                                <li>
-                                    <a style="color: black;font-weight: 400;">
-                                        b@gmail.com
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="card border-light">
-                <div class="card-header"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Add</div>
-                <div class="card-body">
-                    <p-chips [(ngModel)]="addPeopleList">
-                        <ng-template let-item pTemplate="item">
-                            {{item}} <i class="fa fa-user" style="margin-right:1em"></i>
-                        </ng-template>
-                    </p-chips>
-                </div>
-            </div>
-            <br>
-            <div class="card border-light">
-                <div class="card-header"><i class="fa fa-times" aria-hidden="true"></i> &nbsp;Remove</div>
-                <div class="card-body">
-                    <p-chips [(ngModel)]="removePeopleList">
-                        <ng-template let-item pTemplate="item">
-                            {{item}} <i class="fa fa-user" style="margin-right:1em"></i>
-                        </ng-template>
-                    </p-chips>
-                </div>
-            </div>
+            <mat-tab-group mat-stretch-tabs>
+                <mat-tab label="Boards">
+                    <admin-board [fromChild] = "institute" [fromChildDepts]="listOfDepartments"></admin-board>
+                </mat-tab>
+                <mat-tab label="Groups">
+                    <admin-group [fromChild] = "institute" [fromChildDepts]="listOfDepartments"></admin-group>
+                </mat-tab>
+            </mat-tab-group>
         </div>
-        <div class="col-md-3 col-sm-3 d-none d-sm-block">
-        </div>
+        <div class="col-md-3 col-sm-3 d-none d-sm-block"></div>
     </div>
-</div>
+</section>

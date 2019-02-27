@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../shared/models/user.model';
-import * as constant from '../../shared/others/constants';
 import { AuthService } from '../../shared/services/auth.service';
 import { CommonService } from '../../shared/services/common.service';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
@@ -48,7 +47,7 @@ export class HeaderComponent implements OnInit {
             this.validUser = true;
         }
         if (this.currentUser && this.currentUser.imageUrl) {
-            this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (constant.REST_API_URL + "/")) + this.currentUser.imageUrl;
+            this.profileImage = this.currentUser.imageUrl;
         } else {
             this.profileImage = "assets/images/noticer_default_user_img.png"
         }
@@ -57,7 +56,7 @@ export class HeaderComponent implements OnInit {
             if (resData == "updateProfilePic") {
                 this.currentUser = this.userService.getCurrentUser();
                 if (this.currentUser && this.currentUser.imageUrl) {
-                    this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (constant.REST_API_URL + "/")) + this.currentUser.imageUrl;
+                    this.profileImage = this.currentUser.imageUrl;
                 }
             } else if (resData && resData.type == "updateNoficiationCount"){
                 if (resData.count > 0) {

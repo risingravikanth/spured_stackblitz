@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Inject,  ViewChild, PLATFORM_ID } from '@angular/core';
+import { Component, ElementRef, OnInit, Inject, ViewChild, PLATFORM_ID } from '@angular/core';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
 import { isPlatformServer } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,6 +14,7 @@ import { CurrentUserService } from '../../../shared/services/currentUser.service
 import { SECTIONS } from './../../../shared/master-data/master-data';
 import { SideMenuService } from './side-menu.service';
 import { ToastrService } from '../../../shared/services/Toastr.service';
+import { AdminGroupService } from '../../admin/admin-group/admin-group.service';
 
 
 const CLOSEDBOARDS_KEY = makeStateKey<string>('closedboards');
@@ -22,16 +23,18 @@ const CLOSEDBOARDS_KEY = makeStateKey<string>('closedboards');
   selector: 'side-menu',
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.css'],
-  providers: [CustomValidator, MessageService, MobileDetectionService, SideMenuService, CurrentUserService, ToastrService],
+  providers: [CustomValidator, MessageService, MobileDetectionService, SideMenuService, CurrentUserService, ToastrService, AdminGroupService],
   // animations: [routerTransition()]
 })
 export class SideMenuComponent implements OnInit {
   noBoards: boolean = true;
   showPostSpinner: boolean = false;
+  showPostSpinnerGroups: boolean = false;
   boardId: any;
   paramType: any;
   paramCategory: any;
   windowStyle: any;
+  noGroups: boolean;
 
 
   constructor(private router: Router, private formbuilder: FormBuilder,
@@ -43,16 +46,18 @@ export class SideMenuComponent implements OnInit {
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private trasferState: TransferState,
-    @Inject(PLATFORM_ID) private platformId: Object ) {
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private adminGroupService: AdminGroupService) {
 
     this.isServer = isPlatformServer(this.platformId);
 
-   }
+  }
 
   @ViewChild('myTopnav') el: ElementRef;
 
   public menuList: any = [];
   public boardsList: any = [];
+  public groupsList: any = [];
   public isClassVisible = false;
   public isPosFix = true;
   public varShowSectionSettings = true;
@@ -72,30 +77,31 @@ export class SideMenuComponent implements OnInit {
   public listOfBoards: any = [];
   addBoardForm: FormGroup;
   currentUser: User;
-  isLoggedInUser : boolean ;
+  isLoggedInUser: boolean;
   public validUser: boolean = false;
   public pendingBoardsInfo: any = [];
   public boardRequestBtnTxt = "Join Request"
   public tabTitle = "Join a Board";
-  public underMaintenace :boolean = true;
+  public underMaintenace: boolean = true;
 
 
   ngOnInit() {
     this.isMobile = this.mobileService.isMobile();
-    
 
-    if(this.isMobile){
-      this.windowStyle =  { size : "lg"}
-    } else{
-      this.windowStyle =  { windowClass : "myCustomModalClass"}
+
+    if (this.isMobile) {
+      this.windowStyle = { size: "lg" }
+    } else {
+      this.windowStyle = { windowClass: "myCustomModalClass" }
     }
     this.commonService.isMobileFlag.next(this.isMobile);
     this.initForm();
-    
+
     this.isLoggedInUser = this.userService.checkLoggedInUser();
     if (this.isLoggedInUser) {
       this.validUser = true;
       this.getBoardsList();
+      this.getGroups();
     }
 
     this.menuList = SECTIONS;
@@ -161,9 +167,9 @@ export class SideMenuComponent implements OnInit {
   }
 
 
-  showAddBoardDialog(content: any, type:string) {
+  showAddBoardDialog(content: any, type: string) {
     this.commonService.updateHeaderMenu("sideMenuClose");
-    if(type == "addBoard"){
+    if (type == "addBoard") {
       this.getAllSates();
       this.getUserPendingOrRejectedRequests();
     }
@@ -202,6 +208,12 @@ export class SideMenuComponent implements OnInit {
     this.selectedItem = "BOARD_" + boardId;
     this.router.navigate(['/boards/closed/' + boardId + "/" + boardName
       // .replace(/[^a-zA-Z0-9]/g, '-')
+    ])
+  }
+  selectedGroup(id: any, name: any) {
+    this.commonService.updateHeaderMenu("sideMenuClose");
+    this.selectedItem = "GROUP_" + id;
+    this.router.navigate(['/groups/' + id + "/" + name
     ])
   }
 
@@ -281,10 +293,10 @@ export class SideMenuComponent implements OnInit {
 
   getBoardsList() {
     this.showPostSpinner = true;
-   
+
     /* server side rendring */
 
- 
+
     if (this.trasferState.hasKey(CLOSEDBOARDS_KEY)) {
       console.log("browser : getting CLOSEDBOARDS_KEY for posts");
       this.boardsList = this.trasferState.get(CLOSEDBOARDS_KEY, '');
@@ -296,58 +308,58 @@ export class SideMenuComponent implements OnInit {
       }
 
       this.showPostSpinner = false;
-    
+
 
     } else if (this.isServer) {
-       
+
       console.log("server : making service call & setting CLOSEDBOARDS_KEY");
 
       this.service.getUserClosedBoards().subscribe((resData: any) => {
         this.showPostSpinner = false;
-          if (resData.boards) {
-            this.boardsList = resData.boards;
-            this.trasferState.set(CLOSEDBOARDS_KEY, this.boardsList);
-            if (this.boardsList && this.boardsList.length > 0) {
-              this.noBoards = false;
-            } else {
-              this.noBoards = true;
-            }
+        if (resData.boards) {
+          this.boardsList = resData.boards;
+          this.trasferState.set(CLOSEDBOARDS_KEY, this.boardsList);
+          if (this.boardsList && this.boardsList.length > 0) {
+            this.noBoards = false;
           } else {
             this.noBoards = true;
-            this.trasferState.set(CLOSEDBOARDS_KEY, []);
           }
-       },(err :any) => {
+        } else {
+          this.noBoards = true;
+          this.trasferState.set(CLOSEDBOARDS_KEY, []);
+        }
+      }, (err: any) => {
         // Do stuff whith your error
-           if(err.status === 0){
-            this.showPostSpinner = false;
-            this.underMaintenace = false;
-          }
-       });
- 
-     } else {
+        if (err.status === 0) {
+          this.showPostSpinner = false;
+          this.underMaintenace = false;
+        }
+      });
+
+    } else {
       console.log("no result received : making service call CLOSEDBOARDS_KEY");
 
       this.service.getUserClosedBoards().subscribe((resData: any) => {
         this.showPostSpinner = false;
-          if (resData.boards) {
-            this.boardsList = resData.boards;
-            if (this.boardsList && this.boardsList.length > 0) {
-              this.noBoards = false;
-            } else {
-              this.noBoards = true;
-            }
+        if (resData.boards) {
+          this.boardsList = resData.boards;
+          if (this.boardsList && this.boardsList.length > 0) {
+            this.noBoards = false;
           } else {
             this.noBoards = true;
           }
-         
-      },(err :any) => {
+        } else {
+          this.noBoards = true;
+        }
+
+      }, (err: any) => {
         // Do stuff whith your error
-          if(err.status === 0){
-            this.showPostSpinner = false;
-            this.underMaintenace = false;
-          }
-       });
-       
+        if (err.status === 0) {
+          this.showPostSpinner = false;
+          this.underMaintenace = false;
+        }
+      });
+
     }
 
   }
@@ -511,6 +523,19 @@ export class SideMenuComponent implements OnInit {
         this.showDept = true;
       }
     }
+  }
+
+  getGroups() {
+    this.showPostSpinnerGroups = true;
+    this.adminGroupService.getMyGroups().subscribe((resData: any) => {
+      this.showPostSpinnerGroups = false;
+      if (resData.groups) {
+        this.groupsList = resData.groups;
+        this.noGroups = false;
+      } else {
+        this.noGroups = true;
+      }
+    })
   }
 
 }

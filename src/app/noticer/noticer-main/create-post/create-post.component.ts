@@ -52,7 +52,7 @@ export class CreatePostComponent implements OnInit {
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-      this.serverUrl = constant.REST_API_URL + "/";
+      // this.serverUrl = constant.REST_API_URL + "/";
       if (this.currentUser) {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
@@ -396,7 +396,7 @@ export class CreatePostComponent implements OnInit {
   setProfilePic() {
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser && this.currentUser.imageUrl) {
-      this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (this.serverUrl+"/")) + this.currentUser.imageUrl;
+      this.profileImage = this.currentUser.imageUrl;
     } else {
       this.profileImage = "assets/images/noticer_default_user_img.png"
     }

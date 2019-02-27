@@ -41,7 +41,7 @@ export class AuthService {
     }
 
     setCookie(key: string, value: string) {
-        let cookieOptions: CookiesOptions = {domain:"spured.com"};
+        let cookieOptions: CookiesOptions = { domain: "spured.com" };
         this.cookies.put(key, value, cookieOptions);
     }
 
@@ -75,24 +75,13 @@ export class AuthService {
 
     attemptAuth(credentials: any, returnUrl: string) {
         let url: string;
-        if (constants.isLive) {
-            //calling node server
-            url = "/authentication";
-        } else {
-            url = "/profile/login";
-        }
+        url = "/profile/login";
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.http.post(url, credentials, { headers: headers, responseType: 'text', observe: 'response' });
         // return this.http.get('/user/getlist',{responseType: 'text', observe: 'response'});
     }
     attemptLogout(body: any) {
-        let url: string;
-        if (constants.isLive) {
-            //calling node server
-            url = "/logout";
-        } else {
-            let url = "/profile/logout";
-        }
+        let url = "/profile/logout";
         return this.http.post(url, null);
     }
 

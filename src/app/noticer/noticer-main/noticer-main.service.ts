@@ -1,9 +1,9 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Http, Response, RequestOptions, Headers } from '@angular/http';
+import { Response } from '@angular/http';
+import { TransferState } from '@angular/platform-browser';
 import { Observable } from "rxjs/Observable";
 import * as constants from '../../shared/others/constants';
-import { makeStateKey, TransferState } from '@angular/platform-browser';
 
 @Injectable()
 export class NoticerMainService {
@@ -54,41 +54,18 @@ export class NoticerMainService {
     getPostsList(body: any) {
         let url: string;
         let reqBody: any = { type: null, category: null, model: null, page: null };
-        if (constants.isLive) {
-            url = "/api/getPosts";
-            reqBody.type = body.context.type;
-            reqBody.category = body.data.category;
-            reqBody.model = body.data.model;
-            reqBody.page = body.pagination.offset;
-        } else {
-            url = "/v2/post/get";
-            reqBody = body;
-        }
+        url = "/v2/post/get";
+        reqBody = body;
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        const myData =  this.httpClient.post(url, this.ignoreNullValue(reqBody), { headers: headers }).catch(this.handleError);
+        const myData = this.httpClient.post(url, this.ignoreNullValue(reqBody), { headers: headers }).catch(this.handleError);
         return myData;
     }
 
     createPost(body: any) {
         let url: string;
         let reqBody: any = { type: null, _type: null, category: null, model: null, post: null };
-        if (constants.isLive) {
-            url = "/api/createPost";
-            reqBody.type = body.context.type;
-            reqBody._type = body.data._type;
-            reqBody.post = body.data.text;
-            reqBody.model = body.data.model;
-            reqBody.category = body.data.category;
-            reqBody.images = body.data.images;
-            reqBody.topic = body.data.topic;
-            reqBody.website = body.data.website;
-            reqBody.contacts = body.data.contacts;
-            reqBody.todate = body.data.todate;
-            reqBody.fromdate = body.data.fromdate;
-        } else {
-            url = "/v2/post/create";
-            reqBody = body;
-        }
+        url = "/v2/post/create";
+        reqBody = body;
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         reqBody = this.ignoreProperties(reqBody);
         return this.httpClient.post(url, this.ignoreNullValue(reqBody), { headers: headers }).catch(this.handleError);
@@ -97,15 +74,8 @@ export class NoticerMainService {
     getCommentsByPostId(body: any) {
         let url: string;
         let reqBody: any = { type: null, category: null, model: null, page: null };
-        if (constants.isLive) {
-            url = "/api/getComments";
-            reqBody.type = body.context.type;
-            reqBody.postId = body.context.postId;
-            reqBody.page = body.pagination.offset;
-        } else {
-            url = "/v2/comment/get";
-            reqBody = body;
-        }
+        url = "/v2/comment/get";
+        reqBody = body;
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers }).catch(this.handleError);
     }
@@ -113,16 +83,8 @@ export class NoticerMainService {
     createComment(body: any) {
         let url: string;
         let reqBody: any = { type: null, _type: null, category: null, model: null, post: null };
-        if (constants.isLive) {
-            url = "/api/createComment";
-            reqBody.type = body.context.type;
-            reqBody.postId = body.context.postId;
-            reqBody._type = body.data._type;
-            reqBody.post = body.data.text;
-        } else {
-            url = "/v2/comment/create";
-            reqBody = body;
-        }
+        url = "/v2/comment/create";
+        reqBody = body;
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers }).catch(this.handleError);
     }
@@ -171,37 +133,37 @@ export class NoticerMainService {
         return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
     }
 
-    createLike(body:any){
+    createLike(body: any) {
         let url = "/v2/action/vote/create";
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
     }
 
-    cancelLike(body:any){
+    cancelLike(body: any) {
         let url = "/v2/action/vote/delete";
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
     }
 
-    createFavorite(body:any){
+    createFavorite(body: any) {
         let url = "/v2/action/favorite/create";
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
     }
 
-    cancelFavorite(body:any){
+    cancelFavorite(body: any) {
         let url = "/v2/action/favorite/delete";
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
     }
 
-    createReport(body:any){
+    createReport(body: any) {
         let url = "/v2/action/report/create";
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
     }
- 
-    getSelfActivity(body:any) {
+
+    getSelfActivity(body: any) {
         let url = "/v2/activity/get";
         return this.httpClient.post(url, body).catch(this.handleError);
     }

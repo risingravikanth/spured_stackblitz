@@ -1,9 +1,7 @@
-import { isPlatformBrowser, Location } from '@angular/common';
-import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild, Input } from '@angular/core';
-import { TransferState, makeStateKey } from '@angular/platform-browser';
-import { isPlatformServer } from '@angular/common';
-
+import { isPlatformBrowser, isPlatformServer, Location } from '@angular/common';
+import { Component, ElementRef, Inject, Input, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService } from 'primeng/components/common/api';
@@ -18,6 +16,7 @@ import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
 import { ToastrService } from '../../shared/services/Toastr.service';
 import { NoticerMainService } from './noticer-main.service';
+
 
 
 const RESULT_KEY = makeStateKey<string>('result');
@@ -66,7 +65,6 @@ export class NoticerMainComponent implements OnInit {
 
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-      this.serverUrl = constant.REST_API_URL + "/";
       if (this.currentUser) {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
@@ -198,7 +196,7 @@ export class NoticerMainComponent implements OnInit {
       }
       if (this.router.url.indexOf("/profile/users/") !== -1) {
         this.profileParamId = params['id'];
-      } else if(this.router.url.indexOf("/profile/self") !== -1){
+      } else if (this.router.url.indexOf("/profile/self") !== -1) {
         this.profileParamId = this.currentuserId;
       } else {
         this.paramId = params['id'];
@@ -348,47 +346,47 @@ export class NoticerMainComponent implements OnInit {
 
   }
 
-  loadMoreFeedPosts(){
-      this.getPostsRequestBody.pagination.offset = 0;//this.getPostsRequestBody.pagination.offset + constant.postsPerCall;
-      if (this.postsList[this.postsList.length - 1]) {
-        if (this.router.url.indexOf('feed') !== -1) {
-          if (this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].upid) {
-            return;
-          }
-          this.getPostsRequestBody.data.maxId = this.postsList[this.postsList.length - 1].upid;
-        } else {
-          if (this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].postId) {
-            return;
-          }
-          this.getPostsRequestBody.data.maxId = this.postsList[this.postsList.length - 1].postId;
+  loadMoreFeedPosts() {
+    this.getPostsRequestBody.pagination.offset = 0;//this.getPostsRequestBody.pagination.offset + constant.postsPerCall;
+    if (this.postsList[this.postsList.length - 1]) {
+      if (this.router.url.indexOf('feed') !== -1) {
+        if (this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].upid) {
+          return;
         }
+        this.getPostsRequestBody.data.maxId = this.postsList[this.postsList.length - 1].upid;
+      } else {
+        if (this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].postId) {
+          return;
+        }
+        this.getPostsRequestBody.data.maxId = this.postsList[this.postsList.length - 1].postId;
       }
-      this.showPostSpinner = true;
-      this.service.getPostsList(this.getPostsRequestBody).subscribe(
-        resData => {
-          this.showPostSpinner = false;
-          let obj: any = resData;
-          if (obj.error && obj.error.code && obj.error.code.id) {
-            this.toastr.error("Failed", obj.error.code.message);
-          } else {
-            if (obj.posts.length == 0) {
-              this.showMoreLink = false;
-            }
-            /* NEED TO CHANGE HERE :: every time it was checking this.postsList for duplicate
-               HINT : array is in sorter order so we can check based on postId also
-
-             */
-            obj.posts.forEach(element => {
-              let existedArr = this.postsList.filter(item => item.postId == element.postId);
-              if (existedArr.length == 0) {
-                this.postsList.push(element);
-              }
-            });
-            this.preparePostsList();
+    }
+    this.showPostSpinner = true;
+    this.service.getPostsList(this.getPostsRequestBody).subscribe(
+      resData => {
+        this.showPostSpinner = false;
+        let obj: any = resData;
+        if (obj.error && obj.error.code && obj.error.code.id) {
+          this.toastr.error("Failed", obj.error.code.message);
+        } else {
+          if (obj.posts.length == 0) {
+            this.showMoreLink = false;
           }
-        }, error => {
-          this.toastr.error("Failed", "Something went wrong!");
-        })
+          /* NEED TO CHANGE HERE :: every time it was checking this.postsList for duplicate
+             HINT : array is in sorter order so we can check based on postId also
+
+           */
+          obj.posts.forEach(element => {
+            let existedArr = this.postsList.filter(item => item.postId == element.postId);
+            if (existedArr.length == 0) {
+              this.postsList.push(element);
+            }
+          });
+          this.preparePostsList();
+        }
+      }, error => {
+        this.toastr.error("Failed", "Something went wrong!");
+      })
   }
 
 
@@ -397,14 +395,14 @@ export class NoticerMainComponent implements OnInit {
       return;
     }
 
-    if(this.isActivity && this.from === 'topics'){
-          this.loadMoreActivities('topics');
-    }else if(this.isActivity && this.from ==='boards'){
-          this.loadMoreActivities('boards');
-    }else{
-          this.loadMoreFeedPosts();
+    if (this.isActivity && this.from === 'topics') {
+      this.loadMoreActivities('topics');
+    } else if (this.isActivity && this.from === 'boards') {
+      this.loadMoreActivities('boards');
+    } else {
+      this.loadMoreFeedPosts();
     }
-    
+
   }
 
   preparePostsList() {
@@ -820,12 +818,12 @@ export class NoticerMainComponent implements OnInit {
     return url;
   }
 
-  getBoardPageUrl(boardId:any, boardName:any){
-    let url = "/boards/closed/"+boardId+"/"+boardName
+  getBoardPageUrl(boardId: any, boardName: any) {
+    let url = "/boards/closed/" + boardId + "/" + boardName
     return url;
   }
 
-  goToBoardsPage(boardId:any, boardName:any) {
+  goToBoardsPage(boardId: any, boardName: any) {
     let url = this.getBoardPageUrl(boardId, boardName);
     this.router.navigate([url])
   }
@@ -833,7 +831,7 @@ export class NoticerMainComponent implements OnInit {
   setProfilePic() {
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser && this.currentUser.imageUrl) {
-      this.profileImage = (this.imageFromAws(this.currentUser.imageUrl) ? '' : (constant.REST_API_URL + "/")) + + this.currentUser.imageUrl;
+      this.profileImage = this.currentUser.imageUrl;
     } else {
       this.profileImage = "assets/images/noticer_default_user_img.png"
     }
@@ -1135,7 +1133,7 @@ export class NoticerMainComponent implements OnInit {
       } else {
         let records = this.prepareActivity(resData);
         this.postsList = records;
-        if(this.postsList.length == 0){
+        if (this.postsList.length == 0) {
           this.showMoreActivity = false;
         }
         this.preparePostsList();
@@ -1149,7 +1147,7 @@ export class NoticerMainComponent implements OnInit {
     });
   }
 
-  loadMoreActivities(type:any) {
+  loadMoreActivities(type: any) {
     let body: any;
     if (type == "topics") {
       body = {
@@ -1203,7 +1201,7 @@ export class NoticerMainComponent implements OnInit {
           records.forEach(element => {
             // let existedArr = this.postsList.filter(item => item.postId == element.postId);
             // if (existedArr.length == 0) {
-              this.postsList.push(element);
+            this.postsList.push(element);
             // }
           });
           this.preparePostsList();
@@ -1228,46 +1226,46 @@ export class NoticerMainComponent implements OnInit {
 
   getActivityName(actList) {
     let act = "";
-    if(actList){
-        actList.forEach(activity => {
+    if (actList) {
+      actList.forEach(activity => {
         if (activity) {
           if (activity.action == "CREATE" && activity.entityType == "POST") {
             act = act + "Posted";
           } else if (activity.action == "CREATE" && activity.entityType == "COMMENT") {
-            act = act +  "Commented";
+            act = act + "Commented";
           } else if (activity.action == "VOTE") {
-            act = act +  "Voted";
+            act = act + "Voted";
           } else if (activity.action == "FAVORITE") {
-            act = act +  "Favorited";
+            act = act + "Favorited";
           } else if (activity.action == "REPORT") {
-            act = act +  "Reported";
+            act = act + "Reported";
           }
         }
-     
-       if(actList.length > 1 && actList[actList.length-1].id != activity.id){
-          act = act+", ";
+
+        if (actList.length > 1 && actList[actList.length - 1].id != activity.id) {
+          act = act + ", ";
         }
 
-       });
-   }
+      });
+    }
     return act;
   }
 
   urlify(post) {
     let text = "";
-    if(post.postText)
-      text = post.postText.slice(0,post.maxLength);
+    if (post.postText)
+      text = post.postText.slice(0, post.maxLength);
 
     let urlRegex = /(https?:\/\/[^\s]+)/g;
-    return text.replace(urlRegex, function(url) {
-        return '<a href="' + url + '" target="_blank">' + url + '</a>';
+    return text.replace(urlRegex, function (url) {
+      return '<a href="' + url + '" target="_blank">' + url + '</a>';
     })
     // or alternatively
     // return text.replace(urlRegex, '<a href="$1">$1</a>')
   }
 
-   
-  load(type:any){
+
+  load(type: any) {
     alert(type);
   }
 
