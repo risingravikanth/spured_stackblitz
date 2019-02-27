@@ -45,7 +45,8 @@ export class PreviewComponent implements OnInit {
     let dialogFilePreviewConfig = new MatDialogConfig();
     const data = {
       name: "File Preview",
-      fileUrl: this.getSanitizeURL(url)
+      fileUrl: this.getSanitizeURL(url),
+      url : url
     };
 
 

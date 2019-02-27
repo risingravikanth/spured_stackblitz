@@ -15,7 +15,7 @@ export class PreviewDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data) {
 
     	this.fileUrl = data.fileUrl;
-      let checkFileExtention = this.fileUrl.changingThisBreaksApplicationSecurity;
+      let checkFileExtention = data.url;
       if(checkFileExtention.indexOf('.doc') !== -1 || checkFileExtention.indexOf('.docx') !== -1 ||
          checkFileExtention.indexOf('.xlsx') !== -1 || checkFileExtention.indexOf('.xls') !== -1  ){
          this.isDownloaded = true;
