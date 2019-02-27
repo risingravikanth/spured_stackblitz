@@ -33,11 +33,11 @@ export class UserSetupComponent implements OnInit {
   showPasswordError: boolean = false;
   public image: File;
   loggedUser: any;
-  public isMobile:boolean = false;
-  public btnText:any = "Submit";
+  public isMobile: boolean = false;
+  public btnText: any = "Submit";
   public isValidUser = false;
-  public signUpDone:boolean = false;
-  public mailId:any;
+  public signUpDone: boolean = false;
+  public mailId: any;
   resendBtnTxt = "Resend";
   errorTextMessage: string = '';
   constructor(
@@ -46,9 +46,9 @@ export class UserSetupComponent implements OnInit {
     private userSetUpService: UserSetUpService,
     private route: ActivatedRoute,
     private seo: SeoService,
-    private userService:CurrentUserService,
-    private mobile:MobileDetectionService,
-    private toastr:ToastrService
+    private userService: CurrentUserService,
+    private mobile: MobileDetectionService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -58,18 +58,25 @@ export class UserSetupComponent implements OnInit {
       title: 'Sign up - SpurEd',
       description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
       slug: 'signup-page'
-  })
-  this.userService.setTitle("Sign up - SpurEd")
-    if(this.userService.getCurrentUser()){
+    })
+    this.userService.setTitle("Sign up - SpurEd")
+    if (this.userService.getCurrentUser()) {
       this.isValidUser = true;
     }
+
+    this.UserSetUpForm.controls['profileIdDummy'].valueChanges
+      .debounceTime(500)
+      .subscribe(newValue => this.handleProfileId(newValue));
   }
 
 
   userSetUpForm() {
     this.UserSetUpForm = this.formbuilder.group({
-      userName: ["", { validators: [Validators.required] }],
-      password: ["", [Validators.required, Validators.minLength(8)] ],
+      firstName: ["", { validators: [Validators.required] }],
+      lastName: ["", { validators: [Validators.required] }],
+      profileIdDummy: [null],
+      profileId: [null, { validators: [Validators.required] }],
+      password: ["", [Validators.required, Validators.minLength(8)]],
       // matchingPassword: ['', { validators: [Validators.required] }],
       phoneNum: [null],
       email: ["", [
@@ -85,7 +92,7 @@ export class UserSetupComponent implements OnInit {
   saveUserSetUp() {
     if (this.UserSetUpForm.invalid) {
       // this.toastr.error("Failed", 'Please fill all the fields!')
-      this.errorTextMessage  = 'Please fill all the fields!';
+      this.errorTextMessage = 'Please fill all the fields!';
     }
     else {
       this.btnText = "Creating new user.."
@@ -95,7 +102,7 @@ export class UserSetupComponent implements OnInit {
           this.btnText = "Submit";
           if (this.responseData.info || this.responseData.statusCode == "ERROR") {
             // this.toastr.error("Failed", this.responseData.info)
-            this.errorTextMessage  = this.responseData.info;
+            this.errorTextMessage = this.responseData.info;
           } else if (this.responseData.email) {
             // this.toastr.success("Signup Success", 'Soon you will get confirmation mail!')
             this.signUpDone = true;
@@ -105,7 +112,7 @@ export class UserSetupComponent implements OnInit {
             console.log(this.responseData);
           }
         }, error => {
-          this.errorTextMessage  = "Something went wrong!";
+          this.errorTextMessage = "Something went wrong!";
           // this.toastr.error("Failed", "Something went wrong!")
         }
       );
@@ -116,22 +123,33 @@ export class UserSetupComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  resendActivationMail(){
+  resendActivationMail() {
     this.resendBtnTxt = "Sending..";
-    this.userSetUpService.resendMail(this.mailId).subscribe((resData:any) =>
-    {
+    this.userSetUpService.resendMail(this.mailId).subscribe((resData: any) => {
       this.resendBtnTxt = "Resend";
-      if(resData && resData.info == "Successfully sent activation again"){
+      if (resData && resData.info == "Successfully sent activation again") {
         this.toastr.success("Success", resData.info);
-      } else if(resData && resData.info){
+      } else if (resData && resData.info) {
         // this.toastr.error("Failed", resData.info);
-        this.errorTextMessage  = resData.info;
-        
-      } else{
-        this.errorTextMessage  = "Something went wrong!";
+        this.errorTextMessage = resData.info;
+
+      } else {
+        this.errorTextMessage = "Something went wrong!";
         // this.toastr.error("Failed", "Something went wrong");
       }
     })
+  }
+
+  handleProfileId(profileId: any) {
+    this.userSetUpService.isProfileIdAvailable(profileId).subscribe(
+      resData => {
+        if (resData) {
+          this.UserSetUpForm.controls['profileId'].patchValue(profileId);
+        } else {
+          this.UserSetUpForm.controls['profileId'].patchValue(null);
+        }
+      }
+    )
   }
 
 }

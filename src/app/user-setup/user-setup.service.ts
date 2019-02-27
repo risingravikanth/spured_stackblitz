@@ -15,9 +15,18 @@ export class UserSetUpService {
         return this.httpClient.post(url, JSON.stringify(body), { headers: headers });
     }
     resendMail(mailId: any) {
-        let body = {  "email":mailId };
+        let body = { "email": mailId };
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         let url = "/profile/resendactivation";
+        return this.httpClient.post(url, JSON.stringify(body), { headers: headers });
+    }
+
+    isProfileIdAvailable(profileId: any) {
+        let body = {
+            "profileId": profileId
+        };
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/profile/isProfileIdAvailable";
         return this.httpClient.post(url, JSON.stringify(body), { headers: headers });
     }
 

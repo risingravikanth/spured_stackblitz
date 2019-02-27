@@ -216,9 +216,15 @@
             <div>
                 <div class="modal-body">
 
-                    <div class="form-group modalFormPad">
-                        <label>Name</label>
-                        <input class="form-control" formControlName="userName" placeholder="Name">
+                    <div class="row modalFormPad">
+                        <div class="col-md-6 form-group">
+                            <label>First Name</label>
+                            <input class="form-control" formControlName="firstName" placeholder="first name">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Last Name</label>
+                            <input class="form-control" formControlName="lastName" placeholder="last name">
+                        </div>
                     </div>
                     <div class="form-group modalFormPad">
                         <label>Phone Number</label>
@@ -251,7 +257,7 @@
                     </div> -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btnSuccess" (click)="saveEditProfile()">Update</button>
+                    <button type="button" class="btn btn-primary btnSuccess" [disabled]="editProfileForm.invalid" (click)="saveEditProfile()">Update</button>
                 </div>
             </div>
         </form>

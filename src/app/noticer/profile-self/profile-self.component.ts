@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { IMyDpOptions } from 'mydatepicker';
@@ -86,9 +86,11 @@ export class SelfProfileComponent implements OnInit {
             {
                 userId: [null],
                 userName: [null],
+                firstName: [null, Validators.required],
+                lastName: [null, Validators.required],
                 email: [null],
                 phoneNum: [null],
-                gender: [null],
+                gender: [null, Validators.required],
                 dob: [null],
                 dobDate: [null],
                 dobMonth: [null],
@@ -177,6 +179,8 @@ export class SelfProfileComponent implements OnInit {
     setValuesToForm() {
         this.editProfileForm.controls['userId'].patchValue(this.userDetails.userId)
         this.editProfileForm.controls['userName'].patchValue(this.userDetails.userName)
+        this.editProfileForm.controls['firstName'].patchValue(this.userDetails.firstName)
+        this.editProfileForm.controls['lastName'].patchValue(this.userDetails.lastName)
         this.editProfileForm.controls['phoneNum'].patchValue(this.userDetails.phoneNum)
         this.editProfileForm.controls['gender'].patchValue(this.userDetails.gender)
         this.editProfileForm.controls['permAddress'].patchValue(this.userDetails.permAddress)

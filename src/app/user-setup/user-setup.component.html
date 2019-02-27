@@ -23,9 +23,28 @@
                     </button>
                 </div>
                 <form (ngSubmit)="saveUserSetUp()" [formGroup]="UserSetUpForm" *ngIf="!signUpDone">
-                    <div class="form-row">
-                        <label for="inputEmail4">Name</label>
-                        <input type="text" class="form-control  form-control-sm" placeholder="Name" formControlName="userName">
+                    <div class="row">
+                        <div class="col-md-6 form-row">
+                            <label for="inputEmail4">First Name</label>
+                            <input type="text" class="form-control  form-control-sm" placeholder="first name"
+                                formControlName="firstName">
+                        </div>
+                        <div class="col-md-6 form-row">
+                            <label for="inputEmail4">Last Name</label>
+                            <input type="text" class="form-control  form-control-sm" placeholder="last name"
+                                formControlName="lastName">
+                        </div>
+                    </div>
+                    <div class="form-row marT12">
+                        <label for="inputEmail4">Profile Id</label>
+                        <input type="text" class="form-control  form-control-sm" placeholder="profile id"
+                            formControlName="profileIdDummy">
+                        <div *ngIf="UserSetUpForm.controls['profileId'].valid">
+                            <small class="fntGreen">Available</small>
+                        </div>
+                        <div *ngIf="UserSetUpForm.controls['profileId'].invalid && UserSetUpForm.controls['profileIdDummy'].value?.length > 0">
+                            <small class="fntRed">Not available</small>
+                        </div>
                     </div>
                     <div class="form-group marT12">
                         <label>Gender </label>&nbsp;
