@@ -2,10 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ClipboardModule } from 'ngx-clipboard';
 import { LinkifyPipe } from '../../shared/pipes/linkify.pipe';
 import { NoticerMainRoutingModule } from './noticer-main-routing.module';
-import { ClipboardModule } from 'ngx-clipboard';
-import { PreviewDialogComponent } from './view-post/preview/preview-dialog/preview-dialog.component';
 
 // import {TimeAgoPipe} from 'time-ago-pipe';
 
@@ -21,7 +20,7 @@ import { PreviewDialogComponent } from './view-post/preview/preview-dialog/previ
   ],
   declarations: [
     LinkifyPipe,
-    PreviewDialogComponent,
+    // PreviewDialogComponent,
     // TimeAgoPipe
   ],
   entryComponents: [],
