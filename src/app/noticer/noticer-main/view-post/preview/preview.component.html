@@ -1,0 +1,156 @@
+<!--<div  *ngFor="let file of files;let i = index;">
+     
+    <div class="col-md-6 col-sm-12">
+    	    <object [data]="getSanitizeURL(file)" type="text/plain">
+	         		alt : <a href="file">test.jpg</a>
+	    	</object>
+ 	</div>
+
+</div>
+
+<mat-grid-list [cols]="2" rowHeight="2:1">
+   <mat-grid-tile *ngFor="let file of files">
+	    <!-<object (click)="openFile(file)" [data]="getSanitizeURL(file)" type="text/plain" height="400" width="500" style="overflow:hidden; width: 500px; height: 400px">
+	     		alt : <a href="file">test.jpg</a>
+		</object>->
+ 
+		<iframe (click)="openFile(file)" [src]="getSanitizeURL(file)" width="100%" height="100%" scrolling="no" style="width:100%;height: 100%;overflow: hidden;"></iframe>
+	</mat-grid-tile>
+	<mat-grid-tile>
+		<iframe (click)="openFile(file)" src="https://s3.ap-south-1.amazonaws.com/noticerfiles/files/92-144769920095169-1254211-ClaimForm.pdf" width="100%" height="100%" scrolling="no" style="width:100%;height: 100%;overflow: hidden;"></iframe>
+	</mat-grid-tile>
+	<mat-grid-tile>
+		<iframe (click)="openFile(file)" src="https://s3.ap-south-1.amazonaws.com/noticerfiles/files/92-144769920095169-1254211-ClaimForm.pdf" width="100%" height="100%" scrolling="no" style="width:100%;height: 100%;overflow: hidden;"></iframe>
+	</mat-grid-tile>
+
+</mat-grid-list>
+-->
+ 
+
+
+<div *ngIf="files.length == 1;">
+
+        <!--<ng-container 
+           *ngTemplateOutlet="fileTypeTemplate;files:files">
+        </ng-container>-->
+
+        <img (click)="previewFile(content,files[0])" *ngIf="files[0].indexOf('.txt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+
+        <img (click)="previewFile(content,files[0])" *ngIf="files[0].indexOf('.pdf') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_pdf_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file." >
+
+        <img (click)="previewFile(content,files[0])" *ngIf="files[0].indexOf('.doc') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_word_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+
+        <img (click)="previewFile(content,files[0])" *ngIf="files[0].indexOf('.ppt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+
+        <img (click)="previewFile(content,files[0])" *ngIf="files[0].indexOf('.xls') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_xls_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+		
+</div>
+
+<div class="images" *ngIf="files.length == 2" style="padding:7px;">
+    <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile *ngFor="let file of files">
+	        <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.txt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+
+			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.pdf') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_pdf_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file." >
+
+			<img (click)="previewFile(content,file)"*ngIf="file.indexOf('.doc') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_word_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+
+			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.ppt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+
+			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.xls') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_xls_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+<div class="images" *ngIf="files.length == 3" style="padding:7px;">
+    <mat-grid-list cols="3" rowHeight="2:2">
+        <mat-grid-tile *ngFor="let file of files">
+             <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.txt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+
+			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.pdf') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_pdf_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file." >
+
+			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.doc') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_word_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+
+			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.ppt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+
+			<img  (click)="previewFile(content,file)"*ngIf="file.indexOf('.xls') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_xls_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+
+<div class="images" *ngIf="files.length == 4" style="padding-right: 7px;">
+    <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile *ngFor="let file of files">
+             <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.txt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+
+			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.pdf') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_pdf_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file." >
+
+			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.doc') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_word_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+
+			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.ppt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+
+			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.xls') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_xls_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+
+
+
+
+<div *ngIf="images.length == 1">
+    <a disableScrolling="true" [attr.data-lightbox]="_type+_id" data-title="Post Images"
+        href="{{imageFromAws(images[0]) ? '' : serverUrl}}{{imageFromAws(images[0]) ? '' : '/'}}{{images[0]}}">
+        <img src="{{imageFromAws(images[0]) ? '' : serverUrl}}{{imageFromAws(images[0]) ? '' : '/'}}{{images[0]}}"
+            style="max-width: 100%; max-height: 100%;padding: 7px;">
+    </a>
+</div>
+
+<div class="images" *ngIf="images.length == 2" style="padding:7px;">
+    <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile *ngFor="let tile of images">
+            <a [attr.data-lightbox]="_type+_id" data-title="Post Images" href="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
+                <img style="max-width: 100%; max-height: 100%;" src="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
+            </a>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+<div class="images" *ngIf="images.length == 3" style="padding:7px;">
+    <mat-grid-list cols="3" rowHeight="2:2">
+        <mat-grid-tile *ngFor="let tile of images">
+            <a [attr.data-lightbox]="_type+_id" data-title="Post Images" href="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
+                <img style="max-width: 100%; max-height: 100%;" src="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
+            </a>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+
+<div class="images" *ngIf="images.length == 4" style="padding-right: 7px;">
+    <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile *ngFor="let tile of images">
+            <a [attr.data-lightbox]="_type+_id" data-title="Post Images" href="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
+                <img style="max-width: 100%; max-height: 100%;" src="{{imageFromAws(tile) ? '' : serverUrl}}{{imageFromAws(tile) ? '' : '/'}}{{tile}}">
+            </a>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+
+
+<!--<ng-template #fileTypeTemplate let-files="files">
+      
+</ng-template>-->
+
+
+<ng-template #content let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <iframe [src]="fileUrl" scrolling="yes" width="100%" height="450px" style="min-height: 450px;" ></iframe>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+

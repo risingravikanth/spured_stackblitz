@@ -158,25 +158,49 @@
                     <!-- careers end -->
                 </div>
 
-                <!-- Images list start-->
+                <div class="row addPost">
+                 <div class="col-sm-6 col-md-6"  *ngFor="let fileObj of urls;index as in;" >
+ 
+                    <div class="card mb-2">
+                       <img *ngIf="fileObj.type === 'image/gif' || fileObj.type === 'image/jpeg'|| fileObj.type === 'image/jpg' ||
+                        fileObj.type === 'image/png'" [src]="fileObj.preview" class="card-img-top img-thumbnail float-left" alt="{{ fileObj?.name }}">
+
+                        <img *ngIf="fileObj.type === 'text/plain'" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail float-left" alt="{{ fileObj?.name }}">
+
+                        <img *ngIf="fileObj.type === 'application/pdf'" src="assets/images/noticer_default_pdf_img.png" class="card-img-top img-thumbnail float-left" alt="{{ fileObj?.name }}" >
+
+                        <img *ngIf="fileObj.fileType && fileObj.fileType === 'application/doc'" src="assets/images/noticer_default_word_img.png" class="card-img-top img-thumbnail float-left" alt="{{ fileObj?.name }}" width="130" height="100">
+
+                        <img *ngIf="fileObj.fileType === 'application/ppt'" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail float-left" alt="{{ fileObj?.name }}">
+
+                        <img *ngIf="fileObj.fileType === 'application/xls'" src="assets/images/noticer_default_xls_img.png" class="card-img-top img-thumbnail float-left" alt="{{ fileObj?.name }}">
+                        
+                        <div class="card-body text-center p-0">
+                            <a href="javascript:void(0);" (click)="removeFromImages(in)" class="text-danger"><i class="fas fa-trash-alt"></i> Remove</a>
+                         </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Images list start 
                 <div class="addPost">
                     <div style="padding-left: 50px;padding-right: 3px;">
-                        <span *ngFor="let url of urls;index as in;">
+                         <span *ngFor="let fileObj of urls;index as in;">
                             <figure>
-                                <img [src]="url" class="rounded mb-3" style="margin-left: 10px;" width="150" height="150">
+                                <img [src]="fileObj.preview" class="rounded mb-3" style="margin-left: 10px;" width="150" height="150">
                                 <figcaption><a href="javascript:void(0);" (click)="removeFromImages(in)">Remove</a></figcaption>
                             </figure>
                         </span>
                     </div>
                 </div>
-                <!-- Images list end-->
+                 Images list end-->
             </div>
             <!-- model end-->
 
             <ul class="list-inline postIcons">
                 <span class="btn btn-light btn-file">
                     <i class="fas fa-camera"></i> Browse photos
-                    <input type="file" accept="image/gif, image/jpeg, image/jpg, image/png" multiple (change)="detectFiles($event)">
+                    <input type="file" accept="image/gif, image/jpeg, image/jpg, image/png, .xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf" multiple (change)="detectFiles($event)">
                 </span>
             </ul>
             <div class="modal-footer">

@@ -5,6 +5,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LinkifyPipe } from '../../shared/pipes/linkify.pipe';
 import { NoticerMainRoutingModule } from './noticer-main-routing.module';
 import { ClipboardModule } from 'ngx-clipboard';
+import { PreviewDialogComponent } from './view-post/preview/preview-dialog/preview-dialog.component';
+
 // import {TimeAgoPipe} from 'time-ago-pipe';
 
 
@@ -19,6 +21,7 @@ import { ClipboardModule } from 'ngx-clipboard';
   ],
   declarations: [
     LinkifyPipe,
+    PreviewDialogComponent,
     // TimeAgoPipe
   ],
   entryComponents: [],
