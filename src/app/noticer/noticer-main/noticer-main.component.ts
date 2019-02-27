@@ -41,6 +41,7 @@ export class NoticerMainComponent implements OnInit {
   public validUser: boolean = false;
   public noData: boolean = false;
   public boardId: any;
+  public groupId: any;
   public reqestType: string;
   public windowStyle: any;
   public underMaintenace: boolean = true;
@@ -59,14 +60,14 @@ export class NoticerMainComponent implements OnInit {
     private commonService: CommonService,
     private toastr: ToastrService,
     private tstate: TransferState
-   
+
   ) {
 
     this.isServer = isPlatformServer(platformId);
 
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-       if (this.currentUser) {
+      if (this.currentUser) {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
       }
@@ -170,7 +171,16 @@ export class NoticerMainComponent implements OnInit {
     this.goToTop();
     if (this.router.url.indexOf('boards/closed') !== -1) {
       this.boardId = params['boardId'];
-      this.prepareBoardPostReq(params['title']);
+      this.prepareBoardPostReq("board");
+      this.seo.generateTags({
+        title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+        description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+        slug: 'feed-page'
+      })
+      this.userService.setTitle("SpurEd - Spur: Give encouragement to Ed: Education")
+    } else if (this.router.url.indexOf('/groups/') !== -1 && this.router.url.indexOf('posts/groups/') == -1) {
+      this.groupId = params['groupId'];
+      this.prepareBoardPostReq("group");
       this.seo.generateTags({
         title: 'SpurEd - Spur: Give encouragement to Ed: Education',
         description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
@@ -211,6 +221,8 @@ export class NoticerMainComponent implements OnInit {
         if (this.paramId) {
           if (this.router.url.indexOf("/posts/closed/") != -1) {
             this.paramType = "BOARD";
+          } else if (this.router.url.indexOf("/posts/groups/") != -1) {
+            this.paramType = "GROUP";
           }
           this.getPostDetails();
         } else {
@@ -233,10 +245,15 @@ export class NoticerMainComponent implements OnInit {
     }
   }
 
-  prepareBoardPostReq(boardTitle: any) {
+  prepareBoardPostReq(type: any) {
     this.initRequest();
-    this.getPostsRequestBody.data.boardId = this.boardId;
-    this.getPostsRequestBody.context.type = "BOARD";
+    if(type == "board"){
+      this.getPostsRequestBody.data.boardId = this.boardId;
+      this.getPostsRequestBody.context.type = "BOARD";
+    } else{
+      this.getPostsRequestBody.data.groupId = this.groupId;
+      this.getPostsRequestBody.context.type = "GROUP";
+    }
     this.getPosts();
   }
 
@@ -399,6 +416,8 @@ export class NoticerMainComponent implements OnInit {
       this.loadMoreActivities('topics');
     } else if (this.isActivity && this.from === 'boards') {
       this.loadMoreActivities('boards');
+    } else if (this.isActivity && this.from === 'groups') {
+      this.loadMoreActivities('groups');
     } else {
       this.loadMoreFeedPosts();
     }
@@ -633,6 +652,9 @@ export class NoticerMainComponent implements OnInit {
       if (t == "BOARD") {
         postUrl = "/posts/closed/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
         window.open(postUrl, "_blank")
+      } else if (t == "GROUP") {
+        postUrl = "/posts/groups/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
+        window.open(postUrl, "_blank")
       } else {
         if (c) {
           if (title != undefined) {
@@ -828,6 +850,16 @@ export class NoticerMainComponent implements OnInit {
     this.router.navigate([url])
   }
 
+  getGroupPageUrl(groupId: any, groupName: any) {
+    let url = "/gropus/" + groupId + "/" + groupName
+    return url;
+  }
+
+  goToGroupPage(groupId: any, groupName: any) {
+    let url = this.getGroupPageUrl(groupId, groupName);
+    this.router.navigate([url])
+  }
+
   setProfilePic() {
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser && this.currentUser.imageUrl) {
@@ -868,6 +900,9 @@ export class NoticerMainComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       if (t == "BOARD") {
         let postUrl = "/posts/closed/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
+        this.shareUrl = postUrl;
+      } else if (t == "GROUP") {
+        let postUrl = "/posts/groups/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
         this.shareUrl = postUrl;
       } else {
         if (c) {
@@ -1113,7 +1148,15 @@ export class NoticerMainComponent implements OnInit {
           "userId": this.profileParamId
         }
       }
-    } else {
+    } else if (this.from == "groups") {
+      body = {
+        "record": {
+          "_type": "ActivityRecord",
+          "entitySection": "GROUP",
+          "userId": this.profileParamId
+        }
+      }
+    } else if(this.from == "boards" ) {
       body = {
         "record": {
           "_type": "ActivityRecord",
@@ -1156,7 +1199,15 @@ export class NoticerMainComponent implements OnInit {
           "userId": this.profileParamId
         }
       }
-    } else {
+    } else if (type == "groups") {
+      body = {
+        "record": {
+          "_type": "ActivityRecord",
+          "entitySection": "GROUP",
+          "userId": this.profileParamId
+        }
+      }
+    } else if(type == "boards" ) {
       body = {
         "record": {
           "_type": "ActivityRecord",
@@ -1164,6 +1215,8 @@ export class NoticerMainComponent implements OnInit {
           "userId": this.profileParamId
         }
       }
+    } else{
+      return;
     }
     body.pagination = new Pagination();
     body.pagination.offset = 0
@@ -1231,43 +1284,43 @@ export class NoticerMainComponent implements OnInit {
   */
   getActivityName(actList) {
     let act = "";
-    if(actList){
-        actList.forEach(activity => {
+    if (actList) {
+      actList.forEach(activity => {
         if (activity) {
           if (activity.action == "CREATE" && activity.entityType == "POST") {
-            if(act.indexOf('Posted') !== -1){
-              act = act.replace('Posted,','');
+            if (act.indexOf('Posted') !== -1) {
+              act = act.replace('Posted,', '');
             }
             act = act + "Posted";
           } else if (activity.action == "CREATE" && activity.entityType == "COMMENT") {
-            if(act.indexOf('Commented,') !== -1){
-              act = act.replace('Commented,','');
+            if (act.indexOf('Commented,') !== -1) {
+              act = act.replace('Commented,', '');
             }
-            act = act +  "Commented";
+            act = act + "Commented";
           } else if (activity.action == "VOTE") {
-            if(act.indexOf('Voted') !== -1){
-              act = act.replace('Voted,','');
+            if (act.indexOf('Voted') !== -1) {
+              act = act.replace('Voted,', '');
             }
-            act = act +  "Voted";
+            act = act + "Voted";
           } else if (activity.action == "FAVORITE") {
-            if(act.indexOf('Favorited') !== -1){
-              act = act.replace('Favorited,','');
+            if (act.indexOf('Favorited') !== -1) {
+              act = act.replace('Favorited,', '');
             }
-            act = act +  "Favorited";
+            act = act + "Favorited";
           } else if (activity.action == "REPORT") {
-            if(act.indexOf('Reported') !== -1){
-              act = act.replace('Reported,','');
+            if (act.indexOf('Reported') !== -1) {
+              act = act.replace('Reported,', '');
             }
-            act = act +  "Reported";
+            act = act + "Reported";
           }
         }
-     
-       if(actList.length > 1 && actList[actList.length-1].id != activity.id){
-          act = act+", ";
+
+        if (actList.length > 1 && actList[actList.length - 1].id != activity.id) {
+          act = act + ", ";
         }
 
-       });
-   }
+      });
+    }
     return act;
   }
 

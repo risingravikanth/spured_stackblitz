@@ -31,26 +31,33 @@
                                 <div class="image-default">
                                     <!--<img class="rounded-circle" [src]="profileImage"  alt="...">-->
                                     <a data-lightbox="img" data-title="Profile Picture" href="{{profileImage}}">
-                                            <img [src]="profileImage" class="rounded-circle">
+                                        <img [src]="profileImage" class="rounded-circle">
                                     </a>
 
                                 </div>
                                 <div class="infos">
-                                    <div class="font-weight-bold">{{userDetails && userDetails.userName ? userDetails.userName : '-NA-'}}</div>
-                                    <div class="font-weight-normal" *ngIf="userDetails?.phoneNum"><i class="fas fa-mobile-alt"></i> {{ userDetails?.phoneNum }} </div>
-                                    <div class="font-weight-normal"  *ngIf="userDetails?.dobYear"><i class="far fa-calendar-alt"></i> {{ userDetails?.dobDate }}/{{ userDetails?.dobMonth }}/{{ userDetails?.dobYear}} </div>
-                                    <div class="font-weight-normal"  *ngIf="userDetails?.currAddress"> <i class="fas fa-map-marker-alt"></i>{{userDetails?.currAddress }} </div>
-                                    <div class="font-weight-normal"  *ngIf="userDetails?.registrationTimeStamp"> <i class="far fa-calendar-alt"></i> Since {{ userDetails?.registrationTimeStamp |  date: 'MMM d, y' }} </div>
+                                    <div class="font-weight-bold">{{userDetails && userDetails.userName ?
+                                        userDetails.userName : '-NA-'}}</div>
+                                    <div class="font-weight-normal" *ngIf="userDetails?.phoneNum"><i class="fas fa-mobile-alt"></i>
+                                        {{ userDetails?.phoneNum }} </div>
+                                    <div class="font-weight-normal" *ngIf="userDetails?.dobYear"><i class="far fa-calendar-alt"></i>
+                                        {{ userDetails?.dobDate }}/{{ userDetails?.dobMonth }}/{{
+                                        userDetails?.dobYear}} </div>
+                                    <div class="font-weight-normal" *ngIf="userDetails?.currAddress"> <i class="fas fa-map-marker-alt"></i>{{userDetails?.currAddress
+                                        }} </div>
+                                    <div class="font-weight-normal" *ngIf="userDetails?.registrationTimeStamp"> <i
+                                            class="far fa-calendar-alt"></i> Since {{
+                                        userDetails?.registrationTimeStamp | date: 'MMM d, y' }} </div>
 
-                                    
+
                                     <!--<button type="button" class="btn btn-primary btn-sm" (click)="editProfile(editProfileDialog)"><i class="fas fa-pencil-alt"></i> Edit Profile</button>
                                     &nbsp;
                                     <button type="button" class="btn btn-secondary btn-sm" (click)="file.click()"><i class="fas fa-camera"></i> Change Image
                                      <input #file style="margin-left: 104px;left: 90px;margin-right: 2px;position: absolute;margin-top: -3px;        padding: 0px; width: 94px;visibility: hidden; "type="file" accept="image/gif, image/jpeg, image/jpg, image/png" multiple (change)="fnChangeProfilePicture($event)">
                                     </button>-->
 
-                                    
-                                    
+
+
                                 </div>
                             </div>
                             <div class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center">
@@ -69,14 +76,14 @@
                                     </li>
                                 </ul>
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-       
-        <div class="row" *ngIf="validUser"> 
+
+        <div class="row" *ngIf="validUser">
             <div class="col-md-3 col-sm-3 d-none d-sm-block">
 
             </div>
@@ -88,9 +95,12 @@
                     <mat-tab label="Boards">
                         <noticer-main [from]="'boards'"></noticer-main>
                     </mat-tab>
+                    <mat-tab label="Groups">
+                        <noticer-main [from]="'groups'"></noticer-main>
+                    </mat-tab>
                 </mat-tab-group>
             </div>
-            <div class="col-md-3 col-sm-3 d-none d-sm-block" >
+            <div class="col-md-3 col-sm-3 d-none d-sm-block">
 
             </div>
 
@@ -98,8 +108,8 @@
         <div class="row">
             <div class="text-center" *ngIf="!validUser" class="text-center">
                 <h6><a href="javascript:void(0);" data-toggle="modal" routerLink="/login">Sign-in
-                    to see activity
-                </a></h6>
+                        to see activity
+                    </a></h6>
             </div>
             <div class="text-center" *ngIf="!profileAvailable">
                 <div class="fntRed">

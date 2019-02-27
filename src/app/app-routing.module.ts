@@ -51,6 +51,14 @@ const routes: Routes = [
     component: NoticerComponent,
     children: [
       {
+        path: 'groups/:id',
+        component: NoticerMainComponent,
+      },
+      {
+        path: 'groups/:id/:title',
+        component: NoticerMainComponent,
+      },
+      {
         path: 'closed/:id',
         component: NoticerMainComponent,
       },
@@ -87,11 +95,11 @@ const routes: Routes = [
     component: NoticerComponent,
     children: [
       {
-        path: ':boardId',
+        path: ':groupId',
         component: NoticerMainComponent,
       },
       {
-        path: ':id/:title',
+        path: ':groupId/:title',
         component: NoticerMainComponent,
       }
     ]

@@ -727,4 +727,5 @@ export const SECTION_MAPPINGS = [
     { name: "Careers", section: 'CAREERS', _type: 'CareerPost' },
     { name: "News", section: 'NEWS', _type: 'NewsPost' },
     { name: "Board", section: 'BOARD', _type: 'BoardPost' },
+    { name: "Group", section: 'GROUP', _type: 'GroupPost' },
 ];

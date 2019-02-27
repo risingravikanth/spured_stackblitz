@@ -38,6 +38,7 @@ export class CreatePostComponent implements OnInit {
   public validUser: boolean = false;
   public noData: boolean = false;
   public boardId: any;
+  public groupId: any;
   public reqestType: string;
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: NoticerMainService,
@@ -146,6 +147,7 @@ export class CreatePostComponent implements OnInit {
         postText: [null, Validators.required],
         title: [null, Validators.required],
         boardId: [null],
+        groupId: [null],
         text: [null],
         model: [null],
         category: [{ value: null, disabled: true }],
@@ -167,8 +169,12 @@ export class CreatePostComponent implements OnInit {
   handleParams(params: any[]) {
     if (this.router.url.indexOf('boards/closed') !== -1) {
       this.boardId = params['boardId'];
-      this.prepareBoardPostReq(params['title']);
+      this.prepareBoardPostReq(params['title'], "board");
       this.paramType = "BOARD";
+    } else if (this.router.url.indexOf('groups') !== -1) {
+      this.boardId = params['groupId'];
+      this.prepareBoardPostReq(params['title'], "group");
+      this.paramType = "GROUP";
     } else {
       this.addPostForm.controls['data'].get('_type1').setValidators([Validators.required]);
       this.paramType = params['type'];
@@ -184,10 +190,12 @@ export class CreatePostComponent implements OnInit {
     }
   }
 
-  prepareBoardPostReq(boardTitle: any) {
-    this.questionName = "Boards"
-    // this.reqestType = "BOARD";
-    // this.addPostForm.controls['data'].get('boardId').patchValue(this.boardId);
+  prepareBoardPostReq(boardTitle: any, type:any) {
+    if(type == "board"){
+      this.questionName = "Boards"
+    } else{
+      this.questionName = "Groups"
+    }
     if (boardTitle) {
       this.questionName = boardTitle
     }
@@ -211,6 +219,8 @@ export class CreatePostComponent implements OnInit {
           this.addPostForm.controls['context'].get('type').patchValue(reqType);
           if (reqType == "BOARD") {
             this.addPostForm.controls['data'].get('boardId').patchValue(this.boardId);
+          } else if(reqType == "GROUP"){
+            this.addPostForm.controls['data'].get('groupId').patchValue(this.boardId);
           }
           this.addPostForm.controls['data'].get('_type1').disable();
         } else {
@@ -513,7 +523,7 @@ export class CreatePostComponent implements OnInit {
           this.postBtnTxt = "Post"
         } else if (resData && resData.post) {
           if (this.router.url.indexOf('categories') !== -1 || this.router.url.indexOf('feed') !== -1 
-          || this.router.url.indexOf('boards/closed') !== -1) {
+          || this.router.url.indexOf('boards/closed') !== -1 || this.router.url.indexOf('groups') !== -1) {
 
           } else{
             let _t:string = this.addPostForm.controls['context'].get("type").value

@@ -60,7 +60,7 @@
             <div class="modal-body" formGroupName="data">
 
                 <!-- post dropdowns start -->
-                <div class="addPost" style="padding-top:10px;" *ngIf="reqestType != 'BOARD'">
+                <div class="addPost" style="padding-top:10px;" *ngIf="reqestType != 'BOARD' && reqestType != 'GROUP'">
                     <div class="row">
                         <div class="form-group col-md-4">
                             <p-dropdown placeholder=" Type" [options]="types" (onChange)="getCategoriesByType(_type.value)"
@@ -115,7 +115,7 @@
                 addPostForm.controls['data'].get('_type1').value == 'CURRENT_AFFAIRS'">
                     <textarea class="form-control" rows="2" maxlength="300" formControlName="answer" placeholder="Answer"></textarea>
                 </div>
-                <div class="addPost" style="padding-top:10px;" *ngIf="reqestType != 'BOARD'">
+                <div class="addPost" style="padding-top:10px;" *ngIf="reqestType != 'BOARD' && reqestType != 'GROUP'">
 
                     <!-- events -->
                     <div class="row" *ngIf="addPostForm.controls['data'].get('_type1').value == 'EVENTS'">

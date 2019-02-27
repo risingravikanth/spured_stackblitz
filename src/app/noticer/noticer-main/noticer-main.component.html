@@ -35,11 +35,14 @@
                     <div class="card-header noticer-card bg-white d-flex justify-content-between">
                         <div>
 
-                            <span class="align-middle"><a *ngIf="post._type != 'BoardPost'" [href]="getPageUrl(post._type, null, null)"
+                            <span class="align-middle"><a *ngIf="post._type != 'BoardPost' && post._type != 'GroupPost'" [href]="getPageUrl(post._type, null, null)"
                                     (click)="!!goToCategoriesPage(post._type, null, null)">{{getSectionFromType(post._type)}}
                                 </a></span>
                             <span class="align-middle"><a *ngIf="post._type == 'BoardPost'" [href]="getBoardPageUrl(post.boardId, post.boardName)"
                                     (click)="!!goToBoardsPage(post.boardId, post.boardName)">{{post.boardName}}
+                                </a></span>
+                            <span class="align-middle"><a *ngIf="post._type == 'GroupPost'" [href]="getGroupPageUrl(post.groupId, post.groupName)"
+                                    (click)="!!getGroupPage(post.groupId, post.groupName)">{{post.groupName}}
                                 </a></span>
                             <span class="align-middle" *ngIf="post.category"> / <a [href]="getPageUrl(post._type, post.category, null)"
                                     (click)="!!goToCategoriesPage(post._type, post.category, null)">{{

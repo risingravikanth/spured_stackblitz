@@ -13,6 +13,7 @@ export class Data {
     category: string;
     model: string;
     boardId: number;
+    groupId: number;
     maxId: number;
     minId: number;
 }
