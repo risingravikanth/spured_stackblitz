@@ -58,14 +58,15 @@ export class NoticerMainComponent implements OnInit {
     private seo: SeoService, private location: Location,
     private commonService: CommonService,
     private toastr: ToastrService,
-    private tstate: TransferState,
+    private tstate: TransferState
+   
   ) {
 
     this.isServer = isPlatformServer(platformId);
 
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-      if (this.currentUser) {
+       if (this.currentUser) {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
       }
@@ -91,7 +92,6 @@ export class NoticerMainComponent implements OnInit {
   public postImages = [];
   public sectionsTypesMappings: any = [];
   public showMoreLink = true;
-  public serverUrl;
   public categories: any = [];
   public models: any = [];
   public types: any = [];
@@ -1223,31 +1223,51 @@ export class NoticerMainComponent implements OnInit {
     }
     return records;
   }
+  /* CHANGE :: Need to change this rendering
 
+    HIND :: insted of string appending need to use one array and put every thing on it & check same thing is already there or not 
+            finally use array.join() to dispaly
+
+  */
   getActivityName(actList) {
     let act = "";
-    if (actList) {
-      actList.forEach(activity => {
+    if(actList){
+        actList.forEach(activity => {
         if (activity) {
           if (activity.action == "CREATE" && activity.entityType == "POST") {
+            if(act.indexOf('Posted') !== -1){
+              act = act.replace('Posted,','');
+            }
             act = act + "Posted";
           } else if (activity.action == "CREATE" && activity.entityType == "COMMENT") {
-            act = act + "Commented";
+            if(act.indexOf('Commented,') !== -1){
+              act = act.replace('Commented,','');
+            }
+            act = act +  "Commented";
           } else if (activity.action == "VOTE") {
-            act = act + "Voted";
+            if(act.indexOf('Voted') !== -1){
+              act = act.replace('Voted,','');
+            }
+            act = act +  "Voted";
           } else if (activity.action == "FAVORITE") {
-            act = act + "Favorited";
+            if(act.indexOf('Favorited') !== -1){
+              act = act.replace('Favorited,','');
+            }
+            act = act +  "Favorited";
           } else if (activity.action == "REPORT") {
-            act = act + "Reported";
+            if(act.indexOf('Reported') !== -1){
+              act = act.replace('Reported,','');
+            }
+            act = act +  "Reported";
           }
         }
-
-        if (actList.length > 1 && actList[actList.length - 1].id != activity.id) {
-          act = act + ", ";
+     
+       if(actList.length > 1 && actList[actList.length-1].id != activity.id){
+          act = act+", ";
         }
 
-      });
-    }
+       });
+   }
     return act;
   }
 

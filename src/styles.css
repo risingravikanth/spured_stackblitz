@@ -291,7 +291,6 @@ li>a{
 #postActions.dropdown-toggle::after {
     display: none;
 }
- 
 .cursor-pointer{
     cursor: pointer
 }
@@ -329,7 +328,7 @@ li>a{
 }*/
 .cdk-overlay-pane{
   max-width: 95vw !important;
- 
+}
 .has-error {
     border:1px solid #ff0000 !important; 
  

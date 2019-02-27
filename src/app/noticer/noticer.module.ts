@@ -27,6 +27,8 @@ import { OthersProfileModule } from './profile-other/profile-other.module';
 import { AdminComponent } from './admin/admin.component';
 import { AdminBoardComponent } from './admin/admin-board/admin-board.component';
 import { AdminGroupComponent } from './admin/admin-group/admin-group.component';
+import { PreviewComponent } from './noticer-main/view-post/preview/preview.component';
+import { PreviewDialogComponent } from './noticer-main/view-post/preview/preview-dialog/preview-dialog.component';
 
 
 @NgModule({
@@ -73,12 +75,15 @@ import { AdminGroupComponent } from './admin/admin-group/admin-group.component';
         RightMenuComponent,
         CreatePostComponent,
         NotificationsComponent,
+        PreviewComponent,
+        PreviewDialogComponent,
         SelfProfileComponent,
         OthersProfileComponent,
         AdminComponent,
         AdminBoardComponent,
         AdminGroupComponent
     ],
+    entryComponents : [PreviewDialogComponent],
     exports: [SideMenuComponent, NoticerMainComponent]
 })
 export class NoticerModule { }

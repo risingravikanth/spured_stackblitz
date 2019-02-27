@@ -52,8 +52,7 @@ export class CreatePostComponent implements OnInit {
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-      // this.serverUrl = constant.REST_API_URL + "/";
-      if (this.currentUser) {
+       if (this.currentUser) {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
       }
@@ -69,7 +68,7 @@ export class CreatePostComponent implements OnInit {
   public postsList: any = [];
   public showPostSpinner = false;
 
-  public urls = new Array<string>();
+  public urls = new Array<any>();
   public getPostsRequestBody = new GetPostsRequest();
 
   public categoryModalReference: NgbModalRef;
@@ -85,7 +84,6 @@ export class CreatePostComponent implements OnInit {
   public postImages = [];
   public sectionsTypesMappings: any = [];
   public showMoreLink = true;
-  public serverUrl;
   public categories: any = [];
   public models: any = [];
   public types: any = [];
@@ -288,14 +286,57 @@ export class CreatePostComponent implements OnInit {
       for (let file of files) {
         let reader = new FileReader();
         let found = [];
-        reader.onload = (e: any) => {
-          found = this.urls.filter(item => item == e.target.result);
-          if (found.length == 0) {
 
-            this.urls.push(e.target.result);
-          }
+
+        reader.onload = (function(f,urls,found) {
+
+            return function(e) {
+                // Here you can use `e.target.result` or `this.result`
+                // and `f.name`.
+                found = urls.filter(item => function(){
+                           if(item && item.preview){
+                                item.preview == e.target.result;
+                            }
+                });
+                if(found.length == 0) {
+                   f["preview"] = this.result;
+                   urls.push(f);
+                }
+             };
+        })(file,this.urls,found);
+ 
+        if(  file.type === "image/gif" ||
+             file.type === "image/jpeg" || 
+             file.type === "image/jpg"|| 
+             file.type === "image/png" ){
+
+             reader.readAsDataURL(file);
+      
+        }else if( file.type === "text/plain" ||
+             file.type === "application/pdf"){
+            
+             this.urls.push(file);
+        }else{
+            if(file.name){
+              if(file.name.indexOf('.doc') !== -1){
+                 file.fileType = "application/doc";
+              }else if(file.name.indexOf('.docx') !== -1){
+                 file.fileType = "application/doc";
+              }else if(file.name.indexOf('.ppt') !== -1){
+                 file.fileType = "application/ppt";
+              }else if(file.name.indexOf('.pptx') !== -1){
+                 file.fileType = "application/ppt";
+              }else if(file.name.indexOf('.xls') !== -1){
+                 file.fileType = "application/xls";
+              }else if(file.name.indexOf('.xlsx') !== -1){
+                 file.fileType = "application/xls";
+              }
+
+            }
+            
+            this.urls.push(file);
         }
-        reader.readAsDataURL(file);
+      
         if (found.length == 0) {
           this.postImages.push(file);
         }
@@ -422,19 +463,27 @@ export class CreatePostComponent implements OnInit {
     }
 
     let imageUrls = [];
+    let fileUrls = [];
     if (this.postImages.length > 0) {
       this.postImages.forEach(element => {
         let formData: FormData = new FormData();
         formData.append('file', element);
-        this.service.uploadImage(formData).subscribe((resData: any) => {
+
+        this.service.upload(formData,element).subscribe((resData: any) => {
           if (resData && resData.error && resData.error.code) {
             this.toastr.error("Failed", resData.error.code.longMessage);
             this.postBtnTxt = "Post"
           } else {
-            imageUrls.push(resData.url);
+            if(element.type === "image/gif" || element.type === "image/jpeg" || 
+              element.type === "image/jpg" ||  element.type === "image/png"){
+              imageUrls.push(resData.url);
+            }else{
+              fileUrls.push(resData.url);
+            }
           }
-          if (this.postImages.length == imageUrls.length) {
+          if (this.postImages.length == (imageUrls.length + fileUrls.length) ) {
             this.addPostForm.controls["data"].get("images").patchValue(imageUrls);
+            this.addPostForm.controls["data"].get("files").patchValue(fileUrls);
             this.savePost();
           }
         })
