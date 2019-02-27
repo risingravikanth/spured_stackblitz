@@ -89,11 +89,17 @@ export class NoticerMainService {
         return this.httpClient.post(url, JSON.stringify(reqBody), { headers: headers }).catch(this.handleError);
     }
 
-    uploadImage(file) {
-        let url = "/v2/upload/postimage";
+    upload(file,fileObj) {
+        let url = "/v2/upload/file";
+        if(fileObj.type === "image/gif" || fileObj.type === "image/jpeg" || 
+            fileObj.type === "image/jpg" ||  fileObj.type === "image/png"){
+             url = "/v2/upload/postimage";
+        }
         // let headers = new HttpHeaders().set("Content-Type", "multipart/form-data");
         return this.httpClient.post(url, file).catch(this.handleError);
     }
+
+
 
     deletePost(body: any) {
         let url = "/v2/post/delete";

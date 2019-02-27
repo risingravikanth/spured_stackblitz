@@ -81,7 +81,7 @@ export class ReportUsComponent implements OnInit {
     if (this.reportImage) {
       let formData: FormData = new FormData();
       formData.append('file', this.reportImage);
-      this.service.uploadImage(formData).subscribe((resData: any) => {
+      this.service.upload(formData,this.reportImage).subscribe((resData: any) => {
         if (resData && resData.error && resData.error.code) {
           this.toastr.error("Failed", resData.error.code.longMessage);
         } else {
