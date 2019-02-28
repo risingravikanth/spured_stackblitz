@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="infos">
                                     <div class="font-weight-bold">{{userDetails && userDetails.userName ?
-                                        userDetails.userName : '-NA-'}}</div>
+                                        userDetails.userName : '-NA-'}}({{ (userDetails && userDetails.profileId ? userDetails.profileId : '-NA-')}})</div>
                                     <div class="font-weight-normal" *ngIf="userDetails?.phoneNum"><i class="fas fa-mobile-alt"></i>
                                         {{ userDetails?.phoneNum }} </div>
                                     <div class="font-weight-normal" *ngIf="userDetails?.dobYear"><i class="far fa-calendar-alt"></i>
