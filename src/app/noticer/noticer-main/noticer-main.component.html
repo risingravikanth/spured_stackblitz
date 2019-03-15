@@ -23,7 +23,7 @@
 
 
                 <div class="card div_hover rounded shadow-sm" *ngIf="post && post.postId">
-                    <div style="padding:10px;" *ngIf="isActivity">
+                    <!--<div style="padding:10px;" *ngIf="isActivity">
                         <div class=" bg-white d-flex justify-content-between">
                             <div>{{ getActivityName(post.activity)}}
                             </div>
@@ -31,7 +31,7 @@
 
                         </div>
                         <hr style="margin-top: 0px;margin-bottom: -10px;">
-                    </div>
+                    </div>-->
                     <div class="card-header noticer-card bg-white d-flex justify-content-between">
                         <div>
 
@@ -115,7 +115,7 @@
                     
 
                     <!--
-                    New card -body using  media objects
+                    New card -body using  media objects  -->
 
 
 
@@ -127,25 +127,249 @@
 
                           <div class="media-body">
                             <h6 class="mt-0 mb-0">
-                                    <a href="profile/users/{{post.userProfile.userId}}" *ngIf="post.userProfile" class="text-capitalize"
-                                        (click)="!!redirectToOtherProfile(post.userProfile.userId)" style="color: black;font-weight: 400;">
+                                    <a href="profile/users/{{post.userProfile.userId}}" *ngIf="post.userProfile" class="text-dark text-capitalize font-weight-normal"
+                                        (click)="!!redirectToOtherProfile(post.userProfile.userId)">
                                         {{post.userProfile ? post.userProfile.userName : '-NA-'}}
                                     </a>
-                                    <a href="javascript:void(0);" *ngIf="!post.userProfile"  class="text-capitalize" style="color: black;font-weight: 400;">
+                                    <a href="javascript:void(0);" *ngIf="!post.userProfile"  class="text-capitalize text-dark font-weight-normal">
                                         {{post.userProfile ? post.userProfile.userName : '-NA-'}}
                                     </a>
                             </h6>
                             <small class="text-muted">{{post.createTime | date: 'MMM d, y,h:mm a'}}</small>
                            </div>
                         </div>
-
  
                         <footer *ngIf="isActivity" class="blockquote-footer text-right">{{ getActivityName(post.activity)}} On {{ post.activity[post.activity?.length-1].createTime | date: 'MMM d, y, h:mm a'}}</footer>
 
-                    </div>
+                        <div class="row mt-2" *ngIf="post._type == 'CareerPost' && post?.deadline">
+                            <div class="col-md-6">
+                                <div class="d-flex w-100">
+                                    <div class="p-1"><i class="fas fa-calendar-alt"></i></div>
+                                    <div class="p-1 w-100 flex-shrink-1">Dead Line : {{post.deadline}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex w-100">
+                                    <div class="p-1"><i class="fas fa-calendar-alt"></i></div>
+                                    <div class="p-1 w-100 flex-shrink-1">Days left : <span [innerHTML]="calulateDateAndTime(post.deadline,'daysLeft')"></span></div>
+                                </div>
+                            </div>
+                        </div>
 
-                    -->
-                    <div class="row" style="padding-left: 9px;margin-top: 0px;">
+                        <div class="row mt-2" *ngIf="post._type == 'EventsPost'">
+                            <div *ngIf="post.fromdate && post.todate" class="col-md-6">
+                                <div class="d-flex w-100">
+                                    <div class="p-1"><i class="fas fa-calendar-alt"></i></div>
+                                    <div class="p-1 w-100 flex-shrink-1">{{post.fromdate}} to {{post.todate}}</div>
+                                </div>
+                            </div>
+                            <div *ngIf="post.website" class="col-md-6">
+                                <div class="d-flex w-100">
+                                    <div class="p-1"><i class="fa fa-globe" aria-hidden="true"></i> </div>
+                                    <div class="p-1 pr-3 w-100 flex-shrink-1" style="width:90% !important;"> <a class="p-35"
+                                            href="javascript:void(0);" (click)="onNavigate(post.website)">
+                                            {{post.website}}</a></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="post._type == 'EventsPost'">
+                            <div *ngIf="post.contacts" class="col-md-6">
+                                <div class="d-flex w-100">
+                                    <div class="p-1"><i class="fas fa-phone-square"></i></div>
+                                    <div class="p-1 w-100 flex-shrink-1">{{post.contacts}}</div>
+                                </div>
+                            </div>
+                            <div *ngIf="post.location" class="col-md-6">
+                                <div class="d-flex w-100">
+                                    <div class="p-1"> <i class="fas fa-map-marker-alt"></i> </div>
+                                    <div class="p-1 pr-3 w-100 flex-shrink-1"> {{post.location}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="post-text pl-1 mt-2">
+                            <h6><b><a *ngIf="!paramId" (click)="navigateToPostDetails(post)" class="text-dark" href="javascript:void(0);">
+                                        {{post.postTitle ? post.postTitle : '-NA-'}}</a>
+                                    <span *ngIf="paramId">{{post.postTitle ? post.postTitle : '-NA-'}}</span></b>
+                            </h6>
+
+                             <!--
+                                    CHANGED :: to show links in comments section.
+                                    [innerHTML]   |
+                                    postText|    slice:0:post.maxLength -->
+
+                             <p>
+                                <span *ngIf="!paramId" class="text-dark">
+                                    <p class="multiLineText card-font-post-content" [innerHTML]="formatPostText(post)"></p>
+                                    <label *ngIf="post.postText.length > post.maxLength">...</label>
+                                </span>
+                                <a style="padding: 2px;color:gray;" *ngIf="!paramId && post.postText.length > post.maxLength"
+                                    (click)="post.maxLength = post.postText.length" href="javascript:void(0);">see
+                                    more</a>
+                                <span *ngIf="paramId" style="color: black;">
+                                    <label class="multiLineText card-font-post-content" [innerHTML]=" formatPostText(post)"></label>
+                                </span>
+                            </p>
+                        </div>
+                    
+                        <div *ngIf="(post.files && post.files.length >0) || 
+                                    (post.images && post.images.length >0) ||
+                                    (post.videos && post.videos.length >0)"  >
+                            <app-preview
+                                [files] ="post.files"
+                                [images] ="post.images"
+                                [videos] = "post.videos"
+                                [_type]="post._type"
+                                [_id]="post.postId">
+                            </app-preview>
+                        </div>
+
+                        <div class="post-text pl-1 mt-2 border border-light rounded p-1"
+                             *ngIf="post.postAnswer && post.viewAnswer">
+                            <span class="fntBlack">
+                                <h6 class="fntGreen">Answer</h6>
+                                <label class="multiLineText">{{post.postAnswer}}</label>
+                            </span>
+                        </div>
+                      
+                        <p class="m-0  float-right"><span class="badge badge-secondary">Created by @Ravikanth</span></p>
+                    </div>  <!--  ******************************************end of card body ********************************************-->
+                   <div class="card-footer noticer-card bg-white">
+                         <ul class="list-inline pl-1 mb-0">
+                            <li class="list-inline-item mr-4">
+                                <a href="void:javascript(0);" (click)="cancelVote(post.postId, post._type)">    
+                                    <i class="fas fa-thumbs-up  likeFont" *ngIf="post.actionAttributes.upVoted"></i>
+                                </a>
+                                <a href="void:javascript(0);" (click)="upVote(post.postId, post._type)">
+                                    <i class="far fa-thumbs-up normalLikeFont" *ngIf="!post.actionAttributes.upVoted"></i>
+                                </a>
+                                {{post.actionAttributes.upVoteCount}}
+                            </li>
+                            <li class="list-inline-item mr-4">
+                                <a href="void:javascript(0);" (click)="cancelFavorite(post.postId, post._type)">    
+                                    <i class="fas fa-star favoriteFont" *ngIf="post.actionAttributes.favorited"></i>
+                                </a>
+                                <a href="void:javascript(0);" (click)="createFavorite(post.postId, post._type)">
+                                    <i class="far fa-star normalFavoriteFont" *ngIf="!post.actionAttributes.favorited"></i>
+                                </a>
+                                {{post.actionAttributes.favoriteCount}}
+                            </li>
+                            <li class="list-inline-item mr-4" [ngbTooltip]="commentToolTip" >
+                                <a href="void:javascript(0);" class="text-dark" (click)="getCommentsForPost(post.postId,i);">
+                                     <i class="fas fa-comments iconSize" placement="top"></i>
+                                </a>
+                                {{post.commentsCount}}
+                            </li>
+                            <li class="list-inline-item mr-4" [ngbTooltip]="viewAnswerToolTip" *ngIf="post.postAnswer">
+                                <a  href="void:javascript(0);" class="text-dark"
+                                    (click)="post.viewAnswer = !post.viewAnswer">
+                                    <span [ngbTooltip]="viewAnswerToolTip" *ngIf="!post.viewAnswer"><i class="fas fa-eye"></i></span>
+                                    <span [ngbTooltip]="viewAnswerToolTip" *ngIf="post.viewAnswer"><i class="fas fa-eye-slash"></i></span>
+                                </a>
+                            </li>
+                                 
+                         </ul>
+
+                         <div *ngIf="post.selectComments">
+                           <hr class="mt-2" >
+                                <div class="pl-1" *ngIf="validUser">
+                                    <form>
+                                        <!--
+                                        CHANGED :: to make comment button to right side 
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" style="border-radius: 17px;" (click)="createComment(post.commentText, i)"
+                                                    [disabled]="post.commentText == null || post.commentText.trim()?.length == 0">
+                                                    <i class="fas fa-share-square"></i>
+                                                </button>
+                                            </div>
+                                            <textarea rows="1" type="text" class="form-control" style="border-radius: 17px;"
+                                                [ngModelOptions]="{standalone: true}" [(ngModel)]="post.commentText"
+                                                placeholder="Add a comment.."></textarea>
+                                        </div>-->
+                                        <div class="input-group mb-3">
+                                            <textarea rows="1" type="text" class="form-control rounded" [ngModelOptions]="{standalone: true}"
+                                                [(ngModel)]="post.commentText" placeholder="Add a comment.."></textarea>
+                                            <div class="input-group-append" style="margin-left: 5px;">
+                                                <button class="btn btn-outline-info  btnSuccess rounded" style="color:white;"
+                                                    type="button" (click)="createComment(post.commentText, i)" [disabled]="post.commentText == null || post.commentText.trim()?.length == 0">
+                                                    Send
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="text-center pl-1"
+                                    *ngIf="!validUser">
+                                    <h6><a class="addQuestion" href="javascript:void(0);" data-toggle="modal" routerLink="/login">Sign-in
+                                            to add comment
+                                        </a></h6>
+                                </div>
+                                <div *ngFor="let comment of post.comments;index as in">
+                                     <div class="media pl-1">
+                                          <img   width="50" height="50" class="mr-3 rounded-circle align-self-center" alt="Avatar"
+                                                 [src]="(comment.userProfile && comment.userProfile.profileImageUrl && comment.userProfile.profileImageUrl?.length>0) ? ((imageFromAws(comment.userProfile.profileImageUrl) ? '' : serverUrl) + comment.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">
+
+                                          <div class="media-body">
+                                            <h6 class="mt-0 mb-0">
+                                                    
+                                                    <a href="javascript:void(0);" (click)="redirectToOtherProfile(comment.userProfile.userId)"  class="text-capitalize" class="text-dark font-weight-normal">
+                                                        {{comment.userProfile.userName}}
+                                                    </a>
+
+                                                <span class="float-right" *ngIf="comment.userProfile && currentuserId == comment.userProfile.userId">
+                                                    <a id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" class="cursor-pointer"
+                                                        placement="top" [ngbTooltip]="isMobile ? '' : Actions"
+                                                        aria-expanded="false" style="font-size: 20px;"><i class="fas fa-ellipsis-h"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu3">
+                                                        <button class="dropdown-item" type="button" (click)="deleteComment(post.postId, post._type, comment.commentId)"><i
+                                                                class="fas fa-trash-alt"></i> Delete</button>
+                                                    </div>
+                                                 </span>
+                                            </h6>
+                                            <small class="text-muted">{{comment.createTime | date: 'MMM d, y,h:mm a'}}</small>
+
+                                           </div>
+                                        </div>
+
+                                        <div class="post-text pl-1 mt-2">
+                                             <p>
+                                                <span  class="text-dark">
+                                                    <p class="multiLineText card-font-post-content">{{comment.commentText | slice:0:comment.maxLength}}</p>
+                                                    <label *ngIf="comment.commentText.length > comment.maxLength">...</label>
+                                                </span>
+                                               <a style="font-size: 13px;padding: 2px;color:gray;" *ngIf="comment.commentText.length > comment.maxLength"
+                                                            (click)="comment.maxLength = comment.commentText.length" href="javascript:void(0);">see
+                                                            more</a>
+                                             </p>
+                                        </div>
+                                </div>
+                                <div style="margin-left: 50%;" *ngIf="post.commentsSpinner">
+                                    <div class="loader"></div>
+                                </div>
+                                <div class="text-center" *ngIf="showMoreCommentsChecker(post.comments, post.commentsCount) && !post.commentsSpinner">
+                                    <a href="javascript:void(0);" (click)="loadMoreComments(post.postId,i)"> load old comments
+                                    </a>
+                                </div>
+                        </div> <!-- end of comment -->
+                    </div> <!-- end of card footer -->
+
+                    <ng-template *ngIf="!isMobile" #commentToolTip>
+                                {{ (post.selectComments) ? "Click to hide comments" : "Click to view comments" }}
+                    </ng-template>
+
+                    <ng-template *ngIf="!isMobile" #viewAnswer>
+                        {{ (!post.viewAnswer) ? "View Answer" : "Hide Answer" }}
+                    </ng-template>
+
+
+
+                    <!--  ******************************************end of card footer ********************************************
+                                **********************************************************************************************************-->
+
+                   
+                   <!-- old code  <div class="row" style="padding-left: 9px;margin-top: 0px;">
                         <div>
                             <img width="80" height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="Avatar"
                                 [src]="(post.userProfile && post.userProfile.profileImageUrl  && post.userProfile.profileImageUrl?.length>0 ) ? ((imageFromAws(post.userProfile.profileImageUrl) ? '' : serverUrl) + post.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">
@@ -165,7 +389,7 @@
                                     h:mm a'}}</li>
                             </ul>
                         </div>
-                    </div>
+                    </div> 
                     <div style="margin-left: 17px;">
                         <div *ngIf="post._type == 'CareerPost'">
                             <div *ngIf="post.deadline">
@@ -217,12 +441,12 @@
                                         {{post.postTitle ? post.postTitle : '-NA-'}}</a>
                                     <span *ngIf="paramId">{{post.postTitle ? post.postTitle : '-NA-'}}</span></b></h6>
                         </div>
-                        <div class="post-text">
+                        <div class="post-text">-->
                             <!--
                                     CHANGED :: to show links in comments section.
                                     [innerHTML]   |
                                     postText|    slice:0:post.maxLength -->
-                            <p>
+                           <!-- <p>
                                 <span *ngIf="!paramId" style="color: black;">
                                     <p class="multiLineText card-font-post-content" [innerHTML]=" urlify(post)"></p>
                                     <label *ngIf="post.postText.length > post.maxLength">...</label>
@@ -259,31 +483,26 @@
                         <ul class="list-inline">
                             <span>
                                 <li class="list-inline-item paddingIcons" style="cursor: pointer;">
-                                    <!-- <a> -->
-                                    <i class="fas fa-thumbs-up  likeFont" (click)="cancelVote(post.postId, post._type)"
+                                     <i class="fas fa-thumbs-up  likeFont" (click)="cancelVote(post.postId, post._type)"
                                         *ngIf="post.actionAttributes.upVoted"></i>
                                     <i class="far fa-thumbs-up normalLikeFont" (click)="upVote(post.postId, post._type)"
                                         *ngIf="!post.actionAttributes.upVoted"></i>
                                     &nbsp;{{post.actionAttributes.upVoteCount}}
-                                    <!-- </a> -->
-                                </li>
+                                 </li>
                                 <li class="list-inline-item paddingIcons" style="cursor: pointer;">
-                                    <!-- <a> -->
-                                    <i class="fas fa-star favoriteFont" (click)="cancelFavorite(post.postId, post._type)"
+                                     <i class="fas fa-star favoriteFont" (click)="cancelFavorite(post.postId, post._type)"
                                         *ngIf="post.actionAttributes.favorited"></i>
                                     <i class="far fa-star normalFavoriteFont" (click)="createFavorite(post.postId, post._type)"
                                         *ngIf="!post.actionAttributes.favorited"></i>
                                     &nbsp;{{post.actionAttributes.favoriteCount}}
-                                    <!-- </a> -->
-                                </li>
+                                 </li>
                             </span>
                             <li [ngbTooltip]="tipComment" class="list-inline-item paddingIcons" style="cursor: pointer;"
                                 (click)="getCommentsForPost(post.postId,i);">
                                 <i class="fas fa-comments iconSize" placement="top"></i>&nbsp;
                                 <a>
                                     {{post.commentsCount}}
-                                    <!-- Comments -->
-                                </a>
+                                 </a>
                             </li>
                             <ng-template *ngIf="!isMobile" #tipComment>
                                 {{ (post.selectComments) ? "Click to hide comments" : "Click to view comments" }}
@@ -298,12 +517,14 @@
                                 {{ (!post.viewAnswer) ? "View Answer" : "Hide Answer" }}
                             </ng-template>
                         </ul>
-                    </div>
-                    <div *ngIf="post.selectComments">
+                    </div>-->
+
+
+                    <!--<div *ngIf="post.selectComments">
                         <hr style="margin-top: -5px;">
                         <div style="padding-left: 7px;padding-right: 7px;padding-bottom: 7px;" *ngIf="validUser">
                             <form>
-                                <!--
+                                <!-
                                 CHANGED :: to make comment button to right side 
                                 <div class="input-group">
                                     <div class="input-group-btn">
@@ -315,7 +536,7 @@
                                     <textarea rows="1" type="text" class="form-control" style="border-radius: 17px;"
                                         [ngModelOptions]="{standalone: true}" [(ngModel)]="post.commentText"
                                         placeholder="Add a comment.."></textarea>
-                                </div>-->
+                                </div>->
                                 <div class="input-group mb-3">
                                     <textarea rows="1" type="text" class="form-control rounded" [ngModelOptions]="{standalone: true}"
                                         [(ngModel)]="post.commentText" placeholder="Add a comment.."></textarea>
@@ -364,8 +585,8 @@
                                             'MMM d, y, h:mm
                                             a'}}</li>
                                         <li style="    margin-top: 8px;">
-                                            <!-- <p>{{comment.commentText}}</p> -->
-                                            <!-- <label [innerHtml]="comment.commentText | slice:0:comment.maxLength"></label> -->
+                                            <!- <p>{{comment.commentText}}</p> -->
+                                            <!-- <label [innerHtml]="comment.commentText | slice:0:comment.maxLength"></label> ->
                                             <label class="multiLineText" style="font-size: 13px;">{{comment.commentText
                                                 |
                                                 slice:0:comment.maxLength}}</label>
@@ -385,7 +606,7 @@
                             <a href="javascript:void(0);" (click)="loadMoreComments(post.postId,i)"> load old comments
                             </a>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <br>
             </div>

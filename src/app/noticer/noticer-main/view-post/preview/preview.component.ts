@@ -17,19 +17,25 @@ export class PreviewComponent implements OnInit {
   
   @Input() files : any;
   @Input() images : any;
+  @Input() videos :any = [];
   @Input() _type :any;
   @Input() _id : any;
 
   private dialogRef;
+  private hasVideo : boolean = false;
   public fileUrl : any = "";
  
   constructor(
    private sanitizer : DomSanitizer,
    private dialog: MatDialog,
-   private modalService: NgbModal) { }
+   private modalService: NgbModal) { 
+ 
+   }
 
   ngOnInit() {
-   
+   if(this.videos !== undefined && this.videos.length >0){
+       this.hasVideo = true;
+   }
   }
 
   imageFromAws(url) {

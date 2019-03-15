@@ -28,72 +28,25 @@
  
 
 
-<div *ngIf="files.length == 1;">
+<div class="text-center">
 
         <!--<ng-container 
            *ngTemplateOutlet="fileTypeTemplate;files:files">
-        </ng-container>-->
+        </ng-container> [ngClass]="{'file-preview-1': true, 'second': true, 'third': false}"-->
+        <div *ngFor="let file of files;"  class="d-inline file-preview-{{ files?.length }} "   >
+            <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.txt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
 
-        <img (click)="previewFile(content,files[0])" *ngIf="files[0].indexOf('.txt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+            <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.pdf') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_pdf_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file." >
 
-        <img (click)="previewFile(content,files[0])" *ngIf="files[0].indexOf('.pdf') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_pdf_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file." >
+            <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.doc') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_word_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
 
-        <img (click)="previewFile(content,files[0])" *ngIf="files[0].indexOf('.doc') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_word_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+            <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.ppt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
 
-        <img (click)="previewFile(content,files[0])" *ngIf="files[0].indexOf('.ppt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-
-        <img (click)="previewFile(content,files[0])" *ngIf="files[0].indexOf('.xls') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_xls_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-		
+            <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.xls') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_xls_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
+        </div>
+    		
 </div>
-
-<div class="images" *ngIf="files.length == 2" style="padding:7px;">
-    <mat-grid-list cols="2" rowHeight="2:1">
-        <mat-grid-tile *ngFor="let file of files">
-	        <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.txt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-
-			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.pdf') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_pdf_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file." >
-
-			<img (click)="previewFile(content,file)"*ngIf="file.indexOf('.doc') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_word_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-
-			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.ppt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-
-			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.xls') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_xls_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-        </mat-grid-tile>
-    </mat-grid-list>
-</div>
-<div class="images" *ngIf="files.length == 3" style="padding:7px;">
-    <mat-grid-list cols="3" rowHeight="2:2">
-        <mat-grid-tile *ngFor="let file of files">
-             <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.txt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-
-			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.pdf') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_pdf_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file." >
-
-			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.doc') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_word_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-
-			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.ppt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-
-			<img  (click)="previewFile(content,file)"*ngIf="file.indexOf('.xls') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_xls_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-        </mat-grid-tile>
-    </mat-grid-list>
-</div>
-
-<div class="images" *ngIf="files.length == 4" style="padding-right: 7px;">
-    <mat-grid-list cols="2" rowHeight="2:1">
-        <mat-grid-tile *ngFor="let file of files">
-             <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.txt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-
-			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.pdf') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_pdf_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file." >
-
-			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.doc') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_word_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-
-			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.ppt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-
-			<img (click)="previewFile(content,file)" *ngIf="file.indexOf('.xls') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_xls_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-        </mat-grid-tile>
-    </mat-grid-list>
-</div>
-
-
+ 
 
 
 <div *ngIf="images.length == 1">
@@ -138,6 +91,11 @@
       
 </ng-template>-->
 
+
+
+<div class="embed-responsive embed-responsive-16by9" *ngIf="hasVideo">
+  <iframe class="embed-responsive-item" [src]="getSanitizeURL(videos[0])"></iframe>
+</div>
 
 <ng-template #content let-modal let-c="close" let-d="dismiss">
   <div class="modal-header">

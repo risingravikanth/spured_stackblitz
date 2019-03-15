@@ -1324,22 +1324,77 @@ export class NoticerMainComponent implements OnInit {
     return act;
   }
 
-  urlify(post) {
-    let text = "";
+  ytVidId(url) {
+    let p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+    return (url.match(p)) ? RegExp.$1 : false;
+  }
+
+  formatPostText(post) {
+    if(post.postText === undefined || post.postText === null ||
+       post.postText === "" || post.postText.indexOf("http") === -1)
+    return ;
+    
+    let text = "";    
     if (post.postText)
       text = post.postText.slice(0, post.maxLength);
 
+    
     let urlRegex = /(https?:\/\/[^\s]+)/g;
+    let _this = this;
     return text.replace(urlRegex, function (url) {
-      return '<a href="' + url + '" target="_blank">' + url + '</a>';
-    })
+        if(_this.ytVidId(url)){
+          if(post && post.videos === undefined){
+              post["videos"] = [];
+              post["videos"].push(url);
+          }else{
+              post["videos"].push(url);
+          }
+          
+          return '';
+        }else{
+            return '<a href="' + url + '" target="_blank">' + url + '</a>';
+        }
+     })
     // or alternatively
     // return text.replace(urlRegex, '<a href="$1">$1</a>')
-  }
+  };
 
 
   load(type: any) {
     alert(type);
+  }
+
+  calulateDateAndTime(dateValue : any,returnType : string){
+      let one_day=1000*60*60*24;
+      let today = new Date();
+      let today_ms = today.getTime();
+      let result :any = "";
+
+      switch(returnType){
+
+          case "daysLeft": { 
+                if(dateValue !== undefined && dateValue !== ""){
+                    dateValue = new Date(dateValue);
+                    let dateValue_ms :any = dateValue.getTime();
+                    let dateDiff :any =  (today_ms >= dateValue_ms ) ? (today_ms - dateValue_ms) :  (dateValue_ms - today_ms);
+                    result = Math.round(dateDiff/one_day);
+
+                    result = (result <=0 ) ? "0 Days" : result;
+                    if(result !== "0 Days")
+                        result = (result == 1) ?  result+" Day" : result+" Days";
+                    result = (result === "0 Days") ? '<span class="text-danger">'+result+'</span>' : '<span class="text-success">'+result+'</span>';
+                }
+              
+                break; 
+          } 
+
+          default : {
+              break;
+          }
+      }
+
+      return result;
+
   }
 
 }
