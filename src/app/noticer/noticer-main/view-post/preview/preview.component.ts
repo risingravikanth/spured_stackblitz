@@ -22,7 +22,7 @@ export class PreviewComponent implements OnInit {
   @Input() _id : any;
 
   private dialogRef;
-  private hasVideo : boolean = false;
+  public hasVideo : boolean = false;
   public fileUrl : any = "";
  
   constructor(
