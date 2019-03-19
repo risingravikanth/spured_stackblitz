@@ -445,6 +445,8 @@ export class NoticerMainComponent implements OnInit {
             element.commentText = null;
           if (element.viewAnswer === undefined)
             element.viewAnswer = false;
+          if(element.videos === undefined)
+            element.videos = [];
         }
       });
       this.noData = false;

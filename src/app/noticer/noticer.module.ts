@@ -29,6 +29,7 @@ import { AdminBoardComponent } from './admin/admin-board/admin-board.component';
 import { AdminGroupComponent } from './admin/admin-group/admin-group.component';
 import { PreviewComponent } from './noticer-main/view-post/preview/preview.component';
 import { PreviewDialogComponent } from './noticer-main/view-post/preview/preview-dialog/preview-dialog.component';
+ 
 
 
 @NgModule({
