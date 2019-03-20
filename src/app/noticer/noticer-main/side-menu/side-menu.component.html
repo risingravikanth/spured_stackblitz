@@ -6,28 +6,158 @@
     <div [class.scrollMobile]="isMobile">
         <!-- BOARDS -->
         <div *ngIf="validUser && underMaintenace">
+
+            <!-- Displaying of Boards -->
+            <div class="mb-2">
+                <h6 class="d-inline"><b>Boards&nbsp;<i class="fa fa-info-circle" (click)="showAddBoardDialog(boardsHelpDialog, 'help')"></i></b></h6>
+                 <span class="float-right d-inline">
+                            <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add new board"
+                                (click)="showAddBoardDialog(addBoardDialog, 'addBoard')">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                </span>
+            </div>
+            <div style="margin-left: 50%;" *ngIf="showPostSpinner">
+                    <div class="loader"></div>
+            </div>
+            <div *ngIf="noBoards && !showPostSpinner" class="ml-3 mb-2">No boards</div>
+
+            <ul class="list-group list-group-flush mb-2">
+                 <li *ngFor="let board of boardsList" class="list-group-item  p-2 text-dark bg-transparent">
+                     
+                    <a title={{board.boardName}} href="javascript:void(0);" class="text-dark" 
+                            (click)="selectedBoard(board.boardId,board.boardName)"
+                            [class.selected]="'BOARD_'+board.boardId === selectedItem">
+                            {{board.boardName}}
+                    </a>
+                    <ng-template #tipComment>
+                        {{board.boardName}}
+                    </ng-template>
+                    <span class="float-right" *ngIf="showConfig">
+                        <a href="javascript:void(0);" class="sectionOptIconsColor">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </span>
+                 </li>
+            </ul>
+
+
+            <!-- Displaying of Groups -->
+            <div class="mb-2">
+                <h6><b>Groups&nbsp;</b></h6>
+            </div>
+            <div style="margin-left: 50%;" *ngIf="showPostSpinnerGroups">
+                    <div class="loader"></div>
+            </div>
+            <div *ngIf="noGroups && !showPostSpinnerGroups" class="ml-3 mb-2">No groups</div>
+            <ul class="list-group list-group-flush mb-2">
+                 <li *ngFor="let group of groupsList" class="list-group-item  p-2 text-dark bg-transparent">
+                    <a title={{group.name}} href="javascript:void(0);" class="text-dark" 
+                            (click)="selectedGroup(group.id,group.name)"
+                            [class.selected]="'GROUP_'+group.id === selectedItem">
+                            {{group.name}}
+                    </a>
+                    <ng-template #tipComment>
+                        {{group.name}}
+                    </ng-template>
+                 </li>
+            </ul>
+            
+        </div>
+        <!-- Displaying of Topics -->
+        <div class="mb-2">
+            <ul *ngFor="let menu of menuList" class="list-group list-group-flush mb-2">
+
+
+                <div class="mb-2">
+                    <h6 class="d-inline"><b>{{menu?.title}}</b></h6>
+                    <span class="float-right" *ngIf="menu.select">
+                        <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showAddSectionDialog(sectionDialog)">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="saveSectionSettings()">
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="menu.select = false">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </span>
+                </div>
+                
+                <li *ngFor="let section of menu.sections" class="list-group-item  p-1 text-dark bg-transparent">  
+                    <div class="">
+                        
+                        <a class="text-dark" href="#{{section.code}}_section" data-target="#{{section.code}}_section" 
+                                (click)="select(section,$event);" 
+                                data-toggle="collapse" 
+                                [attr.aria-controls]="section.code+'_section'"
+                                [attr.aria-expanded]="section.isOpened">
+                                <i class="fas" [ngClass]="{'fa-chevron-right': (section.isOpened=== false), 
+                                                        'fa-chevron-down': (section.isOpened === true) }"></i>
+                                 &nbsp;{{section.name}}
+                        </a>
+                        <span class="float-right" style="padding-left: 20px;" *ngIf="menu.select">
+                            <a href="javascript:void(0);" (click)="showAddCategoryDialog(categoryDialog)" class="sectionOptIconsColor">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                            <a href="javascript:void(0);" class="sectionOptIconsColor">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </span>
+                    </div>
+                    <!-- [queryParams]="{'type':section.code,'category':category.name } 
+                        [ngClass]="{'show': (section.isOpened=== true), '': (section.isOpened === false) }" -->
+                    <div class="collapse" [attr.id]="section.code+'_section'">
+                        <ul class="list-group list-group-flush pl-3 mt-1">
+                            <li *ngFor="let category of section.categories" 
+                                class="list-group-item p-1 text-dark overflowText text-truncate bg-transparent"
+                                [class.selected]="section.code+category.code === selectedItem">
+                                <a  href="javascript:void(0);" 
+                                    class="text-dark" 
+                                   [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
+                                    title={{category.name}}
+                                    (click)="selectedCategory(section.code, category.code)">
+                                    {{category.name}}
+                                </a>
+                                <span class="float-right" *ngIf="menu.select">
+                                    <a href="javascript:void(0);" class="sectionOptIconsColor" *ngIf="category.name != 'HOME'">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+             </ul>
+        </div>
+    </div>
+
+
+    <!--<div [class.scrollMobile]="isMobile">
+        <!-BOARDS ->
+        <div *ngIf="validUser && underMaintenace">
             <ul style="margin-left: 1px;padding-top: 10px;font-size: 15px; line-height: 1.7;padding-inline-start: 1px;">
-                <!--<li style="padding-right: 60px;">
+                <!-<li style="padding-right: 60px;">
                 V1.0
                 commented for make + icon visible in clear
-            -->
+            ->
                 <li>
                     <label>
                         <b>Boards&nbsp;<i class="fa fa-info-circle" (click)="showAddBoardDialog(boardsHelpDialog, 'help')"></i></b>
                     </label>
-                    <!-- <span class="float-right" *ngIf="!showConfig">
+                    <!- <span class="float-right" *ngIf="!showConfig">
                     <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showConfig = true">
                         <i class="fas fa-cog"></i>
                     </a>
-                </span> -->
+                </span> ->
                     <span class="float-right">
                         <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add new board"
                             (click)="showAddBoardDialog(addBoardDialog, 'addBoard')">
                             <i class="fas fa-plus"></i>
                         </a>
-                        <!-- <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showConfig = false">
+                        <!- <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showConfig = false">
                         <i class="fas fa-times"></i>
-                    </a> -->
+                    </a> ->
                     </span>
                 </li>
                 <div style="margin-left: 50%;" *ngIf="showPostSpinner">
@@ -51,10 +181,10 @@
                 </div>
             </ul>
             <ul style="margin-left: 1px;padding-top: 10px;font-size: 15px; line-height: 1.7;padding-inline-start: 1px;">
-                <!--<li style="padding-right: 60px;">
+                <!-<li style="padding-right: 60px;">
                 V1.0
                 commented for make + icon visible in clear
-            -->
+            ->
                 <li>
                     <label>
                         <b>Groups&nbsp;</b>
@@ -77,18 +207,18 @@
             </ul>
         </div>
 
-        <!-- TOPICS -->
+        <!- TOPICS ->
         <div>
             <ul *ngFor="let menu of menuList" [ngStyle]="{'padding-top': (validUser && underMaintenace) ? '10px' : '0px' }" style="margin-left: 1px;font-size: 0.9rem; line-height: 1.7;padding-inline-start: 1px;">
                 <li>
                     <label>
                         <b>{{menu.title}}</b>
                     </label>
-                    <!-- <span class="float-right" *ngIf="!menu.select">
+                    <!- <span class="float-right" *ngIf="!menu.select">
                     <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="menu.select = true">
                         <i class="fas fa-cog"></i>
                     </a>
-                </span> -->
+                </span> ->
                     <span class="float-right" *ngIf="menu.select">
                         <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showAddSectionDialog(sectionDialog)">
                             <i class="fas fa-plus"></i>
@@ -103,11 +233,14 @@
                 </li>
                 <li *ngFor="let section of menu.sections" [ngClass]="{active: isActive(section.code)}" style="padding-bottom: 5px;width: 255px;">
                     <span>
-                        <span (click)="select(section.code);">
-                            <i class="fas fa-chevron-right" *ngIf="!isActive(section.code)"></i>
-                            <i class="fas fa-chevron-down" *ngIf="isActive(section.code)"></i>&nbsp;&nbsp;
-                            {{section.name}}
-                        </span>
+                        
+                        <a class="text-dark" href="#{{section.code}}_section" data-target="#{{section.code}}_section" (click)="select(section.code);" data-toggle="collapse" aria-expanded="false">
+                            <span >
+                                <i class="fas fa-chevron-right" *ngIf="!isActive(section.code)"></i>
+                                <i class="fas fa-chevron-down" *ngIf="isActive(section.code)"></i>&nbsp;&nbsp;
+                                {{section.name}}
+                            </span>
+                        </a>
                         <span class="float-right" style="padding-left: 20px;" *ngIf="menu.select">
                             <a href="javascript:void(0);" (click)="showAddCategoryDialog(categoryDialog)" class="sectionOptIconsColor">
                                 <i class="fas fa-plus"></i>
@@ -117,8 +250,8 @@
                             </a>
                         </span>
                     </span>
-                    <!-- [queryParams]="{'type':section.code,'category':category.name } -->
-                    <ul style="display:none; margin-left: -10px;">
+                    <!- [queryParams]="{'type':section.code,'category':category.name } ->
+                    <ul style="margin-left: -10px;" class="collapse" [attr.id]="section.code+'_section'">
                         <li *ngFor="let category of section.categories" class="overflowText text-truncate">
                             <a style="width: 82%;" href="javascript:void(0);" style="color: black;" [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
                                 title={{category.name}} (click)="selectedCategory(section.code, category.code)"
@@ -134,7 +267,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> -->
 </section>
 
 
