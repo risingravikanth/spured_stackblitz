@@ -13,13 +13,12 @@ import { AccountActivateComponent } from "./account-activate/account-activate.co
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotFoundModule } from './not-found/not-found.module';
-import { HeaderMobileModule } from "./noticer/header-mobile/header-mobile.module";
-import { HelpModule } from './noticer/help/help.module';
-import { NoticerModule } from './noticer/noticer.module';
-import { OthersProfileModule } from './noticer/profile-other/profile-other.module';
-import { SelfProfileModule } from './noticer/profile-self/profile-self.module';
-import { ReportUsModule } from './noticer/report-us/report-us.module';
-import { SettingsModule } from './noticer/settings/settings.module';
+import { HeaderMobileModule } from "./spured/header/header-mobile/header-mobile.module";
+import { HelpModule } from './spured/help/help.module';
+import { OthersProfileModule } from './spured/profile-other/profile-other.module';
+import { SelfProfileModule } from './spured/profile-self/profile-self.module';
+import { ReportUsModule } from './spured/report-us/report-us.module';
+import { SettingsModule } from './spured/settings/settings.module';
 import { PasswordResetLinkModule } from "./password-reset-link/password-reset-link.module";
 import { PasswordResetModule } from './password-reset/password-reset.module';
 import { AuthCanLoadGuard, AuthGuard, CommonService } from './shared/index';
@@ -33,6 +32,7 @@ import { JwtService } from './shared/services/jwt.service';
 import { MobileDetectionService } from './shared/services/mobiledetection.service';
 import { UserSetupModule } from './user-setup/user-setup.module';
 import { ToastrModule } from 'ng6-toastr-notifications';
+import { SpuredModule } from "./spured/spured.module";
 
 
 @NgModule({
@@ -56,7 +56,7 @@ import { ToastrModule } from 'ng6-toastr-notifications';
         NotFoundModule,
         OthersProfileModule,
         SelfProfileModule,
-        NoticerModule,
+        SpuredModule,
         PasswordResetModule,
         HelpModule,
         SettingsModule,
