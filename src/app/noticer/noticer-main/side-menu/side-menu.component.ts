@@ -105,6 +105,28 @@ export class SideMenuComponent implements OnInit {
     }
 
     this.menuList = SECTIONS;
+    let current_url  :any = this.router.url;
+    let current_menu = "";
+    if(current_url && current_url.indexOf('categories') !== -1){
+      current_url = current_url.split("/");
+      current_menu = current_url[current_url.length-2];
+    }
+
+    if( this.menuList &&  this.menuList.length){
+      for(let i=0; i< this.menuList.length ; i++){
+        let menu = this.menuList[i];
+        if(menu.sections && menu.sections.length){
+           for(let j=0; j< menu.sections.length; j++){
+            let section = menu.sections[j];
+            if(current_menu === section.code){
+              section["isOpened"] = false;
+            }else{
+              section["isOpened"] = false;
+            }
+           }
+        }
+      }
+    }
 
     this.route.params.subscribe(this.handleParams.bind(this));
 
@@ -217,12 +239,18 @@ export class SideMenuComponent implements OnInit {
     ])
   }
 
-  select(item) {
-    this.selected = (this.selected === item ? null : item);
-    window.scrollTo(0, 0);
+  select(section,event) {
+    let itemName :any = section.code;
+    this.selected = (this.selected === itemName ? null : itemName);
+    section.isOpened = !section.isOpened;
+     /*COMMENTED :: we don't need scroll top when ever user selected on left panel 
+    */
+
+    //window.scrollTo(0, 0);
+    event.preventDefault();
   }
   isActive(item) {
-    return this.selected === item;
+     return this.selected === item;
   }
 
   getAllSates() {

@@ -1331,6 +1331,11 @@ export class NoticerMainComponent implements OnInit {
     return (url.match(p)) ? RegExp.$1 : false;
   }
 
+  createYouTubeEmbedLink(link) {
+    if(link !== undefined && link !== null && link !== "" )
+      return link.replace("youtube.com/watch?v=", "youtube.com/embed/");
+  }
+
   formatPostText(post) {
     if(post.postText === undefined || post.postText === null ||
        post.postText === "" || post.postText.indexOf("http") === -1)
@@ -1345,6 +1350,7 @@ export class NoticerMainComponent implements OnInit {
     let _this = this;
     return text.replace(urlRegex, function (url) {
         if(_this.ytVidId(url)){
+          url = _this.createYouTubeEmbedLink(url);
           if(post && post.videos === undefined){
               post["videos"] = [];
               post["videos"].push(url);
