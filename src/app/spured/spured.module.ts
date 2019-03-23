@@ -28,7 +28,7 @@ import { PreviewComponent } from './core-main/view-post/preview/preview.componen
 import { PreviewDialogComponent } from './core-main/view-post/preview/preview-dialog/preview-dialog.component';
 import { SpuredRoutingModule } from '../spured/spured-routing.module';
 import { SpuredComponent } from '../spured/spured.component';
-import { LeftMenuComponent } from 'src/app/spured/core-main/left-menu/left-menu.component';
+import { LeftMenuComponent } from './core-main/left-menu/left-menu.component';
  
 
 
