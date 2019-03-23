@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { MobileDetectionService, CommonService } from './shared';
 import { Title, makeStateKey, TransferState } from '@angular/platform-browser';
-import { SelfProfileService } from './noticer/profile-self/profile-self.service';
+import { SelfProfileService } from './spured/profile-self/profile-self.service';
 import { CurrentUserService } from './shared/services/currentUser.service';
 import { User } from './shared/models/user.model';
 import { JwtService } from './shared/services/jwt.service';

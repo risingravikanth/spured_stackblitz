@@ -1,112 +1,112 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { AboutComponent } from './noticer/about/about.component';
-import { HelpComponent } from './noticer/help/help.component';
-import { NoticerMainComponent } from './noticer/noticer-main/noticer-main.component';
-import { NoticerComponent } from './noticer/noticer.component';
-import { OthersProfileComponent } from './noticer/profile-other/profile-other.component';
-import { SelfProfileComponent } from './noticer/profile-self/profile-self.component';
-import { ReportUsComponent } from './noticer/report-us/report-us.component';
-import { SettingsComponent } from './noticer/settings/settings.component';
+import { AboutComponent } from './spured/about/about.component';
+import { HelpComponent } from './spured/help/help.component';
+import { CoreMainComponent } from './spured/core-main/core-main.component';
+import { OthersProfileComponent } from './spured/profile-other/profile-other.component';
+import { SelfProfileComponent } from './spured/profile-self/profile-self.component';
+import { ReportUsComponent } from './spured/report-us/report-us.component';
+import { SettingsComponent } from './spured/settings/settings.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { AuthGuard } from './shared';
 import { UserSetupComponent } from './user-setup/user-setup.component';
 import { AccountActivateComponent } from './account-activate/account-activate.component';
-import { NotificationsComponent } from './noticer/notifications/notifications.component';
+import { NotificationsComponent } from './spured/notifications/notifications.component';
 import { PasswordResetLinkComponent } from './password-reset-link/password-reset-link.component';
-import { AdminComponent } from './noticer/admin/admin.component';
+import { AdminComponent } from './spured/admin/admin.component';
+import { SpuredComponent } from './spured/spured.component';
 
 const routes: Routes = [
   {
     path: 'feed',
-    component: NoticerComponent,
+    component: SpuredComponent,
     children: [
       {
         path: '',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       }
     ]
   },
   {
     path: 'categories',
-    component: NoticerComponent,
+    component: SpuredComponent,
     children: [
       {
         path: ':type',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       },
       {
         path: ':type/:category',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       },
       {
         path: ':type/:category/:model',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       }
     ]
   },
   {
     path: 'posts',
-    component: NoticerComponent,
+    component: SpuredComponent,
     children: [
       {
         path: 'groups/:id',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       },
       {
         path: 'groups/:id/:title',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       },
       {
         path: 'closed/:id',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       },
       {
         path: 'closed/:id/:title',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       },
       {
         path: ':type/:category/:id',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       },
       {
         path: ':type/:category/:id/:title',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       }
     ]
   },
   {
     path: 'boards',
-    component: NoticerComponent,
+    component: SpuredComponent,
     children: [
       {
         path: 'closed/:boardId',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       },
       {
         path: 'closed/:boardId/:title',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       }
     ]
   },
   {
     path: 'groups',
-    component: NoticerComponent,
+    component: SpuredComponent,
     children: [
       {
         path: ':groupId',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       },
       {
         path: ':groupId/:title',
-        component: NoticerMainComponent,
+        component: CoreMainComponent,
       }
     ]
   },
   {
     path: 'profile',
-    component: NoticerComponent,
+    component: SpuredComponent,
     children: [
       {
         path: 'self',
@@ -121,7 +121,7 @@ const routes: Routes = [
   },
   {
     path: 'help',
-    component: NoticerComponent,
+    component: SpuredComponent,
     children: [
       {
         path: '',
@@ -131,7 +131,7 @@ const routes: Routes = [
   },
   {
     path: 'reportus',
-    component: NoticerComponent,
+    component: SpuredComponent,
     canActivate: [AuthGuard],
     children: [
       {
@@ -142,7 +142,7 @@ const routes: Routes = [
   },
   {
     path: 'about',
-    component: NoticerComponent,
+    component: SpuredComponent,
     children: [
       {
         path: '',
@@ -152,7 +152,7 @@ const routes: Routes = [
   },
   {
     path: 'settings',
-    component: NoticerComponent,
+    component: SpuredComponent,
     canActivate: [AuthGuard],
     children: [
       {
@@ -163,7 +163,7 @@ const routes: Routes = [
   },
   {
     path: 'notifications',
-    component: NoticerComponent,
+    component: SpuredComponent,
     children: [
       {
         path: '',
@@ -173,7 +173,7 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    component: NoticerComponent,
+    component: SpuredComponent,
     children: [
       {
         path: '',

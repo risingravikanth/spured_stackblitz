@@ -1,0 +1,275 @@
+ 
+<div class="container db-social">
+    <div class="jumbotron jumbotron-fluid"></div>
+    <div class="">
+        <div class="row justify-content-center">
+            <div class="col-xl-11">
+                <div class="widget head-profile has-shadow">
+                    <div class="widget-body pb-0">
+                        <div class="row d-flex align-items-center">
+                            <div class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center">
+                                <div class="follow">
+                                    <!--<a class="btn btn-shadow" href="#"><i class="la la-user-plus"></i>Add Friend</a>
+                                    
+                                    <div class="actions dark">
+                                        <div class="dropdown">
+                                            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
+                                                <i class="la la-ellipsis-h"></i>
+                                            </button>
+                                            <div class="dropdown-menu" x-placement="bottom-start" style="display: none; position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);">
+                                                <a href="#" class="dropdown-item">
+                                                Report
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                Block
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-4 d-flex justify-content-center">
+                                <div class="image-default">
+                                    <img class="rounded-circle" [src]="profileImage"  alt="...">
+
+                                </div>
+                                <div class="infos">
+                                    <div class="font-weight-bold">{{userDetails && userDetails.userName ?
+                                        userDetails.userName : '-NA-'}}({{ (userDetails && userDetails.profileId ? userDetails.profileId : '-NA-')}})</div>
+                                    <div class="font-weight-normal" *ngIf="userDetails?.phoneNum"><i class="fas fa-mobile-alt"></i> {{ userDetails?.phoneNum }} </div>
+                                    <div class="font-weight-normal"  *ngIf="userDetails?.dobYear"><i class="far fa-calendar-alt"></i> {{ userDetails?.dobDate }}/{{ userDetails?.dobMonth }}/{{ userDetails?.dobYear}} </div>
+                                    <div class="font-weight-normal"  *ngIf="userDetails?.currAddress"> <i class="fas fa-map-marker-alt"></i>{{userDetails?.currAddress }} </div>
+                                    <button type="button" class="btn btn-primary btn-sm" (click)="editProfile(editProfileDialog)"><i class="fas fa-pencil-alt"></i> Edit Profile</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-secondary btn-sm" (click)="file.click()"><i class="fas fa-camera"></i> Change Image
+                                     <input #file style="margin-left: 104px;left: 90px;margin-right: 2px;position: absolute;margin-top: -3px;        padding: 0px; width: 94px;visibility: hidden; "type="file" accept="image/gif, image/jpeg, image/jpg, image/png" multiple (change)="fnChangeProfilePicture($event)">
+                                    </button>
+
+                                    
+                                    
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center">
+                                <ul style="display: none;">
+                                    <li>
+                                        <div class="counter">246</div>
+                                        <div class="heading">Posts</div>
+                                    </li>
+                                    <li>
+                                        <div class="counter">30</div>
+                                        <div class="heading">Favorited</div>
+                                    </li>
+                                    <li>
+                                        <div class="counter">216</div>
+                                        <div class="heading">Liked</div>
+                                    </li>
+                                </ul>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="row"> 
+            <div class="col-md-3 col-sm-3 d-none d-sm-block">
+
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <mat-tab-group mat-stretch-tabs>
+                    <mat-tab label="Topics">
+                        <core-main [from]="'topics'"></core-main>
+                    </mat-tab>
+                    <mat-tab label="Boards">
+                        <core-main [from]="'boards'"></core-main>
+                    </mat-tab>
+                    <mat-tab label="Groups">
+                        <core-main [from]="'groups'"></core-main>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+            <div class="col-md-3 col-sm-3 d-none d-sm-block" >
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="container marTop0">
+    <!--<div class="row">
+        <div class="card bg-light text-center col-md-2">
+            <div style="padding-top: 12%;">
+                <img class="card-img-top image avatar" [src]="profileImage" alt="Card image">
+            </div>
+            <div class="card-body">
+                <ul class="list-inline postIcons">
+                    <span class="btn btn-light btn-file marPic">
+                        <i class="fas fa-camera"></i>&nbsp; Change picture
+                        <input type="file" accept="image/gif, image/jpeg, image/jpg, image/png" multiple (change)="fnChangeProfilePicture($event)">
+                    </span>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10 contentPad profileBorder">
+            <div class="float-right" style="padding: 1%;">
+                <a href="javascript:void(0);" (click)="editProfile(editProfileDialog)" class="tooltip-test" title="Edit profile details">
+                    <small class="text-muted">Edit</small>
+                </a>
+            </div>
+            <br>
+            <div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Name: </label>
+                    <div class="col-sm-10">
+                        <p>&nbsp;{{userDetails && userDetails.userName ? userDetails.userName : '-NA-'}}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Email: </label>
+                    <div class="col-sm-10">
+                        <p>{{userDetails && userDetails.email ? userDetails.email : '-NA-'}}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Gender: </label>
+                    <div class="col-sm-10">
+                        <p>{{userDetails && userDetails.gender ? ((userDetails.gender == "m" || userDetails.gender ==
+                            "M") ? 'Male' : 'Female') :
+                            '-NA-'}}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Phone</label>
+                    <div class="col-sm-10">
+                        <p>{{userDetails && userDetails.phoneNum ? userDetails.phoneNum : '-NA-'}}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Birthday: </label>
+                    <div class="col-sm-10">
+                        <p>{{userDetails && userDetails.dobYear ? userDetails.dobYear : '-NA-'}} -
+                            {{ userDetails && userDetails.dobMonth ? userDetails.dobMonth : '-NA-'}} -
+                            {{userDetails && userDetails.dobDate ? userDetails.dobDate : '-NA-'}}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Address: </label>
+                    <div class="col-sm-10">
+                        <p>{{userDetails && userDetails.currAddress ? userDetails.currAddress : '-NA-'}}</p>
+                    </div>
+                </div>
+                <!- <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">PermAddress: </label>
+                    <div class="col-sm-10">
+                        <p>{{userDetails && userDetails.permAddress ? userDetails.permAddress : '-NA-'}}</p>
+                    </div>
+                </div> ->
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Member since: </label>
+                    <div class="col-sm-10">
+                        <p>{{userDetails && userDetails.registrationTimeStamp ? (userDetails.registrationTimeStamp |
+                            date: 'MMM d, y') : '-NA-'}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <br>
+    <div class="row"> 
+        <div class="col-md-3 col-sm-3 d-none d-sm-block">
+        </div>
+        <div class="col-md-6 col-sm-6 d-none d-sm-block" >
+            <mat-tab-group>
+                <mat-tab label="Topics">
+                    <core-main [from]="'topics'"></core-main>
+                </mat-tab>
+                <mat-tab label="Boards">
+                    <core-main [from]="'boards'"></core-main>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+        <div class="col-md-3 col-sm-3 d-none d-sm-block" >
+
+        </div>
+
+    </div>-->
+</div>
+
+<section>
+    <ng-template #editProfileDialog let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modal-basic-title">
+                <b>Edit Profile</b>
+            </h5>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form [formGroup]="editProfileForm">
+            <div>
+                <div class="modal-body">
+
+                    <div class="row modalFormPad">
+                        <div class="col-md-6 form-group">
+                            <label>First Name</label>
+                            <input class="form-control" formControlName="firstName" placeholder="first name">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Last Name</label>
+                            <input class="form-control" formControlName="lastName" placeholder="last name">
+                        </div>
+                    </div>
+                    <div class="form-group modalFormPad">
+                        <label>Phone Number</label>
+                        <input class="form-control" formControlName="phoneNum" placeholder="Phone Number">
+                    </div>
+                    <div class="form-group modalFormPad">
+                        <label>Gender </label>&nbsp;
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" name="gender" formControlName="gender" type="radio" value="m"
+                                #male>
+                            <label class="form-check-label" for="inlineRadio1">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" name="gender" formControlName="gender" type="radio" value="f"
+                                #female>
+                            <label class="form-check-label" for="inlineRadio2">Female</label>
+                        </div>
+                    </div>
+                    <div class="form-group modalFormPad">
+                        <label>Birthday </label>&nbsp;
+                        <my-date-picker name="mydate" [options]="myDatePickerOptions" formControlName="dob" required></my-date-picker>
+                    </div>
+                    <div class="form-group modalFormPad">
+                        <label>Current Address</label>
+                        <textarea class="form-control" formControlName="currAddress" rows="2" placeholder="Address"></textarea>
+                    </div>
+                    <!-- <div class="form-group modalFormPad">
+                        <label>Permanant Address</label>
+                        <textarea class="form-control" formControlName="permAddress" rows="2" placeholder="Address"></textarea>
+                    </div> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btnSuccess" [disabled]="editProfileForm.invalid" (click)="saveEditProfile()">Update</button>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+</section>
+<section>
+    <div *ngIf="showSpinner" class="spinner">
+        <mat-progress-spinner [color]="color" [mode]="mode"></mat-progress-spinner>
+    </div>
+    <div *ngIf="showSpinner" class="spinnerOverlay"></div>
+</section>
