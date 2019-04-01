@@ -3,9 +3,21 @@
 
 <div class="text-center">
 
+        <ul class="list-group">
+                <li class="list-group-item text-left cursor-pointer border-0 pl-1" *ngFor="let file of files;" (click)="previewFile(content,file)">
+                    <i *ngIf="file.indexOf('.txt') !==  -1"  class="far fa-file-alt text-success"></i>
+                    <i *ngIf="file.indexOf('.pdf') !==  -1" class="far fa-file-pdf text-primary"></i>
+                    <i *ngIf="file.indexOf('.doc') !==  -1" class="far fa-file-word text-danger"></i>
+                    <i *ngIf="file.indexOf('.ppt') !==  -1" class="far fa-file-powerpoint text-info"></i>
+                    <i *ngIf="file.indexOf('.xls') !==  -1" class="far fa-file-excel text-warning"></i>
+                    {{ file.substr(file.indexOf("/files/")+7,file.length-1) }}
+                </li>
+                 
+        </ul>
+
         <!--<ng-container 
            *ngTemplateOutlet="fileTypeTemplate;files:files">
-        </ng-container> [ngClass]="{'file-preview-1': true, 'second': true, 'third': false}"-->
+        </ng-container> [ngClass]="{'file-preview-1': true, 'second': true, 'third': false}"->
         <div *ngFor="let file of files;"  class="d-inline file-preview-{{ files?.length }} "   >
             <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.txt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
 
@@ -16,7 +28,7 @@
             <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.ppt') !==  -1" style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_file_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
 
             <img (click)="previewFile(content,file)" *ngIf="file.indexOf('.xls') !==  -1"  style="max-width: 100%; max-height: 100%;padding: 7px;" src="assets/images/noticer_default_xls_img.png" class="card-img-top img-thumbnail img-rounded" alt="Not able to load file.">
-        </div>
+        </div>-->
     		
 </div>
  

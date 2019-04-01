@@ -44,7 +44,7 @@
                                     getModelFromTypeModel(post._type, post.model)}}</a></span>
                         </div>
                         <div class="btn-group">
-                            <button type="button" title="Actions" id="postActions" class="btn btn-sm btn-light bg-white border-0 dropdown-toggle text-dark"
+                            <button type="button" title="Actions" id="postActions" class="btn btn-sm btn-light bg-white border-0 text-dark"
                                 style="font-size: 20px;margin-top: -4px;height: 10px;" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-h"></i>
@@ -71,7 +71,7 @@
 
                         <div class="media">
                           <img   width="50" height="50" class="mr-3 rounded-circle align-self-center" alt="Avatar"
-                                [src]="(post.userProfile && post.userProfile.profileImageUrl  && post.userProfile.profileImageUrl?.length>0 ) ? ((imageFromAws(post.userProfile.profileImageUrl) ? '' : serverUrl) + post.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">
+                                [src]="(post.userProfile && post.userProfile.profileImageUrl  && post.userProfile.profileImageUrl?.length>0 ) ? ((post.userProfile.profileImageUrl ? '' : serverUrl) + post.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">
 
                           <div class="media-body">
                             <h6 class="mt-0 mb-0">
@@ -83,7 +83,7 @@
                                         {{post.userProfile ? post.userProfile.userName : '-NA-'}}
                                     </a>
                             </h6>
-                            <small class="text-muted">{{post.createTime | date: 'MMM d, y,h:mm a'}}</small>
+                            <small class="text-muted"><i class="far fa-clock"></i> {{post.createTime | date: 'MMM d, y,h:mm a'}}</small>
                            </div>
                         </div>
  
@@ -206,6 +206,7 @@
                             <li class="list-inline-item mr-4" [ngbTooltip]="commentToolTip" >
                                 <a href="void:javascript(0);" class="text-dark" (click)="getCommentsForPost(post.postId,i);">
                                      <i class="fas fa-comments iconSize" placement="top"></i>
+                                     
                                 </a>
                                 {{post.commentsCount}}
                             </li>
@@ -245,7 +246,7 @@
                                 <div *ngFor="let comment of post.comments;index as in">
                                      <div class="media pl-1">
                                           <img   width="50" height="50" class="mr-3 rounded-circle align-self-center" alt="Avatar"
-                                                 [src]="(comment.userProfile && comment.userProfile.profileImageUrl && comment.userProfile.profileImageUrl?.length>0) ? ((imageFromAws(comment.userProfile.profileImageUrl) ? '' : serverUrl) + comment.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">
+                                                 [src]="(comment.userProfile && comment.userProfile.profileImageUrl && comment.userProfile.profileImageUrl?.length>0) ? ((comment.userProfile.profileImageUrl ? '' : serverUrl) + comment.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">
 
                                           <div class="media-body">
                                             <h6 class="mt-0 mb-0">
@@ -264,7 +265,7 @@
                                                     </div>
                                                  </span>
                                             </h6>
-                                            <small class="text-muted">{{comment.createTime | date: 'MMM d, y,h:mm a'}}</small>
+                                            <small class="text-muted"><i class="far fa-clock"></i> {{comment.createTime | date: 'MMM d, y,h:mm a'}}</small>
 
                                            </div>
                                         </div>

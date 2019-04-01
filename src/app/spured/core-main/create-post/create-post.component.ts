@@ -94,6 +94,7 @@ export class CreatePostComponent implements OnInit {
   public dateMin: Date = new Date();
   public postBtnTxt = "Post";
   public mobileFlag : boolean = false;
+  public popupTitle : string = "";
   ngOnInit() {
     this.seo.generateTags({
       title: 'SpurEd - Spur: Give encouragement to Ed: Education',
@@ -121,7 +122,7 @@ export class CreatePostComponent implements OnInit {
     if(this.isMobile){
       this.windowStyle =  { size : "lg"}
     } else{
-      this.windowStyle =  { windowClass : "myCustomModalClass"}
+      this.windowStyle =  { size : "lg", windowClass : "myCustomModalClass"}
     }
     this.questionName = "";
     this.initAddPostForm();
@@ -231,6 +232,34 @@ export class CreatePostComponent implements OnInit {
         this.addPostForm.controls['data'].get('category').patchValue(this.paramCategory);
         this.addPostForm.controls['data'].get('category').disable();
       }
+      
+      
+
+      switch(this.reqestType){
+        case "EVENTS": { 
+          this.popupTitle = "Events"
+          break; 
+        }
+
+        case "NEWS": { 
+          this.popupTitle = "News"
+          break; 
+        } 
+
+        case "CAREERS": { 
+          this.popupTitle = "Job"
+          break; 
+        } 
+
+        
+
+        default : {
+            this.popupTitle = "Question";
+            break;
+        }
+
+      }
+
       this.categoryModalReference = this.modalService.open(content, this.windowStyle);
       this.categoryModalReference.result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
