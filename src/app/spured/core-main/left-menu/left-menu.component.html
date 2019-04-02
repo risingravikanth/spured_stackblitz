@@ -9,7 +9,7 @@
 
             <!-- Displaying of Boards -->
             <div class="mb-2">
-                <h6 class="d-inline"><b>Boards&nbsp;<i class="fa fa-info-circle" (click)="showAddBoardDialog(boardsHelpDialog, 'help')"></i></b></h6>
+                <h6 class="d-inline"><i class="fa fa-window-maximize" aria-hidden="true"></i><b> Boards&nbsp;<i class="fa fa-info-circle" (click)="showAddBoardDialog(boardsHelpDialog, 'help')"></i></b></h6>
                  <span class="float-right d-inline">
                             <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add new board"
                                 (click)="showAddBoardDialog(addBoardDialog, 'addBoard')">
@@ -44,7 +44,7 @@
 
             <!-- Displaying of Groups -->
             <div class="mb-2">
-                <h6><b>Groups&nbsp;</b></h6>
+                <h6><i class="fa fa-users" aria-hidden="true"></i><b> Groups&nbsp;</b></h6>
             </div>
             <div style="margin-left: 50%;" *ngIf="showPostSpinnerGroups">
                     <div class="loader"></div>
@@ -71,7 +71,7 @@
 
 
                 <div class="mb-2">
-                    <h6 class="d-inline"><b>{{menu?.title}}</b></h6>
+                    <h6 class="d-inline"><i class="fa fa-list-ul" aria-hidden="true"></i><b> {{menu?.title}}</b></h6>
                     <span class="float-right" *ngIf="menu.select">
                         <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showAddSectionDialog(sectionDialog)">
                             <i class="fas fa-plus"></i>
@@ -93,8 +93,8 @@
                                 data-toggle="collapse" 
                                 [attr.aria-controls]="section.code+'_section'"
                                 [attr.aria-expanded]="section.isOpened">
-                                <i class="fas" [ngClass]="{'fa-chevron-right': (section.isOpened=== false), 
-                                                        'fa-chevron-down': (section.isOpened === true) }"></i>
+                                <i class="fa" [ngClass]="{'fa-angle-double-right': (section.isOpened=== false), 
+                                                        'fa-angle-double-down': (section.isOpened === true) }"></i>
                                  &nbsp;{{section.name}}
                         </a>
                         <span class="float-right" style="padding-left: 20px;" *ngIf="menu.select">

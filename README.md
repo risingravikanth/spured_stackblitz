@@ -112,3 +112,9 @@ http://139.59.6.52:8080/
 
 #login
 #https://startbootstrap.com/snippets/sign-in-split/
+
+#subscription popup
+#https://bootsnipp.com/snippets/N64K6
+
+#Thank you modal 
+#https://bootsnipp.com/snippets/WaBdj
