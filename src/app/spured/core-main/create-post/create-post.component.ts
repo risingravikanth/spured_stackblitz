@@ -33,7 +33,7 @@ export class CreatePostComponent implements OnInit {
   public windowStyle:any;
 
   public isMobile: boolean;
-  public profileImage: any;
+  public profileImage: any = "assets/images/noticer_default_user_img.png";
   public currentUser: User;
   public validUser: boolean = false;
   public noData: boolean = false;
@@ -477,9 +477,7 @@ export class CreatePostComponent implements OnInit {
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser && this.currentUser.imageUrl) {
       this.profileImage = this.currentUser.imageUrl;
-    } else {
-      this.profileImage = "assets/images/noticer_default_user_img.png"
-    }
+    }  
   }
 
   createPost() {

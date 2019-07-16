@@ -2,6 +2,7 @@
 
 Introduction
 ============
+Noticer is platform which is highly recomended for collages & students to interact with each other.
 
 This project was generated with **[Angular CLI](https://cli.angular.io/)** version 6.0.8. Based on **[Bootstrap 4](https://getbootstrap.com/)** framework. Highly customizable and easy to use. Fits many screen resolutions from small mobile devices to large desktops. Check out the live preview now and see for yourself.
 
@@ -118,3 +119,10 @@ http://139.59.6.52:8080/
 
 #Thank you modal 
 #https://bootsnipp.com/snippets/WaBdj
+
+
+#For local running ng serve 
+
+#For local running using server side rendering 
+#npm run build:ssr
+#npm run serve:ssr

@@ -5,6 +5,7 @@ import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService } from 'primeng/components/common/api';
+import { trigger,  state,  style,  animate,  transition, } from '@angular/animations';
 import * as categories_types_models from '../../shared/master-data/master-data';
 import { CommentContext, Context, CreateCommentData, CreateCommentRequest, Data, GetCommentRequest, GetPostsRequest, Pagination } from '../../shared/models/request';
 import { Section } from '../../shared/models/section.model';
@@ -26,6 +27,24 @@ const RESULTBYID_KEY = makeStateKey<string>('resultbyid');
   selector: 'core-main',
   templateUrl: './core-main.component.html',
   styleUrls: ['./core-main.component.css'],
+  animations: [
+    // animation triggers go here
+    trigger('openClose', [
+      // ...
+      state('open', style({
+        
+      })),
+      state('closed', style({
+         
+      })),
+      transition('open => closed', [
+        animate('3000ms')
+      ]),
+      transition('closed => open', [
+        animate('0.5s')
+      ]),
+    ]),
+  ],
   providers: [CoreMainService, CustomValidator, ConfirmationService, SeoService, ToastrService]
 })
 export class CoreMainComponent implements OnInit {
@@ -83,6 +102,7 @@ export class CoreMainComponent implements OnInit {
 
   public postsList: any = [];
   public showPostSpinner = false;
+  public showContentLoader = false;
 
   public getPostsRequestBody = new GetPostsRequest();
 
@@ -302,6 +322,7 @@ export class CoreMainComponent implements OnInit {
 
   getPosts() {
     this.showPostSpinner = true;
+    this.showContentLoader = true;
     this.postsList = [];
     this.goToTop();
 
@@ -453,9 +474,13 @@ export class CoreMainComponent implements OnInit {
     } else {
       this.noData = true;
     }
+
+    setTimeout(()=>{    //<<<---    using ()=> syntax
+      this.showContentLoader = false;
+    }, 3000);
   }
 
-  getCommentsForPost(postId, index) {
+  getCommentsForPost(postId, index,event) {
     let reqBody = this.prepareGetComentsRequestBody(postId, index);
     this.postsList[index].commentOffset = 0;
     if (!this.postsList[index].selectComments) {
@@ -485,6 +510,7 @@ export class CoreMainComponent implements OnInit {
     } else {
       this.postsList[index].selectComments = !this.postsList[index].selectComments;
     }
+    event.preventDefault();
   }
 
   loadMoreComments(postId, index) {
@@ -972,10 +998,10 @@ export class CoreMainComponent implements OnInit {
 
 
 
-  upVote(postId: any, postType: any) {
+  upVote(postId: any, postType: any,event) {
     if (!this.validUser) {
       this.router.navigate(['/login'])
-      return;
+      return false;
     }
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
@@ -1009,12 +1035,13 @@ export class CoreMainComponent implements OnInit {
         //this.toastr.success("Success", "Post liked successfully");
       }
     })
+    event.preventDefault();
   }
 
-  cancelVote(postId: any, postType: any) {
+  cancelVote(postId: any, postType: any,event) {
     if (!this.validUser) {
       this.router.navigate(['/login'])
-      return;
+      return false;
     }
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
@@ -1042,12 +1069,13 @@ export class CoreMainComponent implements OnInit {
         this.postsList[index].actionAttributes.upVoted = false;
       }
     })
+    event.preventDefault();
   }
 
-  createFavorite(postId: any, postType: any) {
+  createFavorite(postId: any, postType: any,event) {
     if (!this.validUser) {
       this.router.navigate(['/login'])
-      return;
+      return false;
     }
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
@@ -1080,12 +1108,13 @@ export class CoreMainComponent implements OnInit {
         //this.toastr.success("Success", "Post favorited successfully");
       }
     })
+    event.preventDefault();
   }
 
-  cancelFavorite(postId: any, postType: any) {
+  cancelFavorite(postId: any, postType: any,event) {
     if (!this.validUser) {
       this.router.navigate(['/login'])
-      return;
+      return false;
     }
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
     let postObj = this.postsList[index];
@@ -1113,6 +1142,7 @@ export class CoreMainComponent implements OnInit {
         console.log(resData);
       }
     })
+    event.preventDefault();
   }
 
 
@@ -1377,14 +1407,14 @@ export class CoreMainComponent implements OnInit {
       let today = new Date();
       let today_ms = today.getTime();
       let result :any = "";
-
+      
       switch(returnType){
 
           case "daysLeft": { 
                 if(dateValue !== undefined && dateValue !== ""){
                     dateValue = new Date(dateValue);
                     let dateValue_ms :any = dateValue.getTime();
-                    let dateDiff :any =  (today_ms >= dateValue_ms ) ? (today_ms - dateValue_ms) :  (dateValue_ms - today_ms);
+                    let dateDiff :any =  dateValue_ms - today_ms;//(today_ms >= dateValue_ms ) ? (today_ms - dateValue_ms) :  (dateValue_ms - today_ms);
                     result = Math.round(dateDiff/one_day);
 
                     result = (result <=0 ) ? "0 Days" : result;

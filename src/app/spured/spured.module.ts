@@ -29,6 +29,7 @@ import { PreviewDialogComponent } from './core-main/view-post/preview/preview-di
 import { SpuredRoutingModule } from '../spured/spured-routing.module';
 import { SpuredComponent } from '../spured/spured.component';
 import { LeftMenuComponent } from './core-main/left-menu/left-menu.component';
+import { NgxContentLoadingModule } from 'ngx-content-loading';
  
 
 
@@ -60,7 +61,8 @@ import { LeftMenuComponent } from './core-main/left-menu/left-menu.component';
         MyDatePickerModule,
         MatProgressSpinnerModule,
         MatTabsModule,
-        ChipsModule
+        ChipsModule,
+        NgxContentLoadingModule
     ],
     declarations: [
         SpuredComponent,

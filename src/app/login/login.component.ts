@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
 
     authForm: FormGroup;
     returnUrl: string;
-    status: string = 'Log in';
+    status: string = 'Sign in';
     disableLoginButton: boolean = false;
     loggedUser: any;
     errorTextMessage: string = '';
@@ -91,13 +91,13 @@ export class LoginComponent implements OnInit {
                 resData => {
                     this.responseVo = JSON.parse(resData.body);
                     if (this.responseVo && this.responseVo.error && this.responseVo.error.code) {
-                        this.status = 'Log in';
+                        this.status = 'Sign in';
                         this.errorTextMessage = this.responseVo.error.code.longMessage;
                         // this.toastr.error("Failed", this.responseVo.error.code.longMessage);
                     }
                     else if (this.responseVo.statusCode == "ERROR") {
                         this.errorTextMessage = this.responseVo.info;
-                        this.status = 'Log in';
+                        this.status = 'Sign in';
                     } else if (this.responseVo.token) {
                         this.loggedUser = this.responseVo;
                         this.authService.setAuth(this.loggedUser);
@@ -109,14 +109,14 @@ export class LoginComponent implements OnInit {
                         this.router.navigate(['/feed']);
                     }
                     else {
-                        this.status = 'Log in';
+                        this.status = 'Sign in';
                         this.errorTextMessage = 'Something went wrong';
                         // this.toastr.error("Failed", 'Something went wrong')
                     }
                 }, (err: HttpErrorResponse) => {
                     // this.toastr.error("Failed", 'Something went wrong')
                     this.errorTextMessage = 'Something went wrong';
-                    this.status = 'Login';
+                    this.status = 'Sign in';
                     this.disableLoginButton = false;
                 }
             );

@@ -1,4 +1,4 @@
-<section>
+<!--<section>
     <div *ngIf="!isMobile" id="div-1a" class="d-none d-sm-block">
         <div class="table-container">
             <div id="div_a" class="center">
@@ -15,15 +15,13 @@
                         <div class='js-toggle-login'>Spured</div>
                         <small class="bottomsmall">It's a Knowledge Networking</small>
                     </div>
-                </div> -->
+                </div> ->
 
             </div>
         </div>
      </div>
 
-    <div [class.div-1b]="!isMobile" [class.mobilePadding]="isMobile" 
-    
-    >
+    <div [class.div-1b]="!isMobile" [class.mobilePadding]="isMobile"  >
         <div [class.table-container]="!isMobile">
             <div [class.div_b]="!isMobile">
                 <div *ngIf="errorTextMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -33,6 +31,8 @@
                     </button>
                 </div>
                 <form (ngSubmit)="onLoggedin()" [formGroup]="authForm" class="container-login">
+
+                
                     <div class="form-row">
                         <label for="inputEmail4">Email</label>
                         <input type="email" class="form-control  form-control-sm" id="inputEmail4" placeholder="name@email.com"
@@ -55,4 +55,60 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
+
+
+
+<div class="container-fluid">
+        <div class="row no-gutter">
+          <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+          <div class="col-md-8 col-lg-6">
+            <div class="login d-flex align-items-center py-5">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-9 col-lg-8 mx-auto">
+                    <h3 class="login-heading mb-4">Welcome back!</h3>
+                    <div *ngIf="errorTextMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{ errorTextMessage }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <form (ngSubmit)="onLoggedin()" [formGroup]="authForm" >
+                           
+                        <mat-form-field class="example-full-width">
+                                    <input matInput type="email" id="inputEmail" class="bg-white" placeholder="Email address" formControlName="email"  autofocus>
+                        </mat-form-field>
+                        
+                        <mat-form-field class="example-full-width">
+                                <input matInput type="password" id="inputPassword" class="bg-white" placeholder="Password" formControlName="password">
+                        </mat-form-field>
+ 
+                      <div class="custom-control custom-checkbox mb-3" style="display:none;">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                        <label class="custom-control-label" for="customCheck1">Remember password</label>
+                      </div>
+                   
+                      <button class="btn btn-md btn-outline-info btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit"  [disabled]="status == 'Logging in, please wait...'">{{status}}</button>
+                     <!-- <button class="btn btn-md btn-outline-info col-md-6 col-lg-6 btn-login text-uppercase font-weight-bold mb-2" type="button"  routerLink="/signup">Sign up</button>-->
+                     
+                     
+                      <div class="text-center">
+                        <a href="javascript:void(0);" class="linkGray" routerLink="/password_reset">Forgot password?</a>
+                      </div>
+                    
+                        <p class="signUpBtnMar text-center"><b>Join Spured Today</b></p>
+                        <button type="button" class="btn btn-default btn-md btnShape  btn-block" routerLink="/signup">Sign
+                            up</button>
+                        <button *ngIf="!isValiUser" style="background: #155a24;" type="button" class="btn btn-default btn-md btnShape  btn-block"
+                            routerLink="/feed">Continue
+                            as guest</button>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

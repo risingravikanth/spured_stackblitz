@@ -1,29 +1,35 @@
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { CookieService } from 'ngx-cookie-service';
+ 
+
+import { CookiesService, CookiesOptions } from '@ngx-utils/cookies';
 
 @Injectable()
 export class CustomCookieService {
 
-  constructor(private cookieService: CookieService) { }
+  constructor(private cookies: CookiesService) { }
 
-  getTrackId(): string {
-    return this.cookieService.get('tracking-id');
-  }
+
 
   saveTrackId(trackid: string) {
-    let expiredDate = new Date();
-    expiredDate.setDate(expiredDate.getDate() + 1000);
-    // trackid = '939';
-    this.cookieService.set('tracking-id', trackid, expiredDate);
+    let cookieOptions: CookiesOptions = { domain: "spured.com" };
+    this.cookies.put('tracking_id', trackid, cookieOptions);
+  }
+
+  getTrackId() {
+      return this.cookies.get('tracking_id');
+  }
+
+  removeCookie(Key: any) {
+      this.cookies.remove(Key);
   }
 
   destroyTrackId() {
-    this.cookieService.deleteAll();
+      this.cookies.removeAll();
   }
 
   isTrackIdAvailable(): boolean {
-    return this.cookieService.check("tracking-id");
+     return false;
   }
 
 }
