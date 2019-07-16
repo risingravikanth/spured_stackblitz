@@ -8,6 +8,7 @@ import * as constants from '../others/constants';
 import { AuthService } from '../services/auth.service';
 import { CustomCookieService } from '../services/cookie.service';
 import { JwtService } from '../services/jwt.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -30,12 +31,20 @@ export class TokenInterceptor implements HttpInterceptor {
         let rawCookiesAry: any = [];
         let rawCookiesStr: any = "";
 
-        if (this.router.url.indexOf("spured.com") != -1) {
-            restUrl = constants.REST_API_URL_PROD;
-        } else {
-            restUrl = constants.REST_API_URL_QA;
-        }
-
+        
+        /* CHANGED :: Using enviroment we defined REST_API_URL in both environment.ts & environment.prod.ts files 
+            ng serve uses in envronment.ts file REST_API_URL
+            npm run build:ssr uses in environment.prod.ts file REST_API_URL
+            old code: 
+            if (this.router.url.indexOf("spured.com") != -1) {
+                restUrl = constants.REST_API_URL_PROD;
+            } else {
+                restUrl = constants.REST_API_URL_QA;
+            }
+        */
+        
+        restUrl = environment.REST_API_URL;
+ 
         if (this.isServer) {
             const reqObj: any = this.injector.get('REQUEST');
             const rawCookies = !!reqObj.headers['cookie'] ? reqObj.headers['cookie'] : '';
@@ -62,7 +71,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 }
             }
 
-            console.log("getting is Server tracking_id", tracking_id);
+            console.log("getting tracking_id from rawCookies when isserver is True", tracking_id);
 
             req = req.clone({
                 url: `${restUrl + req.url}`,
@@ -87,6 +96,10 @@ export class TokenInterceptor implements HttpInterceptor {
         return next.handle(req).do((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
 
+                console.log("get tracking id form event headers ",event.headers.get("tracking-id"))
+                console.log("get tracking id form event headers ",event.headers.get("tracking_id"))
+                console.log("get tracking id form event headers ",event.headers.get("Tracking_id"))
+                
                 // do stuff with response if you want
                 if (rawCookiesAry.length > 0) {
                     for (let i = 0; i < rawCookiesAry.length; i++) {
@@ -94,17 +107,17 @@ export class TokenInterceptor implements HttpInterceptor {
 
                         if (cookieObj != undefined && cookieObj.indexOf("tracking_id=") == -1) {
                             // Need to set tracking id from headers
-                            this.authService.setCookie("tracking_id", event.headers.get("tracking-id"));
-                            this.customCookieService.saveTrackId(event.headers.get("tracking-id"));
+                            this.authService.setCookie("tracking_id", event.headers.get("tracking_id"));
+                            this.customCookieService.saveTrackId(event.headers.get("tracking_id"));
 
-                            console.log("setting in handle event.headers.get('tracking-id')", event.headers.get("tracking-id"));
+                            //console.log("setting in handle event.headers.get('tracking-id')", event.headers.get("tracking-id"));
                         }
                     }
-                } else if ((rawCookiesStr == null || rawCookiesStr == "") && event.headers.get("tracking-id") != null) {
-                    this.authService.setCookie("tracking_id", event.headers.get("tracking-id"));
-                    this.customCookieService.saveTrackId(event.headers.get("tracking-id"));
+                } else if ((rawCookiesStr == null || rawCookiesStr == "") && event.headers.get("tracking_id") != null) {
+                    this.authService.setCookie("tracking_id", event.headers.get("tracking_id"));
+                    this.customCookieService.saveTrackId(event.headers.get("tracking_id"));
 
-                    console.log("setting in handle event.headers.get('tracking-id')", event.headers.get("tracking-id"));
+                    //console.log("setting in handle event.headers.get('tracking-id')", event.headers.get("tracking-id"));
                 }
 
 
@@ -114,9 +127,9 @@ export class TokenInterceptor implements HttpInterceptor {
                     console.log("TrackingId in interceptor: " + event.headers.get("tracking-id"));
                 }*/
 
-                console.log("resBody in interceptor:");
+                //console.log("resBody in interceptor:");
                 if (event && event.body && event.body.info && event.body.info == "Expired token") {
-                    console.log(event.body.info)
+                    //console.log(event.body.info)
                     this.authService.purgeAuth();
                     this.router.navigate(['/login'], { queryParams: { 'status': 'access_denied' } })
                 }

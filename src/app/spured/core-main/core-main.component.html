@@ -19,10 +19,28 @@
                 <create-post></create-post>
             </div>
             <br>
+            
             <div *ngFor="let post of postsList;index as i;trackBy : post?.postId;">
-
-
-                <div class="card div_hover rounded shadow-sm" *ngIf="post && post.postId">
+                <!-- <svg:g ngx-facebook-preset></svg:g>-->
+                <div class="card div_hover rounded shadow-sm" *ngIf="showContentLoader">
+                    <div class="card-header noticer-card bg-white d-flex justify-content-between">
+                        &nbsp; &nbsp;
+                    </div>
+                    <div class="card-body noticer-card"> 
+                        <ngx-content-loading [width]="400" [height]="130" >
+                                <svg:g ngx-circle cy="25" cx="25" r="25" ry="5"></svg:g>
+                                    <svg:g ngx-rect width="150" height="8" y="10" x="70" rx="3" ry="3"></svg:g>
+                                    <svg:g ngx-rect width="90" height="8" y="25" x="70" rx="3" ry="3"></svg:g>
+                                    <svg:g ngx-rect width="300" height="8" y="70" x="0" rx="3" ry="3"></svg:g>
+                                    <svg:g ngx-rect width="330" height="8" y="90" x="0" rx="3" ry="3"></svg:g>
+                                    
+                        </ngx-content-loading>
+                    </div>
+                    <div class="card-footer noticer-card bg-white">
+                            &nbsp; &nbsp;
+                    </div>
+                </div>
+                <div class="card div_hover rounded shadow-sm" *ngIf="post && post.postId" [hidden]="showContentLoader">
                  
                     <div class="card-header noticer-card bg-white d-flex justify-content-between">
                         <div>
@@ -174,7 +192,7 @@
                         </div>
 
                         <div class="post-text pl-1 mt-2 border border-light rounded p-1"
-                             *ngIf="post.postAnswer && post.viewAnswer">
+                             *ngIf="post.postAnswer && post.viewAnswer" [@openClose]="post.viewAnswer ? 'open' : 'closed'">
                             <span class="fntBlack">
                                 <h6 class="fntGreen">Answer</h6>
                                 <label class="multiLineText">{{post.postAnswer}}</label>
@@ -186,25 +204,25 @@
                    <div class="card-footer noticer-card bg-white">
                          <ul class="list-inline pl-1 mb-0">
                             <li class="list-inline-item mr-4">
-                                <a href="void:javascript(0);" (click)="cancelVote(post.postId, post._type)">    
+                                <a href="void:javascript(0);" (click)="cancelVote(post.postId, post._type,$event)">    
                                     <i class="fas fa-thumbs-up  likeFont" *ngIf="post.actionAttributes.upVoted"></i>
                                 </a>
-                                <a href="void:javascript(0);" (click)="upVote(post.postId, post._type)">
+                                <a href="void:javascript(0);" (click)="upVote(post.postId, post._type,$event)">
                                     <i class="far fa-thumbs-up normalLikeFont" *ngIf="!post.actionAttributes.upVoted"></i>
                                 </a>
                                 {{post.actionAttributes.upVoteCount}}
                             </li>
                             <li class="list-inline-item mr-4">
-                                <a href="void:javascript(0);" (click)="cancelFavorite(post.postId, post._type)">    
+                                <a href="void:javascript(0);" (click)="cancelFavorite(post.postId, post._type,$event)">    
                                     <i class="fas fa-star favoriteFont" *ngIf="post.actionAttributes.favorited"></i>
                                 </a>
-                                <a href="void:javascript(0);" (click)="createFavorite(post.postId, post._type)">
+                                <a href="void:javascript(0);" (click)="createFavorite(post.postId, post._type,$event)">
                                     <i class="far fa-star normalFavoriteFont" *ngIf="!post.actionAttributes.favorited"></i>
                                 </a>
                                 {{post.actionAttributes.favoriteCount}}
                             </li>
                             <li class="list-inline-item mr-4" [ngbTooltip]="commentToolTip" >
-                                <a href="void:javascript(0);" class="text-dark" (click)="getCommentsForPost(post.postId,i);">
+                                <a href="void:javascript(0);" class="text-dark" (click)="getCommentsForPost(post.postId,i,$event,$event);">
                                      <i class="fas fa-comments iconSize" placement="top"></i>
                                      
                                 </a>
