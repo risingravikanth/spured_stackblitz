@@ -8,8 +8,9 @@ import { CurrentUserService } from '../../shared/services/currentUser.service';
 import * as constant from '../../shared/others/constants'
 import { CommonService, SeoService } from '../../shared';
 
-import {TimeAgoPipe} from 'time-ago-pipe';
+import { TimeAgoPipe } from 'time-ago-pipe';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
+import { Router } from '@angular/router';
 
 
 const NOTIFICATIONS_KEY = makeStateKey<string>('notifications');
@@ -26,8 +27,8 @@ export class NotificationsComponent implements OnInit {
   @Output() childNotificationCount: EventEmitter<any> = new EventEmitter<any>();
 
   public categoryModalReference: NgbModalRef;
-  public isMobile :boolean;
-  public isServer :boolean;
+  public isMobile: boolean;
+  public isServer: boolean;
   closeResult: string;
 
   notificationsList: any = [];
@@ -44,19 +45,20 @@ export class NotificationsComponent implements OnInit {
   public showPostSpinner = false;
   currentUser: User;
   public validUser: boolean = false;
-  isLoggedInUser : boolean ;
+  isLoggedInUser: boolean;
   public showMore: boolean = false;
 
-  
+
 
   constructor(private modalService: NgbModal,
     private notifyService: NotificationsService,
     private userService: CurrentUserService,
     public mobileService: MobileDetectionService,
-    private commonService:CommonService,
+    private commonService: CommonService,
     private tstate: TransferState,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private seo:SeoService ) {
+    private seo: SeoService,
+    private router: Router) {
 
     this.isServer = isPlatformServer(this.platformId);
 
@@ -76,13 +78,13 @@ export class NotificationsComponent implements OnInit {
     //this.currentUser = this.userService.getCurrentUser();
     this.isLoggedInUser = this.userService.checkLoggedInUser();
 
-    console.log(this.isLoggedInUser,"this.isLoggedInUser")
+    console.log(this.isLoggedInUser, "this.isLoggedInUser")
     if (this.isLoggedInUser) {
       this.validUser = true;
       if (this.from == 'header') {
         this.limit = this.totalNotificationsCount;
       }
-      
+
       if (this.from == 'header') {
         this.limit = constant.onHeaderNotificationsPerPage;
       } else {
@@ -90,9 +92,9 @@ export class NotificationsComponent implements OnInit {
       }
       let request = this.prepareGetRequest();
       this.getAllNotifications(request);
-      
+
     }
-    
+
   }
 
   getAllNotifications(body: any) {
@@ -102,100 +104,120 @@ export class NotificationsComponent implements OnInit {
 
     /* server side rendring */
 
- 
+
     if (this.tstate.hasKey(NOTIFICATIONS_KEY)) {
       console.log("browser : getting NOTIFICATIONS_KEY for posts");
-      
 
-      let resData :any =  this.tstate.get(NOTIFICATIONS_KEY, '');
+
+      let resData: any = this.tstate.get(NOTIFICATIONS_KEY, '');
       this.tstate.remove(NOTIFICATIONS_KEY);
-      if (resData && resData.messages && resData.messages.length > 0) {
+      if (resData && resData.notifications && resData.notifications.length > 0) {
         if (resData.unreadCount) {
-           this.notificationsCount = resData.unreadCount;
+          this.notificationsCount = resData.unreadCount;
         }
-        resData.messages.forEach(element => {
-           this.notificationsList.push(element);
+        resData.notifications.forEach(element => {
+          this.notificationsList.push(element);
         });
+        this.updateLastRead(this.notificationsList);
         this.showMore = true;
 
         if (this.from == 'header') {
-           this.commonService.updateHeaderMenu({type:"updateNoficiationCount", count: this.notificationsCount})
+          this.commonService.updateHeaderMenu({ type: "updateNoficiationCount", count: this.notificationsCount })
         }
         this.showNotifications = true;
       } else {
         this.showMore = false;
         this.showNotifications = false;
       }
-      
+
 
       this.showPostSpinner = false;
-    
+
 
     } else if (this.isServer) {
-       
-      console.log("server : making service call & setting NOTIFICATIONS_KEY");
-      
-      this.notifyService.getAllMessages(body).subscribe((resData: any) => {
-          this.showPostSpinner = false;
-          console.log("server : making service call &",resData)
-          if (resData && resData.code == "ERROR") {
-             this.showNotifications = false;
-          } else if (resData && resData.messages && resData.messages.length > 0) {
-              let messagesResponse :any = resData;
-              this.tstate.set(NOTIFICATIONS_KEY, messagesResponse);
-              if (resData.unreadCount) {
-                this.notificationsCount = resData.unreadCount;
-              }
-              resData.messages.forEach(element => {
-                this.notificationsList.push(element);
-              });
-              this.showMore = true;
 
-              if (this.from == 'header') {
-                this.commonService.updateHeaderMenu({type:"updateNoficiationCount", count: this.notificationsCount})
-              }
-              this.showNotifications = true;
-          } else {
-            this.showMore = false;
-            this.showNotifications = false;
-            this.tstate.set(NOTIFICATIONS_KEY, []);
+      console.log("server : making service call & setting NOTIFICATIONS_KEY");
+
+      this.notifyService.getAllMessages(body).subscribe((resData: any) => {
+        this.showPostSpinner = false;
+        console.log("server : making service call &", resData)
+        if (resData && resData.code == "ERROR") {
+          this.showNotifications = false;
+        } else if (resData && resData.notifications && resData.notifications.length > 0) {
+          let messagesResponse: any = resData;
+          this.tstate.set(NOTIFICATIONS_KEY, messagesResponse);
+          if (resData.unreadCount) {
+            this.notificationsCount = resData.unreadCount;
           }
+          resData.notifications.forEach(element => {
+            this.notificationsList.push(element);
+          });
+          this.updateLastRead(this.notificationsList);
+          this.showMore = true;
+
+          if (this.from == 'header') {
+            this.commonService.updateHeaderMenu({ type: "updateNoficiationCount", count: this.notificationsCount })
+          }
+          this.showNotifications = true;
+        } else {
+          this.showMore = false;
+          this.showNotifications = false;
+          this.tstate.set(NOTIFICATIONS_KEY, []);
+        }
       });
- 
-     } else {
+
+    } else {
       console.log("no result received : making service call MESSAGES_KEY");
 
-       this.notifyService.getAllMessages(body).subscribe((resData: any) => {
-          this.showPostSpinner = false;
-          if (resData && resData.code == "ERROR") {
-            alert(resData.info);
-            this.showNotifications = false;
-          } else if (resData && resData.messages && resData.messages.length > 0) {
-            if (resData.unreadCount) {
-              this.notificationsCount = resData.unreadCount;
-            }
-            resData.messages.forEach(element => {
-              this.notificationsList.push(element);
-            });
-            this.showMore = true;
-
-            if (this.from == 'header') {
-              this.commonService.updateHeaderMenu({type:"updateNoficiationCount", count: this.notificationsCount})
-            }
-            this.showNotifications = true;
-          } else {
-            this.showMore = false;
-            this.showNotifications = false;
+      this.notifyService.getAllMessages(body).subscribe((resData: any) => {
+        this.showPostSpinner = false;
+        if (resData && resData.code == "ERROR") {
+          alert(resData.info);
+          this.showNotifications = false;
+        } else if (resData && resData.notifications && resData.notifications.length > 0) {
+          if (resData.unreadCount) {
+            this.notificationsCount = resData.unreadCount;
           }
+          resData.notifications.forEach(element => {
+            this.notificationsList.push(element);
+          });
+          this.updateLastRead(this.notificationsList);
+          this.showMore = true;
+
+          if (this.from == 'header') {
+            this.commonService.updateHeaderMenu({ type: "updateNoficiationCount", count: this.notificationsCount })
+          }
+          this.showNotifications = true;
+        } else {
+          this.showMore = false;
+          this.showNotifications = false;
+        }
       });
-       
+
+    }
+  }
+
+  updateLastRead(notifications: any) {
+    if (notifications.length > 0) {
+      let id = notifications[0].id;
+      let body = {
+        "data": {
+          "_type": "Notification",
+          "id": id
+        }
+      }
+      this.notifyService.updateLastRead(body).subscribe(
+        resData => {
+          // console.log(resData);
+        }
+      )
     }
   }
 
   prepareGetRequest() {
     let body = {
       "data": {
-        "_type": "Message",
+        "_type": "Notification",
         "messageType": "NOTIFICATION"
       },
       "pagination": {
@@ -214,20 +236,26 @@ export class NotificationsComponent implements OnInit {
 
 
   openNotificationModel(notification: any, content: any) {
+    if (notification.targetLink) {
+      // this.router.navigate(["www.google.com"]);
+      // window.open(notification.targetLink, "_blank")
+    } else {
+
+      this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
+      this.categoryModalReference.result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+    }
     this.notificationDetails = notification;
     if (notification.status != 'READ') {
       this.notificationDetails.status = "READ";
       this.notifyService.updateNotificationStatus(this.notificationDetails).subscribe(resData => {
         this.notificationsCount = this.notificationsCount - 1;
-        this.commonService.updateHeaderMenu({type:"updateNoficiationCount", count: this.notificationsCount})
+        this.commonService.updateHeaderMenu({ type: "updateNoficiationCount", count: this.notificationsCount })
       })
     }
-    this.categoryModalReference = this.modalService.open(content, { size: 'lg' });
-    this.categoryModalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
   }
 
   private getDismissReason(reason: any): string {

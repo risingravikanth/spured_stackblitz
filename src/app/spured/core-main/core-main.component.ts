@@ -5,7 +5,7 @@ import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService } from 'primeng/components/common/api';
-import { trigger,  state,  style,  animate,  transition, } from '@angular/animations';
+import { trigger, state, style, animate, transition, } from '@angular/animations';
 import * as categories_types_models from '../../shared/master-data/master-data';
 import { CommentContext, Context, CreateCommentData, CreateCommentRequest, Data, GetCommentRequest, GetPostsRequest, Pagination } from '../../shared/models/request';
 import { Section } from '../../shared/models/section.model';
@@ -32,10 +32,10 @@ const RESULTBYID_KEY = makeStateKey<string>('resultbyid');
     trigger('openClose', [
       // ...
       state('open', style({
-        
+
       })),
       state('closed', style({
-         
+
       })),
       transition('open => closed', [
         animate('3000ms')
@@ -267,10 +267,10 @@ export class CoreMainComponent implements OnInit {
 
   prepareBoardPostReq(type: any) {
     this.initRequest();
-    if(type == "board"){
+    if (type == "board") {
       this.getPostsRequestBody.data.boardId = this.boardId;
       this.getPostsRequestBody.context.type = "BOARD";
-    } else{
+    } else {
       this.getPostsRequestBody.data.groupId = this.groupId;
       this.getPostsRequestBody.context.type = "GROUP";
     }
@@ -466,7 +466,7 @@ export class CoreMainComponent implements OnInit {
             element.commentText = null;
           if (element.viewAnswer === undefined)
             element.viewAnswer = false;
-          if(element.videos === undefined)
+          if (element.videos === undefined)
             element.videos = [];
         }
       });
@@ -475,12 +475,12 @@ export class CoreMainComponent implements OnInit {
       this.noData = true;
     }
 
-    setTimeout(()=>{    //<<<---    using ()=> syntax
+    setTimeout(() => {    //<<<---    using ()=> syntax
       this.showContentLoader = false;
     }, 3000);
   }
 
-  getCommentsForPost(postId, index,event) {
+  getCommentsForPost(postId, index, event) {
     let reqBody = this.prepareGetComentsRequestBody(postId, index);
     this.postsList[index].commentOffset = 0;
     if (!this.postsList[index].selectComments) {
@@ -998,7 +998,7 @@ export class CoreMainComponent implements OnInit {
 
 
 
-  upVote(postId: any, postType: any,event) {
+  upVote(postId: any, postType: any, event) {
     if (!this.validUser) {
       this.router.navigate(['/login'])
       return false;
@@ -1038,7 +1038,7 @@ export class CoreMainComponent implements OnInit {
     event.preventDefault();
   }
 
-  cancelVote(postId: any, postType: any,event) {
+  cancelVote(postId: any, postType: any, event) {
     if (!this.validUser) {
       this.router.navigate(['/login'])
       return false;
@@ -1072,7 +1072,7 @@ export class CoreMainComponent implements OnInit {
     event.preventDefault();
   }
 
-  createFavorite(postId: any, postType: any,event) {
+  createFavorite(postId: any, postType: any, event) {
     if (!this.validUser) {
       this.router.navigate(['/login'])
       return false;
@@ -1111,7 +1111,7 @@ export class CoreMainComponent implements OnInit {
     event.preventDefault();
   }
 
-  cancelFavorite(postId: any, postType: any,event) {
+  cancelFavorite(postId: any, postType: any, event) {
     if (!this.validUser) {
       this.router.navigate(['/login'])
       return false;
@@ -1188,7 +1188,7 @@ export class CoreMainComponent implements OnInit {
           "userId": this.profileParamId
         }
       }
-    } else if(this.from == "boards" ) {
+    } else if (this.from == "boards") {
       body = {
         "record": {
           "_type": "ActivityRecord",
@@ -1239,7 +1239,7 @@ export class CoreMainComponent implements OnInit {
           "userId": this.profileParamId
         }
       }
-    } else if(type == "boards" ) {
+    } else if (type == "boards") {
       body = {
         "record": {
           "_type": "ActivityRecord",
@@ -1247,7 +1247,7 @@ export class CoreMainComponent implements OnInit {
           "userId": this.profileParamId
         }
       }
-    } else{
+    } else {
       return;
     }
     body.pagination = new Pagination();
@@ -1362,37 +1362,37 @@ export class CoreMainComponent implements OnInit {
   }
 
   createYouTubeEmbedLink(link) {
-    if(link !== undefined && link !== null && link !== "" )
+    if (link !== undefined && link !== null && link !== "")
       return link.replace("youtube.com/watch?v=", "youtube.com/embed/");
   }
 
   formatPostText(post) {
-    if(post.postText === undefined || post.postText === null ||
-       post.postText === "" || post.postText.indexOf("http") === -1)
-    return ;
-    
-    let text = "";    
+    if (post.postText === undefined || post.postText === null ||
+      post.postText === "" || post.postText.indexOf("http") === -1)
+      return;
+
+    let text = "";
     if (post.postText)
       text = post.postText.slice(0, post.maxLength);
 
-    
+
     let urlRegex = /(https?:\/\/[^\s]+)/g;
     let _this = this;
     return text.replace(urlRegex, function (url) {
-        if(_this.ytVidId(url)){
-          url = _this.createYouTubeEmbedLink(url);
-          if(post && post.videos === undefined){
-              post["videos"] = [];
-              post["videos"].push(url);
-          }else{
-              post["videos"].push(url);
-          }
-          
-          return '';
-        }else{
-            return '<a href="' + url + '" target="_blank">' + url + '</a>';
+      if (_this.ytVidId(url)) {
+        url = _this.createYouTubeEmbedLink(url);
+        if (post && post.videos === undefined) {
+          post["videos"] = [];
+          post["videos"].push(url);
+        } else {
+          post["videos"].push(url);
         }
-     })
+
+        return '';
+      } else {
+        return '<a href="' + url + '" target="_blank">' + url + '</a>';
+      }
+    })
     // or alternatively
     // return text.replace(urlRegex, '<a href="$1">$1</a>')
   };
@@ -1402,37 +1402,46 @@ export class CoreMainComponent implements OnInit {
     alert(type);
   }
 
-  calulateDateAndTime(dateValue : any,returnType : string){
-      let one_day=1000*60*60*24;
-      let today = new Date();
-      let today_ms = today.getTime();
-      let result :any = "";
-      
-      switch(returnType){
+  calulateDateAndTime(dateValue: any, returnType: string) {
+    let one_day = 1000 * 60 * 60 * 24;
+    let today = new Date();
+    let today_ms = today.getTime();
+    let result: any = "";
 
-          case "daysLeft": { 
-                if(dateValue !== undefined && dateValue !== ""){
-                    dateValue = new Date(dateValue);
-                    let dateValue_ms :any = dateValue.getTime();
-                    let dateDiff :any =  dateValue_ms - today_ms;//(today_ms >= dateValue_ms ) ? (today_ms - dateValue_ms) :  (dateValue_ms - today_ms);
-                    result = Math.round(dateDiff/one_day);
+    switch (returnType) {
 
-                    result = (result <=0 ) ? "0 Days" : result;
-                    if(result !== "0 Days")
-                        result = (result == 1) ?  result+" Day" : result+" Days";
-                    result = (result === "0 Days") ? '<span class="text-danger">'+result+'</span>' : '<span class="text-success">'+result+'</span>';
-                }
-              
-                break; 
-          } 
+      case "daysLeft": {
+        if (dateValue !== undefined && dateValue !== "") {
+          dateValue = new Date(dateValue);
+          let dateValue_ms: any = dateValue.getTime();
+          let dateDiff: any = dateValue_ms - today_ms;//(today_ms >= dateValue_ms ) ? (today_ms - dateValue_ms) :  (dateValue_ms - today_ms);
+          result = Math.round(dateDiff / one_day);
 
-          default : {
-              break;
-          }
+          result = (result <= 0) ? "0 Days" : result;
+          if (result !== "0 Days")
+            result = (result == 1) ? result + " Day" : result + " Days";
+          result = (result === "0 Days") ? '<span class="text-danger">' + result + '</span>' : '<span class="text-success">' + result + '</span>';
+        }
+
+        break;
       }
 
-      return result;
+      default: {
+        break;
+      }
+    }
+
+    return result;
 
   }
 
+
+  postImagesAvailablitiyCheck(post: any) {
+    setTimeout(() => {
+      //Your expression to change if state
+      return (post.files && post.files.length > 0) ||
+        (post.images && post.images.length > 0) ||
+        (post.videos && post.videos.length > 0)
+    }, 2000);
+  }
 }

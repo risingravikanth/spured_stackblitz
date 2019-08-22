@@ -179,9 +179,7 @@
                             </p>
                         </div>
                     
-                        <div *ngIf="(post.files && post.files.length >0) || 
-                                    (post.images && post.images.length >0) ||
-                                    (post.videos && post.videos.length >0)"  >
+                        <div *ngIf="postImagesAvailablitiyCheck(post)"  >
                             <app-preview
                                 [files] ="post.files"
                                 [images] ="post.images"

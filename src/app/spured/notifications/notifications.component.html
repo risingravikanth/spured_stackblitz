@@ -12,14 +12,17 @@
             <div class="chat-body clearfix">
                 <small *ngIf="data?.createTime" class="float-right"><i class="fa fa-clock-o" aria-hidden="true"></i> {{
                     data?.createTime | date: 'MMM d, y, h:mm a'}}</small>
-                    <br>
+                <br>
                 <div class="d-flex w-80 justify-content-between">
                     <p class="mb-0" *ngIf="data?.title"><b>{{data?.title}}</b> <span *ngIf="data.status == 'NEW'" class="badge badge-warning">New</span></p>
                     <p class="mb-0" *ngIf="data.title == undefined">{{data?.text | slice:0:20 }}</p>
                 </div>
-                <small *ngIf="data.title != undefined">{{data?.text  | slice:0:100 }}
+                <small *ngIf="data.title != undefined">{{data?.text | slice:0:100 }}
                     <label *ngIf="data?.text.length > 100">...</label>
                 </small>
+                <br>
+                <small class="mb-0" *ngIf="data.targetLink">
+                    <a href="{{data?.targetLink}}">{{data?.targetLink }}</a></small>
             </div>
         </a>
     </div>
