@@ -1437,11 +1437,11 @@ export class CoreMainComponent implements OnInit {
 
 
   postImagesAvailablitiyCheck(post: any) {
-    setTimeout(() => {
+    // setTimeout(() => {
       //Your expression to change if state
       return (post.files && post.files.length > 0) ||
         (post.images && post.images.length > 0) ||
         (post.videos && post.videos.length > 0)
-    }, 2000);
+    // }, 2000);
   }
 }
