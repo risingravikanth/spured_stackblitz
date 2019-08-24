@@ -6,8 +6,8 @@ stages:
 deploy_production:
   stage: deploy
   script:
-    - git remote add heroku https://heroku:$c636d7d5-daf9-4c10-a934-4c43d11c693b@git.heroku.com/noticer-dev.git
-    - git push https://heroku:c636d7d5-daf9-4c10-a934-4c43d11c693b@git.heroku.com/noticer-dev.git HEAD:refs/heads/master
+    - git remote add heroku https://heroku:$c636d7d5-daf9-4c10-a934-4c43d11c693b@git.heroku.com/spured.git
+    - git push https://heroku:c636d7d5-daf9-4c10-a934-4c43d11c693b@git.heroku.com/spured.git HEAD:refs/heads/master
   environment:
   when: manual
   only:
