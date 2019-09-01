@@ -24,7 +24,7 @@
                 </li>
                 <li class="nav-item dropdown dropdown-notifications" *ngIf="validUser">
 
-                    <a class="nav-link dropdown-toggle" href="#" id="notificationMenu" data-toggle="dropdown" aria-haspopup="true"
+                    <a class="nav-link dropdown-toggle" (click)="updateLastRead()" href="#" id="notificationMenu" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         <b>
                             <i class="fas fa-bell header-icon-size" [class.mar12]="!showNotifications"><span *ngIf="showNotifications" style="font-size: 12px;"

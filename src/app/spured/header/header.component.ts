@@ -90,4 +90,8 @@ export class HeaderComponent implements OnInit {
     imageFromAws(url){
         return url.indexOf("https://") != -1 ? true : false;
       }
+
+      updateLastRead(){
+          this.commonService.updateHeaderMenu({ type: "updateLastRead"})
+      }
 }

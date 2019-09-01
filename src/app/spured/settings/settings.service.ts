@@ -47,4 +47,16 @@ export class SettingsService {
         return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
     }
     
+    updateNotificationSettings(body:any){
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/v2/settings/notifications/update";
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
+
+    getNotificationSettings(){
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/v2/settings/notifications/get";
+        return this.httpClient.get(url, { headers: headers }).catch(this.handleError);
+    }
+    
 }

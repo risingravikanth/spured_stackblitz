@@ -95,6 +95,12 @@ export class NotificationsComponent implements OnInit {
 
     }
 
+    this.commonService.menuChanges.subscribe((resData:any) => {
+      if (resData && resData.type == "updateLastRead") {
+        this.updateLastRead(this.notificationsList);
+      }
+    });
+
   }
 
   getAllNotifications(body: any) {
@@ -118,7 +124,7 @@ export class NotificationsComponent implements OnInit {
         resData.notifications.forEach(element => {
           this.notificationsList.push(element);
         });
-        this.updateLastRead(this.notificationsList);
+        // this.updateLastRead(this.notificationsList);
         this.showMore = true;
 
         if (this.from == 'header') {
@@ -152,7 +158,6 @@ export class NotificationsComponent implements OnInit {
           resData.notifications.forEach(element => {
             this.notificationsList.push(element);
           });
-          this.updateLastRead(this.notificationsList);
           this.showMore = true;
 
           if (this.from == 'header') {
@@ -181,7 +186,7 @@ export class NotificationsComponent implements OnInit {
           resData.notifications.forEach(element => {
             this.notificationsList.push(element);
           });
-          this.updateLastRead(this.notificationsList);
+          // this.updateLastRead(this.notificationsList);
           this.showMore = true;
 
           if (this.from == 'header') {

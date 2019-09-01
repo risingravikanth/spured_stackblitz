@@ -27,12 +27,14 @@ export class SettingsComponent implements OnInit {
   public defaultImage: any = "assets/images/noticer_default_user_img.png";
   public isMobile = false;
   authForm: FormGroup;
+  public notificationSetting: any;
+  public intialNotificationSetting: any;
 
   constructor(private router: Router, private formbuilder: FormBuilder, private service: SettingsService,
     private userService: CurrentUserService, @Inject(PLATFORM_ID) private platformId: Object,
     private toastr: ToastrService, private mobileServie: MobileDetectionService, private fb: FormBuilder,
-    private authService:AuthService,
-    private seo:SeoService) {
+    private authService: AuthService,
+    private seo: SeoService) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
     }
@@ -42,7 +44,7 @@ export class SettingsComponent implements OnInit {
     this.isMobile = this.mobileServie.isMobile();
     this.initForm();
     this.boardRequests();
-
+    this.getNotificationSettings();
     this.initDeleteForm();
 
     this.seo.generateTags({
@@ -130,20 +132,84 @@ export class SettingsComponent implements OnInit {
     this.display = true;
   }
 
-  delteProfile(){
+  delteProfile() {
     this.service.deleteProfile(this.authForm.value).subscribe(
-      (resData:any) =>{
+      (resData: any) => {
         this.initDeleteForm();
-        if(resData && resData.info == "Incorrect Email or Password"){
+        if (resData && resData.info == "Incorrect Email or Password") {
           this.toastr.error("Failed", resData.info);
-        } else if(resData && resData.info == "Deleted Successfully"){
+        } else if (resData && resData.info == "Deleted Successfully") {
           this.toastr.success("Success", "Your account deleted successfully!");
           this.authService.purgeAuth();
           this.router.navigate(["/login"])
-        } else{
+        } else {
           this.toastr.error("Failed", "Something went wrong");
         }
       }
     )
+  }
+
+  getNotificationSettings() {
+    this.service.getNotificationSettings().subscribe(resData => {
+      this.intialNotificationSetting = JSON.parse(JSON.stringify(resData));
+      this.notificationSetting = resData;
+    });
+  }
+
+  notificationTitle(text) {
+    return text.replace(/_/gi, " ");
+  }
+
+  updateNotificationSettings() {
+    console.log(this.intialNotificationSetting);
+    console.log(this.notificationSetting);
+
+    let finalSettings: any = [];
+    this.notificationSetting.basicSettings.forEach(element => {
+        let arr1  = this.intialNotificationSetting.basicSettings.filter(item => item.activityType == element.activityType);
+        if(arr1 && arr1.length > 0){
+          let a = arr1[0];
+          if(a.hub != element.hub || a.email != element.email || a.text != element.text){
+            finalSettings.push(element);
+          }  
+        }
+    });
+    this.notificationSetting.boardSettings.forEach(element => {
+        let arr1  = this.intialNotificationSetting.boardSettings.filter(item => item.boardId == element.boardId);
+        if(arr1 && arr1.length > 0){
+          let a = arr1[0];
+          if(a.hub != element.hub || a.email != element.email || a.text != element.text){
+            finalSettings.push(element);
+          }  
+        }
+    });
+    this.notificationSetting.groupSettings.forEach(element => {
+        let arr1  = this.intialNotificationSetting.groupSettings.filter(item => item.groupId == element.groupId);
+        if(arr1 && arr1.length > 0){
+          let a = arr1[0];
+          if(a.hub != element.hub || a.email != element.email || a.text != element.text){
+            finalSettings.push(element);
+          }  
+        }
+    });
+
+    console.log(finalSettings);
+
+    if(finalSettings && finalSettings.length > 0){
+      let body = {
+        data : finalSettings
+      }
+      this.service.updateNotificationSettings(body).subscribe(
+        (resData:any) => {
+          if(resData && resData.success && resData.success.code){
+            this.toastr.success("Success", resData.success.code.longMessage);
+          }
+        }
+      )
+      console.log(body)
+    } else{
+      this.toastr.info("There is no changes in your settings");
+    }
+
   }
 }
