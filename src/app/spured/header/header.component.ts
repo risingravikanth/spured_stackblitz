@@ -92,6 +92,8 @@ export class HeaderComponent implements OnInit {
       }
 
       updateLastRead(){
-          this.commonService.updateHeaderMenu({ type: "updateLastRead"})
+          if(this.notificationsCount > 0){
+              this.commonService.updateHeaderMenu({ type: "updateLastRead"})
+          }
       }
 }

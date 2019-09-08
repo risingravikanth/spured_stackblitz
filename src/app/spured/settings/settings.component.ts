@@ -202,6 +202,7 @@ export class SettingsComponent implements OnInit {
       this.service.updateNotificationSettings(body).subscribe(
         (resData:any) => {
           if(resData && resData.success && resData.success.code){
+            this.getNotificationSettings();
             this.toastr.success("Success", resData.success.code.longMessage);
           }
         }

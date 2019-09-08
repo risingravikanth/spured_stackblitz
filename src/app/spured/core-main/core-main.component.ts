@@ -1367,9 +1367,8 @@ export class CoreMainComponent implements OnInit {
   }
 
   formatPostText(post) {
-    if (post.postText === undefined || post.postText === null ||
-      post.postText === "" || post.postText.indexOf("http") === -1)
-      return;
+    if (post.postText === undefined || post.postText === null || post.postText === "" || post.postText.indexOf("http") === -1)
+      return post.postText;
 
     let text = "";
     if (post.postText)

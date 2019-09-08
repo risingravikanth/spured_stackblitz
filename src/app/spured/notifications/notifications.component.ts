@@ -214,6 +214,8 @@ export class NotificationsComponent implements OnInit {
       this.notifyService.updateLastRead(body).subscribe(
         resData => {
           // console.log(resData);
+          this.notificationsCount = 0;
+          this.commonService.updateHeaderMenu({ type: "updateNoficiationCount", count: this.notificationsCount })
         }
       )
     }
@@ -243,7 +245,7 @@ export class NotificationsComponent implements OnInit {
   openNotificationModel(notification: any, content: any) {
     if (notification.targetLink) {
       // this.router.navigate(["www.google.com"]);
-      // window.open(notification.targetLink, "_blank")
+      window.open(notification.targetLink)
     } else {
 
       this.categoryModalReference = this.modalService.open(content, { size: 'lg' });

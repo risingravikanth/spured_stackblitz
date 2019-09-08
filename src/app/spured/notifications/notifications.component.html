@@ -14,15 +14,16 @@
                     data?.createTime | date: 'MMM d, y, h:mm a'}}</small>
                 <br>
                 <div class="d-flex w-80 justify-content-between">
-                    <p class="mb-0" *ngIf="data?.title"><b>{{data?.title}}</b> <span *ngIf="data.status == 'NEW'" class="badge badge-warning">New</span></p>
-                    <p class="mb-0" *ngIf="data.title == undefined">{{data?.text | slice:0:20 }}</p>
+                    <p class="mb-0" *ngIf="data?.title"><b>{{data?.title | slice:0:80}}</b> <label *ngIf="data?.title.length > 80">...</label> 
+                        <span *ngIf="data.status == 'NEW'" class="badge badge-warning">New</span></p>
+                    <p class="mb-0" *ngIf="data.title == undefined">{{data?.text | slice:0:80 }}</p>
                 </div>
-                <small *ngIf="data.title != undefined">{{data?.text | slice:0:100 }}
-                    <label *ngIf="data?.text.length > 100">...</label>
+                <small *ngIf="data.title != undefined">{{data?.text | slice:0:80 }}
+                    <label *ngIf="data?.text.length > 80">...</label>
                 </small>
-                <br>
+                <!-- <br>
                 <small class="mb-0" *ngIf="data.targetLink">
-                    <a href="{{data?.targetLink}}">{{data?.targetLink }}</a></small>
+                    <p style="color:blue;">{{data?.targetLink }}</p></small> -->
             </div>
         </a>
     </div>

@@ -84,7 +84,9 @@ export class HeaderMobileComponent implements OnInit {
     }
 
     goToNotifications(){
-        this.commonService.updateHeaderMenu({ type: "updateLastRead"});
+        if(this.notificationCount > 0){
+            this.commonService.updateHeaderMenu({ type: "updateLastRead"});
+        }
          this.router.navigate(['notifications']);
     }
 
