@@ -15,7 +15,7 @@
                 <br>
                 <div class="d-flex w-80 justify-content-between">
                     <p class="mb-0" *ngIf="data?.title"><b>{{data?.title | slice:0:80}}</b> <label *ngIf="data?.title.length > 80">...</label> 
-                        <span *ngIf="data.status == 'NEW'" class="badge badge-warning">New</span></p>
+                        &nbsp; <span *ngIf="data.status == 'NEW'" class="badge badge-warning">New</span></p>
                     <p class="mb-0" *ngIf="data.title == undefined">{{data?.text | slice:0:80 }}</p>
                 </div>
                 <small *ngIf="data.title != undefined">{{data?.text | slice:0:80 }}
