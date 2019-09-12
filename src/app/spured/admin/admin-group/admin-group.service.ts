@@ -39,6 +39,17 @@ export class AdminGroupService {
         return this.httpClient.post(url, body).catch(this.handleError);
     }
 
+    getPublicGroups() {
+        let url = "/groups/getmygroups";
+        let body = {
+            "data": {
+                "_type": "Group",
+                "groupType": "PUBLIC"
+            }
+        }
+        return this.httpClient.post(url, body).catch(this.handleError);
+    }
+
     createGroupInstAdmin(body: any) {
         let url = "/groups/create";
         return this.httpClient.post(url, body).catch(this.handleError);

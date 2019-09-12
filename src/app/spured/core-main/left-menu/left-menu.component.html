@@ -63,6 +63,27 @@
                     </ng-template>
                  </li>
             </ul>
+            <!-- Displaying of public Groups -->
+            <div class="mb-2">
+                <h6><i class="fa fa-users" aria-hidden="true"></i><b> Public Groups&nbsp;</b></h6>
+            </div>
+            <div style="margin-left: 50%;" *ngIf="showPostSpinnerPubGroups">
+                    <div class="loader"></div>
+            </div>
+            <div *ngIf="noPubGroups && !showPostSpinnerPubGroups" class="ml-3 mb-2">No groups</div>
+            <ul class="list-group list-group-flush mb-2">
+                 <li *ngFor="let group of pubGroupsList"
+                 [class.selected]="'PUBLIC_GROUP_'+group.id === selectedItem"   
+                 class="list-group-item  p-1 text-dark bg-transparent border-0">
+                    <a title={{group.name}} href="javascript:void(0);" class="text-dark" 
+                            (click)="selectedPublicGroup(group.id,group.name)">
+                            {{group.name}}
+                    </a>
+                    <ng-template #tipComment>
+                        {{group.name}}
+                    </ng-template>
+                 </li>
+            </ul>
             
         </div>
         <!-- Displaying of Topics -->

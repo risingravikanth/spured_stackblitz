@@ -36,6 +36,8 @@ export class LeftMenuComponent implements OnInit {
   paramCategory: any;
   windowStyle: any;
   noGroups: boolean;
+  noPubGroups: boolean = true;
+  showPostSpinnerPubGroups: boolean;
 
 
   constructor(private router: Router, private formbuilder: FormBuilder,
@@ -59,6 +61,7 @@ export class LeftMenuComponent implements OnInit {
   public menuList: any = [];
   public boardsList: any = [];
   public groupsList: any = [];
+  public pubGroupsList: any = [];
   public isClassVisible = false;
   public isPosFix = true;
   public varShowSectionSettings = true;
@@ -103,6 +106,7 @@ export class LeftMenuComponent implements OnInit {
       this.validUser = true;
       this.getBoardsList();
       this.getGroups();
+      this.getPubGroups();
     }
 
     this.menuList = SECTIONS;
@@ -241,6 +245,12 @@ export class LeftMenuComponent implements OnInit {
     this.router.navigate(['/groups/' + id + "/" + name
     ])
     this.selectedItem = "GROUP_" + id;
+  }
+  selectedPublicGroup(id: any, name: any) {
+    this.commonService.updateHeaderMenu("sideMenuClose");
+    this.router.navigate(['/groups/' + id + "/" + name
+    ])
+    this.selectedItem = "PUBLIC_GROUP_" + id;
   }
 
   select(section,event) {
@@ -566,6 +576,18 @@ export class LeftMenuComponent implements OnInit {
         this.noGroups = false;
       } else {
         this.noGroups = true;
+      }
+    })
+  }
+  getPubGroups() {
+    this.showPostSpinnerPubGroups = true;
+    this.adminGroupService.getPublicGroups().subscribe((resData: any) => {
+      this.showPostSpinnerPubGroups = false;
+      if (resData.groups) {
+        this.pubGroupsList = resData.groups;
+        this.noPubGroups = false;
+      } else {
+        this.noPubGroups = true;
       }
     })
   }
