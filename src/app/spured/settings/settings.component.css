@@ -28,3 +28,7 @@ li {
 .card-text{
 	margin-bottom: 15px;
 }
+
+.padLeft{
+  padding-left: 10%;
+}
