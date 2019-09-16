@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit {
         private commonService: CommonService, private mobileService: MobileDetectionService) { }
 
     currentUser: User;
+    isAdmin : boolean = false;
     public isMobile: boolean;
     public profileImage: any;
     public validUser: boolean = false;
@@ -43,6 +44,7 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.currentUser = this.userService.getCurrentUser();
+        this.isAdmin = this.userService.isCurrentUserAdmin();
         if (this.currentUser) {
             this.validUser = true;
         }

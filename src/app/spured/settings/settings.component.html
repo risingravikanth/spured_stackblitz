@@ -1,110 +1,119 @@
 <div class="container marTop50">
-    <h5><b>Notification</b></h5>
+    <h5><b>Notification Settings</b></h5>
     <hr>
-
-    <h6><b>Basic:</b></h6>
-    <hr>
-    <div *ngIf="notificationSetting && notificationSetting.basicSettings">
-        <div class="form-row" *ngFor="let obj of notificationSetting.basicSettings;index as i;">
-            <div class="col-md-6 mb-3">
-                <label for="validationTooltip03">{{notificationTitle(obj.activityType) | titlecase}}</label>
-            </div>
-            <div class="col-md-2 mb-2 custom-checkbox padLeft">
-                <input type="checkbox" class="custom-control-input" id="{{i}}bah" [(ngModel)]="obj.hub">
-                <label class="custom-control-label" for="{{i}}bah">Hub</label>
-            </div>
-            <div class="col-md-2 mb-2 custom-checkbox padLeft">
-                <input type="checkbox" class="custom-control-input" id="{{i}}bae" [(ngModel)]="obj.email">
-                <label class="custom-control-label" for="{{i}}bae">Email</label>
-            </div>
-            <!-- <div class="col-md-2 mb-2  custom-checkbox">
+    <div class="notSettingsLeftPad">
+        <h6><b>Basic Settings:</b></h6>
+        <hr>
+        <div *ngIf="notificationSetting && notificationSetting.basicSettings">
+            <div class="form-row" *ngFor="let obj of notificationSetting.basicSettings;index as i;">
+                <div class="col-md-6 mb-3">
+                    <label for="validationTooltip03">{{notificationTitle(obj.activityType) | titlecase}}</label>
+                </div>
+                <div class="col-md-2 mb-2 custom-checkbox padLeft">
+                    <input type="checkbox" class="custom-control-input" id="{{i}}bah" [(ngModel)]="obj.hub">
+                    <label class="custom-control-label" for="{{i}}bah">Hub</label>
+                </div>
+                <div class="col-md-2 mb-2 custom-checkbox padLeft">
+                    <input type="checkbox" class="custom-control-input" id="{{i}}bae" [(ngModel)]="obj.email">
+                    <label class="custom-control-label" for="{{i}}bae">Email</label>
+                </div>
+                <!-- <div class="col-md-2 mb-2  custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="{{i}}bat" [(ngModel)]="obj.text">
                 <label class="custom-control-label" for="{{i}}bat">Text</label>
             </div> -->
+            </div>
         </div>
-    </div>
-    <h6><b>Board:</b></h6>
-    <hr>
-    <div *ngIf="notificationSetting && notificationSetting.boardSettings">
-        <div class="form-row" *ngFor="let obj of notificationSetting.boardSettings;index as i;">
-            <div class="col-md-6 mb-3">
-                <label for="validationTooltip03">{{obj.name}} | {{notificationTitle(obj.activityType) | titlecase}}</label>
-            </div>
-            <div class="col-md-2 mb-2 custom-checkbox padLeft">
-                <input type="checkbox" class="custom-control-input" id="{{i}}bh" [(ngModel)]="obj.hub">
-                <label class="custom-control-label" for="{{i}}bh">Hub</label>
-            </div>
-            <div class="col-md-2 mb-2 custom-checkbox padLeft">
-                <input type="checkbox" class="custom-control-input" id="{{i}}be" [(ngModel)]="obj.email">
-                <label class="custom-control-label" for="{{i}}be">Email</label>
-            </div>
-            <!-- <div class="col-md-2 mb-2  custom-checkbox">
+        <h6><b>New post in Boards:</b></h6>
+        <hr>
+        <div *ngIf="notificationSetting && notificationSetting.boardSettings">
+            <div class="form-row" *ngFor="let obj of notificationSetting.boardSettings;index as i;">
+                <div class="col-md-6 mb-3">
+                    <label for="validationTooltip03">{{obj.name}}
+                        <!-- | {{notificationTitle(obj.activityType) | titlecase}} -->
+                    </label>
+                </div>
+                <div class="col-md-2 mb-2 custom-checkbox padLeft">
+                    <input type="checkbox" class="custom-control-input" id="{{i}}bh" [(ngModel)]="obj.hub">
+                    <label class="custom-control-label" for="{{i}}bh">Hub</label>
+                </div>
+                <div class="col-md-2 mb-2 custom-checkbox padLeft">
+                    <input type="checkbox" class="custom-control-input" id="{{i}}be" [(ngModel)]="obj.email">
+                    <label class="custom-control-label" for="{{i}}be">Email</label>
+                </div>
+                <!-- <div class="col-md-2 mb-2  custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="{{i}}bt" [(ngModel)]="obj.text">
                 <label class="custom-control-label" for="{{i}}bt">Text</label>
             </div> -->
-        </div>
-        <h6><b>Group:</b></h6>
-        <hr>
-        <div *ngIf="notificationSetting && notificationSetting.groupSettings">
-            <div class="form-row" *ngFor="let obj of notificationSetting.groupSettings;index as i;">
-                <div class="col-md-6 mb-3">
-                    <label for="validationTooltip03">{{obj.name}} | {{notificationTitle(obj.activityType) | titlecase}}</label>
-                </div>
-                <div class="col-md-2 mb-2 custom-checkbox padLeft">
-                    <input type="checkbox" class="custom-control-input" id="{{i}}gh" [(ngModel)]="obj.hub">
-                    <label class="custom-control-label" for="{{i}}gh">Hub</label>
-                </div>
-                <div class="col-md-2 mb-2 custom-checkbox padLeft">
-                    <input type="checkbox" class="custom-control-input" id="{{i}}ge" [(ngModel)]="obj.email">
-                    <label class="custom-control-label" for="{{i}}ge">Email</label>
-                </div>
-                <!-- <div class="col-md-2 mb-2  custom-checkbox">
+            </div>
+            <h6><b>New post in Groups:</b></h6>
+            <hr>
+            <div *ngIf="notificationSetting && notificationSetting.groupSettings">
+                <div class="form-row" *ngFor="let obj of notificationSetting.groupSettings;index as i;">
+                    <div class="col-md-6 mb-3">
+                        <label for="validationTooltip03">{{obj.name}}
+                            <!-- | {{notificationTitle(obj.activityType) | titlecase}} -->
+                        </label>
+                    </div>
+                    <div class="col-md-2 mb-2 custom-checkbox padLeft">
+                        <input type="checkbox" class="custom-control-input" id="{{i}}gh" [(ngModel)]="obj.hub">
+                        <label class="custom-control-label" for="{{i}}gh">Hub</label>
+                    </div>
+                    <div class="col-md-2 mb-2 custom-checkbox padLeft">
+                        <input type="checkbox" class="custom-control-input" id="{{i}}ge" [(ngModel)]="obj.email">
+                        <label class="custom-control-label" for="{{i}}ge">Email</label>
+                    </div>
+                    <!-- <div class="col-md-2 mb-2  custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="{{i}}gt" [(ngModel)]="obj.text">
                     <label class="custom-control-label" for="{{i}}gt">Text</label>
                 </div> -->
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary btnSuccess" (click)="updateNotificationSettings()">Update</button>
             </div>
         </div>
-        <div>
-            <button type="button" class="btn btn-primary btnSuccess" (click)="updateNotificationSettings()">Update</button>
-        </div>
         <br>
-        <div class="container" *ngIf="showReq" style="margin-top: 25px;">
-            <h5><b>Join Board Requests</b></h5>
-            <hr>
+        <div class="notTitileFont">
+            <div class="container" *ngIf="showReq" style="margin-top: 25px;">
+                <h5><b>Join Board Requests</b></h5>
+                <hr>
 
-            <div class="row">
-                <div class="col-sm-4" *ngFor="let req of getAllRequestsList">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title2">{{ req.boardInfo.boardName}}</h5>
-                            <div class="card-text">
-                                <div class="chip">
-                                    <img [src]="(req.userProfile && req.userProfile.profileImageUrl  && req.userProfile.profileImageUrl?.length>0 ) ? req.userProfile.profileImageUrl : 'assets/images/noticer_default_user_img.png'"
-                                        alt="user" width="96" height="96">
-                                    {{req.userProfile ? req.userProfile.userName : '-NA-'}} <br> {{req.userProfile ?
-                                    req.userProfile.email : '-NA-'}}
+                <div class="row">
+                    <div class="col-sm-4" *ngFor="let req of getAllRequestsList">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title2">{{ req.boardInfo.boardName}}</h5>
+                                <div class="card-text">
+                                    <div class="chip">
+                                        <img [src]="(req.userProfile && req.userProfile.profileImageUrl  && req.userProfile.profileImageUrl?.length>0 ) ? req.userProfile.profileImageUrl : 'assets/images/noticer_default_user_img.png'"
+                                            alt="user" width="96" height="96"> {{req.userProfile
+                                        ? req.userProfile.userName : '-NA-'}} <br> {{req.userProfile ? req.userProfile.email
+                                        : '-NA-'}}
+                                    </div>
+
+
                                 </div>
+                                <a href="#" class="btn btn-success btn-sm" (click)="updateStatus(req.reqId,1)">
+                                    <i class="fas fa-check"></i> Accept
+                                </a> &nbsp;&nbsp;
+                                <a href="#" class="btn btn-danger btn-sm" (click)="updateStatus(req.reqId,2)">
+                                    <i class="fas fa-times"></i> Decline
+                                </a>
 
 
                             </div>
-                            <a href="#" class="btn btn-success btn-sm" (click)="updateStatus(req.reqId,1)">
-                                <i class="fas fa-check"></i> Accept
-                            </a> &nbsp;&nbsp;
-                            <a href="#" class="btn btn-danger btn-sm" (click)="updateStatus(req.reqId,2)">
-                                <i class="fas fa-times"></i> Decline
-                            </a>
-
-
                         </div>
                     </div>
+
                 </div>
 
             </div>
-
         </div>
-        <br>
-        <h5><b>Change password</b></h5>
-        <hr>
+    </div>
+    <br>
+    <h5><b>Change password</b></h5>
+    <hr>
+    <div class="notTitileFont">
         <form [formGroup]="changePassword">
             <div class="row">
 
@@ -122,11 +131,10 @@
                     </div>
 
                     <div>
-                        <button type="button" class="btn btn-primary btnSuccess" [disabled]="changePassword.invalid"
-                            (click)="savePassword()">Update</button>
+                        <button type="button" class="btn btn-primary btnSuccess" [disabled]="changePassword.invalid" (click)="savePassword()">Update</button>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <div class="bd-callout bd-callout-info">
                         <h4 id="dealing-with-specificity">Please follow below rules to change password</h4>
                         <p>the use of both upper-case and lower-case letters (case sensitivity)<br>
@@ -137,21 +145,23 @@
                         </p>
                     </div>
 
-                </div>
+                </div> -->
             </div>
         </form>
     </div>
-    <div class="container" style="margin-top: 25px;">
-        <h5><b>Delete account</b></h5>
-        <hr>
+    <div class="notTitileFont">
+        <div class="container" style="margin-top: 25px;">
+            <h5><b>Delete account</b></h5>
+            <hr>
 
-        <div class="bd-callout bd-callout-danger">
-            <h4 id="dealing-with-specificity"></h4>
-            <p>If you want to delete your account please click below to delete your account<button (click)="showDialog()"
-                    style="float:right;" class="btn btn-danger btn-sm">Delete my account</button>
-            </p>
+            <div class="bd-callout bd-callout-danger">
+                <h4 id="dealing-with-specificity"></h4>
+                <p>If you want to delete your account please click below to delete your account<button (click)="showDialog()"
+                        style="float:right;" class="btn btn-danger btn-sm">Delete my account</button>
+                </p>
+            </div>
+
         </div>
-
     </div>
 
     <p-dialog header="Delete confirmation" [(visible)]="display" [modal]="true" [responsive]="true" [contentStyle]="{'max-width':'500px'}">
@@ -160,13 +170,11 @@
             <form [formGroup]="authForm" class="container-login">
                 <div class="form-row">
                     <label for="inputEmail4">Email</label>
-                    <input type="email" class="form-control  form-control-sm" id="inputEmail4" placeholder="abc@Spured.com"
-                        formControlName="email">
+                    <input type="email" class="form-control  form-control-sm" id="inputEmail4" placeholder="abc@Spured.com" formControlName="email">
                 </div>
                 <div class="form-row marT12">
                     <label for="inputPassword4">Password</label>
-                    <input type="password" class="form-control  form-control-sm" id="inputPassword4" placeholder="Password"
-                        formControlName="password">
+                    <input type="password" class="form-control  form-control-sm" id="inputPassword4" placeholder="Password" formControlName="password">
                 </div>
             </form>
         </div>

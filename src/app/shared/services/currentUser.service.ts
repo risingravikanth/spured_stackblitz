@@ -23,6 +23,13 @@ export class CurrentUserService {
             return currentUser;
         } 
     }
+    isCurrentUserAdmin(): boolean {
+        if (isPlatformBrowser(this.platformId)) {
+            let currentUser: User;
+            currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            return (currentUser.accountType == 'ADMIN' || currentUser.accountType == 'GLOBAL_ADMIN') ? true : false;
+        } 
+    }
 
     checkLoggedInUser(): any {
         if (isPlatformBrowser(this.platformId)) {

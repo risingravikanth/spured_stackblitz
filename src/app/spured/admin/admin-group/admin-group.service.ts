@@ -50,6 +50,29 @@ export class AdminGroupService {
         return this.httpClient.post(url, body).catch(this.handleError);
     }
 
+
+    getMyAdminGroups() {
+        let url = "/groups/getgroupsasadmin";
+        let body = {
+            "data": {
+                "_type": "Group",
+                "groupType": "INSTITUTE"
+            }
+        }
+        return this.httpClient.post(url, body).catch(this.handleError);
+    }
+
+    getAdminPublicGroups() {
+        let url = "/groups/getgroupsasadmin";
+        let body = {
+            "data": {
+                "_type": "Group",
+                "groupType": "PUBLIC"
+            }
+        }
+        return this.httpClient.post(url, body).catch(this.handleError);
+    }
+
     createGroupInstAdmin(body: any) {
         let url = "/groups/create";
         return this.httpClient.post(url, body).catch(this.handleError);

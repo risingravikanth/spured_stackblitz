@@ -22,6 +22,7 @@ export class HeaderMobileComponent implements OnInit {
     public notificationCount = 10;
 
     public responseVo: any = { info: null, source: null, statusCode: null };
+    isAdmin: boolean = false;
 
     constructor(public router: Router, private authService: AuthService,
         private userService: CurrentUserService,
@@ -44,6 +45,7 @@ export class HeaderMobileComponent implements OnInit {
         this.isMobile = this.mobileService.isMobile();
 
         this.currentUser = this.userService.getCurrentUser();
+        this.isAdmin = this.userService.isCurrentUserAdmin();
         if (this.currentUser) {
             this.validUser = true;
         }

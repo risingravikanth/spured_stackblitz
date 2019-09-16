@@ -92,7 +92,21 @@ export class AdminGroupComponent implements OnInit {
   }
 
   getAdminGroups() {
-    this.service.getMyGroups().subscribe((resData: any) => {
+    this.service.getMyAdminGroups().subscribe((resData: any) => {
+      if (resData.groups) {
+        for (var i in resData.groups) {
+          let item = resData.groups[i];
+          let id = item['id'];
+          let name = item['name'];
+          var obj = {
+            value: id,
+            label: name
+          };
+          this.listOfGroups.push(obj);
+        }
+      }
+    });
+    this.service.getAdminPublicGroups().subscribe((resData: any) => {
       if (resData.groups) {
         for (var i in resData.groups) {
           let item = resData.groups[i];

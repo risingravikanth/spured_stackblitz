@@ -157,6 +157,18 @@ export class SettingsComponent implements OnInit {
   }
 
   notificationTitle(text) {
+    switch(text){
+      case "JOIN_EXIT_GROUP":
+        return "Join or Exit a Group";
+      case "JOIN_EXIT_BOARD":
+        return "Join or Exit a Board";
+      case "MY_POST_COMMENT":
+        return "Someone commented on my post";
+      case "MY_POST_VOTE":
+        return "Someone liked my post";
+      case "MY_POST_REPORT":
+        return "Someone reported my post";
+    }
     return text.replace(/_/gi, " ");
   }
 

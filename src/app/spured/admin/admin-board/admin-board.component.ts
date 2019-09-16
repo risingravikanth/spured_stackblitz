@@ -88,7 +88,7 @@ export class AdminBoardComponent implements OnInit {
   }
 
   getAdminClosedBoards() {
-    this.leftMenuService.getUserClosedBoards().subscribe(resData => {
+    this.leftMenuService.getAdminClosedBoards().subscribe(resData => {
       if (resData.boards) {
         for (var i in resData.boards) {
           let item = resData.boards[i];

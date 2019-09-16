@@ -6,6 +6,7 @@ export class User {
     userName: string;
     token: string;
     params: Array<any>;
+    accountType: string;
 }
 
 export interface Param {

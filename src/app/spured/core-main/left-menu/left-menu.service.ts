@@ -26,6 +26,10 @@ export class LeftMenuService {
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.get("/closedboards/getalluserclosedboards", { headers: headers });
     }
+    getAdminClosedBoards(): Observable<any> {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.get("/closedboards/getallboardsasadmin", { headers: headers });
+    }
     getAllStates() {
         return this.httpClient.get("/institutes/getallstates");
     }

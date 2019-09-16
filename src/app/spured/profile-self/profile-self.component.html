@@ -36,9 +36,10 @@
                                 <div class="infos">
                                     <div class="font-weight-bold">{{userDetails && userDetails.userName ?
                                         userDetails.userName : '-NA-'}}({{ (userDetails && userDetails.profileId ? userDetails.profileId : '-NA-')}})</div>
+                                    <div class="font-weight-normal" *ngIf="userDetails?.email"><i class="fas fa-envelope"></i> {{ userDetails?.email }} </div>
                                     <div class="font-weight-normal" *ngIf="userDetails?.phoneNum"><i class="fas fa-mobile-alt"></i> {{ userDetails?.phoneNum }} </div>
                                     <div class="font-weight-normal"  *ngIf="userDetails?.dobYear"><i class="far fa-calendar-alt"></i> {{ userDetails?.dobDate }}/{{ userDetails?.dobMonth }}/{{ userDetails?.dobYear}} </div>
-                                    <div class="font-weight-normal"  *ngIf="userDetails?.currAddress"> <i class="fas fa-map-marker-alt"></i>{{userDetails?.currAddress }} </div>
+                                    <div class="font-weight-normal"  *ngIf="userDetails?.currAddress"> <i class="fas fa-map-marker-alt"></i> {{userDetails?.currAddress }} </div>
                                     <button type="button" class="btn btn-primary btn-sm" (click)="editProfile(editProfileDialog)"><i class="fas fa-pencil-alt"></i> Edit Profile</button>
                                     &nbsp;
                                     <button type="button" class="btn btn-secondary btn-sm" (click)="file.click()"><i class="fas fa-camera"></i> Change Image
