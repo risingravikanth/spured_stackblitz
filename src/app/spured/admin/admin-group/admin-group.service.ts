@@ -53,13 +53,14 @@ export class AdminGroupService {
 
     getMyAdminGroups() {
         let url = "/groups/getgroupsasadmin";
-        let body = {
-            "data": {
-                "_type": "Group",
-                "groupType": "INSTITUTE"
-            }
-        }
-        return this.httpClient.post(url, body).catch(this.handleError);
+        // let body = {
+        //     "data": {
+        //         "_type": "Group",
+        //         "groupType": "INSTITUTE"
+        //     }
+        // }
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.get(url, { headers: headers }).catch(this.handleError);
     }
 
     getAdminPublicGroups() {

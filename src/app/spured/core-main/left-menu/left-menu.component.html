@@ -9,26 +9,24 @@
 
             <!-- Displaying of Boards -->
             <div class="mb-2">
-                <h6 class="d-inline"><i class="fa fa-window-maximize" aria-hidden="true"></i><b> Boards&nbsp;<i class="fa fa-info-circle" (click)="showAddBoardDialog(boardsHelpDialog, 'help')"></i></b></h6>
-                 <span class="float-right d-inline">
-                            <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add new board"
-                                (click)="showAddBoardDialog(addBoardDialog, 'addBoard')">
-                                <i class="fas fa-plus"></i>
-                            </a>
+                <h6 class="d-inline"><i class="fa fa-window-maximize" aria-hidden="true"></i><b> Boards&nbsp;<i class="fa fa-info-circle"
+                            (click)="showAddBoardDialog(boardsHelpDialog, 'help')"></i></b></h6>
+                <span class="float-right d-inline">
+                    <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add new board" (click)="showAddBoardDialog(addBoardDialog, 'addBoard')">
+                        <i class="fas fa-plus"></i>
+                    </a>
                 </span>
             </div>
             <div style="margin-left: 50%;" *ngIf="showPostSpinner">
-                    <div class="loader"></div>
+                <div class="loader"></div>
             </div>
             <div *ngIf="noBoards && !showPostSpinner" class="ml-3 mb-2">No boards</div>
 
             <ul class="list-group list-group-flush mb-2">
-                 <li *ngFor="let board of boardsList" [class.selected]="'BOARD_'+board.boardId === selectedItem" class="list-group-item  p-1 text-dark bg-transparent border-0">
-                     
-                    <a title={{board.boardName}} href="javascript:void(0);" class="text-dark" 
-                            (click)="selectedBoard(board.boardId,board.boardName)"
-                            >
-                            {{board.boardName}}
+                <li *ngFor="let board of boardsList" [class.selected]="'BOARD_'+board.boardId === selectedItem" class="list-group-item  p-1 text-dark bg-transparent border-0">
+
+                    <a title={{board.boardName}} href="javascript:void(0);" class="text-dark" (click)="selectedBoard(board.boardId,board.boardName)">
+                        {{board.boardName}}
                     </a>
                     <ng-template #tipComment>
                         {{board.boardName}}
@@ -38,7 +36,7 @@
                             <i class="fas fa-trash"></i>
                         </a>
                     </span>
-                 </li>
+                </li>
             </ul>
 
 
@@ -47,44 +45,43 @@
                 <h6><i class="fa fa-users" aria-hidden="true"></i><b> College Groups&nbsp;</b></h6>
             </div>
             <div style="margin-left: 50%;" *ngIf="showPostSpinnerGroups">
-                    <div class="loader"></div>
+                <div class="loader"></div>
             </div>
             <div *ngIf="noGroups && !showPostSpinnerGroups" class="ml-3 mb-2">No groups</div>
             <ul class="list-group list-group-flush mb-2">
-                 <li *ngFor="let group of groupsList"
-                 [class.selected]="'GROUP_'+group.id === selectedItem"   
-                 class="list-group-item  p-1 text-dark bg-transparent border-0">
-                    <a title={{group.name}} href="javascript:void(0);" class="text-dark" 
-                            (click)="selectedGroup(group.id,group.name)">
-                            {{group.name}}
+                <li *ngFor="let group of groupsList" [class.selected]="'GROUP_'+group.id === selectedItem" class="list-group-item  p-1 text-dark bg-transparent border-0">
+                    <a title={{group.name}} href="javascript:void(0);" class="text-dark" (click)="selectedGroup(group.id,group.name)">
+                        {{group.name}}
                     </a>
                     <ng-template #tipComment>
                         {{group.name}}
                     </ng-template>
-                 </li>
+                </li>
             </ul>
             <!-- Displaying of public Groups -->
             <div class="mb-2">
                 <h6><i class="fa fa-users" aria-hidden="true"></i><b> Public Groups&nbsp;</b></h6>
+                <span class="float-right d-inline">
+                    <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add Public Group" (click)="showAddGroupDialog(addGroupDialog)">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </span>
             </div>
             <div style="margin-left: 50%;" *ngIf="showPostSpinnerPubGroups">
-                    <div class="loader"></div>
+                <div class="loader"></div>
             </div>
             <div *ngIf="noPubGroups && !showPostSpinnerPubGroups" class="ml-3 mb-2">No groups</div>
             <ul class="list-group list-group-flush mb-2">
-                 <li *ngFor="let group of pubGroupsList"
-                 [class.selected]="'PUBLIC_GROUP_'+group.id === selectedItem"   
-                 class="list-group-item  p-1 text-dark bg-transparent border-0">
-                    <a title={{group.name}} href="javascript:void(0);" class="text-dark" 
-                            (click)="selectedPublicGroup(group.id,group.name)">
-                            {{group.name}}
+                <li *ngFor="let group of pubGroupsList" [class.selected]="'PUBLIC_GROUP_'+group.id === selectedItem" class="list-group-item  p-1 text-dark bg-transparent border-0">
+                    <a title={{group.name}} href="javascript:void(0);" class="text-dark" (click)="selectedPublicGroup(group.id,group.name)">
+                        {{group.name}}
                     </a>
                     <ng-template #tipComment>
                         {{group.name}}
                     </ng-template>
-                 </li>
+                </li>
             </ul>
-            
+
         </div>
         <!-- Displaying of Topics -->
         <div class="mb-2">
@@ -105,18 +102,15 @@
                         </a>
                     </span>
                 </div>
-                
-                <li *ngFor="let section of menu.sections" class="list-group-item  p-1 text-dark bg-transparent border-0">  
+
+                <li *ngFor="let section of menu.sections" class="list-group-item  p-1 text-dark bg-transparent border-0">
                     <div class="">
-                        
-                        <a class="text-dark" href="#{{section.code}}_section" data-target="#{{section.code}}_section" 
-                                (click)="select(section,$event);" 
-                                data-toggle="collapse" 
-                                [attr.aria-controls]="section.code+'_section'"
-                                [attr.aria-expanded]="section.isOpened">
-                                <i class="fa" [ngClass]="{'fa-angle-double-right': (section.isOpened=== false), 
+
+                        <a class="text-dark" href="#{{section.code}}_section" data-target="#{{section.code}}_section" (click)="select(section,$event);"
+                            data-toggle="collapse" [attr.aria-controls]="section.code+'_section'" [attr.aria-expanded]="section.isOpened">
+                            <i class="fa" [ngClass]="{'fa-angle-double-right': (section.isOpened=== false), 
                                                         'fa-angle-double-down': (section.isOpened === true) }"></i>
-                                 &nbsp;{{section.name}}
+                            &nbsp;{{section.name}}
                         </a>
                         <span class="float-right" style="padding-left: 20px;" *ngIf="menu.select">
                             <a href="javascript:void(0);" (click)="showAddCategoryDialog(categoryDialog)" class="sectionOptIconsColor">
@@ -131,14 +125,10 @@
                         [ngClass]="{'show': (section.isOpened=== true), '': (section.isOpened === false) }" -->
                     <div class="collapse" [attr.id]="section.code+'_section'">
                         <ul class="list-group list-group-flush pl-3 mt-1">
-                            <li *ngFor="let category of section.categories" 
-                                class="list-group-item p-1 text-dark overflowText text-truncate bg-transparent border-0"
+                            <li *ngFor="let category of section.categories" class="list-group-item p-1 text-dark overflowText text-truncate bg-transparent border-0"
                                 [class.selected]="section.code+category.code === selectedItem">
-                                <a  href="javascript:void(0);" 
-                                    class="text-dark" 
-                                   [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
-                                    title={{category.name}}
-                                    (click)="selectedCategory(section.code, category.code)">
+                                <a href="javascript:void(0);" class="text-dark" [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
+                                    title={{category.name}} (click)="selectedCategory(section.code, category.code)">
                                     {{category.name}}
                                 </a>
                                 <span class="float-right" *ngIf="menu.select">
@@ -150,10 +140,10 @@
                         </ul>
                     </div>
                 </li>
-             </ul>
+            </ul>
         </div>
     </div>
- 
+
 </section>
 
 
@@ -168,12 +158,12 @@
         </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                    aria-selected="true">{{tabTitle}}</a>
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">{{tabTitle}}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending"
-                    aria-selected="false">Pending Requests</a>
+                <a class="nav-link" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="false">Pending
+                    Requests
+                </a>
             </li>
         </ul>
         <div class="tab-content modalHeight" id="myTabContent">
@@ -182,8 +172,8 @@
                     <form [formGroup]="addBoardForm">
                         <div class="form-group">
                             <label>State: </label>
-                            <p-dropdown placeholder=" State" formControlName="stateId" [options]="listOfStates" [style]="{'width':'100%'}"
-                                filter="true" (onChange)="getInstitutesByState(state.value)" #state>
+                            <p-dropdown placeholder=" State" formControlName="stateId" [options]="listOfStates" [style]="{'width':'100%'}" filter="true"
+                                (onChange)="getInstitutesByState(state.value)" #state>
                                 <ng-template let-state pTemplate="item">
                                     <div class="ui-helper-clearfix">
                                         <span style="vertical-align:middle">{{state.label}}</span>
@@ -195,12 +185,11 @@
                             <label>Institute: </label>
                             <div class="float-right">
                                 No Institute
-                                <input [disabled]="!showInst" type="checkbox" [ngModelOptions]="{standalone: true}"
-                                    [(ngModel)]="noInstCheck" data-md-icheck (change)="requestCheckBox($event,'INSTITUTE')" />
+                                <input [disabled]="!showInst" type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="noInstCheck" data-md-icheck
+                                    (change)="requestCheckBox($event,'INSTITUTE')" />
                             </div>
-                            <p-dropdown *ngIf="!noInstCheck" placeholder="Institute" formControlName="instId" [options]="listOfInstitutes"
-                                [style]="{'width':'100%'}" filter="true" (onChange)="getDepartmentsByInstId(inst.value)"
-                                #inst>
+                            <p-dropdown *ngIf="!noInstCheck" placeholder="Institute" formControlName="instId" [options]="listOfInstitutes" [style]="{'width':'100%'}"
+                                filter="true" (onChange)="getDepartmentsByInstId(inst.value)" #inst>
                                 <ng-template let-inst pTemplate="item">
                                     <div class="ui-helper-clearfix">
                                         <span style="vertical-align:middle">{{inst.label}}</span>
@@ -212,8 +201,7 @@
                                     <input class="form-control" formControlName="instName" placeholder="institute" type="text">
                                 </div>
                                 <div class="col-md-6">
-                                    <input class="form-control" formControlName="instAddr" placeholder="institute address"
-                                        type="text">
+                                    <input class="form-control" formControlName="instAddr" placeholder="institute address" type="text">
                                 </div>
                             </div>
                         </div>
@@ -221,31 +209,29 @@
                             <label>Department: </label>
                             <div class="float-right">
                                 No Department
-                                <input [disabled]="!showDept" type="checkbox" [ngModelOptions]="{standalone: true}"
-                                    [(ngModel)]="noDeptCheck" data-md-icheck (change)="requestCheckBox($event, 'DEPARTMENT')" />
+                                <input [disabled]="!showDept" type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="noDeptCheck" data-md-icheck
+                                    (change)="requestCheckBox($event, 'DEPARTMENT')" />
                             </div>
-                            <p-dropdown *ngIf="!noDeptCheck" placeholder="Department" formControlName="deptId"
-                                [options]="listOfDepartments" [style]="{'width':'100%'}" filter="true" (onChange)="getBoardsByDepartment(dept.value)"
-                                #dept>
+                            <p-dropdown *ngIf="!noDeptCheck" placeholder="Department" formControlName="deptId" [options]="listOfDepartments" [style]="{'width':'100%'}"
+                                filter="true" (onChange)="getBoardsByDepartment(dept.value)" #dept>
                                 <ng-template let-dept pTemplate="item">
                                     <div class="ui-helper-clearfix">
                                         <span style="vertical-align:middle">{{dept.label}}</span>
                                     </div>
                                 </ng-template>
                             </p-dropdown>
-                            <input class="form-control" *ngIf="noDeptCheck" formControlName="deptName" placeholder="department"
-                                type="text">
+                            <input class="form-control" *ngIf="noDeptCheck" formControlName="deptName" placeholder="department" type="text">
 
                         </div>
                         <div class="form-group">
                             <label>Boards: </label>
                             <div class="float-right">
                                 No Board
-                                <input [disabled]="!showBoard" type="checkbox" [ngModelOptions]="{standalone: true}"
-                                    [(ngModel)]="noBordCheck" data-md-icheck (change)="requestCheckBox($event, 'BOARD')" />
+                                <input [disabled]="!showBoard" type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="noBordCheck" data-md-icheck
+                                    (change)="requestCheckBox($event, 'BOARD')" />
                             </div>
-                            <p-dropdown *ngIf="!noBordCheck" placeholder="Board" formControlName="boardId" [options]="listOfBoards"
-                                [style]="{'width':'100%'}" filter="true" #board>
+                            <p-dropdown *ngIf="!noBordCheck" placeholder="Board" formControlName="boardId" [options]="listOfBoards" [style]="{'width':'100%'}"
+                                filter="true" #board>
                                 <ng-template let-board pTemplate="item">
                                     <div class="ui-helper-clearfix">
                                         <span style="vertical-align:middle">{{board.label}}</span>
@@ -254,16 +240,15 @@
                             </p-dropdown>
                             <div class="row" *ngIf="noBordCheck">
                                 <div class="col-md-6">
-                                    <input class="form-control" formControlName="startYear" placeholder="start year"
-                                        type="number">
+                                    <input class="form-control" formControlName="startYear" placeholder="start year" type="number">
                                 </div>
                                 <div class="col-md-6">
                                     <input class="form-control" formControlName="endYear" placeholder="end year" type="number">
                                 </div>
                             </div>
                         </div>
-                        <textarea class="form-control" *ngIf="noDeptCheck || noBordCheck || noInstCheck"
-                            formControlName="comments" placeholder="comments" type="text"></textarea>
+                        <textarea class="form-control" *ngIf="noDeptCheck || noBordCheck || noInstCheck" formControlName="comments" placeholder="comments"
+                            type="text"></textarea>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -284,14 +269,12 @@
                                 </span>
                             </span>
                             <div *ngIf="request.statusName == 'Pending'">
-                                <p class="text-muted" style="font-size: 12px;">RequstedTime: {{request.create_time |
-                                    date: 'MMM d, y,
-                                    h:mm:ss a'}}</p>
+                                <p class="text-muted" style="font-size: 12px;">RequstedTime: {{request.create_time | date:
+                                    'MMM d, y, h:mm:ss a'}}</p>
                             </div>
                             <div *ngIf="request.statusName == 'Rejected'">
-                                <p class="text-muted" style="font-size: 12px;">RequstedTime: {{request.update_time |
-                                    date: 'MMM d, y,
-                                    h:mm:ss a'}}</p>
+                                <p class="text-muted" style="font-size: 12px;">RequstedTime: {{request.update_time | date:
+                                    'MMM d, y, h:mm:ss a'}}</p>
                             </div>
                         </div>
                     </div>
@@ -308,17 +291,48 @@
             </button>
         </div>
         <div class="container">
-            <p>Boards are kind of pages for educational institutes. Access to boards are controlled by admins of respective boards. Once you request to join a your class board and approved by admin,you will be automatically be part of boards of various levels such as class, batch, department, college.
+            <p>Boards are kind of pages for educational institutes. Access to boards are controlled by admins of respective
+                boards. Once you request to join a your class board and approved by admin,you will be automatically be part
+                of boards of various levels such as class, batch, department, college.
                 <br>
+                <br> You just need to and can send request to class level boards only. Once its approved by board respective
+                board admin, you will be automatically part of class, batch, department, college.
                 <br>
-                You just need to and can send request to class level boards only. Once its approved by board respective board admin, you will be automatically part of class, batch, department, college.
+                <br> You can send a request to create your institute, department, batch if they are missing in the dropdowns
+                by selecting the checkbox and providing the necessary details. We will review the request and notify you
+                with action.
                 <br>
-                <br>
-                You can send a request to create your institute, department, batch if they are missing in the dropdowns by selecting the checkbox and providing the necessary details. We will review the request and notify you with action.
-                <br>
-                <br>
-                Please visit help page (<a routerLink="/help" (click)="d('Cross click')">http://spured.com/help</a>) to find more details.
+                <br> Please visit help page (<a routerLink="/help" (click)="d('Cross click')">http://spured.com/help</a>)
+                to find more details.
             </p>
+        </div>
+    </ng-template>
+</section>
+<!-- Dialog box -->
+<section>
+    <ng-template #addGroupDialog let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title fntGreen" id="modal-basic-title"><b>Add Public Group</b></h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="container">
+            <br>
+
+            <form [formGroup]="addPublicGroupForm">
+                <p-dropdown placeholder="Groups" formControlName="groupId" [options]="allPublicGroups" [style]="{'width':'100%'}" filter="true" #pGroupId>
+                    <ng-template let-group pTemplate="item">
+                        <div class="ui-helper-clearfix">
+                            <span style="vertical-align:middle">{{group.label}}</span>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btnSuccess" style="color:white;" (click)="joinInPublicGroup()" [disabled]="addPublicGroupForm.invalid">Add
+                    Group</button>
+            </div>
         </div>
     </ng-template>
 </section>

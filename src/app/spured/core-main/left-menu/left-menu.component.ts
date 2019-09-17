@@ -38,6 +38,8 @@ export class LeftMenuComponent implements OnInit {
   noGroups: boolean;
   noPubGroups: boolean = true;
   showPostSpinnerPubGroups: boolean;
+  allPublicGroups: any = [];
+  publicGroupsresults: any;
 
 
   constructor(private router: Router, private formbuilder: FormBuilder,
@@ -73,6 +75,7 @@ export class LeftMenuComponent implements OnInit {
   closeResult: string;
   public sectionModalReference: NgbModalRef;
   public categoryModalReference: NgbModalRef;
+  public groupModalReference: NgbModalRef;
   public isMobile: boolean;
   public isServer: boolean;
   public listOfStates: any = [];
@@ -80,6 +83,7 @@ export class LeftMenuComponent implements OnInit {
   public listOfDepartments: any = [];
   public listOfBoards: any = [];
   addBoardForm: FormGroup;
+  addPublicGroupForm: FormGroup;
   currentUser: User;
   isLoggedInUser: boolean;
   public validUser: boolean = false;
@@ -153,6 +157,11 @@ export class LeftMenuComponent implements OnInit {
         comments: [null]
       }
     )
+    this.addPublicGroupForm = this.formbuilder.group(
+      {
+        groupId: [null, Validators.required]
+      }
+    )
   }
 
 
@@ -205,6 +214,34 @@ export class LeftMenuComponent implements OnInit {
     }
     this.categoryModalReference = this.modalService.open(content, this.windowStyle);
     this.categoryModalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  showAddGroupDialog(content: any) {
+    this.commonService.updateHeaderMenu("sideMenuClose");
+    this.service.getAllAvailablePublicGroups().subscribe(
+      (resData:any) => {
+        this.allPublicGroups = [];
+        if(resData && resData.groups && resData.groups.length > 0){
+          this.publicGroupsresults = resData.groups;
+          let finalPGroups = [];
+          this.publicGroupsresults.forEach(element => {
+            let arr = this.pubGroupsList.filter(item => item.id == element.id);
+            if(arr.length == 0){
+              finalPGroups.push(element);
+            }
+          });
+          finalPGroups.forEach(item => {
+            let vo = { label: item.name, value: item.id };
+            this.allPublicGroups.push(vo);
+          })
+        }
+      }
+    )
+    this.groupModalReference = this.modalService.open(content, this.windowStyle);
+    this.groupModalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -590,6 +627,32 @@ export class LeftMenuComponent implements OnInit {
         this.noPubGroups = true;
       }
     })
+  }
+
+  joinInPublicGroup(){
+    console.log(this.addPublicGroupForm.value);
+    if(this.addPublicGroupForm.valid){
+      let arr = this.publicGroupsresults.filter(item => item.id = this.addPublicGroupForm.controls['groupId'].value);
+      if(arr.length > 0){
+        this.service.joinInPublicGroup(arr[0]).subscribe((resData:any) => {
+          if(resData && resData.error && resData.error.code){
+            this.toastr.error("Failed", resData.error.longMessage);
+          } else if(resData && resData.groups && resData.groups[0].id){
+            this.toastr.success("Success", "Successfully joined in group");
+            if (this.isLoggedInUser) {
+              this.getPubGroups();
+              this.addPublicGroupForm.reset();
+              this.groupModalReference.close();
+            }
+          } else{
+            this.toastr.error("Failed", "Something went wrong");
+          }
+
+        })
+      }
+    } else{
+      alert("Please select group");
+    }
   }
 
 }

@@ -27,7 +27,7 @@ export class CurrentUserService {
         if (isPlatformBrowser(this.platformId)) {
             let currentUser: User;
             currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            return (currentUser.accountType == 'ADMIN' || currentUser.accountType == 'GLOBAL_ADMIN') ? true : false;
+            return (currentUser && (currentUser.accountType == 'ADMIN' || currentUser.accountType == 'ADMIN_GLOBAL')) ? true : false;
         } 
     }
 

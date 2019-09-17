@@ -18,6 +18,10 @@ export class LeftMenuService {
     getFavBoards() {
         return this.httpClient.get("/favboards/getfavboardslist");
     }
+    getAllAvailablePublicGroups() {
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.get("/groups/getallavailablepublicgroups", {headers:headers});
+    }
     getBoardsByInstidDeptId(instId: any, deptId: any) {
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.get("/boards/getclosedboardinfo/institute/" + instId + "/department/" + deptId, { headers: headers });
@@ -54,6 +58,19 @@ export class LeftMenuService {
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         let url = "/closedboards/getpendingboardrequests";
         return this.httpClient.post(url, { headers: headers });
+    }
+
+    joinInPublicGroup(req:any){
+        let body = {
+            "data" : {
+                id:req.id,
+                _type:"Group",
+                groupType : "PUBLIC"
+            }
+        }
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        let url = "/groups/joingroup";
+        return this.httpClient.post(url, body);
     }
 
 }
