@@ -29,6 +29,7 @@ import { PreviewDialogComponent } from './core-main/view-post/preview/preview-di
 import { SpuredRoutingModule } from '../spured/spured-routing.module';
 import { SpuredComponent } from '../spured/spured.component';
 import { LeftMenuComponent } from './core-main/left-menu/left-menu.component';
+import { HomeComponent } from './home/home.component';
 import { NgxContentLoadingModule } from 'ngx-content-loading';
  
 
@@ -73,6 +74,7 @@ import { NgxContentLoadingModule } from 'ngx-content-loading';
         ClockComponent,
         AboutComponent,
         LeftMenuComponent,
+        HomeComponent,
         CoreMainComponent,
         RightMenuComponent,
         CreatePostComponent,

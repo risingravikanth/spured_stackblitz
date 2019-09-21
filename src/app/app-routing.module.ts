@@ -16,8 +16,19 @@ import { NotificationsComponent } from './spured/notifications/notifications.com
 import { PasswordResetLinkComponent } from './password-reset-link/password-reset-link.component';
 import { AdminComponent } from './spured/admin/admin.component';
 import { SpuredComponent } from './spured/spured.component';
+import { HomeComponent } from './spured/home/home.component';
 
 const routes: Routes = [
+  {
+    path: 'home',
+    component: SpuredComponent,
+    children: [
+      {
+        path: '',
+        component: HomeComponent,
+      }
+    ]
+  },
   {
     path: 'feed',
     component: SpuredComponent,
@@ -185,7 +196,7 @@ const routes: Routes = [
   { path: 'users/activate/:code', component: AccountActivateComponent },
   { path: 'users/password_reset/:code', component: PasswordResetLinkComponent },
   { path: 'login', loadChildren: './login/login.module#LoginModule' },
-  { path: '', redirectTo: 'feed', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'signup', component: UserSetupComponent },
   { path: 'password_reset', component: PasswordResetComponent },
