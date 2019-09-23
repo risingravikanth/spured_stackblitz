@@ -629,6 +629,8 @@ export const CATEGORIES = [
 export const MODELS = [
     {
         type:"VERBAL",
+        name :"VERBAL",
+        code:"VERBAL",
         models: [
             { label: 'CAT', value: 'cat' },
             { label: 'GMAT', value: 'gmat' },
@@ -651,6 +653,8 @@ export const MODELS = [
     },
     {
         type:"CURRENT_AFFAIRS",
+        name:"CURRENT AFFAIRS",
+        code:"CURRENT_AFFAIRS",
         models: [
             { label: 'State', value: 'state' },
             { label: 'National', value: 'national' },
@@ -681,6 +685,8 @@ export const MODELS = [
     },
     {
         type:"CAREERS",
+        name:"CAREERS",
+        code:"CAREERS",
         models: [
             { label: 'Government', value: 'government_sector' },
             { label: 'Private', value: 'private_sector' },
@@ -688,6 +694,8 @@ export const MODELS = [
     },
     {
         type:"EVENTS",
+        name:"EVENTS",
+        code:"EVENTS",
         models: [
             { label: 'Workshops', value: 'workshops' },
             { label: 'Conferences', value: 'conferences' },
