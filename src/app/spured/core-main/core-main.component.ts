@@ -840,9 +840,9 @@ export class CoreMainComponent implements OnInit {
       type = "Verbal";
     }
     this.models.forEach(sec => {
-      if (sec.type.toUpperCase() == type.toUpperCase()) {
+      if (sec.type.toUpperCase() == type.toUpperCase() || sec.name.toUpperCase() === type.toUpperCase()) {
         sec.models.forEach(element => {
-          if (element.value == modelValue) {
+          if (element.value.toUpperCase() == modelValue.toUpperCase()) {
             model = element.label
           }
         });
@@ -1361,9 +1361,17 @@ export class CoreMainComponent implements OnInit {
     return (url.match(p)) ? RegExp.$1 : false;
   }
 
-  createYouTubeEmbedLink(link) {
-    if (link !== undefined && link !== null && link !== "")
-      return link.replace("youtube.com/watch?v=", "youtube.com/embed/");
+  createYouTubeEmbedLink(link,videoId) {
+    if (link !== undefined && link !== null && link !== ""){
+      return "https://youtube.com/embed/"+videoId;
+      //Need to check for diffarent types of Youtube videos 
+      /*if(link.indexOf("/embed/") >0){
+        return link;
+      }else{
+        link = link.replace("youtu.be/","youtube.com/embed/")
+        link = link.replace("youtube.com/watch?v=", "youtube.com/embed/");
+      }*/
+    }
   }
 
   formatPostText(post) {
@@ -1378,8 +1386,9 @@ export class CoreMainComponent implements OnInit {
     let urlRegex = /(https?:\/\/[^\s]+)/g;
     let _this = this;
     return text.replace(urlRegex, function (url) {
-      if (_this.ytVidId(url)) {
-        url = _this.createYouTubeEmbedLink(url);
+      let videoId = _this.ytVidId(url);
+      if (videoId) {
+        url = _this.createYouTubeEmbedLink(url,videoId);
         if (post && post.videos === undefined) {
           post["videos"] = [];
           post["videos"].push(url);
