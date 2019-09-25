@@ -20,7 +20,7 @@
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, .btn-simple, a, .td-name, td {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: "Helvetica Neue","Open Sans",Arial,sans-serif;
+    /*font-family: "Helvetica Neue","Open Sans",Arial,sans-serif;*/
   }
   
   h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
@@ -1709,6 +1709,9 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, .btn-s
         border: 1px solid #fff;
         border-radius: 15px;
     }
+    .landing-page .section-no-padding .parallax .info{
+      top: 0px;
+     }
   }
   
   @media (min-width: 768px){
@@ -1720,14 +1723,14 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, .btn-s
   .college_pic{
     width: 570px;
     top: 50px !important;
-    height: 530px !important;
+    height: 280px !important;
     border: 1px solid #eee;
     border-radius: 15px;
   }
  
   .beyond_pic{
     width: 520px;
-    height: 581px;
+    height: 380px;
     border: 1px solid #fff;
     border-radius: 15px;
   }
@@ -1775,3 +1778,32 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, .btn-s
     transform: translateY(100%); 
     }
   }
+
+  .landing-page .section-no-padding .parallax{
+    height:300px !important;
+  }
+
+  .landing-page .college-section p,.landing-page .beyond-section p{
+    margin-top: 0px;
+    line-height: 15px;
+    font-size: 17px;
+    font-weight: 200;
+    display: list-item;          /* This has to be "list-item"                                               */
+    list-style-type: disc;       /* See https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type     */
+    list-style-position: inside; /* See https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-position */
+    text-align: left;
+  }
+
+  .landing-page .college-section li,.landing-page .beyond-section li{
+    margin-top: 5px;
+    line-height: 25px;
+    font-size: 17px;
+    font-weight: 200;
+    text-align: left;
+  }
+
+  .landing-page .section-features .card  p{
+    font-size: 16px;
+    line-height: 22px;
+    color:#000;
+}
