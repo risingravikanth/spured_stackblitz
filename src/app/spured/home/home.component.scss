@@ -1731,11 +1731,12 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, .btn-s
   .beyond_pic{
     width: 520px;
     height: 380px;
+    margin-top:20px;
     border: 1px solid #fff;
     border-radius: 15px;
   }
   .top-parallax-background{
-    opacity:0.4;
+    opacity:1;
   }
 
   .landing-page .parallax .parallax-image img.focus{
@@ -1743,42 +1744,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, .btn-s
     border-radius:15px;
     float: right;
   }
-  .marquee p {
-    position: absolute;
-     
-    margin: 0;
-    text-align: center;
-    /* Starting position */
-    -moz-transform:translateY(-100%);
-    -webkit-transform:translateY(-100%);	
-    transform:translateY(-100%);
-    /* Apply animation to this element */	
-    -moz-animation: example3 55s linear infinite;
-    -webkit-animation: example3 55s linear infinite;
-    animation: example3 55s linear infinite;
-   }
-   /* Move it (define the animation) */
-  @-moz-keyframes example3 {
-    0%   { -moz-transform: translateY(-100%); }
-    100% { -moz-transform: translateY(100%); }
-  }
-  @-webkit-keyframes example3 {
-    0%   { -webkit-transform: translateY(-100%); }
-    100% { -webkit-transform: translateY(100%); }
-  }
-  @keyframes example3 {
-    0%   { 
-    -moz-transform: translateY(-100%); /* Firefox bug fix */
-    -webkit-transform: translateY(-100%); /* Firefox bug fix */
-    transform: translateY(-100%); 		
-    }
-    100% { 
-    -moz-transform: translateY(100%); /* Firefox bug fix */
-    -webkit-transform: translateY(100%); /* Firefox bug fix */
-    transform: translateY(100%); 
-    }
-  }
-
+   
   .landing-page .section-no-padding .parallax{
     height:300px !important;
   }
@@ -1806,4 +1772,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, .btn-s
     font-size: 16px;
     line-height: 22px;
     color:#000;
+}
+.top-banner{
+  color:black;
 }

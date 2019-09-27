@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { User } from '../../shared/models/user.model';
@@ -11,7 +11,7 @@ import { User } from '../../shared/models/user.model';
 export class HomeComponent implements OnInit {
     currentUser: User;
     public validUser: boolean = false;
-    public gistMessageAry = [
+    public gistMessageAry :any = [
         "Spured is a learning management system for college & students to share anything related to education & college.",
         "Boards are the hierarchy of spaces with students belongs to various batches, departments, classes and sections.",
         "A student of a class belong to his/her class board, department board, batch board and college board.",
@@ -21,13 +21,23 @@ export class HomeComponent implements OnInit {
         "Public groups are meant for discussion on any topic, anyone can join any public group and view content in that group.",
         "Various sections of the competitive exams are organized into categories and models to find the content what exactly needed."
     ];
-    public counter = 0;
-    public gistMessage = this.gistMessageAry[this.counter];
+    public counter : any= 0;
+    public gistMessage : any= this.gistMessageAry[this.counter];
+    public someInterval :any;
 
-    constructor(private userService: CurrentUserService){
+    /*constructor(private userService: CurrentUserService){
         setInterval(() => {
             this.changeGistMessages();
         },5000);
+        
+    }*/
+
+    constructor(private zone: NgZone, private userService: CurrentUserService) {
+        let self = this;
+        /*this.zone.runOutsideAngular(() => { self.someInterval = setInterval(() => { 
+            // Your Code 
+            self.changeGistMessages();
+        }, 1000) })*/
         
     }
 
