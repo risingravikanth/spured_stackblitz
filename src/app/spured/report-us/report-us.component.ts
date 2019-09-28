@@ -29,7 +29,7 @@ export class ReportUsComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.seo.generateTags({
-      title: 'SpurEd - Spur: Give encouragement to Ed: Education',
+      title: 'SpurEd - Spur Encouragement to Education',
       description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
       slug: 'feed-page'
     })

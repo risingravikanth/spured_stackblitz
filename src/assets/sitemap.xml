@@ -1,151 +1,727 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>http://noticer.herokuapp.com</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/feed</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/settings</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/reportus</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/help</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/about</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/boards/closed/4</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/boards/closed/6</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/boards/closed/8</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/boards/closed/9</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/home</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/spotting_errors</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/antonyms</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/spellings</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/ordering_of_words</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/sentence_improvement</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/ordering_of_sentences</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/closet_test</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/one_word_substitutes</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/change_of_voice</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/verbal_analogies</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/synonyms</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/selecting_words</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/sentence_formation</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/sentence_correction</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/completing_statements</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/paragraph_formation</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/comprehension</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/idioms_and_phrases</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/change_of_speech</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/VERBAL/others</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/home</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/age</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/area</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/average</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/bankers_discount</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/boats_and_streams</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/calendar</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/chain_rule</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/clock</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/decimal_fractions</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/hcf_and_lcm</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/height_and_istance</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/logarithm</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/mixture_and_alligation</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/numbers</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/partnerships</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/percentage</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/permutations_and_combinations</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/pipes_and_cistern</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/probability</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/profit_and_loss</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/races_and_games</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/series_odd_man_out</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/series_find_missing_number</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/simple_interest</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/compound_interest</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/simplification</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/square_root_and_cube_root</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/stocks_and_shares</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/surds_and_indices</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/time_and_distance</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/time_and_work</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/trains</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/QUANTS/others</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/DI/home</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/DI/table_charts</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/DI/pie_charts</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/DI/bar_charts</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/DI/line_charts</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/home</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/basic_general_knowledge</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/general_science</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/indian_politics</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/world_geography</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/chemistry</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/indian_geography</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/honours_and_awards</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/technology</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/indian_culture</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/world_organizations</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/indian_history</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/famous_personalities</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/physics</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/indian_economy</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/inventions</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/biology</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/famous_places_in_india</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/books_and_authors</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/sports</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/days_and_years</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/GK/others</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/home</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/2019_january</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/2018_december</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/2018_november</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/2018_october</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/2018</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/2017</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/2016</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/2015</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/2011_15</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/2001_10</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/%3C2001</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CURRENT_AFFAIRS/others</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/home</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/accountancy</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/banking</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/business</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/consulting</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/charity</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/creative-arts-and-design</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/entergy-and-utilities</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/engineering-and-manufacuturing</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/environment-and-agriculture</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/healthcare</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/hospitality-and-events-management</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/marketing</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/media-and-internet</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/finance</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/it</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/management</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/voluntary-work</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/CAREERS/others</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/EVENTS/home</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/EVENTS/cultural</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/EVENTS/technical</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/EVENTS/management</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/EVENTS/sports</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/EVENTS/fun</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/EVENTS/literature</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/EVENTS/others</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/home</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/general</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/social</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/auto</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/tech</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/legal</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/crime</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/state</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/national</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/international</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/lifestyle</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/art</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/entertainment</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/sports</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/business</loc><priority>0.5</priority></url>
-<url><loc>http://noticer.herokuapp.com/categories/NEWS/others</loc><priority>0.5</priority></url>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://spured.com/</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://spured.com/feed</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/login</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/help</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/home</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/spotting_errors</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/antonyms</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/spellings</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/ordering_of_words</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/sentence_improvement</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/ordering_of_sentences</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/closet_test</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/one_word_substitutes</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/change_of_voice</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/verbal_analogies</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/synonyms</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/selecting_words</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/sentence_formation</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/sentence_correction</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/completing_statements</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/paragraph_formation</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/comprehension</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/idioms_and_phrases</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/change_of_speech</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/verbal/others</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/home</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/age</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/area</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/average</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/bankers_discount</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/boats_and_streams</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/calendar</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/chain_rule</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/clock</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/decimal_fractions</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/hcf_and_lcm</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/height_and_istance</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/logarithm</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/mixture_and_alligation</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/numbers</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/partnerships</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/percentage</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/permutations_and_combinations</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/pipes_and_cistern</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/probability</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/profit_and_loss</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/races_and_games</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/series_odd_man_out</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/series_find_missing_number</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/simple_interest</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/compound_interest</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/simplification</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/square_root_and_cube_root</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/stocks_and_shares</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/surds_and_indices</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/time_and_distance</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/time_and_work</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/trains</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/quants/others</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/data_interpretation/home</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/data_interpretation/table_charts</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/data_interpretation/pie_charts</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/data_interpretation/bar_charts</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/data_interpretation/line_charts</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/data_interpretation/others</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/home</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/basic_general_knowledge</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/general_science</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/indian_politics</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/world_geography</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/chemistry</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/indian_geography</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/honours_and_awards</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/technology</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/indian_culture</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/world_organizations</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/indian_history</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/famous_personalities</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/physics</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/indian_economy</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/inventions</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/biology</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/famous_places_in_india</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/books_and_authors</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/sports</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/days_and_years</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/general_knowledge/others</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/home</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/january_2019</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/december_2018</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/november_2018</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/october_2018</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/year_2018</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/year_2017</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/year_2016</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/year_2015</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/between_2011_15</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/between_2001_10</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/before_2001</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/current_affairs/others</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/home</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/accountancy</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/banking</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/business</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/consulting</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/charity</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/creative_arts_and_design</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/entergy_and_utilities</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/engineering_and_manufacuturing</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/environment_and_agriculture</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/healthcare</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/hospitality_and_events_management</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/marketing</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/media_and_internet</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/finance</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/it</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/management</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/voluntary_work</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/careers/others</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/events/home</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/events/cultural</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/events/technical</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/events/management</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/events/sports</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/events/fun</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/events/literature</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/events/others</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/home</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/general</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/social</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/auto</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/tech</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/legal</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/crime</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/state</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/national</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/international</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/lifestyle</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/art</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/entertainment</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/sports</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/business</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://spured.com/categories/news/others</loc>
+  <lastmod>2019-09-28T15:53:09+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+
 </urlset>
