@@ -2,11 +2,13 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { User } from '../../shared/models/user.model';
+import { SeoService } from '../../shared';
 
 @Component({
     selector: 'home',
     templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss']
+    styleUrls: ['./home.component.scss'],
+    providers:[SeoService]
 })
 export class HomeComponent implements OnInit {
     currentUser: User;
@@ -32,7 +34,7 @@ export class HomeComponent implements OnInit {
         
     }*/
 
-    constructor(private zone: NgZone, private userService: CurrentUserService) {
+    constructor(private zone: NgZone, private userService: CurrentUserService, private seo: SeoService) {
         let self = this;
         /*this.zone.runOutsideAngular(() => { self.someInterval = setInterval(() => { 
             // Your Code 
@@ -49,6 +51,14 @@ export class HomeComponent implements OnInit {
         }
     }
     ngOnInit() {
+
+        this.seo.generateTags({
+            title: 'SpurEd - Spur Encouragement to Education',
+            description: 'A place where you can be updated anything related to education, exams, career, events, news, current affairs etc.Boards helps you connect with fellow students at your college or educational institutes.',
+            slug: 'SpurEd'
+          })
+          this.userService.setTitle("SpurEd - Spur Encouragement to Education")
+
         this.currentUser = this.userService.getCurrentUser();
         if (this.currentUser) {
             this.validUser = true;
