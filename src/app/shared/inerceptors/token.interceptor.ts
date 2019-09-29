@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import 'rxjs/add/operator/do';
 import { Observable } from 'rxjs/Observable';
 import * as constants from '../others/constants';
-import { AuthService } from '../services/auth.service';
+import { AuthenticationService } from '../services/auth.service';
 import { CustomCookieService } from '../services/cookie.service';
 import { JwtService } from '../services/jwt.service';
 import { environment } from '../../../environments/environment';
@@ -19,7 +19,7 @@ export class TokenInterceptor implements HttpInterceptor {
         private router: Router, private injector: Injector, private jwtService: JwtService,
         private customCookieService: CustomCookieService,
         @Inject(PLATFORM_ID) private platformId: Object,
-        private authService: AuthService
+        private authService: AuthenticationService
     ) {
         this.isServer = isPlatformServer(platformId);
     }

@@ -25,7 +25,7 @@ import { AuthCanLoadGuard, AuthGuard, CommonService } from './shared/index';
 import { TokenInterceptor } from './shared/inerceptors/token.interceptor';
 import { DatePickerFormat } from './shared/others/datepickerFormat';
 import { TimePickerFormat } from "./shared/others/timepickerFormat";
-import { AuthService } from './shared/services/auth.service';
+import { AuthenticationService } from './shared/services/auth.service';
 import { CustomCookieService } from "./shared/services/cookie.service";
 import { CurrentUserService } from './shared/services/currentUser.service';
 import { JwtService } from './shared/services/jwt.service';
@@ -33,7 +33,29 @@ import { MobileDetectionService } from './shared/services/mobiledetection.servic
 import { UserSetupModule } from './user-setup/user-setup.module';
 import { ToastrModule } from 'ng6-toastr-notifications';
 import { SpuredModule } from "./spured/spured.module";
+import {
+    SocialLoginModule,
+    AuthServiceConfig,
+    GoogleLoginProvider,
+    // FacebookLoginProvider
+ } from 'angular-6-social-login';
 
+
+ export function getAuthServiceConfigs() {
+    const config = new AuthServiceConfig(
+    [
+    // {
+    //     id: FacebookLoginProvider.PROVIDER_ID,
+    //     provider: new FacebookLoginProvider('Your_Facebook_Client_ID')
+    // },
+    {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider('706905826330-qfg497pds4qp246qmtukjpg86tjh7l0g.apps.googleusercontent.com')
+    }
+    ]
+    );
+    return config;
+}
 
 @NgModule({
     declarations: [
@@ -66,6 +88,7 @@ import { SpuredModule } from "./spured/spured.module";
         BrowserTransferStateModule,
         // TransferHttpCacheModule,
         PasswordResetLinkModule,
+        SocialLoginModule,
         ToastrModule.forRoot()
     ],
     providers: [
@@ -76,7 +99,7 @@ import { SpuredModule } from "./spured/spured.module";
         DatePickerFormat,
         TimePickerFormat,
         MatProgressSpinnerModule,
-        AuthService,
+        AuthenticationService,
         CommonService,
         MobileDetectionService,
         {
@@ -86,7 +109,11 @@ import { SpuredModule } from "./spured/spured.module";
         },
 
         CookieService,
-        CustomCookieService
+        CustomCookieService,
+        {
+            provide: AuthServiceConfig,
+            useFactory: getAuthServiceConfigs
+        }
     ],
     bootstrap: [AppComponent]
 })

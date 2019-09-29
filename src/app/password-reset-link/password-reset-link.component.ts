@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthenticationService } from '../shared/services/auth.service';
 import { ToastrService } from '../shared/services/Toastr.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PasswordResetService } from '../password-reset/password-reset.service';
@@ -13,7 +13,7 @@ const MY_DATA = makeStateKey('ACCOUNT_ACTIVATION');
   selector: 'password-reset-link',
   templateUrl: './password-reset-link.component.html',
   styleUrls: ['./password-reset-link.component.css'],
-  providers: [AuthService, ToastrService, PasswordResetService, MobileDetectionService,
+  providers: [AuthenticationService, ToastrService, PasswordResetService, MobileDetectionService,
     CurrentUserService, SeoService]
 })
 export class PasswordResetLinkComponent implements OnInit {
@@ -26,7 +26,7 @@ export class PasswordResetLinkComponent implements OnInit {
   public btnTxt = "Update";
   public isMobile: any;
   constructor(private route: ActivatedRoute,
-    private authService: AuthService,
+    private authService: AuthenticationService,
     private toastr: ToastrService,
     private router: Router,
     private state: TransferState,

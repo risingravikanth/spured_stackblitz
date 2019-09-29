@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../../shared/models/user.model';
 import * as constant from '../../../shared/others/constants';
-import { AuthService } from '../../../shared/services/auth.service';
+import { AuthenticationService } from '../../../shared/services/auth.service';
 import { CommonService } from '../../../shared/services/common.service';
 import { CurrentUserService } from '../../../shared/services/currentUser.service';
 import { MobileDetectionService } from '../../../shared/services/mobiledetection.service';
@@ -24,7 +24,7 @@ export class HeaderMobileComponent implements OnInit {
     public responseVo: any = { info: null, source: null, statusCode: null };
     isAdmin: boolean = false;
 
-    constructor(public router: Router, private authService: AuthService,
+    constructor(public router: Router, private authService: AuthenticationService,
         private userService: CurrentUserService,
         private commonService: CommonService,
         private mobileService: MobileDetectionService,

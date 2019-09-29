@@ -12,7 +12,7 @@ import { TransferState, makeStateKey } from '@angular/platform-browser';
 import { CookiesService, CookiesOptions } from '@ngx-utils/cookies';
 
 @Injectable()
-export class AuthService {
+export class AuthenticationService {
     loggedUser: any;
     constructor(
         public router: Router,

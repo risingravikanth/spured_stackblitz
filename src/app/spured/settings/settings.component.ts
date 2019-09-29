@@ -8,7 +8,7 @@ import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { ToastrService } from '../../shared/services/Toastr.service';
 import { SettingsService } from './settings.service';
 import { MobileDetectionService, SeoService } from '../../shared';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthenticationService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'settings',
@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit {
   constructor(private router: Router, private formbuilder: FormBuilder, private service: SettingsService,
     private userService: CurrentUserService, @Inject(PLATFORM_ID) private platformId: Object,
     private toastr: ToastrService, private mobileServie: MobileDetectionService, private fb: FormBuilder,
-    private authService: AuthService,
+    private authService: AuthenticationService,
     private seo: SeoService) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();

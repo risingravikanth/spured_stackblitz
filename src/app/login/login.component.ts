@@ -6,10 +6,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { MobileDetectionService, SeoService } from '../shared/services';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthenticationService } from '../shared/services/auth.service';
 import { CurrentUserService } from '../shared/services/currentUser.service';
 import { ToastrService } from '../shared/services/Toastr.service';
 import { CustomCookieService } from '../shared/services/cookie.service';
+import {
+    AuthService,
+    FacebookLoginProvider,
+    GoogleLoginProvider
+ } from 'angular-6-social-login';
  
 @Component({
     selector: 'app-login',
@@ -31,14 +36,15 @@ export class LoginComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private authService: AuthService,
+        private authService: AuthenticationService,
         private currentUser: CurrentUserService,
         private fb: FormBuilder,
         private seo: SeoService,
         private mobile: MobileDetectionService,
         @Inject(PLATFORM_ID) private platformId: Object,
         private toastr: ToastrService,
-        private customCookieService:CustomCookieService
+        private customCookieService:CustomCookieService,
+        private socialAuthService: AuthService
 
     ) { }
     ngOnInit() {
@@ -121,6 +127,15 @@ export class LoginComponent implements OnInit {
                 }
             );
         }
+    }
+
+    loginGoogle(){
+        this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(userData => {
+            // this.apiConnection(userData);
+            alert('login success');
+            console.log(userData);
+         });
+
     }
 
 }

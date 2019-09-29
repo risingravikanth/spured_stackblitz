@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../shared/models/user.model';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthenticationService } from '../../shared/services/auth.service';
 import { CommonService } from '../../shared/services/common.service';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
 
     notificationDetails: any;
 
-    constructor(public router: Router, private authService: AuthService,
+    constructor(public router: Router, private authService: AuthenticationService,
         private userService: CurrentUserService,
         private notifyService: NotificationsService,
         private commonService: CommonService, private mobileService: MobileDetectionService) { }

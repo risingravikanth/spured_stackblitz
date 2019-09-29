@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthenticationService } from '../shared/services/auth.service';
 import { ToastrService } from '../shared/services/Toastr.service';
 import { SeoService } from '../shared';
 import { CurrentUserService } from '../shared/services/currentUser.service';
@@ -11,7 +11,7 @@ const MY_DATA = makeStateKey('ACCOUNT_ACTIVATION');
   selector: 'account-activate',
   templateUrl: './account-activate.component.html',
   styleUrls: ['./account-activate.component.css'],
-  providers: [AuthService, ToastrService,
+  providers: [AuthenticationService, ToastrService,
     CurrentUserService, SeoService]
 })
 export class AccountActivateComponent implements OnInit {
@@ -21,7 +21,7 @@ export class AccountActivateComponent implements OnInit {
   public tokenDetails: any;
   public isValiUser: boolean = false
   constructor(private route: ActivatedRoute,
-    private authService: AuthService,
+    private authService: AuthenticationService,
     private toastr: ToastrService,
     private router: Router,
     private state: TransferState,
