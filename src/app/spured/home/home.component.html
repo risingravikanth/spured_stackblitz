@@ -1,93 +1,187 @@
 <div class="landing-page">
-<div class="wrapper">
-    <div class="parallax filter-gradient blue" style="margin-top:55px;" data-color="blue">
-        <div class="parallax-background top-parallax-background">
-            <img class="parallax-background-image img-fluid" src="assets/images/top_bg.jpg">
-        </div>
-        <div class= "container">
-            <div class="row">
-                <div class="col-md-5 col-sm-12">
-                    <div class="parallax-image">
-                        <img class="phone focus" src="assets/images/top_baner.jpg" style="margin-top: 20px"/>
+    <div class="wrapper">
+        <!-- <div class="parallax filter-gradient blue" style="margin-top:55px;" data-color="blue">
+            <div class="parallax-background top-parallax-background">
+                <img class="parallax-background-image img-fluid" src="assets/images/top_bg.jpg">
+            </div> -->
+        <div style="margin-top:55px;">
+            <div class="container" style="position: relative;z-index: 1;">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- <div class="parallax-image  col-md-12"> -->
+
+                        <div class="img-with-text">
+                            <img class="phone focus" src="assets/images/top_baner.jpg" style="border-radius: 8%;width: 55%;margin-top: 20px" />
+
+                            <div class="description" *ngIf="!isValiUser">
+                                <b>
+                                    <h3 class="text-center">Spur
+                                        <span class="h5">Encouragement to </span>Ed
+                                        <span class="h5">ucation</span>
+                                    </h3>
+                                    <h5>Learning management and Knowledge networking platform</h5>
+                                    <h5>Ask, Share, Interact & Learn</h5>
+                                    <h5>Prepare smarter with Spured</h5>
+                                </b>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-sm-12 col-md-offset-1">
-                    <div class="description">
-                        <h1 >Spur <span class="h4">Encouragement to </span>Ed<span class="h4">ucation</span></h1>
-                        <!--<footer class="blockquote-footer pull-right text-white"><cite title="Source Title">Education</cite></footer>-->
-                         <br>
-                        <h5 >Learning management and Knowledge networking platform</h5>
-                        <h5 >Ask, Share, Interact & Learn</h5>
-                        <h5>Prepare smarter with Spured</h5>
+                    <div class="col-md-6" *ngIf="!isValiUser">
+
+                        <div class="bg-white">
+                            <h5 class="text-center" *ngIf="isLogin">
+                                <b>Login to Spured</b>
+                            </h5>
+                            <h5 class="text-center" *ngIf="isSignup">
+                                <b>Signup to Spured</b>
+                            </h5>
+                            <!-- <section class="flex flex-shrink-0 auth__social justify-between mv3"> -->
+                            <!-- <span style="transition: opacity 0.5s ease 0s;">
+                                        <button type="button" class="auth__facebook relative auth__social__btn disabled ma0 tc pointer tracked-sm outline-0 b bg-blue white pa3 w-100 bn medium">Facebook</button>
+                                    </span> -->
+                            <!-- <button type="button" (click)="loginGoogle()" class="auth__google flex items-center relative auth__social__btn disabled ma0 b tc pointer tracked-sm bg-white black ba b--near-white pa3">Google</button> -->
+                            <div class="text-center" style="margin-top: 20px;" *ngIf="isLogin || isSignup">
+                                <!-- <button type="button" (click)="loginGoogle()" class="btn btn-block googleButton">Google</button> -->
+                                <!-- <button type="button"  (click)="loginGoogle()" class="loginBtn loginBtn--google">
+                                                Login with Google
+                                              </button> -->
+                                <div>
+                                    <button class="btn row" (click)="loginGoogle()" style="height:35px;background-color: white;color: black;border-width: 1px;border-color: gray;">
+                                        <div class="pull-left">
+                                            <img width="20px" style="margin-bottom: 6px;" alt="Google &quot;G&quot; Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+                                            />
+                                        </div> &nbsp;&nbsp; Connect with Google
+                                    </button>
+                                </div>
+                                <br>
+                                <div style="width: 100%; height: 12px; border-bottom: 1px solid gray; text-align: center">
+                                    <span style="background-color: white; padding: 0 10px;">
+                                        OR
+                                    </span>
+                                </div>
+                                <br>
+                            </div>
+
+                            <!-- Login div start -->
+                            <div *ngIf="isLogin">
+                                <div *ngIf="errorTextMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>{{ errorTextMessage }}</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form (ngSubmit)="onLoggedin()" [formGroup]="authForm">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput type="email" id="inputEmail" placeholder="Email" formControlName="email">
+                                    </mat-form-field>
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput type="password" id="inputPassword" placeholder="Password" formControlName="password">
+                                    </mat-form-field>
+                                </form>
+                            </div>
+                            <div *ngIf="isLogin">
+                                <div class="pull-right">
+                                    <div>
+                                        <a href="javascript:void(0);" class="linkRed" (click)="updateForm('FORGOT_PWD')">Forgot password?</a>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-sm btn-md btn-outline-info btn-login loginButton font-weight-bold mb-2" type="submit" [disabled]="status == 'Logging in, please wait...'">{{status}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="isLogin" class="text-center" [class.signUpBtnMar]='!isMobile'>
+                                <b>Need an account?
+                                    <a href="javascript:void(0);" (click)="updateForm('SIGNUP')">Signup</a>
+                                </b>
+                            </div>
+                            <!-- Login div end -->
+                            <!-- Signup div start -->
+                            <div *ngIf="isSignup">
+                                <user-setup></user-setup>
+                                <p class="text-center">
+                                    <b>Already have an account?
+                                        <a href="javascript:void(0);" (click)="updateForm('LOGIN')">Login</a>
+                                    </b>
+                                </p>
+                            </div>
+                            <!-- signup div end -->
+                            <!-- forgot password div start -->
+                            <div *ngIf="isForgotPwd">
+                                <password-reset></password-reset>
+                                <br>
+                                <div class="row text-center">
+                                    <div class="col-md-6">
+                                        <b>
+                                            <a href="javascript:void(0);" (click)="updateForm('LOGIN')">Login</a>
+                                        </b>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>
+                                            <a href="javascript:void(0);" (click)="updateForm('SIGNUP')">Signup</a>
+                                        </b>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- forgot password div start -->
+                        </div>
                     </div>
-                    <!--<div class="buttons">
-                        <button class="btn btn-fill btn-neutral">
-                        <i class="fa fa-apple"></i> Appstore
-                        </button>
-                        <button class="btn btn-simple btn-neutral">
-                        <i class="fa fa-android"></i>
-                        </button>
-                        <button class="btn btn-simple btn-neutral">
-                        <i class="fa fa-windows"></i>
-                        </button>
-                    </div>-->
+                    <div class="col-md-6" *ngIf="isValiUser">
+                        <div class="description" style="margin-top:75px;">
+                            <b>
+                                <h3 class="text-center">Spur
+                                    <span class="h5">Encouragement to </span>Ed
+                                    <span class="h5">ucation</span>
+                                </h3>
+                                <h5>Learning management and Knowledge networking platform</h5>
+                                <h5>Ask, Share, Interact & Learn</h5>
+                                <h5>Prepare smarter with Spured</h5>
+                            </b>
+                            <div class="text-center">
+                                <button routerLink="/feed" class="btn btn-sm btn-md btn-outline-info btn-login feedButton font-weight-bold mb-2" type="submit">Continue to feed</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--<div class="section section-gray section-clients" style="display:none;">
-        <div class="container text-center">
-            <h4 class="header-text">Friends in high places</h4>
-            <p>
-                Build customer confidence by listing your users! Anyone who has used your service and has been pleased with it should have a place here! From Fortune 500 to start-ups, all your app enthusiasts will be glad to be featured in this section. Moreover, users will feel confident seing someone vouching for your product!<br>
-            </p>
-            <div class="logos">
-                <ul class="list-unstyled">
-                    <li ><img src="assets/images/logos/adobe.png"/></li>
-                    <li ><img src="assets/images/logos/zendesk.png"/></li>
-                    <li ><img src="assets/images/logos/ebay.png"></li>
-                    <li ><img src="assets/images/logos/evernote.png"/></li>
-                    <li ><img src="assets/images/logos/airbnb.png"/></li>
-                    <li ><img src="assets/images/logos/zappos.png"/></li>
-                </ul>
-            </div>
-        </div>
-    </div>-->
-    <div class="section section-presentation">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="description college-section">
-                        <h4 class="header-text">College</h4>
-                        <ul>
-                            <li>Network of students, faculty & administration.</li>
-                            <li>Ask & share anything relevant to education & college.</li>
-                            <li>Spaces for classes, batches, departments and entire college</li>
-                            <li>Convey content only to targeted audience</li>
-                            <li>Digitize your college content</li>
-                            <li>Online exams, quiz, grades</li>
-                        </ul>
-                        <!--<p>Network of students, faculty & administration.</p>
+        <!-- </div> -->
+        <div class="section section-presentation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="description college-section">
+                            <h4 class="header-text">College</h4>
+                            <ul>
+                                <li>Network of students, faculty & administration.</li>
+                                <li>Ask & share anything relevant to education & college.</li>
+                                <li>Spaces for classes, batches, departments and entire college</li>
+                                <li>Convey content only to targeted audience</li>
+                                <li>Digitize your college content</li>
+                                <li>Online exams, quiz, grades</li>
+                            </ul>
+                            <!--<p>Network of students, faculty & administration.</p>
                         <p>Ask & share anything relevant to education & college</p>
                         <p>Spaces for classes, batches, departments and entire college</p>
                         <p>Convey content only to targeted audience</p>
                         <p>Digitize your college content</p>
                         <p>Online exams, quiz, grades</p>-->
-                         <a *ngIf="!validUser" href="/login" id="Demo3" class="btn btn-fill btn-info" data-button="info">Login / Sign up</a>
+                            <!-- <a *ngIf="!isValidUser" href="/login" id="Demo3" class="btn btn-fill btn-info" data-button="info">Login / Sign up</a> -->
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-5 col-md-offset-1 hidden-xs">
-                    <img class="college_pic" src="assets/images/college.png"/>
+                    <div class="col-md-5 col-md-offset-1 hidden-xs">
+                        <img class="college_pic" src="assets/images/college.png" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="section section-demo">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <img class="beyond_pic" src="assets/images/beyond.jpg" alt="">
-                    <!--<div id="description-carousel" class="carousel fade" data-ride="carousel">
+        <div class="section section-demo">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img class="beyond_pic" src="assets/images/beyond.jpg" alt="">
+                        <!--<div id="description-carousel" class="carousel fade" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="item">
                                 <img src="assets/images/beyond.jpg" alt="">
@@ -105,19 +199,19 @@
                             <li data-target="#description-carousel" data-slide-to="2" class=""></li>
                         </ol>
                     </div>-->
-                </div>
-                <div class="col-md-5 col-md-offset-1 beyond-section">
-                    <h4 class="header-text">beyond</h4>
-                    <ul>
-                        <li>Knowledge networking with fellow scholars beyond the college</li>
-                        <li>Be the first one to know about events, jobs, current affairs, news, results, higher education.</li>
-                        <li>Stay on top of latest updates</li>
-                        <li>Ask & share anything relevant to education, technology, career, news, knowledge.</li>
-                        <li>Interact with experts and get suggestions</li>
-                        <li>Focused preparation with content organized in categories & models</li>
-                        <li>Revise quickly before exams</li>
-                    </ul>
-                    <!--<p>Knowledge networking with fellow scholars beyond the college</p>
+                    </div>
+                    <div class="col-md-5 col-md-offset-1 beyond-section">
+                        <h4 class="header-text">beyond</h4>
+                        <ul>
+                            <li>Knowledge networking with fellow scholars beyond the college</li>
+                            <li>Be the first one to know about events, jobs, current affairs, news, results, higher education.</li>
+                            <li>Stay on top of latest updates</li>
+                            <li>Ask & share anything relevant to education, technology, career, news, knowledge.</li>
+                            <li>Interact with experts and get suggestions</li>
+                            <li>Focused preparation with content organized in categories & models</li>
+                            <li>Revise quickly before exams</li>
+                        </ul>
+                        <!--<p>Knowledge networking with fellow scholars beyond the college</p>
                     <p>Be the first one to know about events, jobs, current affairs, news, results, higher education.</p>
                     <p>Stay on top of latest updates </p>
                     <p>Ask & share anything relevant to education, technology, career, news, knowledge.</p>
@@ -125,84 +219,89 @@
                     <p>Focused preparation with content organized in categories & models</p>
                     <p>Revise quickly before exams</p>-->
 
-                    <!--<a href="http://www.creative-tim.com/product/awesome-landing-page" id="Demo3" class="btn btn-fill btn-info" data-button="info">Get Free Demo</a>-->
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="section section-features">
-        <div class="container">
-            <h4 class="header-text text-center">Features</h4>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card card-blue">
-                        <div class="icon">
-                            <i class="pe-7s-note2"></i>
-                        </div>
-                        <div class="text">
-                            <!--<h4>Online Customers Management</h4>-->
-                            <p>Ask, Share and support any information/learning content with Post, Comment, Like, Favorite.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-blue">
-                        <div class="icon">
-                            <i class="pe-7s-bell"></i>
-                        </div>
-                        <!--<h4>Smart Notifications on hands</h4>-->
-                        <p>Boards are organized spaces in colleges specific to department, batch, class, section or whole college of students, Share content in any board based on whom the content is intended to.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-blue">
-                        <div class="icon">
-                            <i class="pe-7s-graph1"></i>
-                        </div>
-                        <!--<h4>Know your business better now</h4>-->
-                        <p>Groups helps in keeping the content visible only to specific set of audience. Administration groups, faculty groups, course groups, event groups are some examples.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card card-blue">
-                        <div class="icon">
-                            <i class="pe-7s-note2"></i>
-                        </div>
-                        <div class="text">
-                            <!--<h4>Online Customers Management</h4>-->
-                            <p>Beyond college content organized in various sections and models helps focused preparation for competitive exams.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-blue">
-                        <div class="icon">
-                            <i class="pe-7s-bell"></i>
-                        </div>
-                        <!--<h4>Smart Notifications on hands</h4>-->
-                        <p>Get latest updates on events, job notifications, news, current affairs, results, competitive exam material.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-blue">
-                        <div class="icon">
-                            <i class="pe-7s-graph1"></i>
-                        </div>
-                        <!--<h4>Know your business better now</h4>-->
-                        <p>Email and app notifications which you can control, to get updates as the content gets uploaded to the platform.</p>
+                        <!--<a href="http://www.creative-tim.com/product/awesome-landing-page" id="Demo3" class="btn btn-fill btn-info" data-button="info">Get Free Demo</a>-->
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--<div class="section section-testimonial">
+        <div class="section section-features">
+            <div class="container">
+                <h4 class="header-text text-center">Features</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card card-blue">
+                            <div class="icon">
+                                <i class="pe-7s-note2"></i>
+                            </div>
+                            <div class="text">
+                                <!--<h4>Online Customers Management</h4>-->
+                                <p>Ask, Share and support any information/learning content with Post, Comment, Like, Favorite.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-blue">
+                            <div class="icon">
+                                <i class="pe-7s-bell"></i>
+                            </div>
+                            <!--<h4>Smart Notifications on hands</h4>-->
+                            <p>Boards are organized spaces in colleges specific to department, batch, class, section or whole
+                                college of students, Share content in any board based on whom the content is intended to.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-blue">
+                            <div class="icon">
+                                <i class="pe-7s-graph1"></i>
+                            </div>
+                            <!--<h4>Know your business better now</h4>-->
+                            <p>Groups helps in keeping the content visible only to specific set of audience. Administration
+                                groups, faculty groups, course groups, event groups are some examples.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card card-blue">
+                            <div class="icon">
+                                <i class="pe-7s-note2"></i>
+                            </div>
+                            <div class="text">
+                                <!--<h4>Online Customers Management</h4>-->
+                                <p>Beyond college content organized in various sections and models helps focused preparation
+                                    for competitive exams.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-blue">
+                            <div class="icon">
+                                <i class="pe-7s-bell"></i>
+                            </div>
+                            <!--<h4>Smart Notifications on hands</h4>-->
+                            <p>Get latest updates on events, job notifications, news, current affairs, results, competitive
+                                exam material.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-blue">
+                            <div class="icon">
+                                <i class="pe-7s-graph1"></i>
+                            </div>
+                            <!--<h4>Know your business better now</h4>-->
+                            <p>Email and app notifications which you can control, to get updates as the content gets uploaded
+                                to the platform.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="section section-testimonial">
         <div class="container">
             <h4 class="header-text text-center">What people think</h4>
             <div id="carousel-example-generic" class="carousel fade" data-ride="carousel">
                 <!-- Wrapper for slides -->
-    <!--            <div class="carousel-inner" role="listbox">
+        <!--            <div class="carousel-inner" role="listbox">
                     <div class="item">
                         <div class="mask">
                             <img src="assets/images/faces/face-4.jpg">
@@ -239,27 +338,27 @@
             </div>
         </div>
     </div>-->
-    <div class="section section-no-padding">
-        <div class="parallax filter-gradient blue" data-color="blue">
-            <div class="parallax-background">
-                <img class ="parallax-background-image" src="assets/images/bg3.jpg"/>
-            </div>
-            <div class="info">
-                <h1>Gist</h1>
-                <p>{{gistMessage}}</p>
-                <!--<a href="http://www.creative-tim.com/product/awesome-landing-page" class="btn btn-neutral btn-lg btn-fill">DOWNLOAD</a>-->
-            </div>
-            <!--<div style="display:none;" class="info marquee">
+        <div class="section section-no-padding">
+            <div class="parallax filter-gradient blue" data-color="blue">
+                <div class="parallax-background">
+                    <img class="parallax-background-image" src="assets/images/bg3.jpg" />
+                </div>
+                <div class="info">
+                    <h1>Gist</h1>
+                    <p>{{gistMessage}}</p>
+                    <!--<a href="http://www.creative-tim.com/product/awesome-landing-page" class="btn btn-neutral btn-lg btn-fill">DOWNLOAD</a>-->
+                </div>
+                <!--<div style="display:none;" class="info marquee">
                 <h1>Gist</h1>
                 <p>Spured is a learning management system for college & students to share anything related to education & college. Boards are the hierarchy of spaces with students belongs to various batches, departments, classes and sections. A student of a class belong to his/her class board, department board, batch board and college board.
                  <br/><br/> <br/>Groups in the college (institute groups) are useful to create groups for various topics of discussions such as subject groups, library group, college fest group and so on.
                  <br/><br/><br/>Spured is also a knowledge networking platform to connect with scholars beyond the college. Content or questions related various sections or models of competitive exams, results, jobb opportunities, news, current affairs, any kind of events, higher education. Public groups are meant for discussion on any topic, anyone can join any public group and view content in that group. Various sections of the competitive exams are organized into categories and models to find the content what exactly needed.</p>
              </div>-->
+            </div>
         </div>
-    </div>
-    <footer class="footer">
-        <div class="container">
-            <!-- <nav class="pull-left">
+        <footer class="footer">
+            <div class="container">
+                <!-- <nav class="pull-left">
                 <ul>
                     <li>
                         <a href="#">
@@ -283,7 +382,7 @@
                     </li>
                 </ul>
             </nav>-->
-            <!--<div class="social-area pull-right">
+                <!--<div class="social-area pull-right">
                 <a class="btn btn-social btn-facebook btn-simple">
                 <i class="fa fa-facebook-square"></i>
                 </a>
@@ -294,10 +393,11 @@
                 <i class="fa fa-pinterest"></i>
                 </a>
             </div>-->
-            <div class="copyright">
-                &copy; 2017 <a href="javascript:void(0);">Spured Team</a>, made with love
+                <div class="copyright">
+                    &copy; 2017
+                    <a href="javascript:void(0);">Spured Team</a>, made with love
+                </div>
             </div>
-        </div>
-    </footer>
-</div>
+        </footer>
+    </div>
 </div>

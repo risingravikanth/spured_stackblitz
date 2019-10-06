@@ -18,7 +18,7 @@ import { PasswordResetComponent } from './password-reset.component';
     NgbModule.forRoot()
   ],
   declarations: [
-    PasswordResetComponent
+    
   ],
   entryComponents: [],
 })

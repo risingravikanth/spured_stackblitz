@@ -21,7 +21,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   declarations: [
-    UserSetupComponent
+    
   ]
 })
 export class UserSetupModule { }

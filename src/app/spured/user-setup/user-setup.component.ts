@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Message } from 'primeng/components/common/api';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { CustomValidator } from "../shared/others/custom.validator";
-import { MobileDetectionService, SeoService } from '../shared/services';
-import { CurrentUserService } from '../shared/services/currentUser.service';
-import { ToastrService } from '../shared/services/Toastr.service';
+import { CustomValidator } from "../../shared/others/custom.validator";
+import { MobileDetectionService, SeoService } from '../../shared/services';
+import { CurrentUserService } from '../../shared/services/currentUser.service';
+import { ToastrService } from '../../shared/services/Toastr.service';
 import { UserSetUpService } from "./user-setup.service";
 @Component({
   selector: 'user-setup',
@@ -75,14 +75,14 @@ export class UserSetupComponent implements OnInit {
       firstName: ["", { validators: [Validators.required] }],
       lastName: ["", { validators: [Validators.required] }],
       profileIdDummy: [null],
-      profileId: [null, { validators: [Validators.required] }],
+      profileId: [null],
       password: ["", [Validators.required, Validators.minLength(8)]],
       // matchingPassword: ['', { validators: [Validators.required] }],
       phoneNum: [null],
       email: ["", [
         Validators.required, Validators.email
       ]],
-      gender: ["", { validators: [Validators.required] }]
+      gender: [""]
     }
     );
   }

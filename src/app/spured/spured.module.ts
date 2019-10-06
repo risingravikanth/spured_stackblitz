@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatGridListModule, MatListModule, MatProgressSpinnerModule, MatTabsModule } from '@angular/material';
+import { MatFormFieldModule, MatGridListModule, MatListModule, MatProgressSpinnerModule, MatTabsModule, MatInputModule, MatSelectModule, MatRadioModule } from '@angular/material';
 import { MatDialogModule } from "@angular/material/dialog";
 import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -31,7 +31,9 @@ import { SpuredComponent } from '../spured/spured.component';
 import { LeftMenuComponent } from './core-main/left-menu/left-menu.component';
 import { HomeComponent } from './home/home.component';
 import { NgxContentLoadingModule } from 'ngx-content-loading';
- 
+import { UserSetupComponent } from './user-setup/user-setup.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+
 
 
 @NgModule({
@@ -63,7 +65,13 @@ import { NgxContentLoadingModule } from 'ngx-content-loading';
         MatProgressSpinnerModule,
         MatTabsModule,
         ChipsModule,
-        NgxContentLoadingModule
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatProgressSpinnerModule,
+        MatRadioModule,
+        NgxContentLoadingModule,
+        
     ],
     declarations: [
         SpuredComponent,
@@ -85,9 +93,11 @@ import { NgxContentLoadingModule } from 'ngx-content-loading';
         OthersProfileComponent,
         AdminComponent,
         AdminBoardComponent,
-        AdminGroupComponent
+        AdminGroupComponent,
+        UserSetupComponent,
+        PasswordResetComponent
     ],
-    entryComponents : [PreviewDialogComponent],
+    entryComponents: [PreviewDialogComponent],
     exports: [LeftMenuComponent, CoreMainComponent]
 })
 export class SpuredModule { }

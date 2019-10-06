@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from "primeng/components/common/messageservice";
-import { CustomValidator } from '../shared/others/custom.validator';
-import { ToastrService } from '../shared/services/Toastr.service';
+import { CustomValidator } from '../../shared/others/custom.validator';
+import { ToastrService } from '../../shared/services/Toastr.service';
 import { PasswordResetService } from './password-reset.service';
-import { MobileDetectionService } from '../shared/services/mobiledetection.service';
-import { SeoService } from '../shared';
-import { CurrentUserService } from '../shared/services/currentUser.service';
+import { MobileDetectionService } from '../../shared/services/mobiledetection.service';
+import { SeoService } from '../../shared';
+import { CurrentUserService } from '../../shared/services/currentUser.service';
 
 @Component({
   selector: 'password-reset',

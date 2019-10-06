@@ -20,7 +20,6 @@ import { SelfProfileModule } from './spured/profile-self/profile-self.module';
 import { ReportUsModule } from './spured/report-us/report-us.module';
 import { SettingsModule } from './spured/settings/settings.module';
 import { PasswordResetLinkModule } from "./password-reset-link/password-reset-link.module";
-import { PasswordResetModule } from './password-reset/password-reset.module';
 import { AuthCanLoadGuard, AuthGuard, CommonService } from './shared/index';
 import { TokenInterceptor } from './shared/inerceptors/token.interceptor';
 import { DatePickerFormat } from './shared/others/datepickerFormat';
@@ -30,7 +29,6 @@ import { CustomCookieService } from "./shared/services/cookie.service";
 import { CurrentUserService } from './shared/services/currentUser.service';
 import { JwtService } from './shared/services/jwt.service';
 import { MobileDetectionService } from './shared/services/mobiledetection.service';
-import { UserSetupModule } from './user-setup/user-setup.module';
 import { ToastrModule } from 'ng6-toastr-notifications';
 import { SpuredModule } from "./spured/spured.module";
 import {
@@ -39,6 +37,8 @@ import {
     GoogleLoginProvider,
     // FacebookLoginProvider
  } from 'angular-6-social-login';
+import { UserSetupModule } from "./spured/user-setup/user-setup.module";
+import { PasswordResetModule } from "./spured/password-reset/password-reset.module";
 
 
  export function getAuthServiceConfigs() {

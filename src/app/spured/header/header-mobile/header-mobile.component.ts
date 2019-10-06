@@ -101,7 +101,7 @@ export class HeaderMobileComponent implements OnInit {
     onLoggedout() {
         console.log("logged out successfully");
         this.authService.purgeAuth();
-        this.router.navigate(["/login"])
+        this.router.navigate(["/home"])
     }
 
     getAllNotifications() {

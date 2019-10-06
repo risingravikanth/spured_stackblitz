@@ -8,15 +8,15 @@ import { OthersProfileComponent } from './spured/profile-other/profile-other.com
 import { SelfProfileComponent } from './spured/profile-self/profile-self.component';
 import { ReportUsComponent } from './spured/report-us/report-us.component';
 import { SettingsComponent } from './spured/settings/settings.component';
-import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { AuthGuard } from './shared';
-import { UserSetupComponent } from './user-setup/user-setup.component';
 import { AccountActivateComponent } from './account-activate/account-activate.component';
 import { NotificationsComponent } from './spured/notifications/notifications.component';
 import { PasswordResetLinkComponent } from './password-reset-link/password-reset-link.component';
 import { AdminComponent } from './spured/admin/admin.component';
 import { SpuredComponent } from './spured/spured.component';
 import { HomeComponent } from './spured/home/home.component';
+import { UserSetupComponent } from './spured/user-setup/user-setup.component';
+import { PasswordResetComponent } from './spured/password-reset/password-reset.component';
 
 const routes: Routes = [
   {

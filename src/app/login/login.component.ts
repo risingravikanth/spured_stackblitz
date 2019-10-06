@@ -93,47 +93,60 @@ export class LoginComponent implements OnInit {
         if (this.authForm.valid) {
             this.status = 'Logging in, please wait...';
             this.disableLoginButton = true;
-            this.authService.attemptAuth(this.authForm.value, this.returnUrl).subscribe(
-                resData => {
-                    this.responseVo = JSON.parse(resData.body);
-                    if (this.responseVo && this.responseVo.error && this.responseVo.error.code) {
-                        this.status = 'Sign in';
-                        this.errorTextMessage = this.responseVo.error.code.longMessage;
-                        // this.toastr.error("Failed", this.responseVo.error.code.longMessage);
-                    }
-                    else if (this.responseVo.statusCode == "ERROR") {
-                        this.errorTextMessage = this.responseVo.info;
-                        this.status = 'Sign in';
-                    } else if (this.responseVo.token) {
-                        this.loggedUser = this.responseVo;
-                        this.authService.setAuth(this.loggedUser);
-
-                        // this.customCookieService.saveTrackId(this.responseVo.token);
-                        //this.cookies.put('some_cookie1', 'some_cookie1');
-
-                        // this.toastr.success("Success", "Login sucessfull!");
-                        this.router.navigate(['/feed']);
-                    }
-                    else {
-                        this.status = 'Sign in';
-                        this.errorTextMessage = 'Something went wrong';
-                        // this.toastr.error("Failed", 'Something went wrong')
-                    }
-                }, (err: HttpErrorResponse) => {
-                    // this.toastr.error("Failed", 'Something went wrong')
-                    this.errorTextMessage = 'Something went wrong';
-                    this.status = 'Sign in';
-                    this.disableLoginButton = false;
-                }
-            );
+            this.loginMethod(this.authForm.value);
+            
         }
     }
 
+    loginMethod(body:any){
+        this.authService.attemptAuth(body, this.returnUrl).subscribe(
+            resData => {
+                this.responseVo = JSON.parse(resData.body);
+                if (this.responseVo && this.responseVo.error && this.responseVo.error.code) {
+                    this.status = 'Sign in';
+                    this.errorTextMessage = this.responseVo.error.code.longMessage;
+                    // this.toastr.error("Failed", this.responseVo.error.code.longMessage);
+                }
+                else if (this.responseVo.statusCode == "ERROR") {
+                    this.errorTextMessage = this.responseVo.info;
+                    this.status = 'Sign in';
+                } else if (this.responseVo.token) {
+                    this.loggedUser = this.responseVo;
+                    this.authService.setAuth(this.loggedUser);
+
+                    // this.customCookieService.saveTrackId(this.responseVo.token);
+                    //this.cookies.put('some_cookie1', 'some_cookie1');
+
+                    // this.toastr.success("Success", "Login sucessfull!");
+                    this.router.navigate(['/feed']);
+                }
+                else {
+                    this.status = 'Sign in';
+                    this.errorTextMessage = 'Something went wrong';
+                    // this.toastr.error("Failed", 'Something went wrong')
+                }
+            }, (err: HttpErrorResponse) => {
+                // this.toastr.error("Failed", 'Something went wrong')
+                this.errorTextMessage = 'Something went wrong';
+                this.status = 'Sign in';
+                this.disableLoginButton = false;
+            }
+        );
+    }
+
     loginGoogle(){
-        this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(userData => {
-            // this.apiConnection(userData);
-            alert('login success');
+        this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((userData:any) => {
             console.log(userData);
+            if(userData && userData.idToken){
+                let loginVo = {
+                    provider:"GOOGLE",
+                    idToken:userData.idToken
+                }
+                this.loginMethod(loginVo);
+            } else{
+                alert('Something went wrong');
+            }
+
          });
 
     }

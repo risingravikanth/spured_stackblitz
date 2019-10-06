@@ -4,9 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../shared/services/auth.service';
 import { ToastrService } from '../shared/services/Toastr.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PasswordResetService } from '../password-reset/password-reset.service';
 import { MobileDetectionService, SeoService } from '../shared';
 import { CurrentUserService } from '../shared/services/currentUser.service';
+import { PasswordResetService } from '../spured/password-reset/password-reset.service';
 const MY_DATA = makeStateKey('ACCOUNT_ACTIVATION');
 
 @Component({
