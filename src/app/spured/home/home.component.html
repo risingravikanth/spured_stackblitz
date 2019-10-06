@@ -100,7 +100,7 @@
                             <!-- Signup div start -->
                             <div *ngIf="isSignup">
                                 <user-setup></user-setup>
-                                <p class="text-center">
+                                <p class="text-center"  [class.signUpBtnMar]='!isMobile'>
                                     <b>Already have an account?
                                         <a href="javascript:void(0);" (click)="updateForm('LOGIN')">Login</a>
                                     </b>

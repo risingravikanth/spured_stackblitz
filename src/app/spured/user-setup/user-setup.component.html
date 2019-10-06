@@ -76,9 +76,11 @@
             </label>
         </div>
     </div>
-    <fieldset [disabled]="btnText == 'Creating new user..'">
-        <button type="submit" style="background: #155a24;" class="btn btn-default btn-sm btnShape  btn-block marT12" [disabled]="UserSetUpForm.invalid">{{btnText}}</button>
-    </fieldset>
+    <div class="pull-right">
+        <fieldset  [disabled]="btnText == 'Creating new user..'">
+            <button type="submit" style="background: #155a24;" class="btn btn-default btn-sm btnShape marT12" [disabled]="UserSetUpForm.invalid">{{btnText}}</button>
+        </fieldset>
+    </div>
     <!-- <p class="signUpBtnMar text-center">
         <b>Already have an account?</b>
     </p> -->
