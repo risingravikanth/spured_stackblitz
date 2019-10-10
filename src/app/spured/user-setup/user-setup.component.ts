@@ -108,9 +108,16 @@ export class UserSetupComponent implements OnInit {
             this.signUpDone = true;
             this.mailId = this.responseData.email;
             this.userSetUpForm();
+          } else if (this.responseData && this.responseData.error && this.responseData.error.code) {
+            this.errorTextMessage = this.responseData.error.code.longMessage;
           } else {
+            this.errorTextMessage = "Something went wrong!";
             console.log(this.responseData);
           }
+
+          setTimeout(() => {
+            this.errorTextMessage = "";
+          }, 5000);
         }, error => {
           this.errorTextMessage = "Something went wrong!";
           // this.toastr.error("Failed", "Something went wrong!")

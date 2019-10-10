@@ -112,7 +112,7 @@ export class HomeComponent implements OnInit {
     onLoggedin() {
         this.errorTextMessage = '';
         if (this.authForm.valid) {
-            this.status = 'Logging in, please wait...';
+            this.status = 'Logging in...';
             this.disableLoginButton = true;
             this.loginMethod(this.authForm.value);
 

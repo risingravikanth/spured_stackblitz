@@ -19,7 +19,6 @@
 
 
 .btnShape{
-    border-radius: 10px;
     color: white;
     font-weight: bold;
     width: 140px;
@@ -30,9 +29,8 @@
 }
 
 .loginButton{
-    background-color: white;
-    color: #1da1f2;
-    font-weight: bold;
+  background-color: #155a24;
+  width: 140px;
     border-radius: 18px;
 }
 
@@ -131,10 +129,10 @@
   }
   
   .btn-login {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     letter-spacing: 0.05rem;
-    padding: 0.75rem 1rem;
-    border-radius: 2rem;
+    border-radius: 5px;
+    height: 35px
   }
   
   .form-label-group_label{

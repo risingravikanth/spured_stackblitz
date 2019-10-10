@@ -72,7 +72,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form (ngSubmit)="onLoggedin()" [formGroup]="authForm">
+                                <form [formGroup]="authForm">
                                     <mat-form-field class="example-full-width">
                                         <input matInput type="email" id="inputEmail" placeholder="Email" formControlName="email">
                                     </mat-form-field>
@@ -87,7 +87,7 @@
                                         <a href="javascript:void(0);" class="linkRed" (click)="updateForm('FORGOT_PWD')">Forgot password?</a>
                                     </div>
                                     <div>
-                                        <button class="btn btn-sm btn-md btn-outline-info btn-login loginButton font-weight-bold mb-2" type="submit" [disabled]="status == 'Logging in, please wait...'">{{status}}</button>
+                                        <button class="btn btn-sm btn-md btn-outline-info btn-login loginButton font-weight-bold mb-2" type="button" (click)="onLoggedin()" [disabled]="status == 'Logging in...'">{{status}}</button>
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                             <!-- Signup div start -->
                             <div *ngIf="isSignup">
                                 <user-setup></user-setup>
-                                <p class="text-center"  [class.signUpBtnMar]='!isMobile'>
+                                <p class="text-center signUpBtnMar">
                                     <b>Already have an account?
                                         <a href="javascript:void(0);" (click)="updateForm('LOGIN')">Login</a>
                                     </b>

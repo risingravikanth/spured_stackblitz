@@ -1,8 +1,8 @@
 <div *ngIf="errorTextMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
     <strong>{{ errorTextMessage }}</strong>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
+    <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span >&times;</span> -->
+    <!-- </button> -->
 </div>
 <form (ngSubmit)="saveUserSetUp()" [formGroup]="UserSetUpForm" *ngIf="!signUpDone">
     <div class="row">

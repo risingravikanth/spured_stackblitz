@@ -74,7 +74,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                     </div>
-                    <form (ngSubmit)="onLoggedin()" [formGroup]="authForm" >
+                    <form [formGroup]="authForm" >
                            
                         <mat-form-field class="example-full-width">
                                     <input matInput type="email" id="inputEmail" class="bg-white" placeholder="Email address" formControlName="email"  autofocus>
@@ -89,7 +89,8 @@
                         <label class="custom-control-label" for="customCheck1">Remember password</label>
                       </div>
                    
-                      <button class="btn btn-md btn-outline-info btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit"  [disabled]="status == 'Logging in, please wait...'">{{status}}</button>
+                      <button class="btn btn-md btn-outline-info btn-block btn-login text-uppercase font-weight-bold mb-2" type="button"  [disabled]="status == 'Logging in, please wait...'"
+                      (click)="onLoggedin()">{{status}}</button>
                      <!-- <button class="btn btn-md btn-outline-info col-md-6 col-lg-6 btn-login text-uppercase font-weight-bold mb-2" type="button"  routerLink="/signup">Sign up</button>-->
                      <div class="btn white darken-4 col s10 m4">
                         <a (click)="loginGoogle()" style="text-transform:none">
