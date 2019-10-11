@@ -131,7 +131,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 if (event && event.body && event.body.info && event.body.info == "Expired token") {
                     //console.log(event.body.info)
                     this.authService.purgeAuth();
-                    this.router.navigate(['/login'], { queryParams: { 'status': 'access_denied' } })
+                    this.router.navigate(['/home'], { queryParams: { 'status': 'access_denied' } })
                 }
             }
         }, (err: any) => {
@@ -140,7 +140,7 @@ export class TokenInterceptor implements HttpInterceptor {
                     //const auth = this.injector.get(AuthService);
                     // auth.attemptLogout(auth.getCurrentUser());
                     this.authService.purgeAuth();
-                    this.router.navigate(['/login'], { queryParams: { 'status': 'access_denied' } });
+                    this.router.navigate(['/home'], { queryParams: { 'status': 'access_denied' } });
                 }
             }
         });;

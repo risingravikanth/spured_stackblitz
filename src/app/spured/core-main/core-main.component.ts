@@ -1000,7 +1000,7 @@ export class CoreMainComponent implements OnInit {
 
   upVote(postId: any, postType: any, event) {
     if (!this.validUser) {
-      this.router.navigate(['/login'])
+      this.router.navigate(['/home'])
       return false;
     }
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
@@ -1040,7 +1040,7 @@ export class CoreMainComponent implements OnInit {
 
   cancelVote(postId: any, postType: any, event) {
     if (!this.validUser) {
-      this.router.navigate(['/login'])
+      this.router.navigate(['/home'])
       return false;
     }
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
@@ -1074,7 +1074,7 @@ export class CoreMainComponent implements OnInit {
 
   createFavorite(postId: any, postType: any, event) {
     if (!this.validUser) {
-      this.router.navigate(['/login'])
+      this.router.navigate(['/home'])
       return false;
     }
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));
@@ -1113,7 +1113,7 @@ export class CoreMainComponent implements OnInit {
 
   cancelFavorite(postId: any, postType: any, event) {
     if (!this.validUser) {
-      this.router.navigate(['/login'])
+      this.router.navigate(['/home'])
       return false;
     }
     let index = this.postsList.findIndex(item => (item.postId == postId && item._type == postType));

@@ -71,7 +71,7 @@ export class SelfProfileComponent implements OnInit {
                 this.profileImage = "assets/images/noticer_default_user_img.png"
             }
         } else {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/home']);
         }
         this.initForm();
     }

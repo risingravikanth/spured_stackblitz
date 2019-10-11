@@ -127,7 +127,7 @@ export class UserSetupComponent implements OnInit {
   }
 
   redirectLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/home']);
   }
 
   resendActivationMail() {

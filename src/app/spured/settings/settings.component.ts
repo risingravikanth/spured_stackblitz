@@ -141,7 +141,7 @@ export class SettingsComponent implements OnInit {
         } else if (resData && resData.info == "Deleted Successfully") {
           this.toastr.success("Success", "Your account deleted successfully!");
           this.authService.purgeAuth();
-          this.router.navigate(["/login"])
+          this.router.navigate(["/home"])
         } else {
           this.toastr.error("Failed", "Something went wrong");
         }

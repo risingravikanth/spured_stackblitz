@@ -11,7 +11,7 @@ export class AuthCanLoadGuard implements CanLoad {
         if (this.CurrentUserService.checkValidUser()) {
             return true;
         } else {
-            this.router.navigate(['/login'], { queryParams: { returnUrl: route.path } });
+            this.router.navigate(['/home'], { queryParams: { returnUrl: route.path } });
             return false;
         }
     }

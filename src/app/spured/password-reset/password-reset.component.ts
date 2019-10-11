@@ -69,7 +69,7 @@ export class PasswordResetComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/home']);
   }
 
 }
