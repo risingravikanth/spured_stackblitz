@@ -90,4 +90,28 @@ export class AuthenticationService {
         const myData = this.http.get(url);
         return myData;
     }
+
+    isTokenValid() {
+        let user : User = this.currentUserService.getCurrentUser();
+        if (user) {
+            let diff = new Date().getTime() - user.expiration;
+
+            // console.log("Current date")
+            // console.log(new Date().getTime())
+            // console.log(new Date())
+            // console.log("Expiration")
+            // console.log(user.expiration)
+            // console.log(new Date(user.expiration))
+            // console.log("Dfference")
+            // console.log(diff);
+            if(diff <= 8.64e+7){
+                // console.log('token alive');
+                return true;
+            } else{
+                // console.log('token dead');
+                return false;
+            }
+        }
+        return false;
+    }
 }

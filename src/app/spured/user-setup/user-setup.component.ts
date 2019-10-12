@@ -121,6 +121,9 @@ export class UserSetupComponent implements OnInit {
         }, error => {
           this.errorTextMessage = "Something went wrong!";
           // this.toastr.error("Failed", "Something went wrong!")
+          setTimeout(() => {
+            this.errorTextMessage = "";
+          }, 5000);
         }
       );
     }

@@ -7,6 +7,7 @@ export class User {
     token: string;
     params: Array<any>;
     accountType: string;
+    expiration: number;
 }
 
 export interface Param {

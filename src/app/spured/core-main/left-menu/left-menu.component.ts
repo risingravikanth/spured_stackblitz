@@ -377,7 +377,7 @@ export class LeftMenuComponent implements OnInit {
 
 
     if (this.trasferState.hasKey(CLOSEDBOARDS_KEY)) {
-      console.log("browser : getting CLOSEDBOARDS_KEY for posts");
+      // console.log("browser : getting CLOSEDBOARDS_KEY for posts");
       this.boardsList = this.trasferState.get(CLOSEDBOARDS_KEY, '');
       this.trasferState.remove(CLOSEDBOARDS_KEY);
       if (this.boardsList && this.boardsList.length > 0) {
@@ -391,7 +391,7 @@ export class LeftMenuComponent implements OnInit {
 
     } else if (this.isServer) {
 
-      console.log("server : making service call & setting CLOSEDBOARDS_KEY");
+      // console.log("server : making service call & setting CLOSEDBOARDS_KEY");
 
       this.service.getUserClosedBoards().subscribe((resData: any) => {
         this.showPostSpinner = false;
@@ -416,7 +416,7 @@ export class LeftMenuComponent implements OnInit {
       });
 
     } else {
-      console.log("no result received : making service call CLOSEDBOARDS_KEY");
+      // console.log("no result received : making service call CLOSEDBOARDS_KEY");
 
       this.service.getUserClosedBoards().subscribe((resData: any) => {
         this.showPostSpinner = false;

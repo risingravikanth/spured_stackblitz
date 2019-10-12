@@ -360,7 +360,7 @@ export class CoreMainComponent implements OnInit {
 
 
     } else {
-      console.log("no result received : making service call RESULT_KEY");
+      // console.log("no result received : making service call RESULT_KEY");
 
       this.service.getPostsList(this.getPostsRequestBody).subscribe(
         resData => {

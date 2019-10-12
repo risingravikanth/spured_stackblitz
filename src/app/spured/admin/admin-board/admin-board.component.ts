@@ -19,6 +19,7 @@ export class AdminBoardComponent implements OnInit {
   public boardResponse: any;
 
   public listOfBoards: any = [];
+  public listOfBoardsResponse: any = [];
   public listOfDepartments: any = [];
   public peopleInBoards: any = [];
   public isMobile: boolean;
@@ -90,6 +91,7 @@ export class AdminBoardComponent implements OnInit {
   getAdminClosedBoards() {
     this.leftMenuService.getAdminClosedBoards().subscribe(resData => {
       if (resData.boards) {
+        this.listOfBoardsResponse = resData.boards;
         for (var i in resData.boards) {
           let item = resData.boards[i];
           let id = item['boardId'];
@@ -105,13 +107,19 @@ export class AdminBoardComponent implements OnInit {
   }
 
   getUsersInClosedBoard(boardId: any) {
-    this.boardName = this.listOfBoards.filter(item => item.value == boardId)[0].label;
-    let ar = this.boardName.split(" ");
-    if (ar.length == 3) {
-      this.deptName = ar[1];
-      this.startYear = ar[2].split("-")[0];
-      this.endYear = ar[2].split("-")[1];
+    // this.boardName = this.listOfBoards.filter(item => item.value == boardId)[0].label;
+    let array = this.listOfBoardsResponse.filter(item => item.boardId == boardId);
+    if (array.length > 0) {
+      this.deptName = this.getDepartmentName(array[0].deptName, array[0].deptId);
+      this.startYear = array[0].startYear;
+      this.endYear = array[0].endYear;
     }
+    // let ar = this.boardName.split(" ");
+    // if (ar.length >= 3) {
+    //   this.deptName = ar[1];
+    //   this.startYear = ar[2].split("-")[0];
+    //   this.endYear = ar[2].split("-")[1];
+    // }
     this.service.getUsersInClosedBoard(boardId).subscribe(
       resData => {
         this.peopleInBoards = resData;
@@ -124,6 +132,35 @@ export class AdminBoardComponent implements OnInit {
         }
       }
     )
+  }
+
+  getDepartmentName(deptName, deptId) {
+    if (deptName) {
+      return deptName;
+    } else {
+      switch (deptId) {
+        case 1:
+          return 'Computers';
+        case 2:
+          return 'Electronics';
+        case 3:
+          return 'Mechanical';
+        case 4:
+          return 'Chemical';
+        case 5:
+          return 'Electrical';
+        case 6:
+          return 'Civil';
+        case 7:
+          return 'Marine';
+        case 8:
+          return 'Petrolium';
+        default:
+          return '';
+
+      }
+    }
+
   }
 
   addUsersInBoard() {

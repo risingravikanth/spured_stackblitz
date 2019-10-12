@@ -68,9 +68,9 @@
                             <div *ngIf="isLogin">
                                 <div *ngIf="errorTextMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
                                     <strong>{{ errorTextMessage }}</strong>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
-                                    </button>
+                                    </button> -->
                                 </div>
                                 <form [formGroup]="authForm">
                                     <mat-form-field class="example-full-width">

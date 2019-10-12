@@ -31,7 +31,7 @@ export class TokenInterceptor implements HttpInterceptor {
         let rawCookiesAry: any = [];
         let rawCookiesStr: any = "";
 
-        
+
         /* CHANGED :: Using enviroment we defined REST_API_URL in both environment.ts & environment.prod.ts files 
             ng serve uses in envronment.ts file REST_API_URL
             npm run build:ssr uses in environment.prod.ts file REST_API_URL
@@ -42,107 +42,118 @@ export class TokenInterceptor implements HttpInterceptor {
                 restUrl = constants.REST_API_URL_QA;
             }
         */
-        
-        restUrl = environment.REST_API_URL;
- 
-        if (this.isServer) {
-            const reqObj: any = this.injector.get('REQUEST');
-            const rawCookies = !!reqObj.headers['cookie'] ? reqObj.headers['cookie'] : '';
-
-            rawCookiesStr = rawCookies;
-            if (rawCookiesStr != null && rawCookiesStr != undefined)
-                rawCookiesAry = rawCookies.split(';');
-
-            if (rawCookiesAry.length > 0) {
-                for (let i = 0; i < rawCookiesAry.length; i++) {
-                    let cookieObj = rawCookiesAry[i];
-
-                    if (cookieObj != undefined && cookieObj.indexOf("tracking_id=") != -1) {
-                        // tracking id from cookies
-                        tracking_id = cookieObj;
-                        tracking_id = tracking_id.replace("tracking_id=", "");
-                    }
-
-                    if (cookieObj != undefined && cookieObj.indexOf("Authorization=") != -1) {
-                        // Authorization from cookies
-                        auth_token = cookieObj;
-                        auth_token = auth_token.replace("Authorization=", "");
-                    }
-                }
-            }
-
-            console.log("getting tracking_id from rawCookies when isserver is True", tracking_id);
-
-            req = req.clone({
-                url: `${restUrl + req.url}`,
-                setHeaders: {
-                    'Authorization': `${auth_token}`,
-                    'tracking-id': `${tracking_id}`
-                }
-            })
 
 
-        } else {
-            req = req.clone({
-                url: `${restUrl + req.url}`,
-                setHeaders: {
-                    'Authorization': `${this.jwtService.getToken()}`,
-                    'tracking-id': `${this.customCookieService.getTrackId()}`
-                }
-            });
-        }
+        if (req.url.indexOf("/login") > -1 || this.authService.isTokenValid()) {
 
 
-        return next.handle(req).do((event: HttpEvent<any>) => {
-            if (event instanceof HttpResponse) {
+            restUrl = environment.REST_API_URL;
 
-                console.log("get tracking id form event headers ",event.headers.get("tracking-id"))
-                console.log("get tracking id form event headers ",event.headers.get("tracking_id"))
-                console.log("get tracking id form event headers ",event.headers.get("Tracking_id"))
-                
-                // do stuff with response if you want
+            if (this.isServer) {
+                const reqObj: any = this.injector.get('REQUEST');
+                const rawCookies = !!reqObj.headers['cookie'] ? reqObj.headers['cookie'] : '';
+
+                rawCookiesStr = rawCookies;
+                if (rawCookiesStr != null && rawCookiesStr != undefined)
+                    rawCookiesAry = rawCookies.split(';');
+
                 if (rawCookiesAry.length > 0) {
                     for (let i = 0; i < rawCookiesAry.length; i++) {
                         let cookieObj = rawCookiesAry[i];
 
-                        if (cookieObj != undefined && cookieObj.indexOf("tracking_id=") == -1) {
-                            // Need to set tracking id from headers
-                            this.authService.setCookie("tracking_id", event.headers.get("tracking_id"));
-                            this.customCookieService.saveTrackId(event.headers.get("tracking_id"));
+                        if (cookieObj != undefined && cookieObj.indexOf("tracking_id=") != -1) {
+                            // tracking id from cookies
+                            tracking_id = cookieObj;
+                            tracking_id = tracking_id.replace("tracking_id=", "");
+                        }
 
-                            //console.log("setting in handle event.headers.get('tracking-id')", event.headers.get("tracking-id"));
+                        if (cookieObj != undefined && cookieObj.indexOf("Authorization=") != -1) {
+                            // Authorization from cookies
+                            auth_token = cookieObj;
+                            auth_token = auth_token.replace("Authorization=", "");
                         }
                     }
-                } else if ((rawCookiesStr == null || rawCookiesStr == "") && event.headers.get("tracking_id") != null) {
-                    this.authService.setCookie("tracking_id", event.headers.get("tracking_id"));
-                    this.customCookieService.saveTrackId(event.headers.get("tracking_id"));
-
-                    //console.log("setting in handle event.headers.get('tracking-id')", event.headers.get("tracking-id"));
                 }
 
+                // console.log("getting tracking_id from rawCookies when isserver is True", tracking_id);
+
+                req = req.clone({
+                    url: `${restUrl + req.url}`,
+                    setHeaders: {
+                        'Authorization': `${auth_token}`,
+                        'tracking-id': `${tracking_id}`
+                    }
+                })
 
 
-
-                /*if(!this.customCookieService.isTrackIdAvailable() || this.customCookieService.getTrackId() == null){
-                    console.log("TrackingId in interceptor: " + event.headers.get("tracking-id"));
-                }*/
-
-                //console.log("resBody in interceptor:");
-                if (event && event.body && event.body.info && event.body.info == "Expired token") {
-                    //console.log(event.body.info)
-                    this.authService.purgeAuth();
-                    this.router.navigate(['/home'], { queryParams: { 'status': 'access_denied' } })
-                }
+            } else {
+                req = req.clone({
+                    url: `${restUrl + req.url}`,
+                    setHeaders: {
+                        'Authorization': `${this.jwtService.getToken()}`,
+                        'tracking-id': `${this.customCookieService.getTrackId()}`
+                    }
+                });
             }
-        }, (err: any) => {
-            if (err instanceof HttpErrorResponse) {
-                if (err.status === 401) {
-                    //const auth = this.injector.get(AuthService);
-                    // auth.attemptLogout(auth.getCurrentUser());
-                    this.authService.purgeAuth();
-                    this.router.navigate(['/home'], { queryParams: { 'status': 'access_denied' } });
+
+
+            return next.handle(req).do((event: HttpEvent<any>) => {
+                if (event instanceof HttpResponse) {
+
+                    // console.log("get tracking id form event headers ", event.headers.get("tracking-id"))
+                    // console.log("get tracking id form event headers ", event.headers.get("tracking_id"))
+                    // console.log("get tracking id form event headers ", event.headers.get("Tracking_id"))
+
+                    // do stuff with response if you want
+                    if (rawCookiesAry.length > 0) {
+                        for (let i = 0; i < rawCookiesAry.length; i++) {
+                            let cookieObj = rawCookiesAry[i];
+
+                            if (cookieObj != undefined && cookieObj.indexOf("tracking_id=") == -1) {
+                                // Need to set tracking id from headers
+                                this.authService.setCookie("tracking_id", event.headers.get("tracking_id"));
+                                this.customCookieService.saveTrackId(event.headers.get("tracking_id"));
+
+                                //console.log("setting in handle event.headers.get('tracking-id')", event.headers.get("tracking-id"));
+                            }
+                        }
+                    } else if ((rawCookiesStr == null || rawCookiesStr == "") && event.headers.get("tracking_id") != null) {
+                        this.authService.setCookie("tracking_id", event.headers.get("tracking_id"));
+                        this.customCookieService.saveTrackId(event.headers.get("tracking_id"));
+
+                        //console.log("setting in handle event.headers.get('tracking-id')", event.headers.get("tracking-id"));
+                    }
+
+
+
+
+                    /*if(!this.customCookieService.isTrackIdAvailable() || this.customCookieService.getTrackId() == null){
+                        console.log("TrackingId in interceptor: " + event.headers.get("tracking-id"));
+                    }*/
+
+                    //console.log("resBody in interceptor:");
+                    if (event && event.body && event.body.info && event.body.info == "Expired token") {
+                        //console.log(event.body.info)
+                        this.authService.purgeAuth();
+                        this.router.navigate(['/home'], { queryParams: { 'status': 'access_denied' } })
+                    }
                 }
-            }
-        });;
+            }, (err: any) => {
+                if (err instanceof HttpErrorResponse) {
+                    if (err.status === 401) {
+                        //const auth = this.injector.get(AuthService);
+                        // auth.attemptLogout(auth.getCurrentUser());
+                        this.authService.purgeAuth();
+                        this.router.navigate(['/home'], { queryParams: { 'status': 'access_denied' } });
+                    }
+                }
+            });;
+
+        } else {
+            this.authService.purgeAuth();
+            this.router.navigate(['/home'], { queryParams: { 'status': 'access_denied' } })
+            return Observable.create((observer) => { observer.error("Session expired... Please login again"); })
+        }
+
     }
 }

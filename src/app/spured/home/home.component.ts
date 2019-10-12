@@ -1,17 +1,16 @@
-import { Component, OnInit, NgZone, PLATFORM_ID, Inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { CurrentUserService } from '../../shared/services/currentUser.service';
-import { User } from '../../shared/models/user.model';
-import { SeoService, MobileDetectionService } from '../../shared';
-import { AuthenticationService } from '../../shared/services/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from '../../shared/services/Toastr.service';
-import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
-import { CustomCookieService } from '../../shared/services/cookie.service';
-import { isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Inject, NgZone, OnInit, PLATFORM_ID } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { MobileDetectionService, SeoService } from '../../shared';
+import { User } from '../../shared/models/user.model';
+import { AuthenticationService } from '../../shared/services/auth.service';
+import { CustomCookieService } from '../../shared/services/cookie.service';
+import { CurrentUserService } from '../../shared/services/currentUser.service';
+import { ToastrService } from '../../shared/services/Toastr.service';
 
 @Component({
     selector: 'home',
@@ -94,7 +93,10 @@ export class HomeComponent implements OnInit {
         this.isMobile = this.mobile.isMobile();
         let status = this.route.snapshot.queryParams['status'];
         if (status) {
-            this.errorTextMessage = 'Login Again !'
+            this.errorTextMessage = 'Session Expired... Login Again !'
+            setTimeout(() => {
+                this.errorTextMessage = "";
+            }, 5000);
         }
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/feed';
         this.authForm = this.fb.group({
@@ -127,8 +129,7 @@ export class HomeComponent implements OnInit {
                     this.status = 'Login';
                     this.errorTextMessage = this.responseVo.error.code.longMessage;
                     // this.toastr.error("Failed", this.responseVo.error.code.longMessage);
-                }
-                else if (this.responseVo.statusCode == "ERROR") {
+                } else if (this.responseVo.statusCode == "ERROR") {
                     this.errorTextMessage = this.responseVo.info;
                     this.status = 'Login';
                 } else if (this.responseVo.token) {
@@ -146,11 +147,17 @@ export class HomeComponent implements OnInit {
                     this.errorTextMessage = 'Something went wrong';
                     // this.toastr.error("Failed", 'Something went wrong')
                 }
+                setTimeout(() => {
+                    this.errorTextMessage = "";
+                }, 5000);
             }, (err: HttpErrorResponse) => {
                 // this.toastr.error("Failed", 'Something went wrong')
                 this.errorTextMessage = 'Something went wrong';
                 this.status = 'Login';
                 this.disableLoginButton = false;
+                setTimeout(() => {
+                    this.errorTextMessage = "";
+                }, 5000);
             }
         );
     }
@@ -165,7 +172,11 @@ export class HomeComponent implements OnInit {
                 }
                 this.loginMethod(loginVo);
             } else {
-                alert('Something went wrong');
+                // alert('Something went wrong');
+                this.errorTextMessage = 'Something went wrong';
+                setTimeout(() => {
+                    this.errorTextMessage = "";
+                }, 5000);
             }
         });
     }

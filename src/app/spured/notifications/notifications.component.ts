@@ -78,7 +78,7 @@ export class NotificationsComponent implements OnInit {
     //this.currentUser = this.userService.getCurrentUser();
     this.isLoggedInUser = this.userService.checkLoggedInUser();
 
-    console.log(this.isLoggedInUser, "this.isLoggedInUser")
+    // console.log(this.isLoggedInUser, "this.isLoggedInUser")
     if (this.isLoggedInUser) {
       this.validUser = true;
       if (this.from == 'header') {
@@ -112,7 +112,7 @@ export class NotificationsComponent implements OnInit {
 
 
     if (this.tstate.hasKey(NOTIFICATIONS_KEY)) {
-      console.log("browser : getting NOTIFICATIONS_KEY for posts");
+      // console.log("browser : getting NOTIFICATIONS_KEY for posts");
 
 
       let resData: any = this.tstate.get(NOTIFICATIONS_KEY, '');
@@ -142,11 +142,11 @@ export class NotificationsComponent implements OnInit {
 
     } else if (this.isServer) {
 
-      console.log("server : making service call & setting NOTIFICATIONS_KEY");
+      // console.log("server : making service call & setting NOTIFICATIONS_KEY");
 
       this.notifyService.getAllMessages(body).subscribe((resData: any) => {
         this.showPostSpinner = false;
-        console.log("server : making service call &", resData)
+        // console.log("server : making service call &", resData)
         if (resData && resData.code == "ERROR") {
           this.showNotifications = false;
         } else if (resData && resData.notifications && resData.notifications.length > 0) {
@@ -172,7 +172,7 @@ export class NotificationsComponent implements OnInit {
       });
 
     } else {
-      console.log("no result received : making service call MESSAGES_KEY");
+      // console.log("no result received : making service call MESSAGES_KEY");
 
       this.notifyService.getAllMessages(body).subscribe((resData: any) => {
         this.showPostSpinner = false;

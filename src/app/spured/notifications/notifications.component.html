@@ -16,9 +16,9 @@
                 <div class="d-flex w-80 justify-content-between">
                     <p class="mb-0 notTitleFont" *ngIf="data?.title"><b>{{data?.title | slice:0:80}}</b> <label *ngIf="data?.title.length > 80">...</label> 
                         &nbsp; <span *ngIf="data.status == 'NEW'" class="badge badge-warning">New</span></p>
-                    <p class="mb-0" *ngIf="data.title == undefined">{{data?.text | slice:0:80 }}</p>
+                    <p class="mb-0 notTitileFont" *ngIf="data.title == undefined">{{data?.text | slice:0:80 }}</p>
                 </div>
-                <small *ngIf="data.title != undefined">{{data?.text | slice:0:80 }}
+                <small class="notTitileFont" *ngIf="data.title != undefined">{{data?.text | slice:0:80 }}
                     <label *ngIf="data?.text.length > 80">...</label>
                 </small>
                 <!-- <br>

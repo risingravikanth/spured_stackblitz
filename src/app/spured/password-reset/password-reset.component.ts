@@ -18,8 +18,8 @@ import { CurrentUserService } from '../../shared/services/currentUser.service';
 export class PasswordResetComponent implements OnInit {
 
   constructor(private router: Router, private formbuilder: FormBuilder, private service: PasswordResetService, private tostr: ToastrService,
-    private mobile: MobileDetectionService, 
-    private seo:SeoService, private userService:CurrentUserService) { }
+    private mobile: MobileDetectionService,
+    private seo: SeoService, private userService: CurrentUserService) { }
 
   PasswordResetForm: FormGroup;
 
@@ -27,6 +27,7 @@ export class PasswordResetComponent implements OnInit {
   public btnTxt = "Send"
   public emailId: any;
   public isMobile: boolean;
+  errorTextMessage: string = '';
   ngOnInit() {
     this.isMobile = this.mobile.isMobile();
     this.formInit();
@@ -58,12 +59,17 @@ export class PasswordResetComponent implements OnInit {
           this.emailSent = true;
           // this.formInit();
         } else if (resData && resData.info) {
-          this.tostr.error("Failed", resData.info);
+          this.errorTextMessage = resData.info;
+          // this.tostr.error("Failed", resData.info);
           this.btnTxt = "Send";
         } else {
           this.btnTxt = "Send";
-          this.tostr.error("Failed", "Something went wrong!");
+          this.errorTextMessage = 'Something went wrong!';
+          // this.tostr.error("Failed", "Something went wrong!");
         }
+        setTimeout(() => {
+          this.errorTextMessage = "";
+        }, 5000);
       }
     )
   }
