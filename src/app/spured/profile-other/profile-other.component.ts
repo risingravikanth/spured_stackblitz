@@ -1,26 +1,24 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from "primeng/components/common/messageservice";
-import * as constant from "../../shared/others/constants";
 import { CustomValidator } from "../../shared/others/custom.validator";
 import { SeoService } from '../../shared/services';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
-import { OthersProfileService } from './profile-other.service';
 import { ToastrService } from '../../shared/services/Toastr.service';
-import { isPlatformBrowser } from '@angular/common';
-import { AuthenticationService } from 'src/app/shared/services/auth.service';
+import { OthersProfileService } from './profile-other.service';
 
 @Component({
   selector: 'profile-other',
   templateUrl: './profile-other.component.html',
   styleUrls: ['./profile-other.component.css'],
-  providers: [OthersProfileService, CustomValidator, MessageService, SeoService, CurrentUserService, ToastrService, AuthenticationService]
+  providers: [OthersProfileService, CustomValidator, MessageService, SeoService, CurrentUserService, ToastrService]
 })
 export class OthersProfileComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private service: OthersProfileService, private seo:SeoService, private userService:CurrentUserService,
     private toastr:ToastrService, @Inject(PLATFORM_ID) private platformId: Object,
-    private authService:AuthenticationService) { }
+    ) { }
 
   public profileLoader = false;
   public urls: any = [];
@@ -40,7 +38,7 @@ export class OthersProfileComponent implements OnInit {
 
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-      if (this.currentUser && this.authService.isTokenValid()) {
+      if (this.currentUser && this.userService.isTokenValid()) {
         this.validUser = true;
       }
     }

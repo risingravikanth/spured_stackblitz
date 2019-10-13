@@ -15,14 +15,13 @@ import { CurrentUserService } from '../../../shared/services/currentUser.service
 import { SeoService } from '../../../shared/services/seo.service';
 import { ToastrService } from '../../../shared/services/Toastr.service';
 import { CoreMainService } from '../core-main.service';
-import { AuthenticationService } from 'src/app/shared/services/auth.service';
 
 
 @Component({
   selector: 'create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.css'],
-  providers: [CoreMainService, CustomValidator, ConfirmationService, SeoService, ToastrService, AuthenticationService]
+  providers: [CoreMainService, CustomValidator, ConfirmationService, SeoService, ToastrService]
 })
 export class CreatePostComponent implements OnInit {
 
@@ -50,12 +49,11 @@ export class CreatePostComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private seo: SeoService,
     private commonService: CommonService,
-    private toastr: ToastrService,
-    private authService:AuthenticationService
+    private toastr: ToastrService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-       if (this.currentUser && this.authService.isTokenValid()) {
+       if (this.currentUser && this.userService.isTokenValid()) {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
       }
