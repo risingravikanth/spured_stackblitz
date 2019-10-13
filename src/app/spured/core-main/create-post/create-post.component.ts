@@ -15,13 +15,14 @@ import { CurrentUserService } from '../../../shared/services/currentUser.service
 import { SeoService } from '../../../shared/services/seo.service';
 import { ToastrService } from '../../../shared/services/Toastr.service';
 import { CoreMainService } from '../core-main.service';
+import { AuthenticationService } from 'src/app/shared/services/auth.service';
 
 
 @Component({
   selector: 'create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.css'],
-  providers: [CoreMainService, CustomValidator, ConfirmationService, SeoService, ToastrService]
+  providers: [CoreMainService, CustomValidator, ConfirmationService, SeoService, ToastrService, AuthenticationService]
 })
 export class CreatePostComponent implements OnInit {
 
@@ -49,11 +50,12 @@ export class CreatePostComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private seo: SeoService,
     private commonService: CommonService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authService:AuthenticationService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-       if (this.currentUser) {
+       if (this.currentUser && this.authService.isTokenValid()) {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
       }
@@ -537,7 +539,7 @@ export class CreatePostComponent implements OnInit {
   savePost() {
     if (this.addPostForm.valid) {
       if (!this.addPostForm.controls['data'].get("category").value) {
-        !this.addPostForm.controls['data'].get("category").patchValue("others");
+        // this.addPostForm.controls['data'].get("category").patchValue("others");
       }
       console.log(this.addPostForm.getRawValue());
       console.log(this.addPostForm.value);

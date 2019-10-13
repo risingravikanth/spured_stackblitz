@@ -8,11 +8,12 @@ import { MobileDetectionService, SeoService } from '../../shared/services';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { ToastrService } from '../../shared/services/Toastr.service';
 import { UserSetUpService } from "./user-setup.service";
+import { AuthenticationService } from 'src/app/shared/services/auth.service';
 @Component({
   selector: 'user-setup',
   templateUrl: './user-setup.component.html',
   styleUrls: ['./user-setup.component.scss'],
-  providers: [CustomValidator, UserSetUpService, MessageService, SeoService, CurrentUserService, ToastrService],
+  providers: [CustomValidator, UserSetUpService, MessageService, SeoService, CurrentUserService, ToastrService, AuthenticationService],
   // animations: [routerTransition()],
 })
 export class UserSetupComponent implements OnInit {
@@ -48,7 +49,8 @@ export class UserSetupComponent implements OnInit {
     private seo: SeoService,
     private userService: CurrentUserService,
     private mobile: MobileDetectionService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authService:AuthenticationService
   ) { }
 
   ngOnInit() {
@@ -60,7 +62,7 @@ export class UserSetupComponent implements OnInit {
       slug: 'signup-page'
     })
     this.userService.setTitle("Sign up - SpurEd")
-    if (this.userService.getCurrentUser()) {
+    if (this.userService.getCurrentUser() && this.authService.isTokenValid()) {
       this.isValidUser = true;
     }
 

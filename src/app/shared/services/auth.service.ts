@@ -109,6 +109,7 @@ export class AuthenticationService {
                 return true;
             } else{
                 // console.log('token dead');
+                this.purgeAuth();
                 return false;
             }
         }

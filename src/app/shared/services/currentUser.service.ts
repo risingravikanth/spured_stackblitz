@@ -1,8 +1,8 @@
-import { JwtService } from './jwt.service';
-import {  Injectable, Injector, PLATFORM_ID ,Inject } from '@angular/core';
-import { User } from '../models/user.model';
 import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, Injector, PLATFORM_ID } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { User } from '../models/user.model';
+import { JwtService } from './jwt.service';
 
 @Injectable()
 export class CurrentUserService {
@@ -33,9 +33,7 @@ export class CurrentUserService {
 
     checkLoggedInUser(): any {
         if (isPlatformBrowser(this.platformId)) {
-            let currentUser: User;
-            currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            if(currentUser != undefined && currentUser != null){
+            if(this.getCurrentUser() && this.isTokenValid()){
                  return true;
             }else{
                 return false;
@@ -58,14 +56,34 @@ export class CurrentUserService {
             localStorage.removeItem('currentUser');
         }
     }
+
+    purgeAuth() {
+        this.jwtService.destroyToken();
+        this.deleteCurrentUser();
+    }
+
     checkValidUser(): boolean {
         if (isPlatformBrowser(this.platformId)) {
-            if (this.getCurrentUser() && this.getCurrentUser().token) {
+            if (this.getCurrentUser() && this.getCurrentUser().token && this.isTokenValid()) {
                 return true;
             } else {
                 return false;
             }
         }
+    }
+
+    isTokenValid() {
+        let user : User = this.getCurrentUser();
+        if (user) {
+            let diff = new Date().getTime() - user.expiration;
+            if(diff <= 8.64e+7){
+                return true;
+            } else {
+                this.purgeAuth();
+                return false;
+            }
+        }
+        return false;
     }
 
     public setTitle( newTitle: string) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../../shared/models/user.model';
 import * as constant from '../../../shared/others/constants';
@@ -9,6 +9,7 @@ import { MobileDetectionService } from '../../../shared/services/mobiledetection
 import { CreatePostComponent } from '../../core-main/create-post/create-post.component';
 import { SettingsService } from '../../settings/settings.service';
 import { NotificationsService } from '../../notifications/notifications.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
     selector: 'header-mobile',
@@ -28,7 +29,8 @@ export class HeaderMobileComponent implements OnInit {
         private userService: CurrentUserService,
         private commonService: CommonService,
         private mobileService: MobileDetectionService,
-        private notifyService: NotificationsService, ) { }
+        private notifyService: NotificationsService, 
+        @Inject(PLATFORM_ID) private platformId: Object,) { }
 
     currentUser: User;
     public isMobile: boolean;
@@ -46,7 +48,7 @@ export class HeaderMobileComponent implements OnInit {
 
         this.currentUser = this.userService.getCurrentUser();
         this.isAdmin = this.userService.isCurrentUserAdmin();
-        if (this.currentUser) {
+        if (this.currentUser && this.authService.isTokenValid()) {
             this.validUser = true;
         }
         if (this.currentUser && this.currentUser.imageUrl) {
@@ -101,7 +103,9 @@ export class HeaderMobileComponent implements OnInit {
     onLoggedout() {
         console.log("logged out successfully");
         this.authService.purgeAuth();
-        this.router.navigate(["/home"])
+        if (isPlatformBrowser(this.platformId)) {
+            window.open('/home', "_self")
+        }
     }
 
     getAllNotifications() {

@@ -44,7 +44,7 @@ export class TokenInterceptor implements HttpInterceptor {
         */
 
 
-        if (req.url.indexOf("/login") > -1 || this.authService.isTokenValid()) {
+        // if (req.url.indexOf("/login") > -1 || this.authService.isTokenValid()) {
 
 
             restUrl = environment.REST_API_URL;
@@ -149,11 +149,11 @@ export class TokenInterceptor implements HttpInterceptor {
                 }
             });;
 
-        } else {
-            this.authService.purgeAuth();
-            this.router.navigate(['/home'], { queryParams: { 'status': 'access_denied' } })
-            return Observable.create((observer) => { observer.error("Session expired... Please login again"); })
-        }
+        // } else {
+        //     this.authService.purgeAuth();
+        //     this.router.navigate(['/home'], { queryParams: { 'status': 'access_denied' } })
+        //     return Observable.create((observer) => { observer.error("Session expired... Please login again"); })
+        // }
 
     }
 }

@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { isPlatformBrowser, isPlatformServer, Location } from '@angular/common';
 import { Component, ElementRef, Inject, Input, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -5,7 +6,7 @@ import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService } from 'primeng/components/common/api';
-import { trigger, state, style, animate, transition, } from '@angular/animations';
+import { AuthenticationService } from 'src/app/shared/services/auth.service';
 import * as categories_types_models from '../../shared/master-data/master-data';
 import { CommentContext, Context, CreateCommentData, CreateCommentRequest, Data, GetCommentRequest, GetPostsRequest, Pagination } from '../../shared/models/request';
 import { Section } from '../../shared/models/section.model';
@@ -45,7 +46,7 @@ const RESULTBYID_KEY = makeStateKey<string>('resultbyid');
       ]),
     ]),
   ],
-  providers: [CoreMainService, CustomValidator, ConfirmationService, SeoService, ToastrService]
+  providers: [CoreMainService, CustomValidator, ConfirmationService, SeoService, ToastrService, AuthenticationService]
 })
 export class CoreMainComponent implements OnInit {
 
@@ -78,7 +79,8 @@ export class CoreMainComponent implements OnInit {
     private seo: SeoService, private location: Location,
     private commonService: CommonService,
     private toastr: ToastrService,
-    private tstate: TransferState
+    private tstate: TransferState,
+    private authService: AuthenticationService
 
   ) {
 
@@ -86,7 +88,7 @@ export class CoreMainComponent implements OnInit {
 
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-      if (this.currentUser) {
+      if (this.currentUser && this.authService.isTokenValid()) {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
       }
