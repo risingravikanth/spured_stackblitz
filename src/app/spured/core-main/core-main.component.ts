@@ -86,7 +86,9 @@ export class CoreMainComponent implements OnInit {
 
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-      if (this.currentUser && this.userService.isTokenValid()) {
+      if (this.currentUser 
+        // && this.userService.isTokenValid()
+      ) {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
       }
