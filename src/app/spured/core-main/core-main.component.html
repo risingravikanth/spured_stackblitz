@@ -155,7 +155,7 @@
                         </div>
 
                         <div class="post-text pl-1 mt-2">
-                            <h6><b><a *ngIf="!paramId" (click)="navigateToPostDetails(post)" class="text-dark" href="javascript:void(0);">
+                            <h6><b><a *ngIf="!paramId"  target="_blank" class="text-dark" [href]="getPostTitleUrl(post)">
                                         {{post.postTitle ? post.postTitle : '-NA-'}}</a>
                                     <span *ngIf="paramId">{{post.postTitle ? post.postTitle : '-NA-'}}</span></b>
                             </h6>

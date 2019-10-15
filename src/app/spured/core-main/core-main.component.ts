@@ -86,8 +86,8 @@ export class CoreMainComponent implements OnInit {
 
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.userService.getCurrentUser();
-      if (this.currentUser 
-        // && this.userService.isTokenValid()
+      if (this.currentUser
+        && this.userService.isTokenValid()
       ) {
         this.validUser = true;
         this.currentuserId = this.currentUser.userId;
@@ -673,6 +673,10 @@ export class CoreMainComponent implements OnInit {
   }
 
   navigateToPostDetails(postObj: any) {
+    window.open(this.getPostTitleUrl(postObj), "_blank")
+  }
+
+  getPostTitleUrl(postObj: any) {
     let t = this.sectionsTypesMappings.filter(item => item._type == postObj._type)[0].section;
     let c = postObj.category;
     let id = postObj.postId;
@@ -681,30 +685,27 @@ export class CoreMainComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       if (t == "BOARD") {
         postUrl = "/posts/closed/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
-        window.open(postUrl, "_blank")
+
       } else if (t == "GROUP") {
         postUrl = "/posts/groups/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
-        window.open(postUrl, "_blank")
       } else {
         if (c) {
           if (title != undefined) {
             postUrl = "/posts/" + t.toLowerCase() + "/" + c + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-');
-            window.open(postUrl, "_blank")
           } else {
             postUrl = "/posts/" + t.toLowerCase() + "/" + c + "/" + id;
-            window.open(postUrl, "_blank")
           }
         } else {
           if (title != undefined) {
             postUrl = "/posts/" + t + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-');
-            window.open(postUrl, "_blank")
           } else {
             postUrl = "/posts/" + t + "/" + id;
-            window.open(postUrl, "_blank")
           }
         }
       }
+      return postUrl;
     }
+    return "/feed"
   }
 
   generatePostById() {
@@ -1363,9 +1364,9 @@ export class CoreMainComponent implements OnInit {
     return (url.match(p)) ? RegExp.$1 : false;
   }
 
-  createYouTubeEmbedLink(link,videoId) {
-    if (link !== undefined && link !== null && link !== ""){
-      return "https://youtube.com/embed/"+videoId;
+  createYouTubeEmbedLink(link, videoId) {
+    if (link !== undefined && link !== null && link !== "") {
+      return "https://youtube.com/embed/" + videoId;
       //Need to check for diffarent types of Youtube videos 
       /*if(link.indexOf("/embed/") >0){
         return link;
@@ -1390,7 +1391,7 @@ export class CoreMainComponent implements OnInit {
     return text.replace(urlRegex, function (url) {
       let videoId = _this.ytVidId(url);
       if (videoId) {
-        url = _this.createYouTubeEmbedLink(url,videoId);
+        url = _this.createYouTubeEmbedLink(url, videoId);
         if (post && post.videos === undefined) {
           post["videos"] = [];
           post["videos"].push(url);
@@ -1448,10 +1449,10 @@ export class CoreMainComponent implements OnInit {
 
   postImagesAvailablitiyCheck(post: any) {
     // setTimeout(() => {
-      //Your expression to change if state
-      return (post.files && post.files.length > 0) ||
-        (post.images && post.images.length > 0) ||
-        (post.videos && post.videos.length > 0)
+    //Your expression to change if state
+    return (post.files && post.files.length > 0) ||
+      (post.images && post.images.length > 0) ||
+      (post.videos && post.videos.length > 0)
     // }, 2000);
   }
 }

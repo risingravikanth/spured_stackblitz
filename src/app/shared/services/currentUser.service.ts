@@ -37,7 +37,7 @@ export class CurrentUserService {
     checkLoggedInUser(): any {
         if (isPlatformBrowser(this.platformId)) {
             if(this.getCurrentUser()
-            //  && this.isTokenValid()
+             && this.isTokenValid()
             ){
                  return true;
             }else{

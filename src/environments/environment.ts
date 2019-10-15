@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  REST_API_URL : "http://159.65.148.220:8080/services"
+  REST_API_URL : "http://159.65.148.220:8080/services",
+  domain: "spured.herokuapp.com"
 };
 
 /*

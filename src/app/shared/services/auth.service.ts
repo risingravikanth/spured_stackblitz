@@ -10,6 +10,7 @@ import * as constants from '../others/constants';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
 
 import { CookiesService, CookiesOptions } from '@ngx-utils/cookies';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthenticationService {
@@ -41,7 +42,7 @@ export class AuthenticationService {
     }
 
     setCookie(key: string, value: string) {
-        let cookieOptions: CookiesOptions = { domain: "spured.com" };
+        let cookieOptions: CookiesOptions = { domain: environment.domain };
         this.cookies.put(key, value, cookieOptions);
     }
 
