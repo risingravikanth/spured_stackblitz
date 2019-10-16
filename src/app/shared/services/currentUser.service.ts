@@ -83,8 +83,7 @@ export class CurrentUserService {
     isTokenValid() {
         let user : User = this.getCurrentUser();
         if (user) {
-            let diff = new Date().getTime() - user.expiration;
-            if(diff <= 8.64e+7){
+            if(user.expiration > new Date().getTime()){
                 return true;
             } else {
                 this.purgeAuth();

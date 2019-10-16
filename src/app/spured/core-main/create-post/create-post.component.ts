@@ -140,7 +140,7 @@ export class CreatePostComponent implements OnInit {
   initAddPostForm() {
     this.addPostForm = this.formbuilder.group({
       context: this.formbuilder.group({
-        type: [null]
+        section: [null]
       }),
       data: this.formbuilder.group({
         _type: [null],
@@ -217,7 +217,7 @@ export class CreatePostComponent implements OnInit {
         if (_typeArr.length > 0) {
           this.addPostForm.controls['data'].get('_type1').patchValue(reqType);
           this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
-          this.addPostForm.controls['context'].get('type').patchValue(reqType);
+          this.addPostForm.controls['context'].get('section').patchValue(reqType);
           if (reqType == "BOARD") {
             this.addPostForm.controls['data'].get('boardId').patchValue(this.boardId);
           } else if(reqType == "GROUP"){
@@ -414,7 +414,7 @@ export class CreatePostComponent implements OnInit {
 
     // this.addPostForm.controls['data'].get('_type1').patchValue(null);
     this.addPostForm.controls['data'].get('_type').patchValue(null);
-    this.addPostForm.controls['context'].get('type').patchValue(null);
+    this.addPostForm.controls['context'].get('section').patchValue(null);
 
     this.addPostForm.controls['data'].get('website').patchValue(null);
     this.addPostForm.controls['data'].get('model').patchValue(null);
@@ -486,7 +486,7 @@ export class CreatePostComponent implements OnInit {
       let reqType = this.addPostForm.controls['data'].get('_type1').value;
       let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
       this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
-      this.addPostForm.controls['context'].get('type').patchValue(reqType);
+      this.addPostForm.controls['context'].get('section').patchValue(reqType);
     }
     let postText = this.addPostForm.controls['data'].get('postText').value.trim()
     this.addPostForm.controls['data'].get('text').patchValue(postText);

@@ -19,7 +19,7 @@ export class Data {
 }
 
 export class Context {
-    type: string;
+    section: string;
 }
 
 
@@ -49,7 +49,7 @@ export class CreateCommentRequest {
 
 export class CommentContext {
     postId: string;
-    type: string;
+    section: string;
 }
 
 export class CreateCommentData {

@@ -95,17 +95,7 @@ export class AuthenticationService {
     isTokenValid() {
         let user : User = this.currentUserService.getCurrentUser();
         if (user) {
-            let diff = new Date().getTime() - user.expiration;
-
-            // console.log("Current date")
-            // console.log(new Date().getTime())
-            // console.log(new Date())
-            // console.log("Expiration")
-            // console.log(user.expiration)
-            // console.log(new Date(user.expiration))
-            // console.log("Dfference")
-            // console.log(diff);
-            if(diff <= 8.64e+7){
+            if(user.expiration > new Date().getTime()){
                 // console.log('token alive');
                 return true;
             } else{

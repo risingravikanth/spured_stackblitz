@@ -53,7 +53,7 @@ export class CoreMainService {
 
     getPostsList(body: any) {
         let url: string;
-        let reqBody: any = { type: null, category: null, model: null, page: null };
+        let reqBody: any = { section: null, category: null, model: null, page: null };
         url = "/v2/post/get";
         reqBody = body;
         let headers = new HttpHeaders().set("Content-Type", "application/json");
@@ -73,7 +73,7 @@ export class CoreMainService {
 
     getCommentsByPostId(body: any) {
         let url: string;
-        let reqBody: any = { type: null, category: null, model: null, page: null };
+        let reqBody: any = { section: null, category: null, model: null, page: null };
         url = "/v2/comment/get";
         reqBody = body;
         let headers = new HttpHeaders().set("Content-Type", "application/json");
@@ -117,7 +117,7 @@ export class CoreMainService {
 
         let body = {
             "context": {
-                "type": type
+                "section": type
             },
             "data": {
                 "postId": postId

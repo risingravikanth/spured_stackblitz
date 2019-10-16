@@ -372,8 +372,8 @@
                         <h6>Question</h6>
                         <textarea class="form-control" formControlName="text" rows="4" placeholder="What is your question?"></textarea>
                     </div>
-                    <div class="form-group" style="padding:12px;" *ngIf="editPostForm.controls['context'].get('type').value != 'CAREERS'
-                         && editPostForm.controls['context'].get('type').value != 'EVENTS'">
+                    <div class="form-group" style="padding:12px;" *ngIf="editPostForm.controls['context'].get('section').value != 'CAREERS'
+                         && editPostForm.controls['context'].get('section').value != 'EVENTS'">
                         <h6>Answer</h6>
                         <textarea class="form-control" rows="2" formControlName="answer" placeholder="Answer"></textarea>
                     </div>

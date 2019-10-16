@@ -83,12 +83,12 @@ app.post('/authentication', (req, res) => {
 app.post('/api/getPosts', (req, res) => {
   console.log("Get posts");
   let reqBody = { context: null, data: null, pagination: null };
-  reqBody.context = { type: null };
+  reqBody.context = { section: null };
   reqBody.data = { category: null, model: null };
   reqBody.pagination = { limit: limitVal, offset: 0 };
 
   if (req.body.type != undefined && req.body.type != null) {
-    reqBody.context.type = req.body.type;
+    reqBody.context.section = req.body.type;
   }
   if (req.body.category != undefined && req.body.category != null) {
     reqBody.data.category = req.body.category;
@@ -190,7 +190,7 @@ app.post('/api/getComments', (req, res) => {
   reqBody.pagination = { limit: limitCommentVal, offset: 0 };
 
   if (req.body.type != undefined && req.body.type != null) {
-    reqBody.context.type = req.body.type;
+    reqBody.context.section = req.body.type;
   }
   if (req.body.postId != undefined && req.body.postId != null) {
     reqBody.context.postId = req.body.postId;

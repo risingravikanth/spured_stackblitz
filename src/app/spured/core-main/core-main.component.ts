@@ -165,7 +165,7 @@ export class CoreMainComponent implements OnInit {
   initEditForm() {
     this.editPostForm = this.formbuilder.group({
       context: this.formbuilder.group({
-        type: [null, Validators.required]
+        section: [null, Validators.required]
       }),
       data: this.formbuilder.group({
         postId: [null, Validators.required],
@@ -181,7 +181,7 @@ export class CoreMainComponent implements OnInit {
     this.getPostsRequestBody.pagination.offset = 0
 
     this.getPostsRequestBody.context = new Context();
-    this.getPostsRequestBody.context.type = 'ALL';
+    this.getPostsRequestBody.context.section = 'ALL';
 
     this.getPostsRequestBody.data = new Data();
     this.getPostsRequestBody.data.category = null;
@@ -271,10 +271,10 @@ export class CoreMainComponent implements OnInit {
     this.initRequest();
     if (type == "board") {
       this.getPostsRequestBody.data.boardId = this.boardId;
-      this.getPostsRequestBody.context.type = "BOARD";
+      this.getPostsRequestBody.context.section = "BOARD";
     } else {
       this.getPostsRequestBody.data.groupId = this.groupId;
-      this.getPostsRequestBody.context.type = "GROUP";
+      this.getPostsRequestBody.context.section = "GROUP";
     }
     this.getPosts();
   }
@@ -294,7 +294,7 @@ export class CoreMainComponent implements OnInit {
       this.initRequest();
       if (data.section) {
         // this.questionName = data.section.toUpperCase();
-        this.getPostsRequestBody.context.type = data.section.toUpperCase();
+        this.getPostsRequestBody.context.section = data.section.toUpperCase();
       }
       if (data.category != 'home') {
         this.getPostsRequestBody.data.category = data.category;
@@ -303,7 +303,7 @@ export class CoreMainComponent implements OnInit {
         this.getPostsRequestBody.data.category = null;
       }
       if (data.section) {
-        this.getPostsRequestBody.context.type = data.section.toUpperCase();
+        this.getPostsRequestBody.context.section = data.section.toUpperCase();
       }
       if (data.model) {
         this.getPostsRequestBody.data.model = data.model;
@@ -553,7 +553,7 @@ export class CoreMainComponent implements OnInit {
     let getCommentsRequest = new GetCommentRequest();
     let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
     getCommentsRequest.context = new CommentContext();
-    getCommentsRequest.context.type = arrTypes[0].section;
+    getCommentsRequest.context.section = arrTypes[0].section;
     getCommentsRequest.data = new CreateCommentData();
     getCommentsRequest.data.postId = postId;
     getCommentsRequest.data._type = "GetComment";
@@ -571,7 +571,7 @@ export class CoreMainComponent implements OnInit {
     let postObj = this.postsList[index];
     let arrTypes = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
     createCommentRequest.context = new CommentContext();
-    createCommentRequest.context.type = arrTypes[0].section;
+    createCommentRequest.context.section = arrTypes[0].section;
 
     createCommentRequest.data = new CreateCommentData();
     createCommentRequest.data.postId = postObj.postId;
@@ -604,7 +604,7 @@ export class CoreMainComponent implements OnInit {
     this.editPostForm.controls['data'].get('postId').patchValue(postObj.postId);
     let typeAr = this.sectionsTypesMappings.filter(item => (postObj && item._type == postObj._type));
     if (typeAr.length > 0) {
-      this.editPostForm.controls['context'].get('type').patchValue(typeAr[0].section);
+      this.editPostForm.controls['context'].get('section').patchValue(typeAr[0].section);
     }
 
     this.confirmService.confirm({
@@ -632,7 +632,7 @@ export class CoreMainComponent implements OnInit {
         this.editPostForm.controls['data'].get('title').patchValue(element.postTitle);
         this.editPostForm.controls['data'].get('postId').patchValue(element.postId);
         let type = this.sectionsTypesMappings.filter(item => item._type == element._type)[0].section;
-        this.editPostForm.controls['context'].get('type').patchValue(type);
+        this.editPostForm.controls['context'].get('section').patchValue(type);
         if (type != "CAREERS" && type != "EVENTS") {
           this.editPostForm.controls['data'].get('answer').patchValue(element.postAnswer);
         }
@@ -973,7 +973,7 @@ export class CoreMainComponent implements OnInit {
     let commentIndex = postObj.comments.findIndex(item => item.commentId == commentId);
 
     getCommentsRequest.context = new CommentContext();
-    getCommentsRequest.context.type = arrTypes[0].section;
+    getCommentsRequest.context.section = arrTypes[0].section;
     getCommentsRequest.data = new CreateCommentData();
     getCommentsRequest.data._type = "Comment";
     getCommentsRequest.data.commentId = commentId;
@@ -1333,10 +1333,10 @@ export class CoreMainComponent implements OnInit {
             }
             act = act + "Commented";
           } else if (activity.action == "VOTE") {
-            if (act.indexOf('Voted') !== -1) {
-              act = act.replace('Voted,', '');
+            if (act.indexOf('Liked') !== -1) {
+              act = act.replace('Liked,', '');
             }
-            act = act + "Voted";
+            act = act + "Liked";
           } else if (activity.action == "FAVORITE") {
             if (act.indexOf('Favorited') !== -1) {
               act = act.replace('Favorited,', '');
