@@ -34,9 +34,12 @@ export class AuthenticationService {
         this.setCookie("ravi_kanth5",JSON.stringify(user.token));
         console.log(user.token.toString());*/
 
-        this.setCookie("Authorization", user.token.toString());
-        this.setCookie("user_id", user.userId.toString());
-        this.setCookie("isLoggedInUser", "true");
+        // this.setCookie("Authorization", user.token.toString());
+        // this.setCookie("user_id", user.userId.toString());
+        // this.setCookie("isLoggedInUser", "true");
+
+        this.removeAll();
+
 
         this.currentUserService.setCurrentUser(user);
     }
