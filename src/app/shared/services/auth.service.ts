@@ -65,6 +65,8 @@ export class AuthenticationService {
 
     purgeAuth() {
         this.removeAll();
+        console.log("Auth service:: cookie")
+        console.log(this.cookies.get("Authorization"))
         this.jwtService.destroyToken();
         this.currentUserService.deleteCurrentUser();
         // this.removeCookie("Authorization");

@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
  
 
 import { CookiesService, CookiesOptions } from '@ngx-utils/cookies';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class CustomCookieService {
@@ -12,7 +13,7 @@ export class CustomCookieService {
 
 
   saveTrackId(trackid: string) {
-    let cookieOptions: CookiesOptions = { domain: "spured.com" };
+    let cookieOptions: CookiesOptions = { domain: environment.domain };
     this.cookies.put('tracking_id', trackid, cookieOptions);
   }
 

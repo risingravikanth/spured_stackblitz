@@ -65,9 +65,12 @@ export class CurrentUserService {
     purgeAuth() {
         this.jwtService.destroyToken();
         this.deleteCurrentUser();
-        this.removeCookie("Authorization");
-        this.removeCookie("user_id");
-        this.removeCookie("isLoggedInUser");
+        // this.removeCookie("Authorization");
+        // this.removeCookie("user_id");
+        // this.removeCookie("isLoggedInUser");
+        this.cookies.removeAll();
+        console.log("current service:: cookie")
+        console.log(this.cookies.get("Autharization"))
     }
 
     checkValidUser(): boolean {
