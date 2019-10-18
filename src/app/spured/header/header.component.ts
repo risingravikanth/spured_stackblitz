@@ -87,9 +87,11 @@ export class HeaderComponent implements OnInit {
     onLoggedout() {
         console.log("logged out successfully");
         this.authService.purgeAuth();
-        if (isPlatformBrowser(this.platformId)) {
-            window.open('/home', "_self")
-        }
+        // if (isPlatformBrowser(this.platformId)) {
+        //     window.open('/home', "_self")
+        // }
+        this.router.navigate(["/home"]);
+
     }
 
 
