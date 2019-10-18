@@ -64,12 +64,12 @@ export class AuthenticationService {
     }
 
     purgeAuth() {
-        this.removeAll();
+        // this.removeAll();
+        this.removeCookie("Authorization");
         console.log("Auth service:: cookie")
         console.log(this.cookies.get("Authorization"))
         this.jwtService.destroyToken();
         this.currentUserService.deleteCurrentUser();
-        // this.removeCookie("Authorization");
         // this.removeCookie("user_id");
         // this.removeCookie("isLoggedInUser");
 
