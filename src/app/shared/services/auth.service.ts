@@ -44,8 +44,8 @@ export class AuthenticationService {
 
     setCookie(key: string, value: string) {
         // if(environment.domain == "spured.herokuapp.com")
-        console.log("Domain:" + environment.domain)
-        let cookieOptions: CookiesOptions = { domain: 'spured.herokuapp.com' };
+        // console.log("Domain:" + environment.domain)
+        let cookieOptions: CookiesOptions = { domain: environment.domain };
         this.cookies.put(key, value, cookieOptions);
     }
 
@@ -68,6 +68,8 @@ export class AuthenticationService {
     purgeAuth() {
         // this.removeAll();
         this.removeCookie("Authorization");
+        let cookieOptions: CookiesOptions = { domain: environment.domain, expires: (new Date().getTime() + 20000)+"" };
+        this.cookies.put("Authorization", "", cookieOptions);
         console.log("Auth service:: cookie")
         console.log(this.cookies.get("Authorization"))
         this.jwtService.destroyToken();
