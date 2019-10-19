@@ -38,13 +38,11 @@ export class AuthenticationService {
         this.setCookie("user_id", user.userId.toString());
         this.setCookie("isLoggedInUser", "true");
 
-    
+
         this.currentUserService.setCurrentUser(user);
     }
 
     setCookie(key: string, value: string) {
-        // if(environment.domain == "spured.herokuapp.com")
-        // console.log("Domain:" + environment.domain)
         let cookieOptions: CookiesOptions = { domain: environment.domain };
         this.cookies.put(key, value, cookieOptions);
     }
@@ -66,16 +64,13 @@ export class AuthenticationService {
     }
 
     purgeAuth() {
-        // this.removeAll();
+        this.setCookie("Authorization", "")
+        this.setCookie("isLoggedInUser", "false")
         this.removeCookie("Authorization");
-        let cookieOptions: CookiesOptions = { domain: environment.domain, expires: (new Date().getTime() + 20000)+"" };
-        this.cookies.put("Authorization", "", cookieOptions);
-        console.log("Auth service:: cookie")
-        console.log(this.cookies.get("Authorization"))
+        this.removeCookie("user_id");
+        this.removeCookie("isLoggedInUser");
         this.jwtService.destroyToken();
         this.currentUserService.deleteCurrentUser();
-        // this.removeCookie("user_id");
-        // this.removeCookie("isLoggedInUser");
 
     }
 
@@ -102,12 +97,12 @@ export class AuthenticationService {
     }
 
     isTokenValid() {
-        let user : User = this.currentUserService.getCurrentUser();
+        let user: User = this.currentUserService.getCurrentUser();
         if (user) {
-            if(user.expiration > new Date().getTime()){
+            if (user.expiration > new Date().getTime()) {
                 // console.log('token alive');
                 return true;
-            } else{
+            } else {
                 // console.log('token dead');
                 this.purgeAuth();
                 return false;
