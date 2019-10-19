@@ -45,7 +45,7 @@ export class AuthenticationService {
     setCookie(key: string, value: string) {
         // if(environment.domain == "spured.herokuapp.com")
         console.log("Domain:" + environment.domain)
-        let cookieOptions: CookiesOptions = { domain: environment.domain };
+        let cookieOptions: CookiesOptions = { domain: 'spured.herokuapp.com' };
         this.cookies.put(key, value, cookieOptions);
     }
 
