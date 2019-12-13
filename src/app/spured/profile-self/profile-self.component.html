@@ -35,7 +35,9 @@
                                 </div>
                                 <div class="infos">
                                     <div class="font-weight-bold">{{userDetails && userDetails.userName ?
-                                        userDetails.userName : '-NA-'}}({{ (userDetails && userDetails.profileId ? userDetails.profileId : '-NA-')}})</div>
+                                        userDetails.userName : '-NA-'}}
+                                        <!-- ({{ (userDetails && userDetails.profileId ? userDetails.profileId : '-NA-')}}) -->
+                                    </div>
                                     <div class="font-weight-normal" *ngIf="userDetails?.email"><i class="fas fa-envelope"></i> {{ userDetails?.email }} </div>
                                     <div class="font-weight-normal" *ngIf="userDetails?.phoneNum"><i class="fas fa-mobile-alt"></i> {{ userDetails?.phoneNum }} </div>
                                     <div class="font-weight-normal"  *ngIf="userDetails?.dobYear"><i class="far fa-calendar-alt"></i> {{ userDetails?.dobDate }}/{{ userDetails?.dobMonth }}/{{ userDetails?.dobYear}} </div>
@@ -75,18 +77,134 @@
        
         <div class="row"> 
             <div class="col-md-3 col-sm-3 d-none d-sm-block">
+                <div class="leftNav d-none">
+                    <div class="EditableList">
+                        <h3 class="title">
+                            <div>
+                                By Type
+                                </div>
+                        </h3>
+                        <div class="StaticListItem collapse" id="boardSearch">
+                            <div class="Selector TopicSelector SearchFilterTopicSelector">
+                                <div class="selector_input_interaction">
+                                    <input class="selector_input text" type="text" value="" placeholder="Search for a board">
+                                </div>
+                            </div>
+                        </div>
+                        <ul>
+                            <div class="nav_item_selected">
+                                <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                                    <a title="" href="javascript:void(0);" class="text-dark"  data-value="all" >
+                                        Liked
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="">
+                                <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                                    <a title="" href="javascript:void(0);" class="text-dark"  data-value="all" >
+                                        Favoties
+                                    </a>
+                                </li>
+                            </div>
+                            
+                        </ul>
+                    </div>
 
+                    <div class="EditableList">
+                        <h3 class="title">
+                            <div>
+                                By Topic
+                                </div>
+                        </h3>
+                        <div class="StaticListItem" id="topicSearch">
+                            <div class="Selector TopicSelector SearchFilterTopicSelector">
+                                <div class="selector_input_interaction">
+                                    <input class="selector_input text" type="text" value="" placeholder="Search...">
+                                </div>
+                            </div>
+                        </div>
+                        <ul>
+                            <div class="">
+                                <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                                    <a title="" href="javascript:void(0);" class="text-dark"  data-value="all" >
+                                        Topic
+                                    </a>
+                                </li>
+                            </div>
+                         </ul>
+                    </div>
+
+                    <div class="EditableList">
+                        <h3 class="title">
+                            <div>
+                                By Time
+                                </div>
+                        </h3>
+                        <div class="StaticListItem collapse" id="boardSearch">
+                            <div class="Selector TopicSelector SearchFilterTopicSelector">
+                                <div class="selector_input_interaction">
+                                    <input class="selector_input text" type="text" value="" placeholder="Search for a board">
+                                </div>
+                            </div>
+                        </div>
+                        <ul>
+                            <div class="">
+                                <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                                    <a title="" href="javascript:void(0);" class="text-dark"  data-value="all" >
+                                        All Time
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="">
+                                <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                                    <a title="" href="javascript:void(0);" class="text-dark"  data-value="all" >
+                                        Past Hour
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="">
+                                <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                                    <a title="" href="javascript:void(0);" class="text-dark"  data-value="all" >
+                                        Past Day
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="">
+                                <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                                    <a title="" href="javascript:void(0);" class="text-dark"  data-value="all" >
+                                        Past Week
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="">
+                                <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                                    <a title="" href="javascript:void(0);" class="text-dark"  data-value="all" >
+                                        Past Month
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="">
+                                <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                                    <a title="" href="javascript:void(0);" class="text-dark"  data-value="all" >
+                                        Past Year
+                                    </a>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                    
+                </div>
             </div>
             <div class="col-md-6 col-sm-12">
-                <mat-tab-group mat-stretch-tabs>
+                <mat-tab-group #tabGroup (focusChange)="tabChanged($event)"  mat-stretch-tabs>
                     <mat-tab label="Topics">
-                        <core-main [from]="'topics'"></core-main>
+                        <core-main [from]="'topics'" [activeTab]="tabIndex"></core-main>
                     </mat-tab>
                     <mat-tab label="Boards">
-                        <core-main [from]="'boards'"></core-main>
+                        <core-main [from]="'boards'" [activeTab]="tabIndex"></core-main>
                     </mat-tab>
                     <mat-tab label="Groups">
-                        <core-main [from]="'groups'"></core-main>
+                        <core-main [from]="'groups'" [activeTab]="tabIndex"></core-main>
                     </mat-tab>
                 </mat-tab-group>
             </div>

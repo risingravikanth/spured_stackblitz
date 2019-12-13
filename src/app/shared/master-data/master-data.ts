@@ -420,6 +420,9 @@ export const SECTIONS = [
             {
                 "name": "Careers",
                 "code": "careers",
+                "pageHeading":"Careers",
+                "pageSubHeading" :"Click here to add your post", 
+                "modelsbyCategory":"true",
                 "categories": [
                     {
                         "name": "Home",
@@ -431,7 +434,12 @@ export const SECTIONS = [
                     },
                     {
                         "name": "Banking",
-                        "code": "banking"
+                        "code": "banking",
+                        "models":[
+                            { "label": "Clerk", "value": "clerk" },
+                            { "label" : "Probationary Officer", "value" : "probationary_officer" },
+                            { "label": "Specialist Officer", "value": "specialist_officer" }
+                        ]
                     },
                     {
                         "name": "Business",
@@ -736,4 +744,5 @@ export const SECTION_MAPPINGS = [
     { name: "News", section: 'NEWS', _type: 'NewsPost' },
     { name: "Board", section: 'BOARD', _type: 'BoardPost' },
     { name: "Group", section: 'GROUP', _type: 'GroupPost' },
+    { name: "Group", section: 'QUIZ', _type: 'BoardPost' },
 ];

@@ -4,10 +4,10 @@
 
     <!-- [class.active]="data.status == 'NEW'" [class.inactive]="data.status == 'READ'" -->
     <div class="list-group chat">
-        <a href="javascript:void(0);" class="list-group-item list-group-item-action list-group-notification-item flex-column align-items-start"
+        <!--<a href="javascript:void(0);" class="list-group-item list-group-item-action list-group-notification-item flex-column align-items-start"
             (click)="openNotificationModel(data, notificationDetailsDialog)" *ngFor="let data of notificationsList">
             <span class="chat-img pull-left" style="display: none;">
-                <!-- <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="rounded-circle"> -->
+                <!- <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="rounded-circle"> ->
             </span>
             <div class="chat-body clearfix">
                 <small *ngIf="data?.createTime" class="float-right"><i class="fa fa-clock-o" aria-hidden="true"></i> {{
@@ -21,10 +21,18 @@
                 <small class="notTitileFont" *ngIf="data.title != undefined">{{data?.text | slice:0:80 }}
                     <label *ngIf="data?.text.length > 80">...</label>
                 </small>
-                <!-- <br>
+                <!- <br>
                 <small class="mb-0" *ngIf="data.targetLink">
-                    <p style="color:blue;">{{data?.targetLink }}</p></small> -->
+                    <p style="color:blue;">{{data?.targetLink }}</p></small> [ngClass]="getClassByNotification()"->
             </div>
+        </a>-->
+        <a href="#" class="list-group-item list-group-item-action" (click)="openNotificationModel(data, notificationDetailsDialog)" *ngFor="let data of notificationsList">
+            <div class="d-flex w-100 justify-content-between">
+              <p class="mb-1"><span *ngIf="data.status == 'NEW'" class="badge badge-primary pull-left">New</span></p>
+              <small><i class="fa fa-clock-o" aria-hidden="true"></i> {{data?.createTime | date: 'MMM d, y, h:mm a'}}</small>
+            </div>
+            <p class="mb-1"*ngIf="data?.title">{{data?.title | slice:0:80}} <span *ngIf="data?.title.length > 80">...</span></p>
+            <small *ngIf="data.title != undefined" >{{data?.text | slice:0:80 }} <span *ngIf="data?.text.length > 80">...</span></small>
         </a>
     </div>
 

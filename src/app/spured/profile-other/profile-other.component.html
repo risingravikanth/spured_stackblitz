@@ -6,7 +6,8 @@
                 <div class="widget head-profile has-shadow">
                     <div class="widget-body pb-0">
                         <div class="row d-flex align-items-center">
-                            <div class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center">
+                            <div
+                                class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center">
                                 <div class="follow">
                                     <!--<a class="btn btn-shadow" href="#"><i class="la la-user-plus"></i>Add Friend</a>
                                     
@@ -36,14 +37,20 @@
 
                                 </div>
                                 <div class="infos">
-                                    <div class="font-weight-bold">{{userDetails && userDetails.userName ?
-                                        userDetails.userName : '-NA-'}}({{ (userDetails && userDetails.profileId ? userDetails.profileId : '-NA-')}})</div>
-                                    <div class="font-weight-normal" *ngIf="userDetails?.phoneNum"><i class="fas fa-mobile-alt"></i>
+                                    <div class="font-weight-bold">
+                                        {{userDetails && userDetails.userName ?
+                                        userDetails.userName : '-NA-'}}
+                                        <!-- ({{ (userDetails && userDetails.profileId ? userDetails.profileId : '-NA-')}}) -->
+                                    </div>
+                                    <div class="font-weight-normal" *ngIf="userDetails?.phoneNum"><i
+                                            class="fas fa-mobile-alt"></i>
                                         {{ userDetails?.phoneNum }} </div>
-                                    <div class="font-weight-normal" *ngIf="userDetails?.dobYear"><i class="far fa-calendar-alt"></i>
+                                    <div class="font-weight-normal" *ngIf="userDetails?.dobYear"><i
+                                            class="far fa-calendar-alt"></i>
                                         {{ userDetails?.dobDate }}/{{ userDetails?.dobMonth }}/{{
                                         userDetails?.dobYear}} </div>
-                                    <div class="font-weight-normal" *ngIf="userDetails?.currAddress"> <i class="fas fa-map-marker-alt"></i>{{userDetails?.currAddress
+                                    <div class="font-weight-normal" *ngIf="userDetails?.currAddress"> <i
+                                            class="fas fa-map-marker-alt"></i>{{userDetails?.currAddress
                                         }} </div>
                                     <div class="font-weight-normal" *ngIf="userDetails?.registrationTimeStamp"> <i
                                             class="far fa-calendar-alt"></i> Since {{
@@ -60,7 +67,8 @@
 
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center">
+                            <div
+                                class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center">
                                 <ul style="display: none;">
                                     <li>
                                         <div class="counter">246</div>
@@ -105,16 +113,16 @@
             </div>
 
         </div>
-        <div class="row">
-            <div class="text-center" *ngIf="!validUser" class="text-center">
-                <h6><a href="javascript:void(0);" data-toggle="modal" routerLink="/home">Sign-in
-                        to see activity
-                    </a></h6>
-            </div>
-            <div class="text-center" *ngIf="!profileAvailable">
-                <div class="fntRed">
-                    <h3 class="text-center">This user account has been deleted</h3>
-                </div>
+        <div class="text-center" *ngIf="!validUser">
+            <h6><a href="javascript:void(0);" data-toggle="modal" routerLink="/home">Sign-in
+                    to see activity
+                </a></h6>
+
+        </div>
+
+        <div class="text-center" *ngIf="!profileAvailable">
+            <div class="fntRed">
+                <h3 class="text-center">This user account has been deleted</h3>
             </div>
         </div>
 

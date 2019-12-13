@@ -1,0 +1,320 @@
+<div class="container marTop50 fontType" [class.help-pad]="!isMobile">
+	<h5 style="color:#155a24;">
+		<b>{{pageTitle}}</b>
+	</h5>
+	<div class="card">
+		<div class="card-body" [formGroup]="createForm">
+			<form formGroupName="data">
+				<div class="form-group">
+					<label for="exampleFormControlTextarea1">
+						<b>Title</b>
+					</label>
+					<textarea formControlName="title" class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="exampleFormControlTextarea1">
+						<b>Description</b>
+					</label>
+					<textarea formControlName="text" class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+				</div>
+				<br>
+				<div class="row" formGroupName="questionGroup">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>
+								<b>Start Time</b>
+							</label>
+							<p-calendar [minDate]="minDate" formControlName="startTime1" class="form-control-sm" placeholder="Time" [showTime]="true"
+							 [showIcon]="true"></p-calendar>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<label>
+							<b>End Time</b>
+						</label>
+						<p-calendar [disabled]="createForm.get('data').get('questionGroup').get('startTime1').invalid" [minDate]="createForm.get('data').get('questionGroup').get('startTime1').value"
+						 formControlName="endTime1" class="form-control-sm" placeholder="Time" [showTime]="true" [showIcon]="true"></p-calendar>
+					</div>
+					<div class="col-md-4">
+						<label>
+							<b>Time Limit</b>
+						</label>
+						<input formControlName="timeLimitInMinutes" class="form-control form-control-sm" placeholder="Time" type="number" placeholder="Minutes">
+					</div>
+				</div>
+				<br>
+				<div class="row" formGroupName="questionGroup">
+					<div class="col-md-4" formGroupName="gradingOptions">
+						<div class="form-group">
+							<label>
+								<b>Grading Type</b>
+							</label>
+							<select formControlName="gradingType" class="form-control form-control-sm">
+								<option value="AUTO">Auto</option>
+								<option value="MANUAL">Manual</option>
+								<option value="NONE">None</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-4" formGroupName="gradingOptions">
+						<label>
+							<b>Grading Reveal Type</b>
+						</label>
+						<select formControlName="gradingRevealType" (change)="changeGradingRevealType()" class="form-control form-control-sm">
+							<option value="AFTER_DEADLINE">After Deadline</option>
+							<option value="SPECIFIED_TIME">After Specific Time</option>
+							<option value="INSTANT">Instant</option>
+							<option value="NONE">None</option>
+						</select>
+					</div>
+					<div class="col-md-4" formGroupName="gradingOptions">
+						<label>
+							<b>Grading Reveal Time</b>
+						</label>
+						<p-calendar [minDate]="createForm.get('data').get('questionGroup').get('endTime1').value" [disabled]="createForm.get('data').get('questionGroup').get('gradingOptions').get('gradingRevealType').value != 'SPECIFIED_TIME' || createForm.get('data').get('questionGroup').get('endTime1').invalid"
+						 formControlName="gradingRevealSpecifiedTime1" class="form-control-sm" [showTime]="true" [showIcon]="true" placeholder="Time"></p-calendar>
+					</div>
+				</div>
+				<br>
+				<div class="row" formGroupName="questionGroup">
+					<div class="col-md-4" formGroupName="gradingOptions">
+						<label>
+							<b>Show correct answers</b>
+						</label>
+						<select formControlName="showCorrectAnswersAfterGrading" class="form-control form-control-sm">
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<div class="col-md-4" formGroupName="gradingOptions">
+						<label>
+							<b>Correct Answer Points</b>
+						</label>
+						<input formControlName="correctPoints" class="form-control form-control-sm" type="number" placeholder="Minutes">
+					</div>
+					<div class="col-md-4" formGroupName="gradingOptions">
+						<label>
+							<b>Wrong Answer Points</b>
+						</label>
+						<input formControlName="inCorrectPoints" class="form-control form-control-sm" type="number" placeholder="Minutes">
+					</div>
+
+				</div>
+				<br>
+				<div class="row" formGroupName="questionGroup">
+					<div class="col-md-4" formGroupName="gradingOptions">
+						<label>
+							<b>Partial Scoring</b>
+						</label>
+						<select formControlName="partialScoring" class="form-control form-control-sm">
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<!-- <div class="col-md-4" formGroupName="questionGroup">
+						<label>
+							<b>Pass Points</b>
+						</label>
+						<input formControlName="title" class="form-control form-control-sm" type="number" placeholder="Minutes">
+					</div> -->
+				</div>
+				<br>
+				<div formGroupName="questionGroup">
+					<h6>
+						<b>Questions</b>
+					</h6>
+					<hr class="hrS">
+					<div formArrayName="questions" *ngFor="let q of createForm.get('data').get('questionGroup').get('questions')['controls']; let i = index">
+
+						<mat-expansion-panel [expanded]="isExpandRequired" [formGroupName]="i">
+							<mat-expansion-panel-header class="expPanelHeader">
+								<mat-panel-title>
+									<b>#{{i + 1}} {{q.get('text').value}}</b>
+								</mat-panel-title>
+								<!-- <mat-panel-description class="pull-right">
+
+								</mat-panel-description> -->
+							</mat-expansion-panel-header>
+							<br>
+
+							<button type="button" (click)="removeQuestionForm(i)" class="pull-right btn btn-primary btn-sm minusBtnMar" *ngIf="createForm.get('data').get('questionGroup').get('questions').controls?.length > 1">
+								<i class="fa fa-minus-circle" aria-hidden="true"></i> Remove Question
+							</button>
+							<br>
+							<div class="row"></div>
+							<br>
+							<div class="row">
+								<div class="col-md-4">
+									<label>
+										<b>Question Type</b>
+									</label>
+									<select formControlName="questionType" (change)="onQuestionTypeChange(i)" class="form-control form-control-sm">
+										<option value="MCQ">MCQ</option>
+										<option value="BLANKS">Blanks</option>
+									</select>
+								</div>
+								<div class="col-md-4" formGroupName="gradingOptions">
+									<label>
+										<b>Grading Type</b>
+									</label>
+									<select formControlName="gradingType" class="form-control form-control-sm">
+										<option value="AUTO">Auto</option>
+										<option value="MANUAL">Manual</option>
+										<option value="NONE">None</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<label>
+										<b>Shuffle Options</b>
+									</label>
+									<select formControlName="shuffleChoices" class="form-control form-control-sm">
+										<option value="true">Yes</option>
+										<option value="false">No</option>
+									</select>
+								</div>
+							</div>
+							<br>
+							<!-- <div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroupFileAddon01">Images / Files</span>
+								</div>
+								<div class="custom-file">
+									<input formControlName="images" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+									<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+								</div>
+							</div> -->
+							<div class="row">
+								<div class="col-md-12">
+									<mat-form-field class="example-full-width">
+										<textarea [ngClass]="{'quesValid':!q.get('text').valid}" formControlName="text" matInput placeholder="Question - {{i + 1}}"></textarea>
+									</mat-form-field>
+
+								</div>
+							</div>
+							<div *ngIf="q.get('questionType').value == 'MCQ'">
+								<div formArrayName="choices" *ngFor="let c of q.get('choices').controls; let j = index">
+									<div [formGroupName]="j" class="row">
+										<div class="col-md-4">
+											<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+												<div class="btn-group mr-2 checkBoxMT" role="group" aria-label="First group">
+													<mat-checkbox formControlName="isCorrect">&nbsp;</mat-checkbox>
+												</div>
+												<div class="btn-group mr-2" role="group" aria-label="Second group">
+													<mat-form-field class="example-full-width">
+														<input formControlName="choiceText" matInput placeholder="  Option - {{j+1}}">
+													</mat-form-field>
+												</div>
+											</div>
+										</div>
+										<div class="input-group col-md-2 optionButton">
+											<button type="button" class="btn btn-primary btn-sm" (click)='addChoice(i,j)'>
+												<i class="fa fa-plus-circle" aria-hidden="true"></i>
+											</button>
+											<button type="button" class="btn btn-primary btn-sm minusBtnMar" *ngIf="q.get('choices').controls?.length > 2" (click)='removeChoice(i,j)'>
+												<i class="fa fa-minus-circle" aria-hidden="true"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div *ngIf="q.get('questionType').value == 'BLANKS'">
+								<div formArrayName="answers1" *ngFor="let c of q.get('answers1').controls; let j = index">
+									<div [formGroupName]="j" class="row">
+										<div class="col-md-4">
+											<mat-form-field class="example-full-width">
+												<input formControlName="answerText" matInput placeholder="  Answer - {{j+1}}">
+											</mat-form-field>
+										</div>
+										<div class="input-group col-md-2 optionButton">
+											<button type="button" class="btn btn-primary btn-sm" (click)='addAnswer(i,j)'>
+												<i class="fa fa-plus-circle" aria-hidden="true"></i>
+											</button>
+											<button type="button" class="btn btn-primary btn-sm minusBtnMar" *ngIf="q.get('answers1').controls?.length > 1" (click)='removeAnswer(i,j)'>
+												<i class="fa fa-minus-circle" aria-hidden="true"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row"></div>
+							<br>
+							<hr class="hrS">
+							<button (click)="addQuestionForm(i)" type="button" class="btn btn-primary btn-sm pull-right">
+								<i class="fa fa-plus-circle" aria-hidden="true"></i> Add Question
+							</button>
+							<br>
+						</mat-expansion-panel>
+						<br>
+					</div>
+				</div>
+				<br>
+
+				<div class="row" formGroupName="questionGroup">
+
+					<div class="col-md-6">
+						<label>
+							<b>Max Question To Present</b>
+						</label>
+						<input formControlName="maxQuestionToPresent" class="form-control" type="number" placeholder="Minutes">
+					</div>
+					<div class="col-md-6">
+						<label>
+							<b>Shuffle Questions</b>
+						</label>
+						<select formControlName="shuffleQuestions" class="form-control form-control-sm">
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+				</div>
+			</form>
+		</div>
+		<hr>
+		<div class="col-md-12" *ngIf="pageTitle != 'Upate Quiz'">
+			<button (click)="submit()" class="btn btn-success btn-sm" [disabled]="isValid()">Submit</button>
+			<button (click)="reset()" class="btn btn-danger btn-sm minusBtnMar">Reset</button>
+		</div>
+		<br>
+	</div>
+	<br>
+	<div *ngIf="pageTitle == 'Upate Quiz'">
+		<h5 style="color:#155a24;">
+			<b>Review:</b>
+		</h5>
+		<div class="card">
+			<div class="card-body">
+				<div class="example-container mat-elevation-z8">
+
+					<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Name</th>
+								<th scope="col">Email</th>
+								<th scope="col">Attempted Time</th>
+								<th scope="col">Score</th>
+								<!-- <th scope="col">Status</th> -->
+							</tr>
+						</thead>
+						<tbody *ngFor="let item of results;  let i = index">
+							<tr>
+								<th scope="row">{{i+1}}</th>
+								<td>
+										<img   width="30" height="30" class="mr-3 rounded-circle align-self-center" alt="Avatar"
+										[src]="(item.userProfile && item.userProfile.profileImageUrl && item.userProfile.profileImageUrl?.length>0) ? ((item.userProfile.profileImageUrl ? '' : serverUrl) + item.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'"> {{item?.userProfile?.userName}}</td>
+								<td>{{item?.userProfile.email}}</td>
+								<td>{{item.attemptTimestamp | date: 'MMM d, y,h:mm a'}}</td>
+								<td>{{item.score}}</td>
+								<!-- <td>
+									<span class="badge badge-success" *ngIf="item.result == 'Pass'">{{item.result}}</span>
+									<span class="badge badge-danger" *ngIf="item.result == 'Fail'">{{item.result}}</span>
+								</td> -->
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

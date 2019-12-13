@@ -10,7 +10,8 @@
                     <i *ngIf="file.indexOf('.doc') !==  -1" class="far fa-file-word text-danger"></i>
                     <i *ngIf="file.indexOf('.ppt') !==  -1" class="far fa-file-powerpoint text-info"></i>
                     <i *ngIf="file.indexOf('.xls') !==  -1" class="far fa-file-excel text-warning"></i>
-                    {{ file.substr(file.indexOf("/files/")+7,file.length-1) }}
+                    <!-- {{ file.substr(file.indexOf("/files/")+7,file.length-1) }} -->
+                    {{getFileName(file)}}
                 </li>
                  
         </ul>

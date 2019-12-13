@@ -26,6 +26,9 @@ li {
   list-style-type: none;
 }
 
+.bd-callout-info{
+  border-left-color: #007bff;
+}
 
 
 

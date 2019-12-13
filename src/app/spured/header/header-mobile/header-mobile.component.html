@@ -38,7 +38,6 @@
             </a>
         </li>
 
-
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
@@ -46,25 +45,25 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="validUser">
                 <a class="dropdown-item" href="javascript:void(0);" routerLink="/settings">
-                    <i class="fas fa-cog"></i>&nbsp; Settings</a>
+                    <i class="fa fa-cogs"></i>&nbsp; Settings</a>
                 <a class="dropdown-item" href="javascript:void(0);" (click)="goToUserProfile()">
-                    <i class="far fa-user-circle"></i>&nbsp; Profile</a>
+                    <i class="fa fa-user"></i>&nbsp; Profile</a>
                 <a class="dropdown-item" href="javascript:void(0);" routerLink="/reportus">
-                    <i class="fa fa-question-circle"></i>&nbsp; Report Us </a>
+                    <i class="fa fa-flag"></i>&nbsp; Report Us </a>
                 <a class="dropdown-item" href="#" routerLink="/help">
-                    <i class="fab fa-hire-a-helper"></i>&nbsp; Help </a>
+                    <i class="fa fa-question-circle"></i>&nbsp; Help </a>
                 <a class="dropdown-item" *ngIf="isAdmin" href="javascript:void(0);" routerLink="/admin">
-                    <i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp; Admin </a>
+                    <i class="fa fa-lock" aria-hidden="true"></i>&nbsp; Admin </a>
                 <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
                     <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a> -->
                 <a class="dropdown-item" href="javascript:void(0);" (click)="onLoggedout()">
-                    <i class="fa fa-fw fa-power-off"></i>&nbsp; Log Out </a>
+                    <i class="fa fa-power-off"></i>&nbsp; Log Out </a>
             </div>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="!validUser">
                 <a class="dropdown-item" href="javascript:void(0);" routerLink="/home">
                     <i class="fas fa-sign-in-alt"></i>&nbsp; Log In </a>
                 <a class="dropdown-item" href="#" routerLink="/help">
-                    <i class="fab fa-hire-a-helper"></i>&nbsp; Help </a>
+                    <i class="fa fa-question-circle"></i>&nbsp; Help </a>
                 <!-- <a class="dropdown-item" href="javascript:void(0);" routerLink="/about">
                     <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; About </a> -->
             </div>
@@ -74,18 +73,35 @@
 
 <section>
     <p-sidebar [(visible)]="showSideMenuDialog" [blockScroll]="true" [fullScreen]="true" [baseZIndex]="10000">
-        <div class="header">
+        
+        
+        <nav class="navbar navbar-light">
+            <a class="navbar-brand" href="#">
+              <!--<img src="/docs/4.4/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">-->
+              Spured
+            </a>
+        </nav>        
+        
+        <!--<div class="header">
             <b>Menu</b>
             <div style="float:right">
                 <button type="button" class="close" (click)="showSideMenuDialog = false">
-                    <!-- <i class="fas fa-times" style="color:white;"></i> -->
+                     
                     <i class="far fa-times-circle iconSize" style="color:white; font-size: 22px;" aria-hidden="true"></i>
                 </button>
             </div>
-        </div>
-
+        </div>-->
+        <mat-tab-group mat-align-tabs="center" dynamicHeight="true" mat-stretch-tabs>
+                <mat-tab label="Categories"> 
+                    <left-menu></left-menu>
+                </mat-tab>
+                <mat-tab label="Quick Links"> 
+                    <right-menu></right-menu>
+                </mat-tab>
+        </mat-tab-group>
         <section>
-            <ul class="nav nav-tabs justify-content-center nav-justified" id="myTab" role="tablist">
+           
+            <!--<ul class="nav nav-tabs justify-content-center nav-justified" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="topics-tab" data-toggle="tab" href="#topics" role="tab"
                         aria-controls="topics" aria-selected="true">Categories</a>
@@ -102,7 +118,7 @@
                 <div class="tab-pane fade" id="rightnav" role="tabpanel" aria-labelledby="rightnav-tab">
                     <right-menu></right-menu>
                 </div>
-            </div>
+            </div>-->
         </section>
     </p-sidebar>
 </section>

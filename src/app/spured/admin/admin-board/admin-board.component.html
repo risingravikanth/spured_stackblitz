@@ -1,7 +1,8 @@
 <div class="container m-0 p-0" style="min-height: 500px;">
     <div class="form-group" style="margin-top: 10px;">
-        <button class="btn btn-sm btnSuccess float-right" (click)="createBoardDialog(addBoardDialog)" style="color:white;    margin-bottom: 7px;"><i
-                class="fa fa-plus" aria-hidden="true"></i> &nbsp;Create Board</button>
+        <button class="btn btn-sm btnSuccess float-right" (click)="createBoardDialog(addBoardDialog)"
+            style="color:white;    margin-bottom: 7px;"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Create
+            Board</button>
         <p-dropdown placeholder="Boards" (onChange)="getUsersInClosedBoard(boardDOMId.value)" [(ngModel)]="boardId"
             [options]="listOfBoards" [style]="{'width':'100%'}" filter="true" #boardDOMId>
             <ng-template let-board pTemplate="item">
@@ -11,56 +12,105 @@
             </ng-template>
         </p-dropdown>
     </div>
+    
+    <div *ngIf="!showPeople"  class="bd-callout bd-callout-warning">
+        <h5 id="conveying-meaning-to-assistive-technologies">Select the board from above dropdown and do following actions</h5>
+        <p></p>
+        <p>View list of members in your borad.</p>
+        <p>Add admins to your borad.</p>
+        <p>Add / remove members to your borad.</p>
+    </div>
+    
     <div *ngIf="showPeople" class="card text-center" style="padding-top: 4%;">
         <div class="form-group">
-            <label *ngIf="deptName"><b>Department:</b> {{deptName}}</label>
+            <b>Borad Name</b> : {{boardName}}
+        </div>
+        <div class="form-group">
+            <b>Borad Dispaly Name</b> : {{ boardDisplayName }} <span (click)="updateBoardTitle = !updateBoardTitle"><i class="fa fa-edit" aria-hidden="true"></i></span>
+            <div *ngIf="updateBoardTitle" [formGroup]="editBoardForm" class="card">
+                 <div class="card-body row text-center">
+                    <div class="col-md-10">
+                        <input class="form-control" placeholder="Board Title`"
+                            formControlName="boardTitle"/>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-sm btnSuccess btnS" (click)="editBoard()"
+                            [disabled]="editBoardForm.invalid">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" *ngIf="deptName">
+            <label><b>Department:</b> {{deptName}}</label>
         </div>
         <div class="form-group">
             <label><b>Start Year:</b> {{startYear}}, &nbsp;&nbsp; <b>End Year:</b> {{endYear}}</label>
         </div>
     </div>
+    <br>
     <div class="card" *ngIf="showPeople">
-        <div class="card-header">
+        <div class="card-header" style="line-height: 30px;">
             <i class="fas fa-users"></i>&nbsp;Members
+            <div class="form-group pull-right mb-0">
+                 <input type="text" [(ngModel)]="searchMember"  class="form-control form-control-sm" placeholder="Search..."/>
+            </div>
         </div>
         <div class="card-body">
-            <div class="row" *ngFor="let user of peopleInBoards" style="padding-left: 9px;margin-top: 0px;">
-                <div>
-                    <img width="80" [src]="(user.profileImageUrl && user.profileImageUrl?.length>0) ? user.profileImageUrl : 'assets/images/noticer_default_user_img.png'"
-                        height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="Avatar">
-                </div>
-                <div style="margin-left: -35px;margin-top: 15px;">
-                    <ul>
-                        <li>
-                            <a style="color: black;font-weight: 400;">
-                                {{user.email}}
-                            </a>
-                        </li>
-                    </ul>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12"  *ngFor="let user of peopleInBoards | filter : searchMember :'email' ">
+                    <div class="list-group-item border-0">
+                            <img width="30"
+                            [src]="(user.profileImageUrl && user.profileImageUrl?.length>0) ? user.profileImageUrl : 'assets/images/noticer_default_user_img.png'"
+                            height="30" 
+                            class="rounded-circle" alt="Avatar">
+                            {{user.email}}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <br>
-    <div *ngIf="boardResponse && boardResponse.alreadyMembers?.length > 0" class="alert alert-danger alert-dismissible fade show"
-        role="alert">
-        <strong>Already members:</strong>
+    <div class="card" *ngIf="showAdminPeople">
+        <div class="card-header" style="line-height: 30px;">
+                <i class="fas fa-users"></i>&nbsp;Admins
+                <div class="form-group pull-right mb-0">
+                     <input type="text" [(ngModel)]="searchAdmin"  class="form-control form-control-sm" placeholder="Search..."/>
+                </div>
+            </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12"  *ngFor="let user of adminsInBoards | filter : searchAdmin :'email' ">
+                    <div class="list-group-item border-0">
+                            <img width="30"
+                            [src]="(user.profileImageUrl && user.profileImageUrl?.length>0) ? user.profileImageUrl : 'assets/images/noticer_default_user_img.png'"
+                            height="30" 
+                            class="rounded-circle" alt="Avatar">
+                            {{user.email}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div *ngIf="boardResponse && boardResponse.alreadyMembers?.length > 0"
+        class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Already members : </strong>
         <span *ngFor="let item of boardResponse.alreadyMembers">{{item}}</span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div *ngIf="boardResponse && boardResponse.nonExisting?.length > 0" class="alert alert-danger alert-dismissible fade show"
-        role="alert">
-        <strong>Non Existing:</strong>
+    <div *ngIf="boardResponse && boardResponse.nonExisting?.length > 0"
+        class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Non Existing : </strong>
         <span *ngFor="let item of boardResponse.nonExisting">{{item}}</span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div *ngIf="boardResponse && boardResponse.nonMembers?.length > 0" class="alert alert-danger alert-dismissible fade show"
-        role="alert">
-        <strong>Non Members:</strong>
+    <div *ngIf="boardResponse && boardResponse.nonMembers?.length > 0"
+        class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Non Members : </strong>
         <span *ngFor="let item of boardResponse.nonMembers">{{item}}</span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -68,7 +118,7 @@
     </div>
     <div *ngIf="(boardResponse && boardResponse.removedCount == boardResponse.requestedCount) && boardResponse.removed?.length > 0"
         class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Successfully Removed:</strong>
+        <strong>Successfully Removed : </strong>
         <span *ngFor="let item of boardResponse.removed">{{item}}</span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -76,29 +126,48 @@
     </div>
     <div *ngIf="(boardResponse && boardResponse.removedCount == boardResponse.requestedCount) && boardResponse.added?.length > 0"
         class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Successfully Added:</strong>
+        <strong>Successfully Added : </strong>
         <span *ngFor="let item of boardResponse.added">{{item}}</span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div [formGroup]="usersForm" class="card border-light" >
-        <div class="card-header"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Add</div>
+    <div *ngIf="showPeople" [formGroup]="usersForm" class="card">
+        <div class="card-header"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Add members to {{ boardDisplayName}}</div>
         <div class="card-body">
-            <textarea class="form-control" placeholder="list of members with comma seperated" formControlName="addPeopleList"></textarea>
+            <textarea class="form-control" placeholder="Please add email id's with comma seperated"
+                formControlName="addPeopleList"></textarea>
+            <small class="pull-right">{{usersForm.get("addPeopleList").value.split("@").length -1}} members</small>
         </div>
         <div class="col-md-12">
-            <button class="btn btn-sm btnSuccess btnS float-right" (click)="addUsersInBoard()" [disabled]="!validAddUsers">Add</button>
+            <button class="btn btn-sm btnSuccess btnS float-right" (click)="addUsersInBoard()"
+                [disabled]="!validAddUsers">Add</button>
         </div>
     </div>
     <br>
-    <div [formGroup]="usersForm" class="card border-light" *ngIf="showPeople">
-        <div class="card-header"><i class="fa fa-times" aria-hidden="true"></i> &nbsp;Remove</div>
+    <div [formGroup]="usersForm" class="card" *ngIf="showPeople">
+        <div class="card-header"><i class="fa fa-times" aria-hidden="true"></i> &nbsp;Remove members from {{ boardDisplayName }}</div>
         <div class="card-body">
-            <textarea class="form-control" placeholder="list of members with comma seperated" formControlName="removePeopleList"></textarea>
+            <textarea class="form-control" placeholder="Please add email id's with comma seperated"
+                formControlName="removePeopleList"></textarea>
+            <small class="pull-right">{{usersForm.get("removePeopleList").value.split("@").length -1}} members</small>
         </div>
         <div class="col-md-12">
-            <button class="btn btn-sm btnSuccess btnS float-right" (click)="removeUsersInBoard()" [disabled]="!validRemoveUsers">Remove</button>
+            <button class="btn btn-sm btnSuccess btnS float-right" (click)="removeUsersInBoard()"
+                [disabled]="!validRemoveUsers">Remove</button>
+        </div>
+    </div>
+    <br>
+    <div *ngIf="showPeople" [formGroup]="usersForm" class="card">
+        <div class="card-header"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Add Admins to {{ boardDisplayName }}</div>
+        <div class="card-body">
+            <input class="form-control" placeholder="Please add email id"
+                formControlName="addAdminsList"/>
+            <!-- <small class="pull-right">{{usersForm.get("addAdminsList").value.split("@").length -1}} members</small> -->
+        </div>
+        <div class="col-md-12">
+            <button class="btn btn-sm btnSuccess btnS float-right" (click)="addAdminsInBoard()"
+                [disabled]="!validAddAdmins">Add</button>
         </div>
     </div>
 </div>
@@ -115,9 +184,9 @@
                 </div>
                 <div class="form-group">
                     <label><b>Department:</b> </label>
-                    <p-dropdown [ngClass]="{'has-error':!addBoardForm.controls['deptId'].valid}" placeholder="Department"
-                        formControlName="deptId" [options]="listOfDepartments" [style]="{'width':'100%'}" filter="true"
-                        #dept>
+                    <p-dropdown [ngClass]="{'has-error':!addBoardForm.controls['deptId'].valid}"
+                        placeholder="Department" formControlName="deptId" [options]="listOfDepartments"
+                        [style]="{'width':'100%'}" filter="true" #dept>
                         <ng-template let-dept pTemplate="item">
                             <div class="ui-helper-clearfix">
                                 <span style="vertical-align:middle">{{dept.label}}</span>
@@ -141,7 +210,7 @@
         <div class="modal-footer">
             <fieldset [disabled]="addBoardBtnTxt == 'Creating..'">
                 <button type="button" class="btn btn-sm btnSuccess" style="color:white;" (click)="saveCreateBoard()"
-                    [disabled]="addBoardForm.invalid" [disabled]="addBoardBtnTxt == 'Creating..'">{{addBoardBtnTxt}}</button>
+                    [disabled]="addBoardForm.invalid || addBoardBtnTxt == 'Creating..'">{{addBoardBtnTxt}}</button>
             </fieldset>
         </div>
     </ng-template>

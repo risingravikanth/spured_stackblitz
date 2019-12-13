@@ -608,7 +608,7 @@ export class LeftMenuComponent implements OnInit {
     this.showPostSpinnerGroups = true;
     this.adminGroupService.getMyGroups().subscribe((resData: any) => {
       this.showPostSpinnerGroups = false;
-      if (resData.groups) {
+      if (resData.groups && resData.groups.length > 0) {
         this.groupsList = resData.groups;
         this.noGroups = false;
       } else {
@@ -620,7 +620,7 @@ export class LeftMenuComponent implements OnInit {
     this.showPostSpinnerPubGroups = true;
     this.adminGroupService.getPublicGroups().subscribe((resData: any) => {
       this.showPostSpinnerPubGroups = false;
-      if (resData.groups) {
+      if (resData.groups && resData.groups.length > 0) {
         this.pubGroupsList = resData.groups;
         this.noPubGroups = false;
       } else {

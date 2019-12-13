@@ -42,6 +42,11 @@ export class AdminBoardService {
         }
         this.httpClient.post(url, body).catch(this.handleError);
     }
+
+    editBoard(body) {
+        let url = "/boards/edit";
+        return this.httpClient.post(url, body).catch(this.handleError);
+    }
     
     
     getUsersInClosedBoard(boardId: any) {
@@ -49,9 +54,23 @@ export class AdminBoardService {
         let headers = new HttpHeaders().set("Content-Type", "application/json");
         return this.httpClient.get(url, { headers: headers }).catch(this.handleError);
     }
+
+    getAdminsInClosedBoard(boardId: any) {
+        let body = {
+            boardId: boardId
+        }
+        let url = "/boards/getadmins";
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.httpClient.post(url, body, { headers: headers }).catch(this.handleError);
+    }
     
     addUsersInBoard(body: any) {
         let url = "/closedboards/adduserstoboard";
+        return this.httpClient.post(url, body).catch(this.handleError);
+    }
+
+    addAdminsInBoard(body: any) {
+        let url = "/boards/addadmins";
         return this.httpClient.post(url, body).catch(this.handleError);
     }
     

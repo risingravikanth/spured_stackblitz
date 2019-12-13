@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +11,7 @@ import { CommonService, SeoService } from '../../shared/services';
 import { CurrentUserService } from '../../shared/services/currentUser.service';
 import { ToastrService } from '../../shared/services/Toastr.service';
 import { SelfProfileService } from './profile-self.service';
+import { MatTabChangeEvent } from '@angular/material';
 
 @Component({
     selector: 'profile-self',
@@ -30,6 +31,9 @@ export class SelfProfileComponent implements OnInit {
         private toastr:ToastrService) { }
 
     editProfileForm: FormGroup;
+
+    @ViewChild('tabGroup') tabGroup;
+    public tabIndex:any = 0; 
 
     public profileLoader = false;
     public educationLoader = false;
@@ -76,6 +80,20 @@ export class SelfProfileComponent implements OnInit {
         this.initForm();
     }
 
+    
+    ngAfterViewInit() {
+        if(this.tabGroup.selectedIndex){
+            this.tabIndex = this.tabGroup.selectedIndex;
+        }
+        console.log(this.tabGroup.selectedIndex);
+      }
+  
+      public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+        console.log(tabChangeEvent);
+        if(tabChangeEvent){
+            this.tabIndex = tabChangeEvent.index;
+        }
+      }
 
     imageFromAws(url){
         return url.indexOf("https://") != -1 ? true : false;

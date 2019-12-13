@@ -48,7 +48,7 @@ export class NotificationsComponent implements OnInit {
   isLoggedInUser: boolean;
   public showMore: boolean = false;
 
-
+  private classArray : any =["badge-primary","badge-secondary","badge-success","badge-danger","badge-warning","badge-info","badge-dark"];
 
   constructor(private modalService: NgbModal,
     private notifyService: NotificationsService,
@@ -273,6 +273,10 @@ export class NotificationsComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  getClassByNotification(){
+     return this.classArray[Math.floor(Math.random() * this.classArray.length)];
   }
 
 }

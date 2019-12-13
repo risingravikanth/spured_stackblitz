@@ -1,4 +1,7 @@
 <div class="container horizontalScroll" [ngClass]="(!isActivity) ? 'marTop45' : 'container'">
+    <div *ngIf="errorTextMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{ errorTextMessage }}</strong>
+    </div>
     <br *ngIf="!isActivity" class="d-block d-sm-none">
     <br *ngIf="!isActivity">
     <div class="row" infinite-scroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="1000" (scrolled)="loadMorePosts()">
@@ -85,7 +88,7 @@
                     
                     <!--  New card -body using  media objects  -->
  
-                    <div class="card-body noticer-card">
+                    <div class="card-body noticer-card ">
 
                         <div class="media">
                           <img   width="50" height="50" class="mr-3 rounded-circle align-self-center" alt="Avatar"
@@ -102,6 +105,10 @@
                                     </a>
                             </h6>
                             <small class="text-muted"><i class="far fa-clock"></i> {{post.createTime | date: 'MMM d, y,h:mm a'}}</small>
+                           </div>
+                           <div *ngIf="post.postType == 'QUIZ'" class="pull-right">
+                               <img   width="40" height="40" class="mr-3 align-self-center" alt="Avatar"
+                                   src="assets/images/quiz.png">
                            </div>
                         </div>
  
@@ -150,6 +157,21 @@
                                 <div class="d-flex w-100">
                                     <div class="p-1"> <i class="fas fa-map-marker-alt"></i> </div>
                                     <div class="p-1 pr-3 w-100 flex-shrink-1"> {{post.location}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="post.postType == 'QUIZ'">
+                            <br>
+                            <div *ngIf="post?.questionGroupResponse?.questionGroup?.startTime" class="col-md-12">
+                                <div class="d-flex w-100">
+                                    <div class="p-1"><i class="fas fa-calendar-alt"></i></div>
+                                    <div class="p-1 w-100 flex-shrink-1"><b>Start Time:</b> {{post?.questionGroupResponse?.questionGroup?.startTime | date: 'MMM d, y,h:mm a'}}</div>
+                                </div>
+                            </div>
+                            <div *ngIf="post?.questionGroupResponse?.questionGroup?.endTime" class="col-md-12">
+                                <div class="d-flex w-100">
+                                    <div class="p-1"> <i class="fas fa-calendar-alt"></i></div>
+                                    <div class="p-1 pr-3 w-100 flex-shrink-1"><b>End Time:</b> {{post?.questionGroupResponse?.questionGroup?.endTime | date: 'MMM d, y,h:mm a'}}</div>
                                 </div>
                             </div>
                         </div>

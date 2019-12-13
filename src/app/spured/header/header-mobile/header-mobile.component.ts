@@ -111,7 +111,7 @@ export class HeaderMobileComponent implements OnInit {
     getAllNotifications() {
         let body = {
             "data": {
-                "_type": "Message",
+                "_type": "Notification",
                 "messageType": "NOTIFICATION"
             },
             "pagination": {

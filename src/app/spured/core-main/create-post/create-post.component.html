@@ -2,13 +2,13 @@
     <div class="card question-back shadow rounded" *ngIf="validUser && !paramId && isHeader != 'header'">
         <div class="row" style="padding-left: 28px;">
             <div style="width: 20%;">
-                <img width="80" height="80" style=" padding: 5px;border-radius: 50px;" alt="ProfilePic" [src]="profileImage">
+                <img width="80" height="80" style=" padding: 5px;border-radius: 50px;" alt="ProfilePic" [src]="createPostDialogObject?.profileImage">
             </div>
             <hr>
             <div [ngStyle]="{'width': mobileFlag === true ? '75%' : '80%' }">
                 <h3 class="question-text">
                     <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
-                        *ngIf="questionName?.length == 0">Click here to add your question</a>
+                        *ngIf="questionName?.length == 0">{{ createPostDialogObject?.pageSubHeading }}</a>
                     <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
                         *ngIf="questionName?.length > 0">
                         <i *ngIf="questionName && questionName.indexOf('Close') > 0" class="fa fa-link" aria-hidden="true"></i>
@@ -18,7 +18,7 @@
                     </a>
                 </h3>
                 <a class="addQuestion" href="javascript:void(0);" data-toggle="modal" (click)="postQuestionDialog(postDialog)"
-                    *ngIf="questionName?.length > 0">Click here to add your question
+                    *ngIf="questionName?.length > 0">{{ createPostDialogObject?.pageSubHeading }}
                 </a>
 
             </div>
@@ -27,7 +27,7 @@
     <div class="card question-back shadow rounded" *ngIf="!validUser && isHeader != 'header'">
         <div class="row" style="padding-left: 28px;">
             <div style="width: 20%;">
-                <img width="80" height="80" style=" padding: 5px;border-radius: 50px;" alt="Avatar" [src]="profileImage">
+                <img width="80" height="80" style=" padding: 5px;border-radius: 50px;" alt="Avatar" [src]="createPostDialogObject?.profileImage">
             </div>
             <hr>
             <div [ngStyle]="{'width': mobileFlag === true ? '75%' : '80%' }">
@@ -50,11 +50,16 @@
     <ng-template #postDialog let-c="close" let-d="dismiss">
         <div class="modal-header">
             <h5 class="modal-title" id="modal-basic-title">
-                <b class="font-weight-normal text-capitalize">Add {{popupTitle}}</b>
+                <b class="font-weight-normal text-capitalize">Add {{popupTitle}}</b>{{reqestType}}
             </h5>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
+        </div>
+        
+        <div class="col-md-12" *ngIf="reqestType == 'BOARD'">
+            <br>
+            <a class="btn btn-sm btn-primary pull-right" href="/quiz-create/boards/closed/{{boardId}}/{{boardName}}" target="_blank">Create Quiz</a>
         </div>
         <form [formGroup]="addPostForm">
             <div class="modal-body" formGroupName="data">
@@ -63,7 +68,7 @@
                 <div class="addPost" style="padding-top:10px;" *ngIf="reqestType != 'BOARD' && reqestType != 'GROUP'">
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <p-dropdown placeholder=" Type" [options]="types" (onChange)="getCategoriesByType(_type.value)"
+                            <p-dropdown placeholder=" Type" [options]="createPostDialogObject.types" (onChange)="getCategoriesByType(_type.value)"
                                 [style]="{'width':'100%'}" formControlName="_type1" filter="true" #_type>
                                 <ng-template let-type pTemplate="item">
                                     <div class="ui-helper-clearfix" [style]="{'width':'100%'}">
@@ -73,8 +78,8 @@
                             </p-dropdown>
                         </div>
                         <div class="form-group col-md-4">
-                            <p-dropdown placeholder=" Category" [options]="categories" [style]="{'width':'100%'}"
-                                formControlName="category" filter="true">
+                            <p-dropdown placeholder=" Category" [options]="categories" (onChange)="getmodelsByCategory(_category.value)" [style]="{'width':'100%'}"
+                                formControlName="category" filter="true" #_category>
                                 <ng-template let-category pTemplate="item">
                                     <div class="ui-helper-clearfix" [style]="{'width':'100%'}">
                                         <span style="vertical-align:middle">{{category.label}}</span>
@@ -101,10 +106,10 @@
                 <!-- post dropdowns end -->
 
                 <div class="form-group" style="padding:12px;">
-                    <textarea class="form-control" rows="1" maxlength="300" formControlName="title" placeholder="{{popupTitle}} title(max 300Chars)"></textarea>
+                    <textarea class="form-control" rows="1" maxlength="300" formControlName="title" placeholder="{{createPostDialogObject?.popupTitle}} title(max 300Chars)"></textarea>
                 </div>
                 <div class="form-group" style="padding: 1px 12px 1px 12px;">
-                    <textarea class="form-control" rows="4" formControlName="postText" placeholder="{{popupTitle}} description"></textarea>
+                    <textarea class="form-control" rows="4" formControlName="postText" placeholder="{{createPostDialogObject?.popupTitle}} description"></textarea>
                 </div>
                 <div class="form-group" style="padding:12px;" *ngIf="
                 addPostForm.controls['data'].get('_type1').value == 'DATA_INTERPRETATION' ||

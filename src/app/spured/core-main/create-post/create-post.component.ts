@@ -16,6 +16,8 @@ import { SeoService } from '../../../shared/services/seo.service';
 import { ToastrService } from '../../../shared/services/Toastr.service';
 import { CoreMainService } from '../core-main.service';
 
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { CreatePostDialogComponent } from './create-post-dialog/create-post-dialog.component';
 
 @Component({
   selector: 'create-post',
@@ -33,15 +35,16 @@ export class CreatePostComponent implements OnInit {
   public windowStyle:any;
 
   public isMobile: boolean;
-  public profileImage: any = "assets/images/noticer_default_user_img.png";
   public currentUser: User;
   public validUser: boolean = false;
   public noData: boolean = false;
   public boardId: any;
   public groupId: any;
   public reqestType: string;
+  boardName: any;
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: CoreMainService,
+    private dialog: MatDialog,
     private userService: CurrentUserService,
     public mobileService: MobileDetectionService,
     private modalService: NgbModal,
@@ -87,14 +90,25 @@ export class CreatePostComponent implements OnInit {
   public showMoreLink = true;
   public categories: any = [];
   public models: any = [];
-  public types: any = [];
+  
   public states: any = [];
   public institutes: any = [];
   public currentuserId: any;
   public dateMin: Date = new Date();
   public postBtnTxt = "Post";
   public mobileFlag : boolean = false;
-  public popupTitle : string = "";
+
+  public createPostDialogObject : any = {
+      popupTitle : "",
+      pageHeading : "",
+      pageSubHeading : "",
+      defaultSubHeading : "Click here to add your question / post",
+      profileImage: "assets/images/noticer_default_user_img.png",
+      selectedSection: {},
+      selectedModels : [],
+      types : []
+  };
+
   ngOnInit() {
     this.seo.generateTags({
       title: 'SpurEd - Spur Encouragement to Education',
@@ -125,10 +139,11 @@ export class CreatePostComponent implements OnInit {
       this.windowStyle =  { size : "lg", windowClass : "myCustomModalClass"}
     }
     this.questionName = "";
+    this.createPostDialogObject.pageSubHeading = this.createPostDialogObject.defaultSubHeading;
     this.initAddPostForm();
 
     this.models = categories_types_models.MODELS;
-    this.types = categories_types_models.TYPES;
+    this.createPostDialogObject.types = categories_types_models.TYPES;
 
     this.route.params.subscribe(this.handleParams.bind(this));
   }
@@ -170,6 +185,7 @@ export class CreatePostComponent implements OnInit {
   handleParams(params: any[]) {
     if (this.router.url.indexOf('boards/closed') !== -1) {
       this.boardId = params['boardId'];
+      this.boardName = params['title'];
       this.prepareBoardPostReq(params['title'], "board");
       this.paramType = "BOARD";
     } else if (this.router.url.indexOf('groups') !== -1) {
@@ -192,11 +208,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   prepareBoardPostReq(boardTitle: any, type:any) {
-    if(type == "board"){
-      this.questionName = "Boards"
-    } else{
-      this.questionName = "Groups"
-    }
+    this.questionName = (type === "board") ? "Boards" : "Groups";
     if (boardTitle) {
       this.questionName = boardTitle
     }
@@ -231,30 +243,29 @@ export class CreatePostComponent implements OnInit {
       if (this.paramCategory && this.paramCategory != "home") {
         this.addPostForm.controls['data'].get('category').patchValue(this.paramCategory);
         this.addPostForm.controls['data'].get('category').disable();
+        this.getmodelsByCategory(this.paramCategory);
       }
       
       
 
       switch(this.reqestType){
         case "EVENTS": { 
-          this.popupTitle = "Events"
+          this.createPostDialogObject.popupTitle = "Events";
           break; 
         }
 
         case "NEWS": { 
-          this.popupTitle = "News"
+          this.createPostDialogObject.popupTitle = "News";
           break; 
         } 
 
         case "CAREERS": { 
-          this.popupTitle = "Job"
+          this.createPostDialogObject.popupTitle = "Job";
           break; 
         } 
 
-        
-
         default : {
-            this.popupTitle = "Question";
+            this.createPostDialogObject.popupTitle = "Question";
             break;
         }
 
@@ -266,6 +277,16 @@ export class CreatePostComponent implements OnInit {
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
+
+      let dialogCreatePostConfig = new MatDialogConfig();
+      const configData = {
+        name: "Create Post",
+        data : this.createPostDialogObject
+      };
+      dialogCreatePostConfig.data = configData;
+      dialogCreatePostConfig.width = '700px';
+      const dialogRef = this.dialog.open(CreatePostDialogComponent, dialogCreatePostConfig);
+
     } else {
       this.router.navigate(['/home']);
     }
@@ -300,11 +321,12 @@ export class CreatePostComponent implements OnInit {
     let questionName = "";
     categories_types_models.SECTIONS.forEach(sec => {
       if (sec.title == "Topics") {
-        sec.sections.forEach(ty => {
+        sec.sections.forEach((ty:any) => {
           if (ty.code.toUpperCase() == type.toUpperCase()) {
             questionName = ty.name;
+            this.createPostDialogObject.pageSubHeading = ty.pageSubHeading ? ty.pageSubHeading : this.createPostDialogObject.defaultSubHeading;
             if (category) {
-              ty.categories.forEach(ca => {
+              ty.categories.forEach((ca:any) => {
                 if (ca.code == category) {
                   questionName = questionName + " (" + ca.name + ")";
                 }
@@ -387,9 +409,10 @@ export class CreatePostComponent implements OnInit {
     this.categories = [];
     categories_types_models.SECTIONS.forEach(sec => {
       if (sec.title == "Topics") {
-        sec.sections.forEach(ty => {
+        sec.sections.forEach((ty:any) => {
           if (ty.code.toUpperCase() == type.toUpperCase()) {
-            ty.categories.forEach(ca => {
+            this.createPostDialogObject.selectedSection = ty;
+            ty.categories.forEach((ca :any) => {
               if (ca.name != "Home") {
                 let vo = { label: ca.name, value: ca.code };
                 this.categories.push(vo);
@@ -400,11 +423,31 @@ export class CreatePostComponent implements OnInit {
       }
     });
 
+    this.setModels(type);    
+  }
+
+  getmodelsByCategory(selectedCategory){
+    if(this.createPostDialogObject.selectedSection!== undefined){
+      if(this.createPostDialogObject.selectedSection.modelsbyCategory !== undefined && this.createPostDialogObject.selectedSection.modelsbyCategory === "true" ){
+        this.createPostDialogObject.selectedSection.categories.forEach(category => {
+            if (category.code == selectedCategory) {
+             this.models = (category.models !== undefined) ? category.models : this.createPostDialogObject.selectedModels;
+            }
+          });
+      }else{
+          this.setModels(this.createPostDialogObject.selectedSection.code);
+      }
+    }
+  }
+
+  setModels(type) {
     this.models = [];
+    type= type.toUpperCase();
     categories_types_models.MODELS.forEach(item => {
       let type_search = (type == "VERBAL" || type == "QUANTS" || type == "DI") ? "VERBAL" : type;
       if (item.type == type_search) {
         this.models = item.models;
+        this.createPostDialogObject.selectedModels = this.models;
       }
     });
   }
@@ -458,9 +501,9 @@ export class CreatePostComponent implements OnInit {
     let model = "NA"
     categories_types_models.SECTIONS.forEach(sec => {
       if (sec.title == "Topics") {
-        sec.sections.forEach(ty => {
+        sec.sections.forEach((ty:any) => {
           if (ty.name.toUpperCase() == type.toUpperCase()) {
-            ty.categories.forEach(ca => {
+            ty.categories.forEach((ca:any) => {
               if (ca.code == category) {
                 model = ca.name;
               }
@@ -476,7 +519,7 @@ export class CreatePostComponent implements OnInit {
   setProfilePic() {
     this.currentUser = this.userService.getCurrentUser();
     if (this.currentUser && this.currentUser.imageUrl) {
-      this.profileImage = this.currentUser.imageUrl;
+      this.createPostDialogObject.profileImage = this.currentUser.imageUrl;
     }  
   }
 

@@ -4,14 +4,120 @@
 
 <section>
     <div [class.scrollMobile]="isMobile">
-        <!-- BOARDS -->
-        <div *ngIf="validUser && underMaintenace">
 
-            <!-- Displaying of Boards -->
-            <div class="mb-2">
+        <div class="leftNav">
+            <div class="EditableList" *ngIf="validUser && underMaintenace">
+                <h3 class="title">
+                    <div>
+                        Boards
+                        <a class="text-dark pull-right" data-toggle="collapse" href="#boardSearch" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </div>
+                </h3>
+               
+                <div class="StaticListItem collapse" id="boardSearch">
+                    <div class="Selector TopicSelector SearchFilterTopicSelector">
+                        <div class="selector_input_interaction">
+                            <input [(ngModel)]="searchBoard" class="selector_input text" type="text" value="" placeholder="Search for a board">
+                        </div>
+                    </div>
+                </div>
+                <ul>
+                    <div *ngFor="let board of boardsList | filter : searchBoard :'boardTitle' " [class.nav_item_selected]="'BOARD_'+board.boardId === selectedItem">
+                        <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                            <a title={{board.boardTitle}} href="javascript:void(0);" class="text-dark" (click)="selectedBoard(board.boardId,board.boardName)" data-value="all" >
+                                {{ board.boardTitle }}
+                            </a>
+                       </li>
+                    </div>
+                    <div *ngIf="noBoards && !showPostSpinner">
+                        <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                            <a href="javascript:void(0);" data-value="question" id="__w2_wJ90XI2J44_item">
+                                No Boards
+                            </a>
+                        </li>
+                    </div>
+               </ul>
+            </div>
+
+            <div class="EditableList" *ngIf="validUser && underMaintenace">
+                <h3 class="title">
+                    <div>Custom Groups
+                        <a *ngIf="groupsList.length > 10" class="text-dark pull-right" data-toggle="collapse" href="#customGroupSearch" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </div>
+                </h3>
+                <div class="StaticListItem collapse" id="customGroupSearch">
+                    <div class="Selector TopicSelector SearchFilterTopicSelector">
+                        <div class="selector_input_interaction">
+                            <input class="selector_input text" type="text" value="" placeholder="Search for a group">
+                        </div>
+                    </div>
+                </div>
+                <ul>
+                    <div *ngFor="let group of groupsList" [class.nav_item_selected]="'GROUP_'+group.id === selectedItem">
+                        <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                            <a title={{group.name}} href="javascript:void(0);" class="text-dark" (click)="selectedGroup(group.id,group.name)" data-value="all" >
+                                {{ group.name }}
+                            </a>
+                        </li>
+                    </div>
+                    <div *ngIf="noGroups && !showPostSpinnerGroups">
+                        <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                            <a href="javascript:void(0);" data-value="question">
+                                No Groups
+                            </a>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+            <div class="EditableList" *ngIf="validUser && underMaintenace">
+                <h3 class="title">
+                    <div>Public Groups
+                        <a class="text-dark pull-right" data-toggle="collapse" href="#publicGroupSearch" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </div>
+                </h3>
+                <div class="StaticListItem collapse" id="publicGroupSearch">
+                    <div class="Selector TopicSelector SearchFilterTopicSelector">
+                        <div class="selector_input_interaction">
+                            <input [(ngModel)]="searchPublicGroup" class="selector_input text" type="text" value="" placeholder="Search for a group">
+                        </div>
+                    </div>
+                </div>
+                <ul>
+                    <div *ngFor="let group of pubGroupsList | filter : searchPublicGroup :'name' " [class.nav_item_selected]="'PUBLIC_GROUP_'+group.id === selectedItem" >
+                        <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                            <a title={{group.name}} href="javascript:void(0);" class="text-dark" (click)="selectedPublicGroup(group.id,group.name)" data-value="all" >
+                                {{ group.name }}
+                            </a>
+                       </li>
+                    </div>
+                    <div *ngIf="noPubGroups && !showPostSpinnerPubGroups">
+                        <li class="SearchFilterNavListItem FilterNavListItem EditableListItem NavListItem not_removable">
+                            <a href="javascript:void(0);" data-value="question">
+                                No Groups
+                            </a>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+
+        </div>
+
+
+
+        <!-- BOARDS >
+        <div *ngIf="validUser && underMaintenace" class="d-none">
+
+            <!- Displaying of Boards ->
+            <div class="mb-2 border-bottom">
                 <h6 class="d-inline"><i class="fa fa-window-maximize" aria-hidden="true"></i><b> Boards&nbsp;<i class="fa fa-info-circle"
                             (click)="showAddBoardDialog(boardsHelpDialog, 'help')"></i></b></h6>
-                <span class="float-right d-inline">
+                <span class="float-right d-inline" style="display:none !important;">
                     <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add new board" (click)="showAddBoardDialog(addBoardDialog, 'addBoard')">
                         <i class="fas fa-plus"></i>
                     </a>
@@ -25,11 +131,11 @@
             <ul class="list-group list-group-flush mb-2">
                 <li *ngFor="let board of boardsList" [class.selected]="'BOARD_'+board.boardId === selectedItem" class="list-group-item  p-1 text-dark bg-transparent border-0">
 
-                    <a title={{board.boardName}} href="javascript:void(0);" class="text-dark" (click)="selectedBoard(board.boardId,board.boardName)">
-                        {{board.boardName}}
+                    <a title={{board.boardTitle}} href="javascript:void(0);" class="text-dark" (click)="selectedBoard(board.boardId,board.boardName)">
+                        {{board.boardTitle}}
                     </a>
                     <ng-template #tipComment>
-                        {{board.boardName}}
+                        {{board.boardTitle}}
                     </ng-template>
                     <span class="float-right" *ngIf="showConfig">
                         <a href="javascript:void(0);" class="sectionOptIconsColor">
@@ -40,8 +146,8 @@
             </ul>
 
 
-            <!-- Displaying of Groups -->
-            <div class="mb-2">
+            <!- Displaying of Groups ->
+            <div class="mb-2 border-bottom">
                 <h6><i class="fa fa-users" aria-hidden="true"></i><b> College Groups&nbsp;</b></h6>
             </div>
             <div style="margin-left: 50%;" *ngIf="showPostSpinnerGroups">
@@ -58,9 +164,9 @@
                     </ng-template>
                 </li>
             </ul>
-            <!-- Displaying of public Groups -->
-            <div class="mb-2">
-                <h6><i class="fa fa-users" aria-hidden="true"></i><b> Public Groups&nbsp;</b></h6>
+            <!- Displaying of public Groups ->
+            <div class="mb-2 border-bottom">
+                <h6 class="d-inline"><i class="fa fa-users" aria-hidden="true"></i><b> Public Groups&nbsp;</b></h6>
                 <span class="float-right d-inline">
                     <a href="javascript:void(0);" class="sectionOptIconsColor" placement="right" ngbTooltip="Add Public Group" (click)="showAddGroupDialog(addGroupDialog)">
                         <i class="fas fa-plus"></i>
@@ -82,14 +188,13 @@
                 </li>
             </ul>
 
-        </div>
-        <!-- Displaying of Topics -->
+        </div> -->
+         
         <div class="mb-2">
             <ul *ngFor="let menu of menuList" class="list-group list-group-flush mb-2 border-0">
-
-
-                <div class="mb-2">
-                    <h6 class="d-inline"><i class="fa fa-list-ul" aria-hidden="true"></i><b> {{menu?.title}}</b></h6>
+ 
+                <div class="mb-2 border-bottom">
+                    <h6 class="d-inline"> {{menu?.title}}</h6>
                     <span class="float-right" *ngIf="menu.select">
                         <a href="javascript:void(0);" class="sectionOptIconsColor" (click)="showAddSectionDialog(sectionDialog)">
                             <i class="fas fa-plus"></i>
@@ -260,7 +365,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <span style="font-size: 20px;">
-                                {{request.boardInfo ? request.boardInfo.boardName : '-NA-'}} <span class="boardsPendingInfo"
+                                {{request.boardInfo ? request.boardInfo.boardTitle : '-NA-'}} <span class="boardsPendingInfo"
                                     *ngIf="request.statusName == 'Pending'" style="color:green;font-size: 12px;">
                                     ({{request.statusName}})
                                 </span>

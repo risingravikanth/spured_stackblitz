@@ -1,22 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AccountActivateComponent } from './account-activate/account-activate.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { PasswordResetLinkComponent } from './password-reset-link/password-reset-link.component';
+import { AuthGuard } from './shared';
 import { AboutComponent } from './spured/about/about.component';
-import { HelpComponent } from './spured/help/help.component';
+import { AdminComponent } from './spured/admin/admin.component';
 import { CoreMainComponent } from './spured/core-main/core-main.component';
+import { HelpComponent } from './spured/help/help.component';
+import { HomeComponent } from './spured/home/home.component';
+import { NotificationsComponent } from './spured/notifications/notifications.component';
+import { PasswordResetComponent } from './spured/password-reset/password-reset.component';
 import { OthersProfileComponent } from './spured/profile-other/profile-other.component';
 import { SelfProfileComponent } from './spured/profile-self/profile-self.component';
+import { QuizAttemptReviewComponent } from './spured/quiz/quiz-attempt-review/quiz-attempt-review.component';
+import { QuizCreateUpdateStatsComponent } from './spured/quiz/quiz-create-update-stats/quiz-create-update-stats.component';
 import { ReportUsComponent } from './spured/report-us/report-us.component';
 import { SettingsComponent } from './spured/settings/settings.component';
-import { AuthGuard } from './shared';
-import { AccountActivateComponent } from './account-activate/account-activate.component';
-import { NotificationsComponent } from './spured/notifications/notifications.component';
-import { PasswordResetLinkComponent } from './password-reset-link/password-reset-link.component';
-import { AdminComponent } from './spured/admin/admin.component';
 import { SpuredComponent } from './spured/spured.component';
-import { HomeComponent } from './spured/home/home.component';
 import { UserSetupComponent } from './spured/user-setup/user-setup.component';
-import { PasswordResetComponent } from './spured/password-reset/password-reset.component';
 
 const routes: Routes = [
   {
@@ -112,6 +114,71 @@ const routes: Routes = [
       {
         path: ':groupId/:title',
         component: CoreMainComponent,
+      }
+    ]
+  },
+  {
+    path: 'quiz-create',
+    component: SpuredComponent,
+    //canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'boards/closed/:boardId/:title',
+        component: QuizCreateUpdateStatsComponent,
+      },
+      {
+        path: 'groups/:groupId',
+        component: QuizCreateUpdateStatsComponent,
+      },
+      {
+        path: 'groups/:groupId/:title',
+        component: QuizCreateUpdateStatsComponent,
+      },
+      {
+        path: 'categories/:type',
+        component: QuizCreateUpdateStatsComponent,
+      }
+    ]
+  },
+  {
+    path: 'quiz-manage',
+    component: SpuredComponent,
+    //canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'closed/:quizId',
+        component: QuizCreateUpdateStatsComponent,
+      },
+      {
+        path: 'groups/:quizId/:title',
+        component: QuizCreateUpdateStatsComponent,
+      },
+      {
+        path: ':quizId/:title',
+        component: QuizCreateUpdateStatsComponent,
+      },
+      {
+        path: ':type/:category/:quizId',
+        component: QuizCreateUpdateStatsComponent,
+      }
+    ]
+  },
+  {
+    path: 'quiz',
+    component: SpuredComponent,
+    //canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'closed/:quizId',
+        component: QuizAttemptReviewComponent,
+      },
+      {
+        path: 'groups/:quizId/:title',
+        component: QuizAttemptReviewComponent,
+      },
+      {
+        path: ':type/:category/:quizId',
+        component: QuizAttemptReviewComponent,
       }
     ]
   },

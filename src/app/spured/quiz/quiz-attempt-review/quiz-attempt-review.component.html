@@ -1,0 +1,180 @@
+<div class=" marTop50 fontType" [class.help-pad]="!isMobile">
+	<h4 *ngIf="quizObject?.questionGroupResponse?.questionGroup?.attempted">
+		<b>Attempt Quiz</b>
+	</h4>
+	<h4 *ngIf="!quizObject?.questionGroupResponse?.questionGroup?.attempted">
+		<b>Review Quiz</b>
+	</h4>
+	<hr>
+	<section>
+		<div class="row" *ngIf="quizObject">
+			<div class="col-md-8">
+				<div class="jumbotron">
+					<div class="media quizTop">
+						<img width="50" height="50" class="mr-3 rounded-circle align-self-center" alt="Avatar" [src]="(quizObject.userProfile && quizObject.userProfile.profileImageUrl  && quizObject.userProfile.profileImageUrl?.length>0 ) ? ((quizObject.userProfile.profileImageUrl ? '' : serverUrl) + quizObject.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">
+
+						<div class="media-body">
+							<h6 class="mt-0 mb-0">
+								<a href="profile/users/{{quizObject?.userProfile?.userId}}" *ngIf="quizObject && quizObject.userProfile" class="text-dark text-capitalize font-weight-normal"
+								 (click)="!!redirectToOtherProfile(quizObject.userProfile.userId)">
+									{{quizObject.userProfile ? quizObject.userProfile.userName : '-NA-'}}
+								</a>
+								<a href="javascript:void(0);" *ngIf="!quizObject.userProfile" class="text-capitalize text-dark font-weight-normal">
+									{{quizObject.userProfile ? quizObject.userProfile.userName : '-NA-'}}
+								</a>
+							</h6>
+							<small class="text-muted">
+								<i class="far fa-clock"></i> {{quizObject.createTime | date: 'MMM d, y,h:mm a'}}</small>
+						</div>
+					</div>
+					<hr class="my-4">
+					<p class="lead ">
+						<b>{{quizObject?.postTitle}}</b>
+					</p>
+					<hr class="my-4">
+					<p>{{quizObject?.postText}}</p>
+					<div class="row">
+						<div class="col-md-6">
+							<b>Start Time:</b> {{quizObject?.questionGroupResponse?.questionGroup.startTime | date:'M/d/yy, hh:mm:ss'}}</div>
+						<div class="col-md-6">
+							<b>End Time:</b> {{quizObject?.questionGroupResponse?.questionGroup.endTime | date:'M/d/yy, hh:mm:ss'}}</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-6">
+							<b>Duration:</b> {{quizObject?.questionGroupResponse?.questionGroup.timeLimitInMinutes}}min</div>
+						<div class="col-md-6" *ngIf="quizObject?.questionGroupResponse?.questionGroup.gradingOptions.gradingRevealType == 'SPECIFIED_TIME'">
+							<b>Reveal Time:</b> {{quizObject?.questionGroupResponse?.questionGroup.gradingOptions.gradingRevealSpecifiedTime | date:'M/d/yy,
+							hh:mm:ss'}}
+						</div>
+						<div class="col-md-6" *ngIf="quizObject?.questionGroupResponse?.questionGroup.gradingOptions.gradingRevealType != 'SPECIFIED_TIME'">
+							<b>Reveal Type:</b> {{gradingRevealTypeFn(quizObject?.questionGroupResponse?.questionGroup.gradingOptions.gradingRevealType)}}
+						</div>
+					</div>
+					<br>
+					<br>
+					<div class="text-center timerStyle">
+						<h2 *ngIf="startExam">
+							<b class="timerBorder">{{timer | date:'mm:ss'}}</b>
+						</h2>
+					</div>
+					<a (click)="startExamFn(quizObject?.questionGroupResponse?.questionGroup.timeLimitInMinutes)" class="btn btn-primary btn-sm"
+					 *ngIf="!startExam && !quizObject?.questionGroupResponse?.questionGroup?.attempted && !endExam" role="button">Start Exam
+					</a>
+				</div>
+				<div *ngIf="startExam && !quizObject?.questionGroupResponse?.questionGroup?.attempted">
+					<div *ngFor="let q of quizObject?.questionGroupResponse?.questionGroup?.questions;let i = index;">
+						<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+							<div class="btn-group" role="group" aria-label="First group">
+								<b>Q.{{i+1}}</b>
+							</div>
+							<div class="btn-group col-md-8" role="group" aria-label="First group">
+								<h6>{{q.text}}</h6>
+							</div>
+							<div class="btn-group col-md-2" role="group" aria-label="First group">
+								<p class="pointsGreen">[{{q?.gradingOptions?.correctPoints}}]</p> &nbsp; &nbsp; &nbsp;
+								<p class="pointsRed">[{{q?.gradingOptions?.inCorrectPoints}}]</p>
+							</div>
+						</div>
+						<div class="choML" *ngIf="q?.questionType == 'MCQ'">
+							<div *ngIf="!q?.multiSelect">
+								<mat-radio-group aria-label="Select an option" [(ngModel)]="q.userSelectedOptionids1" *ngFor="let c of q.choices">
+									<mat-radio-button class="col-md-12" [value]="c.choiceId">{{c.choiceText}}</mat-radio-button>
+								</mat-radio-group>
+							</div>
+							<div *ngIf="q?.multiSelect">
+								<div aria-label="Select an option" *ngFor="let c of q.choices">
+									<mat-checkbox class="col-md-12" [(ngModel)]="c.isSelected">{{c.choiceText}}</mat-checkbox>
+								</div>
+							</div>
+						</div>
+						<div class="ansLM" *ngIf="q?.questionType == 'BLANKS'">
+							<div *ngFor="let a of q.userAnswers1;let ai=index">
+								<mat-form-field class="example-full-width">
+									<input class="col-md-8" matInput placeholder="Answer - {{ai+1}}" [(ngModel)]="a.answer">
+								</mat-form-field>
+							</div>
+						</div>
+						<hr>
+					</div>
+				</div>
+				<div *ngIf="quizObject?.questionGroupResponse?.questionGroup?.attempted">
+					<div class="alert alert-info" role="alert">
+						<h4 class="alert-heading">You are already attempted!</h4>
+						<p>You are already attempted this quiz. Please review your quiz.</p>
+						<hr>
+						<b>Your Overall Score: </b> {{quizObject?.questionGroupResponse?.score}} 
+						<!-- <hr> -->
+						<!-- <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p> -->
+					</div>
+					<fieldset disabled>
+
+						<div *ngFor="let q of quizObject?.questionGroupResponse?.questionGroup?.questions;let i = index;">
+							<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+								<div class="btn-group" role="group" aria-label="First group">
+									<b>Q.{{i+1}}</b>
+								</div>
+								<div class="btn-group col-md-8" role="group" aria-label="First group">
+									<h6>{{q.text}}</h6>
+								</div>
+								<div class="btn-group col-md-2" role="group" aria-label="First group">
+									<p class="pointsGreen">[{{q?.gradingOptions?.correctPoints}}]</p> &nbsp; &nbsp; &nbsp;
+									<p class="pointsRed">[{{q?.gradingOptions?.inCorrectPoints}}]</p>
+								</div>
+							</div>
+							<div class="choML" *ngIf="q?.questionType == 'MCQ'">
+								<mat-radio-group disabled aria-label="Select an option" [(ngModel)]="q.userAnswers" *ngFor="let c of q.choices">
+									<mat-radio-button class="col-md-12" [value]="c.choiceId"><b>{{c.choiceText}}</b> &nbsp;
+										<span *ngIf="c.isCorrect == true" style="color:green;">
+											<i class="fa fa-check-circle" aria-hidden="true"></i>
+										</span>
+										<span *ngIf="getIsWrongAnswer(c)" style="color:red;">
+											<i class="fa fa-times-circle" aria-hidden="true"></i>
+										</span>
+									</mat-radio-button>
+								</mat-radio-group>
+								<b>Score: </b> {{q?.score}}
+							</div>
+							<div class="ansLM" *ngIf="q?.questionType == 'BLANKS'">
+								<div *ngFor="let a of q.answers;let ai=index">
+									<mat-form-field class="example-full-width">
+										<input class="col-md-8" matInput placeholder="Answer - {{ai+1}}" [value]="a">
+									</mat-form-field>
+								</div>
+								<b>Score: </b> {{q?.score}}
+							</div>
+							<hr>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<b *ngIf="startExam">Quiz Status:</b>
+				<br>
+				<section *ngIf="startExam" class="quizStatus">
+					<!-- <div class="row" > -->
+					<div class="numberCircle" *ngFor="let q of quizObject?.questionGroupResponse?.questionGroup?.questions;let i = index;" [style.background-color]="(q.questionType == 'MCQ' ? ( (q.multiSelect ? ( isValidMultiSelect(q.choices) ? 'green' : 'white') : q.userSelectedOptionids1 != null ? 'green' : 'white') ) : (checkAnswerd(q.userAnswers1) ? 'green' : 'white'))">{{i+1}}</div>
+					<!-- </div> -->
+					<div class="col-md-12 text-cener">
+						<button (click)="submit()" class="btn btn-success btn-sm">Submit Quiz</button>
+					</div>
+				</section>
+			</div>
+		</div>
+	</section>
+	<section *ngIf="endExam">
+		<div class="alert alert-success" role="alert" *ngIf="!submissionError">
+			<h4 class="alert-heading">Well done!</h4>
+			<p>{{submissionResult}}</p>
+			<hr>
+			<p class="mb-0">Results will be annouced soon.</p>
+		</div>
+		<div class="alert alert-danger" role="alert" *ngIf="submissionError">
+			<h4 class="alert-heading">Sorry!</h4>
+			<p>{{submissionResult}}</p>
+		</div>
+	</section>
+	<section *ngIf="review">
+		<div>Review</div>
+	</section>
+</div>

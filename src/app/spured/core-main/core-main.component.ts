@@ -52,6 +52,7 @@ export class CoreMainComponent implements OnInit {
   @ViewChild('sideMenuDialogDialog') sideMenuModalCotent: any;
   @ViewChild('postDialog') postDialog: ElementRef;
   @Input("from") from: any;
+  @Input("activeTab") activeTab: any;
 
   public isMobile: boolean;
   private isServer: boolean;
@@ -66,6 +67,7 @@ export class CoreMainComponent implements OnInit {
   public underMaintenace: boolean = true;
   public showMoreActivity: boolean = true;
   profileParamId: any;
+  public errorTextMessage: any;
 
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: CoreMainService,
@@ -347,6 +349,10 @@ export class CoreMainComponent implements OnInit {
           let obj: any = resData;
           if (obj.error && obj.error.code && obj.error.code.id) {
             console.log("Failed", obj.error.code.message);
+            this.errorTextMessage = obj.error.code.message;
+            setTimeout(() => {
+              this.errorTextMessage = "";
+            }, 15000);
           } else {
             this.postsList = obj.posts;
             this.tstate.set(RESULT_KEY, this.postsList);
@@ -369,7 +375,11 @@ export class CoreMainComponent implements OnInit {
           this.showPostSpinner = false;
           let obj: any = resData;
           if (obj.error && obj.error.code && obj.error.code.id) {
-            this.toastr.error("Failed", obj.error.code.message);
+            // this.toastr.error("Failed", obj.error.code.message);
+            this.errorTextMessage = obj.error.code.message;
+            setTimeout(() => {
+              this.errorTextMessage = "";
+            }, 15000);
           } else {
             this.postsList = obj.posts;
             this.preparePostsList();
@@ -388,7 +398,7 @@ export class CoreMainComponent implements OnInit {
 
   loadMoreFeedPosts() {
     this.getPostsRequestBody.pagination.offset = 0;//this.getPostsRequestBody.pagination.offset + constant.postsPerCall;
-    if (this.postsList[this.postsList.length - 1]) {
+    if (this.postsList !== undefined && this.postsList[this.postsList.length - 1]) {
       if (this.router.url.indexOf('feed') !== -1) {
         if (this.getPostsRequestBody.data.maxId == this.postsList[this.postsList.length - 1].upid) {
           return;
@@ -409,20 +419,22 @@ export class CoreMainComponent implements OnInit {
         if (obj.error && obj.error.code && obj.error.code.id) {
           this.toastr.error("Failed", obj.error.code.message);
         } else {
-          if (obj.posts.length == 0) {
+          if (obj && obj.posts && obj.posts.length == 0) {
             this.showMoreLink = false;
           }
           /* NEED TO CHANGE HERE :: every time it was checking this.postsList for duplicate
              HINT : array is in sorter order so we can check based on postId also
 
            */
-          obj.posts.forEach(element => {
-            let existedArr = this.postsList.filter(item => item.postId == element.postId);
-            if (existedArr.length == 0) {
-              this.postsList.push(element);
-            }
-          });
-          this.preparePostsList();
+          if(obj.posts){
+            obj.posts.forEach(element => {
+              let existedArr = this.postsList.filter(item => item.postId == element.postId);
+              if (existedArr.length == 0) {
+                this.postsList.push(element);
+              }
+            });
+            this.preparePostsList();
+          }
         }
       }, error => {
         this.toastr.error("Failed", "Something went wrong!");
@@ -448,7 +460,7 @@ export class CoreMainComponent implements OnInit {
   }
 
   preparePostsList() {
-    if (this.postsList.length > 0) {
+    if (this.postsList && this.postsList.length > 0) {
       this.postsList = this.postsList.filter(item => item != null);
       this.postsList.forEach(element => {
         /* CHANGED :: added if condition to verify existing one or new one 
@@ -683,25 +695,34 @@ export class CoreMainComponent implements OnInit {
     let title = postObj.postTitle;
     let postUrl;
     if (isPlatformBrowser(this.platformId)) {
-      if (t == "BOARD") {
-        postUrl = "/posts/closed/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
-
-      } else if (t == "GROUP") {
-        postUrl = "/posts/groups/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
-      } else {
-        if (c) {
-          if (title != undefined) {
-            postUrl = "/posts/" + t.toLowerCase() + "/" + c + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-');
-          } else {
-            postUrl = "/posts/" + t.toLowerCase() + "/" + c + "/" + id;
-          }
+      if (postObj.postType == "QUIZ") {
+        if (this.currentUser.userId == postObj.userProfile.userId) {
+          postUrl = "/quiz-manage/closed/" + id;
         } else {
-          if (title != undefined) {
-            postUrl = "/posts/" + t + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-');
+          postUrl = "/quiz/closed/" + id;
+        }
+      } else {
+        if (t == "BOARD") {
+          postUrl = "/posts/closed/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
+
+        } else if (t == "GROUP") {
+          postUrl = "/posts/groups/" + id + "/" + (title != undefined ? (title.replace(/[^a-zA-Z0-9]/g, '-')) : "");
+        } else {
+          if (c) {
+            if (title != undefined) {
+              postUrl = "/posts/" + t.toLowerCase() + "/" + c + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-');
+            } else {
+              postUrl = "/posts/" + t.toLowerCase() + "/" + c + "/" + id;
+            }
           } else {
-            postUrl = "/posts/" + t + "/" + id;
+            if (title != undefined) {
+              postUrl = "/posts/" + t + "/" + id + "/" + title.replace(/[^a-zA-Z0-9]/g, '-');
+            } else {
+              postUrl = "/posts/" + t + "/" + id;
+            }
           }
         }
+
       }
       return postUrl;
     }
@@ -821,9 +842,9 @@ export class CoreMainComponent implements OnInit {
     let model = "Others"
     categories_types_models.SECTIONS.forEach(sec => {
       if (sec.title == "Topics") {
-        sec.sections.forEach(ty => {
+        sec.sections.forEach((ty:any) => {
           if (ty.name.toUpperCase() == type.toUpperCase()) {
-            ty.categories.forEach(ca => {
+            ty.categories.forEach((ca:any) => {
               if (ca.code == category) {
                 model = ca.name;
               }
@@ -1203,6 +1224,7 @@ export class CoreMainComponent implements OnInit {
     body.pagination = new Pagination();
     body.pagination.offset = 0
     body.pagination.limit = 30
+
     this.service.getSelfActivity(body).subscribe(resData => {
       this.showPostSpinner = false;
       let obj: any = resData;
@@ -1256,47 +1278,51 @@ export class CoreMainComponent implements OnInit {
     body.pagination = new Pagination();
     body.pagination.offset = 0
     body.pagination.limit = 30
-    if (this.postsList[this.postsList.length - 1]) {
-      let post = this.postsList[this.postsList.length - 1];
-      console.log("Activity");
-      console.log(post.activity);
-      console.log("sort");
-      post.activity.sort(function (a, b) {
-        return a.id - b.id;
-      });
-      console.log(post.activity);
-      if (body.pagination.maxId == post.activity[0].id) {
-        return;
-      }
-      body.pagination.maxId = post.activity[0].id;
-    }
-    this.showPostSpinner = true;
-    this.service.getSelfActivity(body).subscribe(
-      resData => {
-        this.showPostSpinner = false;
-        let obj: any = resData;
-        if (obj.error && obj.error.code && obj.error.code.id) {
-          this.toastr.error("Failed", obj.error.code.message);
-        } else {
-          let records = this.prepareActivity(resData);
-          if (records.length == 0) {
-            this.showMoreActivity = false;
-          }
-          /* NEED TO CHANGE HERE :: every time it was checking this.postsList for duplicate
-             HINT : array is in sorter order so we can check based on postId also
-
-           */
-          records.forEach(element => {
-            // let existedArr = this.postsList.filter(item => item.postId == element.postId);
-            // if (existedArr.length == 0) {
-            this.postsList.push(element);
-            // }
-          });
-          this.preparePostsList();
+    if ((this.activeTab == 0 && this.from == "topics") ||
+      (this.activeTab == 1 && this.from == "boards") ||
+      (this.activeTab == 2 && this.from == "groups")) {
+      if (this.postsList[this.postsList.length - 1]) {
+        let post = this.postsList[this.postsList.length - 1];
+        console.log("Activity");
+        console.log(post.activity);
+        console.log("sort");
+        post.activity.sort(function (a, b) {
+          return a.id - b.id;
+        });
+        console.log(post.activity);
+        if (body.pagination.maxId == post.activity[0].id) {
+          return;
         }
-      }, error => {
-        this.toastr.error("Failed", "Something went wrong!");
-      })
+        body.pagination.maxId = post.activity[0].id;
+      }
+      this.showPostSpinner = true;
+      this.service.getSelfActivity(body).subscribe(
+        resData => {
+          this.showPostSpinner = false;
+          let obj: any = resData;
+          if (obj.error && obj.error.code && obj.error.code.id) {
+            this.toastr.error("Failed", obj.error.code.message);
+          } else {
+            let records = this.prepareActivity(resData);
+            if (records.length == 0) {
+              this.showMoreActivity = false;
+            }
+            /* NEED TO CHANGE HERE :: every time it was checking this.postsList for duplicate
+               HINT : array is in sorter order so we can check based on postId also
+  
+             */
+            records.forEach(element => {
+              // let existedArr = this.postsList.filter(item => item.postId == element.postId);
+              // if (existedArr.length == 0) {
+              this.postsList.push(element);
+              // }
+            });
+            this.preparePostsList();
+          }
+        }, error => {
+          this.toastr.error("Failed", "Something went wrong!");
+        })
+    }
   }
 
   prepareActivity(activityRecords: any) {
@@ -1347,6 +1373,11 @@ export class CoreMainComponent implements OnInit {
               act = act.replace('Reported,', '');
             }
             act = act + "Reported";
+          }else if (activity.action == "ATTEMPTED") {
+            if (act.indexOf('Attempted') !== -1) {
+              act = act.replace('Attempted,', '');
+            }
+            act = act + "Attempted";
           }
         }
 

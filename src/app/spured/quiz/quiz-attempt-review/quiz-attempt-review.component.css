@@ -1,0 +1,152 @@
+
+.marTop50
+{
+    margin-top: 80px;
+}
+
+.chip {
+    display: inline-block;
+    padding: 0 25px;
+    height: 50px;
+    font-size: 16px;
+    line-height: 50px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
+}
+
+.chip img {
+    float: left;
+    margin: 0 10px 0 -25px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.numberCircle {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+
+  background: #fff;
+  border: 2px solid #2a38b7;
+  color: black;
+  text-align: center;
+
+  font: 14px Arial, sans-serif;
+  display: inline-block;
+  margin: 10px;
+}
+
+
+.pointsGreen{
+  color: green;
+  font-weight: bold;
+}
+
+.pointsRed{
+  color: red;
+  font-weight: bold;
+}
+
+.quizTop {
+  margin-top: -41px;
+}
+
+.quizBottom{
+  margin-bottom: -23px;
+}
+
+.quesML{
+  margin-left: -65px;
+}
+
+.hrS {
+  border-top: 1px solid black;
+}
+
+.ansLM{
+  margin-left: 40PX;
+}
+
+.choML{
+  margin-left: 33px;
+}
+
+.quizStatus {
+  border: 1px solid black;
+    padding: 15px;
+}
+
+.timerStyle {
+  font-weight: 900;
+    color: green;
+  }
+  
+.timerBorder{
+    border: solid 2px green;
+    padding: 4px;
+}
+
+
+*, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  .column {
+    float: left;
+    width: 24.8%;
+    margin-bottom: 16px;
+    padding: 0 8px;
+  }
+  
+  @media screen and (max-width: 650px) {
+    .column {
+      width: 100%;
+      display: block;
+    }
+  }
+  
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .container {
+    padding: 0 px;
+  }
+  
+  .container::after, .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .title {
+    color: grey;
+  }
+  
+  .button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .button:hover {
+    background-color: #555;
+  }
+
+  .help-pad{
+    padding: 0px 160px 0px 160px !important;
+}
+
+.fontType{
+  font-family: "charter_digits", Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif !important;
+    font-size: 15px !important;
+    margin-bottom: 0px;
+}

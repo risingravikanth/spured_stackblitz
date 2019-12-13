@@ -30,16 +30,22 @@ export class AdminBoardComponent implements OnInit {
   validRemoveUsers: boolean = false;
   public usersForm: FormGroup;
   public addBoardForm: FormGroup;
+  public editBoardForm: FormGroup;
   boardName: any;
+  boardDisplayName :any;
   deptName: any;
   instName: any;
   startYear: any;
   endYear: any;
+  updateBoardTitle :any = false;
   public boardModalReference: NgbModalRef;
   closeResult: string;
   windowStyle: any;
   addBoardBtnTxt: string = "Create";
   institute: any;
+  showAdminPeople: boolean;
+  adminsInBoards: any = [];
+  validAddAdmins: boolean;
   @Input()
   set fromChild(value: any) {
     if (value) {
@@ -64,13 +70,18 @@ export class AdminBoardComponent implements OnInit {
   ngOnInit() {
     this.usersForm = this.fb.group({
       addPeopleList: [""],
-      removePeopleList: [""]
+      removePeopleList: [""],
+      addAdminsList: [""]
     })
     this.addBoardForm = this.fb.group({
       instId: [null, Validators.required],
       deptId: [null, Validators.required],
       startYear: [null, Validators.required],
       endYear: [null, Validators.required]
+    })
+    this.editBoardForm = this.fb.group({
+      boardId: [null, Validators.required],
+      boardTitle: [null, Validators.required]
     })
     this.isMobile = this.mobileService.isMobile();
     if (this.isMobile) {
@@ -86,16 +97,20 @@ export class AdminBoardComponent implements OnInit {
     this.usersForm.controls['removePeopleList'].valueChanges
       .debounceTime(1000)
       .subscribe(newValue => this.checkEmails(newValue, "remove"));
+    this.usersForm.controls['addAdminsList'].valueChanges
+      .debounceTime(1000)
+      .subscribe(newValue => this.checkEmails(newValue, "addAdmin"));
   }
 
   getAdminClosedBoards() {
     this.leftMenuService.getAdminClosedBoards().subscribe(resData => {
       if (resData.boards) {
         this.listOfBoardsResponse = resData.boards;
+        this.listOfBoards.length =0; 
         for (var i in resData.boards) {
           let item = resData.boards[i];
           let id = item['boardId'];
-          let name = item['boardName'];
+          let name = item['boardName'] + ' : ' + item['boardTitle'];
           var obj = {
             value: id,
             label: name
@@ -113,7 +128,13 @@ export class AdminBoardComponent implements OnInit {
       this.deptName = this.getDepartmentName(array[0].deptName, array[0].deptId);
       this.startYear = array[0].startYear;
       this.endYear = array[0].endYear;
+      this.editBoardForm.controls['boardId'].patchValue(array[0].boardId);
+      this.editBoardForm.controls['boardTitle'].patchValue(array[0].boardTitle);
+      this.boardName = array[0].boardName;
+      this.boardDisplayName = array[0].boardTitle;
     }
+
+
     // let ar = this.boardName.split(" ");
     // if (ar.length >= 3) {
     //   this.deptName = ar[1];
@@ -129,6 +150,35 @@ export class AdminBoardComponent implements OnInit {
           this.showPeople = true;
         } else {
           this.showPeople = false;
+        }
+      }
+    )
+
+    this.service.getAdminsInClosedBoard(boardId).subscribe(
+      (resData:any) => {
+        if(resData && resData.admins){
+          this.adminsInBoards = resData.admins;
+          console.log(this.adminsInBoards)
+          if (this.adminsInBoards && this.adminsInBoards.length > 0) {
+            this.showAdminPeople = true;
+          } else {
+            this.showAdminPeople = false;
+          }
+        }
+      }
+    )
+  }
+
+  editBoard(){
+    this.service.editBoard(this.editBoardForm.value).subscribe(
+      (resData:any) => {
+        if(resData && resData.boardId){
+          this.getAdminClosedBoards();
+          this.updateBoardTitle = false;
+          this.boardDisplayName = this.editBoardForm.value;
+          this.toastr.success("Success", "Board Title Update Successfully.");
+        } else{
+          this.toastr.error("Failed", "Something went wrong!");
         }
       }
     )
@@ -204,14 +254,48 @@ export class AdminBoardComponent implements OnInit {
       }
     })
   }
+  addAdminsInBoard() {
+    let emails = this.usersForm.get("addAdminsList").value.split(",");
+    let admins = [];
+    emails.forEach(element => {
+      let o = {email: element}
+      admins.push(o);
+    });
+
+    let body = {
+      "boardId": this.boardId,
+      "admins": admins
+    };
+    this.service.addAdminsInBoard(body).subscribe((resData: any) => {
+      console.log(resData);
+      if (resData.statusCode == "ERROR") {
+        this.toastr.error("Failed", resData.info);
+      } else if (resData && resData.code && resData.code.name == "Error") {
+        this.toastr.error("Failed", "Something went wrong!");
+      } else if (resData && resData.error && resData.error.code) {
+        this.toastr.error("Failed", "Something went wrong!");
+      } else {
+        this.validAddAdmins = false;
+        this.boardResponse = resData;
+        this.getUsersInClosedBoard(this.boardId)
+      }
+    })
+  }
 
   createBoardDialog(content: any) {
     this.boardModalReference = this.modalService.open(content, this.windowStyle);
     this.boardModalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
+      }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+     });
+  }
+
+  resetForm() {
+    this.addBoardForm.get("instId").patchValue(null);
+    this.addBoardForm.get("deptId").patchValue(null);
+    this.addBoardForm.get("startYear").patchValue(null);
+    this.addBoardForm.get("endYear").patchValue(null);
   }
 
   private getDismissReason(reason: any): string {
@@ -252,12 +336,16 @@ export class AdminBoardComponent implements OnInit {
           //Do what ever with the email.
           if (type == "add") {
             this.validAddUsers = true;
+          } else if(type = "addAdmins"){
+            this.validAddAdmins = true;
           } else {
             this.validRemoveUsers = true;
           }
         } else {
           if (type == "add") {
             this.validAddUsers = false;
+          } else if(type = "addAdmins"){
+            this.validAddAdmins = false;
           } else {
             this.validRemoveUsers = false;
           }

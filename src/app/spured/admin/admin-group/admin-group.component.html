@@ -11,6 +11,14 @@
             </ng-template>
         </p-dropdown>
     </div>
+    <div *ngIf="!showPeople"  class="bd-callout bd-callout-info">
+        <h5 id="conveying-meaning-to-assistive-technologies">Select the group from above dropdown and do following actions</h5>
+        <p></p>
+        <p>View list of members in your group.</p>
+        <p>Add admins to your group.</p>
+        <p>Add / remove members to your group.</p>
+    </div>
+    
     <!-- <div *ngIf="showPeople" class="card text-center" style="padding-top: 4%;">
         <div class="form-group">
             <label><b>Department:</b> {{deptName}}</label>
@@ -20,23 +28,22 @@
         </div>
     </div> -->
     <div class="card" *ngIf="showPeople">
-        <div class="card-header">
+        <div class="card-header" style="line-height: 30px;">
             <i class="fas fa-users"></i>&nbsp;Members
+            <div class="form-group pull-right mb-0">
+                    <input type="text" [(ngModel)]="searchMember"  class="form-control form-control-sm" placeholder="Search..."/>
+            </div>
         </div>
         <div class="card-body">
-            <div class="row" *ngFor="let user of peopleInBoards" style="padding-left: 9px;margin-top: 0px;">
-                <div>
-                    <img width="80" [src]="(user.profileImageUrl && user.profileImageUrl?.length>0) ? user.profileImageUrl : 'assets/images/noticer_default_user_img.png'"
-                        height="80" style="padding: 18px;border-radius: 50px;margin-top: -7px;" alt="Avatar">
-                </div>
-                <div style="margin-left: -35px;margin-top: 15px;">
-                    <ul>
-                        <li>
-                            <a style="color: black;font-weight: 400;">
-                                {{user.email}}
-                            </a>
-                        </li>
-                    </ul>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12"  *ngFor="let user of peopleInBoards | filter : searchMember :'email' ">
+                    <div class="list-group-item border-0">
+                            <img width="30"
+                            [src]="(user.profileImageUrl && user.profileImageUrl?.length>0) ? user.profileImageUrl : 'assets/images/noticer_default_user_img.png'"
+                            height="30" 
+                            class="rounded-circle" alt="Avatar">
+                            {{user.email}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,26 +80,28 @@
     </div>
     <div *ngIf="(boardResponse && boardResponse.addedCount == boardResponse.requestedCount) && boardResponse.added?.length > 0" class="alert alert-success alert-dismissible fade show"
         role="alert">
-        <strong>Successfully Added:</strong>
+        <strong>Successfully Added : </strong>
         <span *ngFor="let item of boardResponse.added">{{item}}</span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div [formGroup]="usersForm" class="card border-light" >
-        <div class="card-header"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Add</div>
+    <div *ngIf="showPeople" [formGroup]="usersForm" class="card" >
+        <div class="card-header"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Add members to group</div>
         <div class="card-body">
-            <textarea class="form-control" placeholder="list of members with comma seperated" formControlName="addPeopleList"></textarea>
+            <textarea class="form-control" placeholder="Please add email id's with comma seperated" formControlName="addPeopleList"></textarea>
+            <small class="pull-right">{{usersForm.get("addPeopleList").value.split("@").length -1}} members</small>
         </div>
         <div class="col-md-12">
             <button class="btn btn-sm btnSuccess btnS float-right" (click)="addUsersInGroup()" [disabled]="!validAddUsers">Add</button>
         </div>
     </div>
     <br>
-    <div [formGroup]="usersForm" class="card border-light" *ngIf="showPeople">
-        <div class="card-header"><i class="fa fa-times" aria-hidden="true"></i> &nbsp;Remove</div>
+    <div [formGroup]="usersForm" class="card" *ngIf="showPeople">
+        <div class="card-header"><i class="fa fa-times" aria-hidden="true"></i> &nbsp;Remove members from group</div>
         <div class="card-body">
-            <textarea class="form-control" placeholder="list of members with comma seperated" formControlName="removePeopleList"></textarea>
+            <textarea class="form-control" placeholder="Please add email id's with comma seperated" formControlName="removePeopleList"></textarea>
+            <small class="pull-right">{{usersForm.get("removePeopleList").value.split("@").length -1}} members</small>
         </div>
         <div class="col-md-12">
             <button class="btn btn-sm btnSuccess btnS float-right" (click)="removeUsersInGroup()" [disabled]="!validRemoveUsers">Remove</button>
