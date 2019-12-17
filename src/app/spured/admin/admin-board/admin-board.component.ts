@@ -110,7 +110,7 @@ export class AdminBoardComponent implements OnInit {
         for (var i in resData.boards) {
           let item = resData.boards[i];
           let id = item['boardId'];
-          let name = item['boardName'] + ' : ' + item['boardTitle'];
+          let name = item['boardName'] + ' (' + item['boardTitle'] +')';
           var obj = {
             value: id,
             label: name

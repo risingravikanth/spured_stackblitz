@@ -106,7 +106,13 @@ export class CreatePostComponent implements OnInit {
       profileImage: "assets/images/noticer_default_user_img.png",
       selectedSection: {},
       selectedModels : [],
-      types : []
+      types : [],
+      _type:"",
+      categories :[],
+      _category :"",
+      models :[],
+      _model : "",
+      requestType : ""
   };
 
   ngOnInit() {
@@ -228,6 +234,7 @@ export class CreatePostComponent implements OnInit {
         let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
         if (_typeArr.length > 0) {
           this.addPostForm.controls['data'].get('_type1').patchValue(reqType);
+          this.createPostDialogObject._type = reqType;
           this.addPostForm.controls['data'].get('_type').patchValue(_typeArr[0]._type);
           this.addPostForm.controls['context'].get('section').patchValue(reqType);
           if (reqType == "BOARD") {
@@ -242,12 +249,11 @@ export class CreatePostComponent implements OnInit {
       }
       if (this.paramCategory && this.paramCategory != "home") {
         this.addPostForm.controls['data'].get('category').patchValue(this.paramCategory);
+        this.createPostDialogObject._category = this.paramCategory;
         this.addPostForm.controls['data'].get('category').disable();
         this.getmodelsByCategory(this.paramCategory);
       }
       
-      
-
       switch(this.reqestType){
         case "EVENTS": { 
           this.createPostDialogObject.popupTitle = "Events";
@@ -278,13 +284,18 @@ export class CreatePostComponent implements OnInit {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
 
+      /* added data for new POPUP */
+      this.createPostDialogObject.requestType = this.reqestType;
+      this.createPostDialogObject.categories = this.categories;
+      this.createPostDialogObject.models = this.models;
+
       let dialogCreatePostConfig = new MatDialogConfig();
       const configData = {
         name: "Create Post",
         data : this.createPostDialogObject
       };
       dialogCreatePostConfig.data = configData;
-      dialogCreatePostConfig.width = '700px';
+      dialogCreatePostConfig.width = '800px';
       const dialogRef = this.dialog.open(CreatePostDialogComponent, dialogCreatePostConfig);
 
     } else {

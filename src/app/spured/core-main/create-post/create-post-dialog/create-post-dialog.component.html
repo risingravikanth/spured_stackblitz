@@ -1,7 +1,7 @@
-<h2 mat-dialog-title>Add {{createPostDialogData?.data?.popupTitle}} {{createPostDialogData?.data?.reqestType}}</h2>
+<h2 mat-dialog-title>Add</h2>
 <mat-dialog-content class="mat-typography">
   <form class="create-post-form">
-          <div class="row">
+          <div class="row mb-2" style="display:none;">
             <div class="col-sm">
               <div class="card">
                   <div class="card-body">
@@ -25,103 +25,113 @@
             </div>
           </div>
 
-          <div class="row">
+          <div class="row" *ngIf="createPostDialogData?.data?.requestType != 'BOARD' && createPostDialogData?.data?.requestType != 'GROUP'">
             <div class="col-sm">
                 <mat-form-field class="field-full-width">
-                    <input type="text" placeholder="Type" aria-label="Type" matInput [formControl]="typeControl" [matAutocomplete]="auto" />
+                    <input type="text" placeholder="Type" aria-label="Type" matInput [formControl]="typeControl" [matAutocomplete]="typeAuto" />
               
-                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                        {{option.label}}
+                    <mat-autocomplete #typeAuto="matAutocomplete" [displayWith]="displayType" (optionSelected)='getCategoriesByType($event.option.value)'>
+                      <mat-option *ngFor="let type of filteredTypes | async" [value]="type">
+                        {{type.label}}
                       </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
             </div>
             <div class="col-sm">
                 <mat-form-field class="field-full-width">
-                    <input type="text" placeholder="Categories" aria-label="Categories" matInput [formControl]="typeControl" [matAutocomplete]="auto" />
+                    <input type="text" placeholder="Categories" aria-label="Categories" matInput [formControl]="categoryControl" [matAutocomplete]="categoryAuto" />
               
-                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                        {{option.label}}
+                    <mat-autocomplete #categoryAuto="matAutocomplete" [displayWith]="displayCategory" (optionSelected)='getmodelsByCategory($event.option.value)'>
+                      <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
+                        {{category.label}}
                       </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
             </div>
             <div class="col-sm">
                 <mat-form-field class="field-full-width">
-                    <input type="text" placeholder="Model" aria-label="Model" matInput [formControl]="typeControl" [matAutocomplete]="auto" />
+                    <input type="text" placeholder="Model" aria-label="Model" matInput [formControl]="modelControl" [matAutocomplete]="modelAuto" />
               
-                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                        {{option.label}}
+                    <mat-autocomplete #modelAuto="matAutocomplete" [displayWith]="displayModel">
+                      <mat-option *ngFor="let model of filteredModels | async" [value]="model">
+                        {{model.label}}
                       </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
             </div>
           </div>
-          <div class="row">
+
+          <div class="row mb-2">
               <div class="col-sm">
-                    <mat-form-field class="field-full-width">
-                      <input matInput placeholder="Give some heading for your post" value="">
+                    <mat-form-field appearance="outline" class="field-full-width">
+                      <mat-label>Heading</mat-label>
+                      <input [(ngModel)]="formData.heading" name="heading" matInput placeholder="Give some heading for your post." value="" required>
+                      <mat-hint align="end">{{ 300 - formData.heading.length }} remaining</mat-hint>
                     </mat-form-field>
-                    <mat-button-toggle-group 
-                    [(ngModel)]="formData.selectedOption"  
-                    appearance="legacy" name="fontStyle" aria-label="Font Style">
-                      <mat-button-toggle value="post">Post</mat-button-toggle>
-                      <mat-button-toggle value="question">Question</mat-button-toggle>
-                      <mat-button-toggle value="mcq">Mcq</mat-button-toggle>
-                      <mat-button-toggle value="image">Image</mat-button-toggle>
-                      <mat-button-toggle value="video">Video Link</mat-button-toggle>
-                      <mat-button-toggle value="doc">Document Link</mat-button-toggle>
-                      <mat-button-toggle value="pdf">PDF Link</mat-button-toggle>
-                    </mat-button-toggle-group>
               </div>
           </div>
 
+          <div class="row mb-2">
+              <div class="col-sm">
+                  <mat-button-toggle-group 
+                  [(ngModel)]="formData.selectedOption"  
+                  appearance="legacy" name="fontStyle" aria-label="Font Style">
+                    <mat-button-toggle value="post">Post</mat-button-toggle>
+                    <mat-button-toggle value="question">Question</mat-button-toggle>
+                    <mat-button-toggle value="multipleOption">Multiple Option</mat-button-toggle>
+                    <mat-button-toggle value="link">Link</mat-button-toggle>
+                    <mat-button-toggle value="image">Image</mat-button-toggle>
+                    <mat-button-toggle value="video">Video Link</mat-button-toggle>
+                    <mat-button-toggle value="document">Document</mat-button-toggle>
+                   <mat-button-toggle value="quiz">Create Quiz</mat-button-toggle>
+                  </mat-button-toggle-group>
+              </div>
+          </div>
+          
           <div class="row" *ngIf="formData.selectedOption === 'post'">
             <div class="col">
-              <mat-form-field class="example-full-width">
-                <textarea [(ngModel)]="formData.postDescription" matInput placeholder="Add detailed description for your post."></textarea>
-                <mat-hint>{{ 300 - formData.postDescription.length }} remaining</mat-hint>
+              <mat-form-field class="field-full-width">
+                <textarea [(ngModel)]="formData.postDescription" name="postDescription" matInput placeholder="Add detailed description for your post."></textarea>
+                <mat-hint align="end">{{ 300 - formData.postDescription.length }} remaining</mat-hint>
               </mat-form-field>
             </div>
           </div>
         
           <div class="row" *ngIf="formData.selectedOption === 'question'">
             <div class="col">
-              <mat-form-field class="example-full-width">
-                <textarea [(ngModel)]="formData.questionDescription" matInput placeholder="Give detailed description about your question."></textarea>
-                <mat-hint>{{ 300 - formData.questionDescription.length }} remaining</mat-hint>
+              <mat-form-field class="field-full-width">
+                <textarea [(ngModel)]="formData.questionDescription" name="questionDescription" matInput placeholder="Give detailed description about your question."></textarea>
+                <mat-hint align="end">{{ 300 - formData.questionDescription.length }} remaining</mat-hint>
               </mat-form-field>
             </div>
           </div>
         
-          <div class="row" *ngIf="formData.selectedOption === 'multipleOption'">
+          <div class="" *ngIf="formData.selectedOption === 'multipleOption'">
             <div class="row">
               <div class="col"> 
                 <mat-form-field class="">
-                  <input matInput [(ngModel)]="formData.multipleOption.option1" placeholder="Option 1" value="">
+                  <input matInput [(ngModel)]="formData.multipleOption.option1" name="option1" placeholder="Option 1" value="">
                 </mat-form-field>
               </div>
               <div class="col"> 
                 <mat-form-field class="">
-                  <input matInput [(ngModel)]="formData.multipleOption.option2" placeholder="Option 2" value="">
+                  <input matInput [(ngModel)]="formData.multipleOption.option2" name="option2" placeholder="Option 2" value="">
                 </mat-form-field>
               </div>
               <div class="w-100"></div>
               <div class="col"> 
                 <mat-form-field class="">
-                  <input matInput [(ngModel)]="formData.multipleOption.option3" placeholder="Option 3" value="">
+                  <input matInput [(ngModel)]="formData.multipleOption.option3" name="option3" placeholder="Option 3" value="">
                 </mat-form-field>
               </div>
               <div class="col"> 
                 <mat-form-field class="">
-                  <input matInput [(ngModel)]="formData.multipleOption.option4" placeholder="Option 4" value="">
+                  <input matInput [(ngModel)]="formData.multipleOption.option4" name="option4" placeholder="Option 4" value="">
                 </mat-form-field>
               </div>
             </div>
             <div class="row answer">
+              <div class="col">
                   <label>Answer: </label>
                   <mat-button-toggle-group color="accent"
                   [(ngModel)]="formData.multipleOption.answer"
@@ -131,29 +141,52 @@
                   <mat-button-toggle value="3">3</mat-button-toggle>
                   <mat-button-toggle value="4">4</mat-button-toggle> 
                 </mat-button-toggle-group>
+              </div>
             </div>
           </div>
+
+          <div class="row" *ngIf="formData.selectedOption === 'link'">
+            <div class="col">
+              <mat-form-field class="field-full-width">
+                <textarea [(ngModel)]="formData.link" name="link" matInput placeholder="Add your link here."></textarea>
+               </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="formData.selectedOption === 'image'">
+            <div class="col">
+              <ul class="list-inline postIcons">
+                <span class="btn btn-light btn-file">
+                    <i class="fas fa-camera"></i> Browse photos
+                    <input type="file" accept="image/gif, image/jpeg, image/jpg, image/png" multiple (change)="detectFiles($event)">
+                </span>
+              </ul>
+            </div>
+            
+          </div>
+
           <div class="row" *ngIf="formData.selectedOption === 'video'">
             <div class="col">
-              <mat-form-field class="example-full-width">
-                <textarea [(ngModel)]="formData.videoLink" matInput placeholder="Add your link here."></textarea>
+              <mat-form-field class="field-full-width">
+                <textarea [(ngModel)]="formData.videoLink" name="videoLink" matInput placeholder="Add your link here."></textarea>
                </mat-form-field>
             </div>
           </div>
-        
+
           <div class="row" *ngIf="formData.selectedOption === 'document'">
             <div class="col">
-              <mat-form-field class="example-full-width">
-                <textarea [(ngModel)]="formData.docuemntLink" matInput placeholder="Add your link here."></textarea>
-               </mat-form-field>
+              <ul class="list-inline postIcons">
+                <span class="btn btn-light btn-file">
+                    <i class="fas fa-camera"></i> Browse Documents
+                    <input type="file" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf" multiple (change)="detectFiles($event)">
+                </span>
+              </ul>
             </div>
           </div>
         
-          <div class="row" *ngIf="formData.selectedOption === 'pdf'">
+          <div class="row" *ngIf="formData.selectedOption === 'quiz'">
             <div class="col">
-              <mat-form-field class="example-full-width">
-                <textarea [(ngModel)]="formData.pdfLink" matInput placeholder="Add your link here."></textarea>
-               </mat-form-field>
+              please click <a href="/quiz-create/boards/closed/{{boardId}}/{{boardName}}" target="_blank">here</a> to create a quiz.
             </div>
           </div>
         

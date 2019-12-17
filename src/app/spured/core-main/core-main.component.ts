@@ -67,7 +67,7 @@ export class CoreMainComponent implements OnInit {
   public underMaintenace: boolean = true;
   public showMoreActivity: boolean = true;
   profileParamId: any;
-  public errorTextMessage: any;
+  public errorTextMessage: any = "";
 
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: CoreMainService,
@@ -143,8 +143,10 @@ export class CoreMainComponent implements OnInit {
 
     this.commonService.addPostInList.subscribe(
       postData => {
-        this.postsList.splice(0, 0, postData);
-        this.noData = false;
+        if(this.postsList !== undefined){
+          this.postsList.splice(0, 0, postData);
+          this.noData = false;
+        }
       }
     )
 
@@ -428,9 +430,11 @@ export class CoreMainComponent implements OnInit {
            */
           if(obj.posts){
             obj.posts.forEach(element => {
-              let existedArr = this.postsList.filter(item => item.postId == element.postId);
-              if (existedArr.length == 0) {
-                this.postsList.push(element);
+              if(this.postsList !== undefined){
+                let existedArr = this.postsList.filter(item => item.postId == element.postId);
+                if (existedArr.length == 0) {
+                  this.postsList.push(element);
+                }
               }
             });
             this.preparePostsList();

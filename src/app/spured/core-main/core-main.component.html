@@ -1,7 +1,5 @@
 <div class="container horizontalScroll" [ngClass]="(!isActivity) ? 'marTop45' : 'container'">
-    <div *ngIf="errorTextMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>{{ errorTextMessage }}</strong>
-    </div>
+    
     <br *ngIf="!isActivity" class="d-block d-sm-none">
     <br *ngIf="!isActivity">
     <div class="row" infinite-scroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="1000" (scrolled)="loadMorePosts()">
@@ -22,6 +20,9 @@
                 <create-post></create-post>
             </div>
             <br>
+            <div *ngIf="errorTextMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{ errorTextMessage }}</strong>
+            </div>
             
             <div *ngFor="let post of postsList;index as i;trackBy : post?.postId;">
                 <!-- <svg:g ngx-facebook-preset></svg:g>-->

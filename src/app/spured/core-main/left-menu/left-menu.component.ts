@@ -58,7 +58,7 @@ export class LeftMenuComponent implements OnInit {
 
   }
 
-  @ViewChild('myTopnav') el: ElementRef;
+  //@ViewChild('myTopnav') el: ElementRef;
 
   public menuList: any = [];
   public boardsList: any = [];

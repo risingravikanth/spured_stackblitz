@@ -1,3 +1,31 @@
-.field-full-width{
-    width:100%;
+.field-full-width {
+	width: 100%;
+}
+.answer {
+	.mat-button-toggle {
+		border: 1px solid #f28628;
+		border-radius: 25px;
+		margin-left: 3px;
+		margin-right: 3px;
+		width: 30px;
+		height: 30px;
+		font-family: 'Nunito Semibold', sans-serif;
+		font-size: 14px;
+		font-style: bold;
+	}
+	.mat-button-toggle-label .mat-button-toggle-label-content {
+        line-height: 29px !important;
+        padding: 0 10px !important;
+	}
+	.mat-button-toggle-group {
+        border: none !important;
+        box-shadow: none;
+	}
+	.mat-button-toggle-checked {
+		border: 1px solid #c5c0c7;
+		background-color: #e1dde5;
+	}
+}
+mat-button-toggle-group {
+	flex-wrap: wrap;
 }
