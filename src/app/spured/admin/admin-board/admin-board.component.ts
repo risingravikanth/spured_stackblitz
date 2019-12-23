@@ -46,6 +46,8 @@ export class AdminBoardComponent implements OnInit {
   showAdminPeople: boolean;
   adminsInBoards: any = [];
   validAddAdmins: boolean;
+  showPanels :any = false;
+  
   @Input()
   set fromChild(value: any) {
     if (value) {
@@ -123,6 +125,7 @@ export class AdminBoardComponent implements OnInit {
 
   getUsersInClosedBoard(boardId: any) {
     // this.boardName = this.listOfBoards.filter(item => item.value == boardId)[0].label;
+	this.showPanels = false;
     let array = this.listOfBoardsResponse.filter(item => item.boardId == boardId);
     if (array.length > 0) {
       this.deptName = this.getDepartmentName(array[0].deptName, array[0].deptId);
@@ -132,6 +135,7 @@ export class AdminBoardComponent implements OnInit {
       this.editBoardForm.controls['boardTitle'].patchValue(array[0].boardTitle);
       this.boardName = array[0].boardName;
       this.boardDisplayName = array[0].boardTitle;
+	  this.showPanels = true;
     }
 
 
@@ -175,7 +179,7 @@ export class AdminBoardComponent implements OnInit {
         if(resData && resData.boardId){
           this.getAdminClosedBoards();
           this.updateBoardTitle = false;
-          this.boardDisplayName = this.editBoardForm.value;
+          this.boardDisplayName = resData.boardTitle;
           this.toastr.success("Success", "Board Title Update Successfully.");
         } else{
           this.toastr.error("Failed", "Something went wrong!");

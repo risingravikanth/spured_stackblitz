@@ -2,28 +2,28 @@
 	width: 100%;
 }
 .answer {
+	border: none !important;
+	box-shadow: none;
 	.mat-button-toggle {
 		border: 1px solid #f28628;
 		border-radius: 25px;
 		margin-left: 3px;
 		margin-right: 3px;
-		width: 30px;
-		height: 30px;
+		width: 40px;
+		height: 38px;
 		font-family: 'Nunito Semibold', sans-serif;
 		font-size: 14px;
 		font-style: bold;
 	}
-	.mat-button-toggle-label .mat-button-toggle-label-content {
+	label > .mat-button-toggle-label-content {
         line-height: 29px !important;
         padding: 0 10px !important;
 	}
-	.mat-button-toggle-group {
-        border: none !important;
-        box-shadow: none;
-	}
+	 
 	.mat-button-toggle-checked {
-		border: 1px solid #c5c0c7;
-		background-color: #e1dde5;
+		border: 1px solid #155a24;
+		background-color: #155a24;
+		color:white;
 	}
 }
 mat-button-toggle-group {

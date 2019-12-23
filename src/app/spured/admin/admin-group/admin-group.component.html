@@ -11,12 +11,12 @@
             </ng-template>
         </p-dropdown>
     </div>
-    <div *ngIf="!showPeople"  class="bd-callout bd-callout-info">
+    <div *ngIf="!showPanels"  class="bd-callout bd-callout-info">
         <h5 id="conveying-meaning-to-assistive-technologies">Select the group from above dropdown and do following actions</h5>
-        <p></p>
-        <p>View list of members in your group.</p>
-        <p>Add admins to your group.</p>
-        <p>Add / remove members to your group.</p>
+        
+        <p class="mb-0">View list of members in your group.</p>
+        <p class="mb-0">Add admins to your group.</p>
+        <p class="mb-0">Add / remove members to your group.</p>
     </div>
     
     <!-- <div *ngIf="showPeople" class="card text-center" style="padding-top: 4%;">
@@ -86,7 +86,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div *ngIf="showPeople" [formGroup]="usersForm" class="card" >
+    <div *ngIf="showPanels" [formGroup]="usersForm" class="card" >
         <div class="card-header"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Add members to group</div>
         <div class="card-body">
             <textarea class="form-control" placeholder="Please add email id's with comma seperated" formControlName="addPeopleList"></textarea>
@@ -97,7 +97,7 @@
         </div>
     </div>
     <br>
-    <div [formGroup]="usersForm" class="card" *ngIf="showPeople">
+    <div [formGroup]="usersForm" class="card" *ngIf="showPanels">
         <div class="card-header"><i class="fa fa-times" aria-hidden="true"></i> &nbsp;Remove members from group</div>
         <div class="card-body">
             <textarea class="form-control" placeholder="Please add email id's with comma seperated" formControlName="removePeopleList"></textarea>

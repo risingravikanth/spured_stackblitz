@@ -38,7 +38,7 @@ export class AdminGroupComponent implements OnInit {
   closeResult: string;
   windowStyle: any;
   addBoardBtnTxt: string = "Create";
-
+  showPanels :any = false;
   institute: any;
   @Input()
   set fromChild(value: any) {
@@ -131,6 +131,7 @@ export class AdminGroupComponent implements OnInit {
     //   this.startYear = ar[2].split("-")[0];
     //   this.endYear = ar[2].split("-")[1];
     // }
+	this.showPanels = true;
     this.service.getUsersInGroup(boardId).subscribe(
       (resData: any) => {
         this.usersForm.get("addPeopleList").patchValue("");

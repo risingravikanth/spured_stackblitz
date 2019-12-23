@@ -249,7 +249,6 @@ export class CreatePostComponent implements OnInit {
       }
       if (this.paramCategory && this.paramCategory != "home") {
         this.addPostForm.controls['data'].get('category').patchValue(this.paramCategory);
-        this.createPostDialogObject._category = this.paramCategory;
         this.addPostForm.controls['data'].get('category').disable();
         this.getmodelsByCategory(this.paramCategory);
       }
@@ -284,19 +283,24 @@ export class CreatePostComponent implements OnInit {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
 
-      /* added data for new POPUP */
+      /* added data for new POPUP 
       this.createPostDialogObject.requestType = this.reqestType;
+	  this.createPostDialogObject._type = this.reqestType;
+	  this.createPostDialogObject._category = this.paramCategory;
       this.createPostDialogObject.categories = this.categories;
       this.createPostDialogObject.models = this.models;
 
       let dialogCreatePostConfig = new MatDialogConfig();
       const configData = {
         name: "Create Post",
-        data : this.createPostDialogObject
-      };
+        data : this.createPostDialogObject,
+	  };
       dialogCreatePostConfig.data = configData;
       dialogCreatePostConfig.width = '800px';
-      const dialogRef = this.dialog.open(CreatePostDialogComponent, dialogCreatePostConfig);
+	  dialogCreatePostConfig.autoFocus= false;
+	  dialogCreatePostConfig.minHeight = 'calc(100vh - 150px)';
+      dialogCreatePostConfig.height = 'auto';
+      const dialogRef = this.dialog.open(CreatePostDialogComponent, dialogCreatePostConfig);*/
 
     } else {
       this.router.navigate(['/home']);
@@ -349,45 +353,47 @@ export class CreatePostComponent implements OnInit {
     });
     return questionName;
   }
+  
+  handelMultipleFiles(e,file,found){
+	  // Here you can use `e.target.result` or `this.result`
+		// and `f.name`.
+		found = this.urls.filter(item => function(){
+				   if(item && item.preview){
+						item.preview == e.target.result;
+					}
+		});
+		//if(found.length == 0) {
+		   file["preview"] = e.target.result;;
+		   this.urls.push(file);
+		//}
+  }
 
   detectFiles(event) {
     let files = event.target.files;
     if (files.length > 4 || (this.urls.length + files.length) > 4) {
       this.toastr.error("Failed", "Only 4 images allowed");
     } else if (files) {
-      for (let file of files) {
+       for(var i=0 ; i< files.length; i++){
         let reader = new FileReader();
+		let file = files[i];
         let found = [];
-
-
-        reader.onload = (function(f,urls,found) {
-
-            return function(e) {
-                // Here you can use `e.target.result` or `this.result`
-                // and `f.name`.
-                found = urls.filter(item => function(){
-                           if(item && item.preview){
-                                item.preview == e.target.result;
-                            }
-                });
-                if(found.length == 0) {
-                   f["preview"] = this.result;
-                   urls.push(f);
-                }
-             };
-        })(file,this.urls,found);
- 
-        if(  file.type === "image/gif" ||
+		let self = this;
+		reader.onload = function (e) {
+			self.handelMultipleFiles(e,file,found);
+		}
+       
+        if(file.type === "image/gif" ||
              file.type === "image/jpeg" || 
              file.type === "image/jpg"|| 
-             file.type === "image/png" ){
+             file.type === "image/png"){
 
              reader.readAsDataURL(file);
+			 console.log(this.urls);
       
-        }else if( file.type === "text/plain" ||
+        }else if(file.type === "text/plain" ||
              file.type === "application/pdf"){
             
-             this.urls.push(file);
+			this.urls.push(file);
         }else{
             if(file.name){
               if(file.name.indexOf('.doc') !== -1){
@@ -403,9 +409,7 @@ export class CreatePostComponent implements OnInit {
               }else if(file.name.indexOf('.xlsx') !== -1){
                  file.fileType = "application/xls";
               }
-
-            }
-            
+			}
             this.urls.push(file);
         }
       

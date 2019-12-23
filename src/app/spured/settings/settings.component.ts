@@ -29,6 +29,9 @@ export class SettingsComponent implements OnInit {
   authForm: FormGroup;
   public notificationSetting: any;
   public intialNotificationSetting: any;
+  public searchBoardName :any;
+  public searchGroupName :any;
+  
 
   constructor(private router: Router, private formbuilder: FormBuilder, private service: SettingsService,
     private userService: CurrentUserService, @Inject(PLATFORM_ID) private platformId: Object,

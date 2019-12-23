@@ -16,7 +16,7 @@ export class CreatePostDialogComponent implements OnInit {
 
   public createPostDialogData :any;
   public postType :any =  "Private";
-  public currentSelectedCategory :any;= [];
+  public currentSelectedCategory :any = [];
   public selectedModels :any 
   typeControl = new FormControl();
   categoryControl = new FormControl();
@@ -25,9 +25,15 @@ export class CreatePostDialogComponent implements OnInit {
   filteredTypes: Observable<any[]>;
   filteredCategories: Observable<any[]>;
   filteredModels: Observable<any[]>;
+  
+  postHeadingPlaceHolder :any = "Give some heading to your post...";
+  postDescriptionPlaceHolder :any = "Give detailed description about your post...";
 
   public formData :any = {
     heading:"",
+	_type: "",
+	_category:"",
+	_model:"",
     selectedOption : "post",
     postDescription : "",
     questionDescription : "",
@@ -38,9 +44,7 @@ export class CreatePostDialogComponent implements OnInit {
       option4:"",
       answer: ""
     },
-    videoLink : "",
-    docuemntLink : "",
-    pdfLink : "",
+    enableUpload: false,
     urls: [],
     postImages :[]
   };
@@ -56,58 +60,63 @@ export class CreatePostDialogComponent implements OnInit {
     this.filteredTypes = this.typeControl.valueChanges
       .pipe(
         startWith(''),
-        map((value:any) => typeof value === 'string' ? value : value.label),
-        map(label => label ? this._filterType(label) : this.createPostDialogData.data.types.slice())
+        map((value:any) => (typeof value === 'string' && value !== null) ? value : value.label),
+        map(label => label ? this._filter(label,this.createPostDialogData.data.types) : this.createPostDialogData.data.types.slice())
       );
 
     this.filteredCategories = this.categoryControl.valueChanges
       .pipe(
         startWith(''),
-        map((value:any) => typeof value === 'string' ? value : value.label),
-        map(label => label ? this._filterCategory(label) : this.createPostDialogData.data.categories.slice())
+        map((value:any) => (typeof value === 'string' && value !== null) ? value : value.label),
+        map(label => label ? this._filter(label,this.createPostDialogData.data.categories) : this.createPostDialogData.data.categories.slice())
       );
-
-    this.filteredModels = this.modelControl.valueChanges
-      .pipe(
-        startWith(''),
-        map((value:any) => typeof value === 'string' ? value : value.label),
-        map(label => label ? this._filterModel(label) : this.createPostDialogData.data.models.slice())
-      );
+	
+	if(this.createPostDialogData.data._type !== "" && this.createPostDialogData.data._type !== undefined){
+		this.formData._type = this.createPostDialogData.data._type;
+		this.typeControl.patchValue({label: this.formData._type.replace("_"," "), name:this.formData._type});
+		this.typeControl.disable();
+	}
+	
+	if(this.createPostDialogData.data._category !== "" && this.createPostDialogData.data._category !== undefined){
+		this.formData._category = this.createPostDialogData.data._category;
+		this.categoryControl.patchValue({label: this.formData._category.toUpperCase().replace("_"," "), name:this.formData._category});
+		this.categoryControl.disable();
+	}
+	
+	if(this.createPostDialogData.data.requestType !== "BOARD" && this.createPostDialogData.data.requestType !== "GROUP"){
+		this.postType = "Public";
+	}
+	 
   }
 
-  displayType(type?: any): string | undefined {
+  displayLabel(type?: any): string | undefined {
     return type ? type.label : undefined;
   }
 
-  displayCategory(type?: any): string | undefined {
-    return type ? type.label : undefined;
-  }
-
-  displayModel(type?: any): string | undefined {
-    return type ? type.label : undefined;
-  }
-
-  private _filterType(label: string): any[] {
+  private _filter(label: string, inputArray :any): any[] {
     const filterValue = label.toLowerCase();
-    return this.createPostDialogData.data.types.filter(type => type.label.toLowerCase().indexOf(filterValue) === 0);
-  }
-
-  private _filterCategory(label: string): any[] {
-    const filterValue = label.toLowerCase();
-    return this.createPostDialogData.data.categories.filter(category => category.label.toLowerCase().indexOf(filterValue) === 0);
-  }
-
-  private _filterModel(label: string): any[] {
-    const filterValue = label.toLowerCase();
-    return this.createPostDialogData.data.models.filter(model => model.label.toLowerCase().indexOf(filterValue) === 0);
+    return inputArray.filter((type :any) => type.label.toLowerCase().indexOf(filterValue) === 0);
   }
 
   changePostType(type :any) {
     this.postType = type;
   }
+  
+  changePlaceHolder(newValue :any){
+    if(newValue === "post"){
+      this.postHeadingPlaceHolder  = "Give some heading to your post...";
+      this.postDescriptionPlaceHolder = "Give detailed description about your post...";
+    }else if(newValue === "mcq"){
+      this.postHeadingPlaceHolder  = "Add your question here...";
+    }else if(newValue === "event"){
+      this.postHeadingPlaceHolder  = "Give some heading to your event...";
+	  this.postHeadingPlaceHolder  = "Give some description about your event...";
+    }
+  }
 
   getCategoriesByType(type) {
     let categoriesByType :any = [];
+    this.categoryControl.patchValue(null);
     categories_types_models.SECTIONS.forEach(section => {
       if (section.title == "Topics") {
         section.sections.forEach((item:any) => {
@@ -128,13 +137,14 @@ export class CreatePostDialogComponent implements OnInit {
       .pipe(
         startWith(''),
         map((value:any) => typeof value === 'string' ? value : value.label),
-        map(label => label ? this._filterCategory(label) : categoriesByType.slice())
+        map(label => label ? this._filter(label,categoriesByType) : categoriesByType.slice())
       );
     
   }
   
   getmodelsByCategory(selectedCategory){
     let modelsbyCategory :any = [];
+    this.modelControl.patchValue(null);
     if(this.currentSelectedCategory!== undefined){
       if(this.currentSelectedCategory.modelsbyCategory !== undefined && this.currentSelectedCategory.modelsbyCategory === "true" ){
         this.currentSelectedCategory.categories.forEach(category => {
@@ -147,7 +157,7 @@ export class CreatePostDialogComponent implements OnInit {
             .pipe(
               startWith(''),
               map((value:any) => typeof value === 'string' ? value : value.label),
-              map(label => label ? this._filterModel(label) : modelsbyCategory.slice())
+              map(label => label ? this._filter(label,modelsbyCategory) : modelsbyCategory.slice())
             ); 
       }else{
           this.setModels(this.currentSelectedCategory.code);
@@ -170,9 +180,23 @@ export class CreatePostDialogComponent implements OnInit {
       .pipe(
         startWith(''),
         map((value:any) => typeof value === 'string' ? value : value.label),
-        map(label => label ? this._filterModel(label) : modelsbyCategory.slice())
+        map(label => label ? this._filter(label,modelsbyCategory) : modelsbyCategory.slice())
       );
   }
+  
+  handelMultipleFiles(e,file,found){
+		// Here you can use `e.target.result` or `this.result`
+		// and `f.name`.
+		found = this.formData.urls.filter(item => function(){
+				   if(item && item.preview){
+						item.preview == e.target.result;
+					}
+		});
+		//if(found.length == 0) {
+		   file["preview"] = e.target.result;;
+		   this.formData.urls.push(file);
+		//}
+   }
 
 
   detectFiles(event) {
@@ -180,32 +204,21 @@ export class CreatePostDialogComponent implements OnInit {
     if (files.length > 4 || (this.formData.urls.length + files.length) > 4) {
       this.toastr.error("Failed", "Only 4 images allowed");
     } else if (files) {
-      for (let file of files) {
+      for(var i=0 ; i< files.length; i++){
+		let file = files[i];
         let reader = new FileReader();
         let found = [];
 
 
-        reader.onload = (function(f,urls,found) {
+        let self = this;
+		reader.onload = function (e) {
+			self.handelMultipleFiles(e,file,found);
+		}
 
-            return function(e) {
-                // Here you can use `e.target.result` or `this.result`
-                // and `f.name`.
-                found = urls.filter(item => function(){
-                            if(item && item.preview){
-                                item.preview == e.target.result;
-                            }
-                });
-                if(found.length == 0) {
-                    f["preview"] = this.result;
-                    urls.push(f);
-                }
-              };
-        })(file,this.formData.urls,found);
-
-        if(  file.type === "image/gif" ||
+        if(file.type === "image/gif" ||
               file.type === "image/jpeg" || 
               file.type === "image/jpg"|| 
-              file.type === "image/png" ){
+              file.type === "image/png"){
 
               reader.readAsDataURL(file);
       
@@ -230,7 +243,6 @@ export class CreatePostDialogComponent implements OnInit {
               }
 
             }
-            
             this.formData.urls.push(file);
         }
       
