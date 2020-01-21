@@ -3,7 +3,7 @@
         <button class="btn btn-sm btnSuccess float-right" (click)="createBoardDialog(addBoardDialog)"
             style="color:white;    margin-bottom: 7px;"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Create
             Board</button>
-        <p-dropdown placeholder="Boards" (onChange)="getUsersInClosedBoard(boardDOMId.value)" [(ngModel)]="boardId"
+        <p-dropdown placeholder="Boards" class="p-2"(onChange)="getUsersInClosedBoard(boardDOMId.value)" [(ngModel)]="boardId"
             [options]="listOfBoards" [style]="{'width':'100%'}" filter="true" #boardDOMId>
             <ng-template let-board pTemplate="item">
                 <div class="ui-helper-clearfix">
@@ -26,14 +26,14 @@
             <b>Borad Name</b> : {{boardName}}
         </div>
         <div class="form-group">
-            <b>Borad Dispaly Name</b> : {{ boardDisplayName }} <span (click)="updateBoardTitle = !updateBoardTitle"><i class="fa fa-edit" aria-hidden="true"></i></span>
-            <div *ngIf="updateBoardTitle" [formGroup]="editBoardForm" class="card">
+            <b>Borad Dispaly Name</b> : {{ boardDisplayName }} <span class="ml-2"(click)="updateBoardTitle = !updateBoardTitle"><i class="fa fa-edit" aria-hidden="true"></i></span>
+            <div *ngIf="updateBoardTitle" [formGroup]="editBoardForm" class="card border-0">
                  <div class="card-body row text-center">
-                    <div class="col-md-10">
+                    <div class="col-lg-10 col-md-10 col-sm-12 p-1">
                         <input class="form-control" placeholder="Board Title`"
                             formControlName="boardTitle"/>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-2 col-sm-12 p-1">
                         <button class="btn btn-sm btnSuccess btnS" (click)="editBoard()"
                             [disabled]="editBoardForm.invalid">Update</button>
                     </div>
@@ -44,7 +44,7 @@
             <label><b>Department:</b> {{deptName}}</label>
         </div>
         <div class="form-group">
-            <label><b>Start Year:</b> {{startYear}}, &nbsp;&nbsp; <b>End Year:</b> {{endYear}}</label>
+            <label><b>Start Year:</b> {{startYear}} &nbsp;&nbsp; <b>End Year:</b> {{endYear}}</label>
         </div>
     </div>
     <br>
@@ -170,6 +170,9 @@
                 [disabled]="!validAddAdmins">Add</button>
         </div>
     </div>
+	<br>
+	<br>
+	
 </div>
 
 

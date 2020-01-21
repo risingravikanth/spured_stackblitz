@@ -42,6 +42,8 @@ export class CreatePostComponent implements OnInit {
   public groupId: any;
   public reqestType: string;
   boardName: any;
+  public dialogRef;
+  
   constructor(private router: Router, private formbuilder: FormBuilder,
     private service: CoreMainService,
     private dialog: MatDialog,
@@ -102,7 +104,7 @@ export class CreatePostComponent implements OnInit {
       popupTitle : "",
       pageHeading : "",
       pageSubHeading : "",
-      defaultSubHeading : "Click here to add your question / post",
+      defaultSubHeading : "Click here to add your post",
       profileImage: "assets/images/noticer_default_user_img.png",
       selectedSection: {},
       selectedModels : [],
@@ -112,7 +114,8 @@ export class CreatePostComponent implements OnInit {
       _category :"",
       models :[],
       _model : "",
-      requestType : ""
+      requestType : "",
+	  postBtnTxt : "Post"
   };
 
   ngOnInit() {
@@ -276,14 +279,14 @@ export class CreatePostComponent implements OnInit {
 
       }
 
-      this.categoryModalReference = this.modalService.open(content, this.windowStyle);
+      /*this.categoryModalReference = this.modalService.open(content, this.windowStyle);
       this.categoryModalReference.result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      });
+      });*/
 
-      /* added data for new POPUP 
+      /* added data for new POPUP */
       this.createPostDialogObject.requestType = this.reqestType;
 	  this.createPostDialogObject._type = this.reqestType;
 	  this.createPostDialogObject._category = this.paramCategory;
@@ -300,7 +303,40 @@ export class CreatePostComponent implements OnInit {
 	  dialogCreatePostConfig.autoFocus= false;
 	  dialogCreatePostConfig.minHeight = 'calc(100vh - 150px)';
       dialogCreatePostConfig.height = 'auto';
-      const dialogRef = this.dialog.open(CreatePostDialogComponent, dialogCreatePostConfig);*/
+	  
+      this.dialogRef = this.dialog.open(CreatePostDialogComponent, dialogCreatePostConfig);
+	  const sub = this.dialogRef.componentInstance.onPost.subscribe((data) => {
+		  // do something
+		if(data.postType === "Public"){
+			this.addPostForm.controls['data'].get('_type1').patchValue(typeof data._type == "object" ? data._type.value : data._type);
+			this.addPostForm.controls['data'].get('category').patchValue(typeof data._category == "object" ? data._category.value : data._category);
+			this.addPostForm.controls['data'].get('model').patchValue(typeof data._model == "object" ? data._model.value : data._model);
+		}
+		this.addPostForm.controls['data'].get('title').patchValue(data.heading);
+		this.addPostForm.controls['data'].get('postText').patchValue(data.description);
+		
+		if(data.selectedOption === "mcq"){
+			let optionsString = "";
+			Object.keys(data.multipleOption).forEach(function(key,i){
+				if(key !== undefined && key.indexOf('option') !== -1 && data.multipleOption[key] !== ""){
+					optionsString += (i+1)+'). '+ data.multipleOption[key] +'<br>';
+			 	}
+			});
+		  	
+			this.addPostForm.controls['data'].get('postText').patchValue(optionsString); 
+		}
+		this.addPostForm.controls['data'].get('answer').patchValue(data.multipleOption.answer);
+ 		
+		if(data.selectedOption === "event"){
+			this.addPostForm.controls['data'].get('fromDate').patchValue(data.event.fromDate);
+			this.addPostForm.controls['data'].get('toDate').patchValue(data.event.toDate);
+			this.addPostForm.controls['data'].get('contacts').patchValue(data.event.contacts);
+			this.addPostForm.controls['data'].get('website').patchValue(data.event.website);
+			this.addPostForm.controls['data'].get('location').patchValue(data.event.location);
+		}
+		this.postImages = data.postImages;
+		this.createPost();
+	  }); 
 
     } else {
       this.router.navigate(['/home']);
@@ -396,19 +432,13 @@ export class CreatePostComponent implements OnInit {
 			this.urls.push(file);
         }else{
             if(file.name){
-              if(file.name.indexOf('.doc') !== -1){
+              if(file.name.indexOf('.doc') !== -1 || file.name.indexOf('.docx') !== -1){
                  file.fileType = "application/doc";
-              }else if(file.name.indexOf('.docx') !== -1){
-                 file.fileType = "application/doc";
-              }else if(file.name.indexOf('.ppt') !== -1){
+              }else if(file.name.indexOf('.ppt') !== -1 || file.name.indexOf('.pptx') !== -1){
                  file.fileType = "application/ppt";
-              }else if(file.name.indexOf('.pptx') !== -1){
-                 file.fileType = "application/ppt";
-              }else if(file.name.indexOf('.xls') !== -1){
+              }else if(file.name.indexOf('.xls') !== -1 || file.name.indexOf('.xlsx') !== -1){
                  file.fileType = "application/xls";
-              }else if(file.name.indexOf('.xlsx') !== -1){
-                 file.fileType = "application/xls";
-              }
+              } 
 			}
             this.urls.push(file);
         }
@@ -457,6 +487,8 @@ export class CreatePostComponent implements OnInit {
 
   setModels(type) {
     this.models = [];
+	if(type === undefined)
+		return [];
     type= type.toUpperCase();
     categories_types_models.MODELS.forEach(item => {
       let type_search = (type == "VERBAL" || type == "QUANTS" || type == "DI") ? "VERBAL" : type;
@@ -539,7 +571,8 @@ export class CreatePostComponent implements OnInit {
   }
 
   createPost() {
-    this.postBtnTxt = "Posting..."
+    this.postBtnTxt = "Posting...";
+	this.createPostDialogObject.postBtnTxt = "Posting...";
     if (this.addPostForm.controls['data'].get('_type1').value) {
       let reqType = this.addPostForm.controls['data'].get('_type1').value;
       let _typeArr = this.sectionsTypesMappings.filter(item => item.section == reqType);
@@ -567,7 +600,8 @@ export class CreatePostComponent implements OnInit {
         this.service.upload(formData,element).subscribe((resData: any) => {
           if (resData && resData.error && resData.error.code) {
             this.toastr.error("Failed", resData.error.code.longMessage);
-            this.postBtnTxt = "Post"
+            this.postBtnTxt = "Post";
+			this.createPostDialogObject.postBtnTxt = "Post";
           } else {
             if(element.type === "image/gif" || element.type === "image/jpeg" || 
               element.type === "image/jpg" ||  element.type === "image/png"){
@@ -584,7 +618,8 @@ export class CreatePostComponent implements OnInit {
         })
       }, error => {
         this.toastr.error("Failed", "Something went wrong!");
-        this.postBtnTxt = "Post"
+        this.postBtnTxt = "Post";
+		this.createPostDialogObject.postBtnTxt = "Post";
       })
     } else {
       this.addPostForm.controls["data"].get("images").patchValue([]);
@@ -602,10 +637,12 @@ export class CreatePostComponent implements OnInit {
       this.service.createPost(this.addPostForm.getRawValue()).subscribe((resData: any) => {
         if (resData && resData.code && resData.code.id) {
           this.toastr.error("Failed", resData.code.longMessage);
-          this.postBtnTxt = "Post"
+          this.postBtnTxt = "Post";
+		  this.createPostDialogObject.postBtnTxt = "Post";
         } else if (resData && resData.error && resData.error.code && resData.error.code.id) {
           this.toastr.error("Failed", resData.error.code.longMessage);
-          this.postBtnTxt = "Post"
+          this.postBtnTxt = "Post";
+		  this.createPostDialogObject.postBtnTxt = "Post";
         } else if (resData && resData.post) {
           if (this.router.url.indexOf('categories') !== -1 || this.router.url.indexOf('feed') !== -1 
           || this.router.url.indexOf('boards/closed') !== -1 || this.router.url.indexOf('groups') !== -1) {
@@ -619,7 +656,8 @@ export class CreatePostComponent implements OnInit {
             }
             this.router.navigate([url]);
           }
-          this.postBtnTxt = "Post"
+          this.postBtnTxt = "Post";
+		  this.createPostDialogObject.postBtnTxt = "Post";
           let data = resData.post;
           data.maxLength = constant.showSeeMorePostTextLenth;
           data.selectComments = false;
@@ -631,20 +669,26 @@ export class CreatePostComponent implements OnInit {
           this.initAddPostForm();
           this.toastr.success("Post success", "Post successfully added");
           this.noData = false;
-          this.categoryModalReference.close();
+		  if(this.categoryModalReference)
+			this.categoryModalReference.close();
           this.commonService.addPostInListofPosts(data);
           this.postImages = [];
           this.urls = [];
+		  if(this.dialogRef)
+			this.dialogRef.close();
         } else {
-          this.postBtnTxt = "Post"
+          this.postBtnTxt = "Post";
+		  this.createPostDialogObject.postBtnTxt = "Post";
           this.toastr.error("Failed", "Something went wrong!");
         }
       }, error => {
-        this.postBtnTxt = "Post"
+        this.postBtnTxt = "Post";
+		this.createPostDialogObject.postBtnTxt = "Post";
         this.toastr.error("Failed", "Something went wrong!");
       })
     } else {
-      this.postBtnTxt = "Post"
+      this.postBtnTxt = "Post";
+	  this.createPostDialogObject.postBtnTxt = "Post";
       this.toastr.error("Failed", "Please fill all the details");
     }
   }

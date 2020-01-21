@@ -178,8 +178,10 @@
                         </div>
 
                         <div class="post-text pl-1 mt-2">
-                            <h6><b><a *ngIf="!paramId"  target="_blank" class="text-dark" [href]="getPostTitleUrl(post)">
+                            <h6><b><a *ngIf="!paramId && post.postType !== 'QUIZ'"  target="_blank" class="text-dark" [href]="getPostTitleUrl(post)">
                                         {{post.postTitle ? post.postTitle : '-NA-'}}</a>
+									<a *ngIf="!paramId && post.postType === 'QUIZ'"  target="_blank" class="text-info" [href]="getPostTitleUrl(post)">
+                                        <u>{{post.postTitle ? post.postTitle : '-NA-'}}</u></a>
                                     <span *ngIf="paramId">{{post.postTitle ? post.postTitle : '-NA-'}}</span></b>
                             </h6>
 

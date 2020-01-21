@@ -1,3 +1,35 @@
+/***********************************
+
+SECTIONS
+	sections : [
+		verbal
+		quants
+		data_interpretation : No models
+		general_knowledge : No models
+		current_affairs : No models
+		careers : Individual models for single section & remaining will load from general models
+			modelsbyCategory":"true",
+			{
+				"name": "Banking",
+				"code": "banking",
+				"models":[
+					{ "label": "Clerk", "value": "clerk" },
+					{ "label" : "Probationary Officer", "value" : "probationary_officer" },
+					{ "label": "Specialist Officer", "value": "specialist_officer" }
+				]
+			},
+		events
+		news : No models
+	]
+
+MODELS
+	VERBAL
+	CURRENT_AFFAIRS
+	CAREERS
+	EVENTS
+	
+
+*************************************/
 export const SECTIONS = [
     {
         "title": "Topics",

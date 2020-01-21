@@ -8,7 +8,7 @@
 	<hr>
 	<section>
 		<div class="row" *ngIf="quizObject">
-			<div class="col-md-8">
+			<div class="col-lg-12 col-md-12 col-sm-12">
 				<div class="jumbotron">
 					<div class="media quizTop">
 						<img width="50" height="50" class="mr-3 rounded-circle align-self-center" alt="Avatar" [src]="(quizObject.userProfile && quizObject.userProfile.profileImageUrl  && quizObject.userProfile.profileImageUrl?.length>0 ) ? ((quizObject.userProfile.profileImageUrl ? '' : serverUrl) + quizObject.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">

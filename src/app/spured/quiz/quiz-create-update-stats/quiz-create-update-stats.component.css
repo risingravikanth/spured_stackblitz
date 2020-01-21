@@ -106,6 +106,7 @@
 
 .expPanelHeader{
   background-color: #d3d6d3;
+  height: 35px !important;
 }
 
 .quesValid .mat-form-field-underline{

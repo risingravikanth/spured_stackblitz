@@ -19,27 +19,35 @@
 				</div>
 				<br>
 				<div class="row" formGroupName="questionGroup">
-					<div class="col-md-4">
+					<div class="col-lg-4 col-md-4 col-sm-12">
 						<div class="form-group">
 							<label>
 								<b>Start Time</b>
 							</label>
-							<p-calendar [minDate]="minDate" formControlName="startTime1" class="form-control-sm" placeholder="Time" [showTime]="true"
+							<div>
+								<p-calendar [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}" [minDate]="minDate" formControlName="startTime1" class="form-control-sm pl-0" placeholder="Time" [showTime]="true"
 							 [showIcon]="true"></p-calendar>
+							</div>
 						</div>
 					</div>
-					<div class="col-md-4">
-						<label>
-							<b>End Time</b>
-						</label>
-						<p-calendar [disabled]="createForm.get('data').get('questionGroup').get('startTime1').invalid" [minDate]="createForm.get('data').get('questionGroup').get('startTime1').value"
-						 formControlName="endTime1" class="form-control-sm" placeholder="Time" [showTime]="true" [showIcon]="true"></p-calendar>
+					<div class="col-lg-4 col-md-4 col-sm-12">
+						<div class="form-group">
+							<label>
+								<b>End Time</b>
+							</label>
+							<div>
+								<p-calendar [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}" [disabled]="createForm.get('data').get('questionGroup').get('startTime1').invalid" [minDate]="createForm.get('data').get('questionGroup').get('startTime1').value"
+							 formControlName="endTime1" class="form-control-sm pl-0" placeholder="Time" [showTime]="true" [showIcon]="true"></p-calendar>
+							</div>
+						</div>
 					</div>
-					<div class="col-md-4">
-						<label>
-							<b>Time Limit</b>
-						</label>
-						<input formControlName="timeLimitInMinutes" class="form-control form-control-sm" placeholder="Time" type="number" placeholder="Minutes">
+					<div class="col-lg-4 col-md-4 col-sm-12">
+						<div class="form-group">
+							<label>
+								<b>Time Limit</b>
+							</label>
+							<input formControlName="timeLimitInMinutes" class="form-control form-control-sm" placeholder="Time" type="number" placeholder="Minutes">
+						</div>
 					</div>
 				</div>
 				<br>
@@ -57,46 +65,56 @@
 						</div>
 					</div>
 					<div class="col-md-4" formGroupName="gradingOptions">
-						<label>
-							<b>Grading Reveal Type</b>
-						</label>
-						<select formControlName="gradingRevealType" (change)="changeGradingRevealType()" class="form-control form-control-sm">
-							<option value="AFTER_DEADLINE">After Deadline</option>
-							<option value="SPECIFIED_TIME">After Specific Time</option>
-							<option value="INSTANT">Instant</option>
-							<option value="NONE">None</option>
-						</select>
+						<div class="form-group">
+							<label>
+								<b>Grading Reveal Type</b>
+							</label>
+							<select formControlName="gradingRevealType" (change)="changeGradingRevealType()" class="form-control form-control-sm">
+								<option value="AFTER_DEADLINE">After Deadline</option>
+								<option value="SPECIFIED_TIME">After Specific Time</option>
+								<option value="INSTANT">Instant</option>
+								<option value="NONE">None</option>
+							</select>
+						</div>
 					</div>
 					<div class="col-md-4" formGroupName="gradingOptions">
-						<label>
-							<b>Grading Reveal Time</b>
-						</label>
-						<p-calendar [minDate]="createForm.get('data').get('questionGroup').get('endTime1').value" [disabled]="createForm.get('data').get('questionGroup').get('gradingOptions').get('gradingRevealType').value != 'SPECIFIED_TIME' || createForm.get('data').get('questionGroup').get('endTime1').invalid"
-						 formControlName="gradingRevealSpecifiedTime1" class="form-control-sm" [showTime]="true" [showIcon]="true" placeholder="Time"></p-calendar>
+						<div class="form-group">
+							<label>
+								<b>Grading Reveal Time</b>
+							</label>
+							<p-calendar [style]="{'width':'95%'}" [inputStyle]="{'width':'95%'}"  [minDate]="createForm.get('data').get('questionGroup').get('endTime1').value" [disabled]="createForm.get('data').get('questionGroup').get('gradingOptions').get('gradingRevealType').value != 'SPECIFIED_TIME' || createForm.get('data').get('questionGroup').get('endTime1').invalid"
+							 formControlName="gradingRevealSpecifiedTime1" class="form-control-sm pl-0" [showTime]="true" [showIcon]="true" placeholder="Time"></p-calendar>
+						</div>
 					</div>
 				</div>
 				<br>
 				<div class="row" formGroupName="questionGroup">
 					<div class="col-md-4" formGroupName="gradingOptions">
-						<label>
-							<b>Show correct answers</b>
-						</label>
-						<select formControlName="showCorrectAnswersAfterGrading" class="form-control form-control-sm">
-							<option value="true">Yes</option>
-							<option value="false">No</option>
-						</select>
+						<div class="form-group">
+							<label>
+								<b>Show correct answers</b>
+							</label>
+							<select formControlName="showCorrectAnswersAfterGrading" class="form-control form-control-sm">
+								<option value="true">Yes</option>
+								<option value="false">No</option>
+							</select>
+						</div>
 					</div>
 					<div class="col-md-4" formGroupName="gradingOptions">
-						<label>
-							<b>Correct Answer Points</b>
-						</label>
-						<input formControlName="correctPoints" class="form-control form-control-sm" type="number" placeholder="Minutes">
+						<div class="form-group">
+							<label>
+								<b>Correct Answer Points</b>
+							</label>
+							<input formControlName="correctPoints" class="form-control form-control-sm" type="number" placeholder="Minutes">
+						</div>
 					</div>
 					<div class="col-md-4" formGroupName="gradingOptions">
-						<label>
-							<b>Wrong Answer Points</b>
-						</label>
-						<input formControlName="inCorrectPoints" class="form-control form-control-sm" type="number" placeholder="Minutes">
+						<div class="form-group">
+							<label>
+								<b>Wrong Answer Points</b>
+							</label>
+							<input formControlName="inCorrectPoints" class="form-control form-control-sm" type="number" placeholder="Minutes">
+						</div>
 					</div>
 
 				</div>
@@ -145,32 +163,38 @@
 							<br>
 							<div class="row">
 								<div class="col-md-4">
-									<label>
-										<b>Question Type</b>
-									</label>
-									<select formControlName="questionType" (change)="onQuestionTypeChange(i)" class="form-control form-control-sm">
-										<option value="MCQ">MCQ</option>
-										<option value="BLANKS">Blanks</option>
-									</select>
+									<div class="form-group">
+										<label>
+											<b>Question Type</b>
+										</label>
+										<select formControlName="questionType" (change)="onQuestionTypeChange(i)" class="form-control form-control-sm">
+											<option value="MCQ">MCQ</option>
+											<option value="BLANKS">Blanks</option>
+										</select>
+									</div>
 								</div>
 								<div class="col-md-4" formGroupName="gradingOptions">
-									<label>
-										<b>Grading Type</b>
-									</label>
-									<select formControlName="gradingType" class="form-control form-control-sm">
-										<option value="AUTO">Auto</option>
-										<option value="MANUAL">Manual</option>
-										<option value="NONE">None</option>
-									</select>
+									<div class="form-group">
+										<label>
+											<b>Grading Type</b>
+										</label>
+										<select formControlName="gradingType" class="form-control form-control-sm">
+											<option value="AUTO">Auto</option>
+											<option value="MANUAL">Manual</option>
+											<option value="NONE">None</option>
+										</select>
+									</div>
 								</div>
 								<div class="col-md-4">
-									<label>
-										<b>Shuffle Options</b>
-									</label>
-									<select formControlName="shuffleChoices" class="form-control form-control-sm">
-										<option value="true">Yes</option>
-										<option value="false">No</option>
-									</select>
+									<div class="form-group">
+										<label>
+											<b>Shuffle Options</b>
+										</label>
+										<select formControlName="shuffleChoices" class="form-control form-control-sm">
+											<option value="true">Yes</option>
+											<option value="false">No</option>
+										</select>
+									</div>
 								</div>
 							</div>
 							<br>
@@ -194,7 +218,7 @@
 							<div *ngIf="q.get('questionType').value == 'MCQ'">
 								<div formArrayName="choices" *ngFor="let c of q.get('choices').controls; let j = index">
 									<div [formGroupName]="j" class="row">
-										<div class="col-md-4">
+										<div class="col-lg-4 col-md-4 col-sm-10">
 											<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 												<div class="btn-group mr-2 checkBoxMT" role="group" aria-label="First group">
 													<mat-checkbox formControlName="isCorrect">&nbsp;</mat-checkbox>
@@ -206,7 +230,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="input-group col-md-2 optionButton">
+										<div class="input-group col-lg-2 col-md-2 col-sm-2 optionButton">
 											<button type="button" class="btn btn-primary btn-sm" (click)='addChoice(i,j)'>
 												<i class="fa fa-plus-circle" aria-hidden="true"></i>
 											</button>

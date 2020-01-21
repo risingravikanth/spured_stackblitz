@@ -1,14 +1,15 @@
 <h2 mat-dialog-title>Add</h2>
+<form class="create-post-form" [formGroup]="createForm" (ngSubmit)="onPostClick()">
 <mat-dialog-content class="mat-typography">
-  <form class="create-post-form">
-          <div class="row">
+         <div class="row">
             <div class="col-sm">
               <div class="card">
                   <div class="card-body p-2">
                     Hello,
                     <div class="btn-group">
+						<input type="text" style="display:none;" placeholder="Type" aria-label="Type" matInput formControlName="postTypeControl" />
                         <p class="mb-0">you are creating a <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          {{ postType }}
+                          {{ formData.postType }}
                         </button>  post.</p>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="void:javascript(0);" (click)="changePostType('Private');">Private
@@ -35,6 +36,7 @@
                         {{type.label}}
                       </mat-option>
                     </mat-autocomplete>
+					<mat-error *ngIf="typeControl.invalid">{{getErrorMessage()}}</mat-error>
                 </mat-form-field>
             </div>
             <div class="col-sm">
@@ -46,17 +48,19 @@
                         {{category.label}}
                       </mat-option>
                     </mat-autocomplete>
+					<mat-error *ngIf="categoryControl.invalid">{{getErrorMessage()}}</mat-error>
                 </mat-form-field>
             </div>
             <div class="col-sm">
                 <mat-form-field class="field-full-width">
                     <input type="text" placeholder="Model" aria-label="Model" matInput [formControl]="modelControl" [matAutocomplete]="modelAuto" />
               
-                    <mat-autocomplete #modelAuto="matAutocomplete" [displayWith]="displayLabel">
+                    <mat-autocomplete #modelAuto="matAutocomplete" [displayWith]="displayLabel" (optionSelected)='setFormDataModel($event.option.value)'>
                       <mat-option *ngFor="let model of filteredModels | async" [value]="model">
                         {{model.label}}
                       </mat-option>
                     </mat-autocomplete>
+					<mat-error *ngIf="modelControl.invalid">{{getErrorMessage()}}</mat-error>
                 </mat-form-field>
             </div>
           </div>
@@ -65,24 +69,23 @@
               <div class="col-sm">
                   <mat-button-toggle-group 
                   [(ngModel)]="formData.selectedOption"
+				  [ngModelOptions]="{standalone: true}"
 				  (ngModelChange)="changePlaceHolder($event)"	
 				  class="pull-right"
                   appearance="legacy" name="fontStyle" aria-label="Font Style">
                     <mat-button-toggle value="post">Post</mat-button-toggle>
-                    <mat-button-toggle value="mcq">MCQ</mat-button-toggle>
-					<mat-button-toggle value="event" [style.display]=" formData._type === 'EVENTS' ? 'block':'none'">Events</mat-button-toggle> <!-- *ngIf=""  *ngIf=""-->
-                    <mat-button-toggle value="quiz" [style.display]=" createPostDialogData.data.requestType === 'BOARD' ? 'block':'none'">Create Quiz</mat-button-toggle>
+                    <mat-button-toggle value="mcq" [style.display]="formData._type !== 'EVENTS' ? 'block':'none'">MCQ</mat-button-toggle>
+					<mat-button-toggle value="event" [style.display]="formData._type === 'EVENTS' ? 'block':'none'">Events</mat-button-toggle> <!-- *ngIf=""  *ngIf=""-->
+                    <mat-button-toggle value="quiz" [style.display]="createPostDialogData.data.requestType === 'BOARD' ? 'block':'none'">Create Quiz</mat-button-toggle>
                   </mat-button-toggle-group>
               </div>
           </div>
-		  
-		  
 		  
 		  <div class="row mt-2" *ngIf="formData.selectedOption !== 'quiz'">
               <div class="col-sm">
                     <mat-form-field appearance="outline" class="field-full-width">
                       <mat-label>Heading</mat-label>
-                      <input [(ngModel)]="formData.heading" name="heading" matInput placeholder="{{postHeadingPlaceHolder}}" value="" required>
+                      <input [(ngModel)]="formData.heading" [ngModelOptions]="{standalone: true}" name="heading" matInput placeholder="{{postHeadingPlaceHolder}}" value="" required>
                       <mat-hint align="end">{{ 300 - formData.heading.length }} remaining</mat-hint>
                     </mat-form-field>
               </div>
@@ -92,8 +95,8 @@
             <div class="col">
               <mat-form-field class="field-full-width">
 				<mat-label>Description</mat-label>
-                <textarea [(ngModel)]="formData.postDescription" name="postDescription" matInput placeholder="{{postDescriptionPlaceHolder}}"></textarea>
-                <mat-hint align="end">{{ 300 - formData.postDescription.length }} remaining</mat-hint>
+                <textarea [(ngModel)]="formData.description" [ngModelOptions]="{standalone: true}" name="description" matInput placeholder="{{postDescriptionPlaceHolder}}"></textarea>
+                <mat-hint align="end">{{ 300 - formData.description.length }} remaining</mat-hint>
               </mat-form-field>
             </div>
           </div>
@@ -102,23 +105,23 @@
             <div class="row">
               <div class="col"> 
                 <mat-form-field class="field-full-width">
-                  <input matInput [(ngModel)]="formData.multipleOption.option1" name="option1" placeholder="Option 1" value="">
+                  <input matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="formData.multipleOption.option1" name="option1" placeholder="Option 1" value="">
                 </mat-form-field>
               </div>
               <div class="col"> 
                 <mat-form-field class="field-full-width">
-                  <input matInput [(ngModel)]="formData.multipleOption.option2" name="option2" placeholder="Option 2" value="">
+                  <input matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="formData.multipleOption.option2" name="option2" placeholder="Option 2" value="">
                 </mat-form-field>
               </div>
 			  <div class="w-100"></div>
 			  <div class="col" *ngIf="showMoreOptions">
                 <mat-form-field class="field-full-width">
-                  <input matInput [(ngModel)]="formData.multipleOption.option3" name="option3" placeholder="Option 3" value="">
+                  <input matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="formData.multipleOption.option3" name="option3" placeholder="Option 3" value="">
                 </mat-form-field>
               </div>
               <div class="col" *ngIf="showMoreOptions"> 
                 <mat-form-field class="field-full-width">
-                  <input matInput [(ngModel)]="formData.multipleOption.option4" name="option4" placeholder="Option 4" value="">
+                  <input matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="formData.multipleOption.option4" name="option4" placeholder="Option 4" value="">
                 </mat-form-field>
               </div>
             </div>
@@ -130,11 +133,12 @@
                   <label>Answer: </label>
                   <mat-button-toggle-group color="accent" class="answer"
                   [(ngModel)]="formData.multipleOption.answer"
+				  [ngModelOptions]="{standalone: true}"
                   name="answer" aria-label="answer">
-                  <mat-button-toggle value="1">1</mat-button-toggle>
-                  <mat-button-toggle value="2">2</mat-button-toggle>
-                  <mat-button-toggle *ngIf="showMoreOptions" value="3">3</mat-button-toggle>
-                  <mat-button-toggle *ngIf="showMoreOptions" value="4">4</mat-button-toggle> 
+                  <mat-button-toggle value="Option 1">1</mat-button-toggle>
+                  <mat-button-toggle value="Option 2">2</mat-button-toggle>
+                  <mat-button-toggle *ngIf="showMoreOptions" value="Option 3">3</mat-button-toggle>
+                  <mat-button-toggle *ngIf="showMoreOptions" value="Option 4">4</mat-button-toggle> 
                 </mat-button-toggle-group>
               </div>
             </div>
@@ -144,28 +148,28 @@
             <div class="row">
               <div class="col"> 
                 <mat-form-field class="field-full-width">
-                  <input matInput [(ngModel)]="formData.multipleOption.option1" name="option1" placeholder="From Date" value="">
+                  <input matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="formData.event.fromDate" name="fromDate" placeholder="From Date" value="">
                 </mat-form-field>
               </div>
               <div class="col"> 
                 <mat-form-field class="field-full-width">
-                  <input matInput [(ngModel)]="formData.multipleOption.option2" name="option2" placeholder="To Date" value="">
+                  <input matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="formData.event.toDate" name="toDate" placeholder="To Date" value="">
                 </mat-form-field>
               </div>
               <div class="w-100"></div>
               <div class="col"> 
                 <mat-form-field class="field-full-width">
-                  <input matInput [(ngModel)]="formData.multipleOption.option3" name="option3" placeholder="Contacts" value="">
+                  <input matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="formData.event.contacts" name="contacts" placeholder="Contacts" value="">
                 </mat-form-field>
               </div>
               <div class="col"> 
                 <mat-form-field class="field-full-width">
-                  <input matInput [(ngModel)]="formData.multipleOption.option4" name="option4" placeholder="Website" value="">
+                  <input matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="formData.event.website" name="website" placeholder="Website" value="">
                 </mat-form-field>
               </div>
 			  <div class="col"> 
                 <mat-form-field class="field-full-width">
-                  <input matInput [(ngModel)]="formData.multipleOption.option4" name="option4" placeholder="Location" value="">
+                  <input matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="formData.event.location" name="location" placeholder="Location" value="">
                 </mat-form-field>
               </div>
 			  
@@ -174,13 +178,17 @@
 		
           <div class="row" *ngIf="formData.selectedOption === 'quiz'">
             <div class="col">
-              please click <a href="/quiz-create/boards/closed/{{boardId}}/{{boardName}}" target="_blank">here</a> to create a quiz.
+                 <div class="bd-callout bd-callout-warning">
+					<h3 id="conveying-meaning-to-assistive-technologies">Please click <a href="/quiz-create/boards/closed/{{boardId}}/{{boardName}}" target="_blank">here</a> to create a quiz.</h3>
+				 	<p class="mb-0">You are going to create a quiz in this selected board only.</p>
+					<p class="mb-0">You will navigate to quiz page.</p>
+				</div>
             </div>
           </div>
 		  
 		  <div class="row mt-2" *ngIf="formData.selectedOption !== 'quiz'">
 			<div class="col">
-			 <mat-checkbox class="example-margin" name="uploadEnabler" [(ngModel)]="formData.enableUpload">Do you have any docuemnts / images to upload along with this post.</mat-checkbox>
+			 <mat-checkbox class="example-margin" name="uploadEnabler" [ngModelOptions]="{standalone: true}" [(ngModel)]="formData.enableUpload">Do you have any docuemnts / images to upload along with this post.</mat-checkbox>
 			</div>
 		  </div>
 		  
@@ -218,17 +226,12 @@
 				</div>
 			  </div>
 		</div>
-        
-      
-    
-  </form>
    
-
-
-
-
-
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close class="btn btn-light" >Close</button>
+	<fieldset [disabled]="createPostDialogData.data.postBtnTxt == 'Posting...'">
+		<button mat-stroked-button  type="submit" class="btn btn-outline-success mr-2">{{createPostDialogData.data.postBtnTxt}}</button>
+	</fieldset>
+	<button mat-stroked-button  class="btn btn-outline-danger" mat-dialog-close>Close</button>
 </mat-dialog-actions>
+</form>

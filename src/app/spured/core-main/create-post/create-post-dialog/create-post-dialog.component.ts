@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angular/material';
 import { Observable } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { ToastrService } from '../../../../shared/services/Toastr.service';
 import * as categories_types_models from '../../../../shared/master-data/master-data';
@@ -15,28 +15,31 @@ import * as categories_types_models from '../../../../shared/master-data/master-
 export class CreatePostDialogComponent implements OnInit {
 
   public createPostDialogData :any;
-  public postType :any =  "Private";
   public currentSelectedCategory :any = [];
   public selectedModels :any 
-  typeControl = new FormControl();
-  categoryControl = new FormControl();
-  modelControl = new FormControl();
-
+ 
   filteredTypes: Observable<any[]>;
   filteredCategories: Observable<any[]>;
   filteredModels: Observable<any[]>;
   
   postHeadingPlaceHolder :any = "Give some heading to your post...";
   postDescriptionPlaceHolder :any = "Give detailed description about your post...";
-
+    
+  onPost :any = new EventEmitter();
+     
+  createForm: FormGroup;
+  typeControl= new FormControl('', [Validators.required]);
+  categoryControl= new FormControl('', [Validators.required]);
+  modelControl= new FormControl('', [Validators.required]);
+     
   public formData :any = {
     heading:"",
 	_type: "",
 	_category:"",
 	_model:"",
     selectedOption : "post",
-    postDescription : "",
-    questionDescription : "",
+	postType: "Private",
+    description : "",
     multipleOption :{
       option1:"",
       option2:"",
@@ -44,6 +47,13 @@ export class CreatePostDialogComponent implements OnInit {
       option4:"",
       answer: ""
     },
+	event:{
+	 fromDate:"",
+	 toDate:"",
+	 contacts:"",
+	 website:"",
+	 location:""
+	},
     enableUpload: false,
     urls: [],
     postImages :[]
@@ -56,35 +66,77 @@ export class CreatePostDialogComponent implements OnInit {
     this.createPostDialogData = data;
   }
   
+  initForm() {
+	  this.createForm = new FormGroup({
+		  postTypeControl: new FormControl()
+	  });
+/*	  this.createForm = new FormGroup({
+		  typeCtrl: new FormControl('', [Validators.required]),
+		  categoryCtrl: new FormControl('', [Validators.required]),
+		  modelCtrl: new FormControl('', [Validators.required]),
+	  });*/
+  }
+  
+  setAutocompleteValue(fieldName){
+	  switch(fieldName){
+		  case "type": {
+			typeof(this.formData._type) === "object" ? this.typeControl.patchValue(this.formData._type)
+				: this.typeControl.patchValue({label: this.formData._type.replace("_"," "), name:this.formData._type});
+			//this.createForm.controls.typeCtrl.patchValue(this.typeControl.value);
+			break;
+		  }
+		  case "category": {
+		 	typeof(this.formData._category) === "object" ? this.categoryControl.patchValue(this.formData._category)
+				: this.categoryControl.patchValue({label: this.formData._category.toUpperCase().replace("_"," "), name:this.formData._category});
+		 	//this.createForm.controls.categoryCtrl.patchValue(this.categoryControl.value);
+			break;
+		  }
+	 	  case "model": {
+			typeof(this.formData._model) === "object" ? this.modelControl.patchValue(this.formData._model)
+				: this.modelControl.patchValue({label: this.formData._model.toUpperCase().replace("_"," "), name:this.formData._model});
+			//this.createForm.controls.modelCtrl.patchValue(this.modelControl.value);
+			break;
+		  }
+		  default: {
+			break;  
+		  }
+	}
+  }
+  
   ngOnInit() {
+	this.initForm();
     this.filteredTypes = this.typeControl.valueChanges
       .pipe(
         startWith(''),
-        map((value:any) => (typeof value === 'string' && value !== null) ? value : value.label),
+        map((value:any) => (typeof value === 'string' || value == null) ? value : value.label),
         map(label => label ? this._filter(label,this.createPostDialogData.data.types) : this.createPostDialogData.data.types.slice())
       );
 
     this.filteredCategories = this.categoryControl.valueChanges
       .pipe(
         startWith(''),
-        map((value:any) => (typeof value === 'string' && value !== null) ? value : value.label),
+        map((value:any) => (typeof value === 'string' || value == null) ? value : value.label),
         map(label => label ? this._filter(label,this.createPostDialogData.data.categories) : this.createPostDialogData.data.categories.slice())
       );
 	
 	if(this.createPostDialogData.data._type !== "" && this.createPostDialogData.data._type !== undefined){
 		this.formData._type = this.createPostDialogData.data._type;
-		this.typeControl.patchValue({label: this.formData._type.replace("_"," "), name:this.formData._type});
+		this.setAutocompleteValue("type");
 		this.typeControl.disable();
 	}
 	
 	if(this.createPostDialogData.data._category !== "" && this.createPostDialogData.data._category !== undefined){
-		this.formData._category = this.createPostDialogData.data._category;
-		this.categoryControl.patchValue({label: this.formData._category.toUpperCase().replace("_"," "), name:this.formData._category});
-		this.categoryControl.disable();
+		this.setModels(this.createPostDialogData.data._type);
+		if(this.createPostDialogData.data._category !== "home" && this.createPostDialogData.data._category !== "HOME"){
+			this.formData._category = this.createPostDialogData.data._category;
+			this.setAutocompleteValue("category");
+			this.categoryControl.disable();
+			this.setModels(this.createPostDialogData.data._type);
+		}
 	}
 	
 	if(this.createPostDialogData.data.requestType !== "BOARD" && this.createPostDialogData.data.requestType !== "GROUP"){
-		this.postType = "Public";
+		this.formData.postType = "Public";
 	}
 	 
   }
@@ -99,7 +151,7 @@ export class CreatePostDialogComponent implements OnInit {
   }
 
   changePostType(type :any) {
-    this.postType = type;
+    this.formData.postType = type;
   }
   
   changePlaceHolder(newValue :any){
@@ -110,13 +162,14 @@ export class CreatePostDialogComponent implements OnInit {
       this.postHeadingPlaceHolder  = "Add your question here...";
     }else if(newValue === "event"){
       this.postHeadingPlaceHolder  = "Give some heading to your event...";
-	  this.postHeadingPlaceHolder  = "Give some description about your event...";
+	  this.postDescriptionPlaceHolder  = "Give some description about your event...";
     }
   }
 
   getCategoriesByType(type) {
     let categoriesByType :any = [];
     this.categoryControl.patchValue(null);
+	//this.createForm.controls.categoryCtrl.patchValue(null);
     categories_types_models.SECTIONS.forEach(section => {
       if (section.title == "Topics") {
         section.sections.forEach((item:any) => {
@@ -136,10 +189,11 @@ export class CreatePostDialogComponent implements OnInit {
     this.filteredCategories = this.categoryControl.valueChanges
       .pipe(
         startWith(''),
-        map((value:any) => typeof value === 'string' ? value : value.label),
+        map((value:any) => (typeof value === 'string' || value == null) ? value : value.label),
         map(label => label ? this._filter(label,categoriesByType) : categoriesByType.slice())
       );
-    
+    this.formData._type = type;
+	this.setAutocompleteValue("type");
   }
   
   getmodelsByCategory(selectedCategory){
@@ -156,17 +210,25 @@ export class CreatePostDialogComponent implements OnInit {
           this.filteredModels = this.modelControl.valueChanges
             .pipe(
               startWith(''),
-              map((value:any) => typeof value === 'string' ? value : value.label),
+              map((value:any) => (typeof value === 'string' || value == null) ? value : value.label),
               map(label => label ? this._filter(label,modelsbyCategory) : modelsbyCategory.slice())
             ); 
       }else{
           this.setModels(this.currentSelectedCategory.code);
       }
+	  this.formData._category = selectedCategory;
+	  this.setAutocompleteValue("category");
     }
+  }
+  
+  setFormDataModel(selectedModel){
+	this.formData._model = selectedModel;  
+	this.setAutocompleteValue("model");
   }
 
   setModels(type) {
     let modelsbyCategory :any = [];
+	if(type === undefined) return [];
     type= type.toUpperCase();
     categories_types_models.MODELS.forEach(item => {
       let type_search = (type == "VERBAL" || type == "QUANTS" || type == "DI") ? "VERBAL" : type;
@@ -179,7 +241,7 @@ export class CreatePostDialogComponent implements OnInit {
     this.filteredModels = this.modelControl.valueChanges
       .pipe(
         startWith(''),
-        map((value:any) => typeof value === 'string' ? value : value.label),
+        map((value:any) => (typeof value === 'string' || value == null) ? value : value.label),
         map(label => label ? this._filter(label,modelsbyCategory) : modelsbyCategory.slice())
       );
   }
@@ -228,21 +290,14 @@ export class CreatePostDialogComponent implements OnInit {
               this.formData.urls.push(file);
         }else{
             if(file.name){
-              if(file.name.indexOf('.doc') !== -1){
-                  file.fileType = "application/doc";
-              }else if(file.name.indexOf('.docx') !== -1){
-                  file.fileType = "application/doc";
-              }else if(file.name.indexOf('.ppt') !== -1){
-                  file.fileType = "application/ppt";
-              }else if(file.name.indexOf('.pptx') !== -1){
-                  file.fileType = "application/ppt";
-              }else if(file.name.indexOf('.xls') !== -1){
-                  file.fileType = "application/xls";
-              }else if(file.name.indexOf('.xlsx') !== -1){
-                  file.fileType = "application/xls";
-              }
-
-            }
+               if(file.name.indexOf('.doc') !== -1 || file.name.indexOf('.docx') !== -1){
+                 file.fileType = "application/doc";
+              }else if(file.name.indexOf('.ppt') !== -1 || file.name.indexOf('.pptx') !== -1){
+                 file.fileType = "application/ppt";
+              }else if(file.name.indexOf('.xls') !== -1 || file.name.indexOf('.xlsx') !== -1){
+                 file.fileType = "application/xls";
+              } 
+			}
             this.formData.urls.push(file);
         }
       
@@ -256,6 +311,27 @@ export class CreatePostDialogComponent implements OnInit {
   removeFromImages(index) {
     this.formData.urls.splice(index, 1);
     this.formData.postImages.splice(index, 1);
+  }
+  
+  getErrorMessage() {
+    return this.typeControl.hasError('required') ? 'You must select a value' : '';
+  }
+  
+  onPostClick() {
+ 	  if(this.formData.postType == "Public"){
+		  if(this.formData._type === "" || this.formData._category == "" || this.formData._model == "")
+			return; 
+		  if(this.formData.heading == "")
+			return;
+	   }else {
+		 if(this.formData.heading == "")
+			return;
+		 if(this.formData.postDescription == ""){
+			this.formData.postDescription = " "; 
+		 }
+		  
+	  }
+ 	  this.onPost.emit(this.formData);
   }
 
   

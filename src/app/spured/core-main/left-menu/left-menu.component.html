@@ -230,7 +230,7 @@
                         <ul class="list-group list-group-flush pl-3 mt-1">
                             <li *ngFor="let category of section.categories" class="list-group-item p-1 text-dark overflowText text-truncate bg-transparent border-0"
                                 [class.selected]="section.code+category.code === selectedItem">
-                                <a href="javascript:void(0);" class="text-dark" [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
+                                <a href="javascript:void(0);" class="text-spured" [routerLink]="['/categories' + '/' + section.code + '/'+ category.code]"
                                     title={{category.name}} (click)="selectedCategory(section.code, category.code)">
                                     {{category.name}}
                                 </a>

@@ -5,6 +5,7 @@ import { MatExpansionModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HelpComponent } from './help.component';
 import { PanelModule } from 'primeng/primeng';
+import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { PanelModule } from 'primeng/primeng';
     MatExpansionModule,
     CommonModule,
     PanelModule,
+	SharedPipesModule,
     NgbModule.forRoot()
   ],
   declarations: [

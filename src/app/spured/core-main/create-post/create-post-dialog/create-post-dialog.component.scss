@@ -26,6 +26,10 @@
 		color:white;
 	}
 }
-mat-button-toggle-group {
+.mat-button-toggle-group {
 	flex-wrap: wrap;
+}
+
+.mat-button-toggle .mat-button-toggle-label {
+     margin-bottom: 0px !important;
 }

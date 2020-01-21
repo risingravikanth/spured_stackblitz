@@ -146,7 +146,11 @@ export class CoreMainComponent implements OnInit {
         if(this.postsList !== undefined){
           this.postsList.splice(0, 0, postData);
           this.noData = false;
-        }
+        } else if(this.postsList === undefined){
+		  this.postsList = [];
+		  this.postsList.push(postData);
+          this.noData = false;
+		}
       }
     )
 
