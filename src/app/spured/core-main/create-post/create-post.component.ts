@@ -115,7 +115,9 @@ export class CreatePostComponent implements OnInit {
       models :[],
       _model : "",
       requestType : "",
-	  postBtnTxt : "Post"
+	  postBtnTxt : "Post",
+	  boardName:"",
+	  boardId: ""
   };
 
   ngOnInit() {
@@ -292,6 +294,8 @@ export class CreatePostComponent implements OnInit {
 	  this.createPostDialogObject._category = this.paramCategory;
       this.createPostDialogObject.categories = this.categories;
       this.createPostDialogObject.models = this.models;
+	  this.createPostDialogObject.boardId =this.boardId;
+	  this.createPostDialogObject.boardName =this.boardName;
 
       let dialogCreatePostConfig = new MatDialogConfig();
       const configData = {

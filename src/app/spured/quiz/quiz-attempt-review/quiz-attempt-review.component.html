@@ -1,4 +1,4 @@
-<div class=" marTop50 fontType" [class.help-pad]="!isMobile">
+<div class="container marTop50 fontType" [class.help-pad]="!isMobile">
 	<h4 *ngIf="quizObject?.questionGroupResponse?.questionGroup?.attempted">
 		<b>Attempt Quiz</b>
 	</h4>
@@ -9,8 +9,8 @@
 	<section>
 		<div class="row" *ngIf="quizObject">
 			<div class="col-lg-12 col-md-12 col-sm-12">
-				<div class="jumbotron">
-					<div class="media quizTop">
+				<div class="jumbotron p-4">
+					<div class="media">
 						<img width="50" height="50" class="mr-3 rounded-circle align-self-center" alt="Avatar" [src]="(quizObject.userProfile && quizObject.userProfile.profileImageUrl  && quizObject.userProfile.profileImageUrl?.length>0 ) ? ((quizObject.userProfile.profileImageUrl ? '' : serverUrl) + quizObject.userProfile.profileImageUrl) : 'assets/images/noticer_default_user_img.png'">
 
 						<div class="media-body">
@@ -64,7 +64,7 @@
 				</div>
 				<div *ngIf="startExam && !quizObject?.questionGroupResponse?.questionGroup?.attempted">
 					<div *ngFor="let q of quizObject?.questionGroupResponse?.questionGroup?.questions;let i = index;">
-						<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+						<!--<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 							<div class="btn-group" role="group" aria-label="First group">
 								<b>Q.{{i+1}}</b>
 							</div>
@@ -75,8 +75,47 @@
 								<p class="pointsGreen">[{{q?.gradingOptions?.correctPoints}}]</p> &nbsp; &nbsp; &nbsp;
 								<p class="pointsRed">[{{q?.gradingOptions?.inCorrectPoints}}]</p>
 							</div>
+						</div>-->
+						
+						<div class="card shodow-0">
+							<div class="card-body">
+								 <div class="media">
+									  <div class="align-self-start mr-1"><strong>Q.{{i+1}}</strong></div>
+									  <div class="media-body">
+										<h6 class="halfMargin">{{q.text}}
+											<span *ngIf="q?.gradingOptions?.correctPoints && q?.gradingOptions?.inCorrectPoints" placement="bottom" [ngbTooltip]="gradingOptions">
+												<i class="fa fa-info-circle" aria-hidden="true"></i>
+											</span>
+										</h6>
+									  </div>
+								 </div>
+								 
+								 <div class="mt-2 ml-3" *ngIf="q?.questionType == 'MCQ'">
+									<div *ngIf="!q?.multiSelect">
+										<mat-radio-group aria-label="Select an option" [(ngModel)]="q.userSelectedOptionids1" *ngFor="let c of q.choices">
+											<mat-radio-button class="col-md-12" [value]="c.choiceId">{{c.choiceText}}</mat-radio-button>
+										</mat-radio-group>
+									</div>
+									<div *ngIf="q?.multiSelect">
+										<div aria-label="Select an option" *ngFor="let c of q.choices">
+											<mat-checkbox class="col-md-12" [(ngModel)]="c.isSelected">{{c.choiceText}}</mat-checkbox>
+										</div>
+									</div>
+								</div>
+								
+								<div class="mt-2 ml-3" *ngIf="q?.questionType == 'BLANKS'">
+									<div *ngFor="let a of q.userAnswers1;let ai=index">
+										<mat-form-field class="example-full-width">
+											<input class="col-md-8" matInput placeholder="Answer - {{ai+1}}" [(ngModel)]="a.answer">
+										</mat-form-field>
+									</div>
+								</div>
+								
+							</div>
 						</div>
-						<div class="choML" *ngIf="q?.questionType == 'MCQ'">
+							
+							
+						<!--<div class="choML" *ngIf="q?.questionType == 'MCQ'">
 							<div *ngIf="!q?.multiSelect">
 								<mat-radio-group aria-label="Select an option" [(ngModel)]="q.userSelectedOptionids1" *ngFor="let c of q.choices">
 									<mat-radio-button class="col-md-12" [value]="c.choiceId">{{c.choiceText}}</mat-radio-button>
@@ -87,14 +126,14 @@
 									<mat-checkbox class="col-md-12" [(ngModel)]="c.isSelected">{{c.choiceText}}</mat-checkbox>
 								</div>
 							</div>
-						</div>
-						<div class="ansLM" *ngIf="q?.questionType == 'BLANKS'">
+						</div>-->
+						<!--<div class="ansLM" *ngIf="q?.questionType == 'BLANKS'">
 							<div *ngFor="let a of q.userAnswers1;let ai=index">
 								<mat-form-field class="example-full-width">
 									<input class="col-md-8" matInput placeholder="Answer - {{ai+1}}" [(ngModel)]="a.answer">
 								</mat-form-field>
 							</div>
-						</div>
+						</div>-->
 						<hr>
 					</div>
 				</div>
@@ -110,7 +149,7 @@
 					<fieldset disabled>
 
 						<div *ngFor="let q of quizObject?.questionGroupResponse?.questionGroup?.questions;let i = index;">
-							<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+							<!--<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 								<div class="btn-group" role="group" aria-label="First group">
 									<b>Q.{{i+1}}</b>
 								</div>
@@ -121,8 +160,60 @@
 									<p class="pointsGreen">[{{q?.gradingOptions?.correctPoints}}]</p> &nbsp; &nbsp; &nbsp;
 									<p class="pointsRed">[{{q?.gradingOptions?.inCorrectPoints}}]</p>
 								</div>
+							</div>-->
+							
+							<div class="card shodow-0">
+								<div class="card-body">
+									 <div class="media">
+										  <div class="align-self-start mr-1"><strong>Q.{{i+1}}</strong></div>
+										  <div class="media-body">
+											<h6 class="halfMargin">{{q.text}}
+												<span *ngIf="q?.gradingOptions?.correctPoints && q?.gradingOptions?.inCorrectPoints" placement="bottom" [ngbTooltip]="gradingOptions">
+													<i class="fa fa-info-circle" aria-hidden="true"></i>
+												</span>
+											</h6>
+										  </div>
+									 </div>
+									 
+									 <div class="mt-2 ml-3" *ngIf="q?.questionType == 'MCQ'">
+										<mat-radio-group disabled aria-label="Select an option" [(ngModel)]="q.userAnswers" *ngFor="let c of q.choices">
+											<mat-radio-button class="col-md-12" [value]="c.choiceId"><b>{{c.choiceText}}</b> &nbsp;
+												<span *ngIf="c.isCorrect == true" style="color:green;">
+													<i class="fa fa-check-circle" aria-hidden="true"></i>
+												</span>
+												<span *ngIf="getIsWrongAnswer(c)" style="color:red;">
+													<i class="fa fa-times-circle" aria-hidden="true"></i>
+												</span>
+											</mat-radio-button>
+										</mat-radio-group>
+										<hr>
+										<p class="mb-0"><strong>Score: </strong> {{q?.score}}</p>
+									</div>
+									
+									<div class="mt-2 ml-3" *ngIf="q?.questionType == 'BLANKS'">
+										<div *ngFor="let a of q.answers;let ai=index">
+											<mat-form-field class="example-full-width">
+												<input class="col-md-8" matInput placeholder="Answer - {{ai+1}}" [value]="a">
+											</mat-form-field>
+										</div>
+										<hr>
+										<p class="mb-0" ><strong>Score: </strong> {{q?.score}}</p>
+									</div>
+									
+								</div>
 							</div>
-							<div class="choML" *ngIf="q?.questionType == 'MCQ'">
+					 		<!--<div class="row">
+								 
+							 	<div class="col-lg-10 col-md-10 col-sm-10">
+								  <strong><span>Q.{{i+1}} </span> <h6>{{q.text}}</h6></strong>
+								</div>
+								<div class="col-lg-2 col-md-2 col-sm-2">
+									<span class="text-green">[{{q?.gradingOptions?.correctPoints}}]</span>
+									<span class="text-danger">[{{q?.gradingOptions?.inCorrectPoints}}]</span>
+								</div>
+							</div-->
+							 
+							<!--<div class="choML" *ngIf="q?.questionType == 'MCQ'">
 								<mat-radio-group disabled aria-label="Select an option" [(ngModel)]="q.userAnswers" *ngFor="let c of q.choices">
 									<mat-radio-button class="col-md-12" [value]="c.choiceId"><b>{{c.choiceText}}</b> &nbsp;
 										<span *ngIf="c.isCorrect == true" style="color:green;">
@@ -134,8 +225,8 @@
 									</mat-radio-button>
 								</mat-radio-group>
 								<b>Score: </b> {{q?.score}}
-							</div>
-							<div class="ansLM" *ngIf="q?.questionType == 'BLANKS'">
+							</div>-->
+							<!--<div class="ansLM" *ngIf="q?.questionType == 'BLANKS'">
 								<div *ngFor="let a of q.answers;let ai=index">
 									<mat-form-field class="example-full-width">
 										<input class="col-md-8" matInput placeholder="Answer - {{ai+1}}" [value]="a">
@@ -143,12 +234,13 @@
 								</div>
 								<b>Score: </b> {{q?.score}}
 							</div>
-							<hr>
+							<hr>-->
+							&nbsp;
 						</div>
 					</fieldset>
 				</div>
 			</div>
-			<div class="col-md-4">
+			<div class="col-lg-12 col-md-12 col-sm-12 mb-5">
 				<b *ngIf="startExam">Quiz Status:</b>
 				<br>
 				<section *ngIf="startExam" class="quizStatus">
@@ -177,4 +269,10 @@
 	<section *ngIf="review">
 		<div>Review</div>
 	</section>
+	<ng-template #gradingOptions>
+		<span>
+			correct answer : {{q?.gradingOptions?.correctPoints}} <br> 
+			wrong answer : {{ q?.gradingOptions?.inCorrectPoints }}
+		</span>
+	</ng-template>
 </div>

@@ -3,7 +3,15 @@
 {
     margin-top: 80px;
 }
-
+.text-green{
+	color:green;
+}
+.halfMargin{
+	margin-top: 0.1rem;
+}
+.shodow-0{
+	box-shadow:none !important;
+}
 .chip {
     display: inline-block;
     padding: 0 25px;

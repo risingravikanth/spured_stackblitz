@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatGridListModule, MatInputModule, MatListModule, MatProgressSpinnerModule, MatRadioModule, MatSelectModule, MatTabsModule, MatCheckboxModule, MatExpansionModule, MatAutocompleteModule, MatButtonToggleModule } from '@angular/material';
+import { MatFormFieldModule, MatGridListModule, MatInputModule, MatListModule, MatProgressSpinnerModule, MatRadioModule, MatSelectModule, MatTabsModule, MatCheckboxModule, MatExpansionModule, MatAutocompleteModule, MatButtonToggleModule, MatCardModule } from '@angular/material';
 import { MatDialogModule } from "@angular/material/dialog";
 import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MyDatePickerModule } from 'mydatepicker';
@@ -76,6 +76,7 @@ import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
         MatExpansionModule,
         MatAutocompleteModule,
         MatButtonToggleModule,
+		MatCardModule,
         SharedPipesModule
         
     ],
